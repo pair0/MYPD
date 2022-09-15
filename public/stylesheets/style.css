@@ -1,0 +1,130 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
+  margin: 0;
+  padding: 0;
+
+}
+/*==========================================================*/
+/*Login Page*/
+/*==========================================================*/
+input::placeholder {
+  color: #c7c7c7;
+}
+.huji {
+  width : 100%;
+  height : 100vh;
+  min-height: 900px;
+  background: url(../images/login-bg.png) center no-repeat;
+  background-size: cover;
+}
+.page_title{
+  font-size: 35px;
+  font-weight: 800;
+  color: black;
+  margin-top : 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.logo{
+  margin-top: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.huji .input{
+  background-color: white;
+  height : 50vh;
+  min-height: 480px;
+  max-width: 450px;
+  margin: 0 auto;
+  border-radius: 24px;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  /* opacity: 0.7; */
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.loginBox{
+  padding-top: 30px;
+  background-color: transparent;
+}
+.inputBox{
+  width: 280px;
+  margin: 0 auto;
+  border-radius: 2px;
+  box-sizing: border-box;
+  border-bottom: 3px solid #c7c7c7;
+  display: flex;
+  padding-top: 10px;
+}
+.inputBox #id{
+  width: 280px;
+  height: 50px;
+  border: none;
+  outline: none;
+  padding-top: 10px;
+  margin-left: 10px;
+  color: #000000;
+  font-size: 17px;
+  box-sizing: border-box;
+}
+.loginBtn{
+  background: #0C61FE;
+  border: none;
+  padding: 10px 120px;
+  color: #fff;
+  border-radius: 10px !important;
+  cursor: pointer;
+  box-shadow: 4px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  font-size: 17px;
+}
+.findidpw{
+  background: transparent;
+  border: none;
+  padding-top: 10px;
+  font-size: 12px;
+  position: absolute;
+  left:53%
+}
+.btn{
+  padding-top: 30px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.makeId{
+  color: #0D99FF;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+}
+.icon{
+  display: flex;
+  width: 280px;
+  margin: 0 auto;
+  padding-left: 30px;
+}
+.snsBtn{
+  background: transparent !important;
+  border: none;
+}
+#loginImg{
+  width: 25px;
+  height: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+#snsImg{
+  width: 47px;
+  height: 47px;
+  margin: 0 auto;
+  box-shadow: 4px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  background: transparent;
+  border-radius: 70%;
+}
+#snsLogin{
+  padding-top: 15px;
+}
