@@ -5,9 +5,10 @@ const con = mariadb.createPool({
     host: vals.DBHost, port:vals.DBPort,
     user: vals.DBUser, password: vals.DBPass,
     connectionLimit: vals.connectionLimit,
+    database: vals.database
 });
  
-/* <test 용도>
+
 async function GetUserList(database, tables){
     let conn, rows;
     try{
@@ -22,20 +23,37 @@ async function GetUserList(database, tables){
         if (conn) conn.end();
         return rows[0];
     }
-}*/
+}
 
 //DB insert
-function DBInsert(sql, params){
+async function DBInsert(sql, params){
+    let conn, rows;
+    try{
+        conn = await con.getConnection();
+        rows = await conn.query(sql, params);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return "sucess";
+    }
+}
+ 
+//DB select
+function DBselect(sql, params){
     con.query(sql, params, function(err, rows, fields){
         if(err){
             console.log(err);
         } else{
-            console.log(rows.name);
+            console.log(sucess);
         }
     });
 }
  
+
 module.exports = {
-    //getUserList: GetUserList,
+    getUserList: GetUserList,
     dbInsert: DBInsert
 }
