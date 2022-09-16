@@ -85,14 +85,18 @@ input::placeholder {
   border: none;
   padding-top: 10px;
   font-size: 12px;
-  position: absolute;
-  left:52%
+  position: absolute;  
+  top: 0;
+  right: 0;
 }
 .btn{
   padding-top: 30px;
   text-align: center;
   align-items: center;
   justify-content: center;
+  width: 285px;
+  margin: 0 auto;
+  position: relative ;
 }
 
 .makeId{
