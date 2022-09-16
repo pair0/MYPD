@@ -1,7 +1,8 @@
 var express = require('express')
 const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
-/* Login */
+
+/*/* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
   res.render("login");
@@ -19,8 +20,12 @@ router.post("/login", async function(req, res) { //로그인 신청
     var username = result[0].e_customer_id;
     res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../views/home")</script>`);
   }
+<<<<<<< HEAD
 }) 
 /* GET users listing. */
+=======
+});
+>>>>>>> 88fa7166688a360772df355e8a99902ef5e538a8
 
 router.get("/join", function (req, res, next) { // 회원가입
   res.render("join");

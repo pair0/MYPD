@@ -22,8 +22,13 @@ async function GetUserList(database, tables){
         if (conn) conn.end();
         return rows[0];
     }
+<<<<<<< HEAD
 }
 */
+=======
+}*/
+
+>>>>>>> 88fa7166688a360772df355e8a99902ef5e538a8
 //DB insert
 async function DBInsert(sql, params){
     let conn, rows;
