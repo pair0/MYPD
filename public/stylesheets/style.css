@@ -78,7 +78,7 @@ input::placeholder {
   border-radius: 10px !important;
   cursor: pointer;
   box-shadow: 4px 4px 23px -4px rgba(0, 0, 0, 0.25);
-  font-size: 1em;
+  font-size: 0.93em;
 }
 .findidpw{
   background: transparent;
