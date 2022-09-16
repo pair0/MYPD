@@ -78,21 +78,25 @@ input::placeholder {
   border-radius: 10px !important;
   cursor: pointer;
   box-shadow: 4px 4px 23px -4px rgba(0, 0, 0, 0.25);
-  font-size: 17px;
+  font-size: 0.93em;
 }
 .findidpw{
   background: transparent;
   border: none;
   padding-top: 10px;
   font-size: 12px;
-  position: absolute;
-  left:52%
+  position: absolute;  
+  top: 0;
+  right: 0;
 }
 .btn{
   padding-top: 30px;
   text-align: center;
   align-items: center;
   justify-content: center;
+  width: 285px;
+  margin: 0 auto;
+  position: relative ;
 }
 
 .makeId{
