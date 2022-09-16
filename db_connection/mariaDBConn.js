@@ -7,12 +7,7 @@ const con = mariadb.createPool({
     connectionLimit: vals.connectionLimit,
     database: vals.database
 });
-<<<<<<< HEAD
- 
-
-=======
 /* <test 용도>
->>>>>>> 3728bfa04184d21264c84b5fa7139c0dec926ac7
 async function GetUserList(database, tables){
     let conn, rows;
     try{
@@ -27,7 +22,7 @@ async function GetUserList(database, tables){
         if (conn) conn.end();
         return rows[0];
     }
-}
+}*/
 
 //DB insert
 async function DBInsert(sql, params){
@@ -55,13 +50,6 @@ function DBselect(sql, params){
         }
     });
 }
-<<<<<<< HEAD
- 
-
-module.exports = {
-    getUserList: GetUserList,
-    dbInsert: DBInsert
-=======
 async function loginQuery(query,database){
     let conn, results;
     try{
@@ -82,5 +70,4 @@ module.exports = {
     //getUserList: GetUserList,
     dbInsert: DBInsert,
     loginquery: loginQuery
->>>>>>> 3728bfa04184d21264c84b5fa7139c0dec926ac7
 }
