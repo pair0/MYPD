@@ -1,12 +1,11 @@
 const mariadb = require('mariadb');
 const vals = require('./consts.js');
- 
+
 const con = mariadb.createPool({
     host: vals.DBHost, port:vals.DBPort,
     user: vals.DBUser, password: vals.DBPass,
     connectionLimit: vals.connectionLimit,
 });
- 
 /* <test 용도>
 async function GetUserList(database, tables){
     let conn, rows;
@@ -34,8 +33,24 @@ function DBInsert(sql, params){
         }
     });
 }
- 
+async function loginQuery(query,database){
+    let conn, results;
+    try{
+        conn = await con.getConnection();
+        conn.query('USE ' + database);
+        results = await conn.query(String(query));
+    }   
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return results;
+    }
+}
+
 module.exports = {
     //getUserList: GetUserList,
-    dbInsert: DBInsert
+    dbInsert: DBInsert,
+    loginquery: loginQuery
 }
