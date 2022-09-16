@@ -213,12 +213,17 @@ input::placeholder {
   border-bottom: 3px solid #c7c7c7;
 }
 .BOX{
-  height : 16vh; 
+  height : 100px; 
   width : 350px; 
+  min-height: 100px;
+  max-width: 350px;
   margin: 20px auto 10px; 
   background-color: #f3f3f3; 
   border-radius: 12px;
   border: 0.5px solid #000000;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 체크박스 인풋은 숨김처리*/
