@@ -7,12 +7,6 @@ router.get("/login", function (req, res, next) { // 로그인
   res.render("login");
 });
 
-<<<<<<< HEAD
-router.post("/login", function(req, res, next) { //로그인 신청
-  console.log("id 값"+req.body.id)
-  console.log("pw 값"+req.body.pw)  
-  var sql = 'SELECT * FROM Customers_Enterprise WHERE e_customer_id = "aaa" and e_customer_pw = "aaa";'
-=======
 router.post("/login", async function(req, res) { //로그인 신청
   var id = req.body.id;
   var pw = req.body.pw;
@@ -25,7 +19,6 @@ router.post("/login", async function(req, res) { //로그인 신청
     var username = result[0].e_customer_id;
     res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../views/home")</script>`);
   }
->>>>>>> 3728bfa04184d21264c84b5fa7139c0dec926ac7
 }) 
 /* GET users listing. */
 
