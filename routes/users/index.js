@@ -16,7 +16,6 @@ router.post("/login", async function(req, res) { //로그인 신청
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    console.log(result[0].e_customer_id);
     var username = result[0].e_customer_id;
     res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../views/home")</script>`);
   }
