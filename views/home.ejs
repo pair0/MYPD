@@ -1,1 +1,151 @@
-test
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav class="navigation">
+        <div class="top">
+            <h1><a href=""><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+            <div class="menu">
+                <ul>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Mypage</a></li>
+                    <li style="margin-right: 40px;"><a href="">Contact</a></li>
+                </ul>
+                <a class="login_box" href="/user/login" >로그인</a>
+            </div>
+        </div>
+    </nav>
+    <!-- 네비게이션 바 끝 -->
+
+    <!-- 메인 시작 -->
+    <main class=" ">
+
+        <div class="main_pic_bg">
+            <div class="city"> 
+
+
+                <!-- 메인 첫 소개 -->
+                    <div class="main_first">
+                        <h1><span style="font-weight:700; color:black;">mypd,<br>마이데이터의 무한한 가능성</span>을<br>열어보는 곳<br></h1>
+                        <h3>mypd는 마이데이터 테스트베드를 제공함으로써<br>데이터 경제를 활성화하고자 하는 사회적 기업이에요.</h3>
+                        <a href="#" class="main_button">지금 무료로 이용하기</a>
+                    </div>
+                   
+                <!-- 메인소개 끝 -->
+
+            </div>
+
+        </div>
+
+
+    <!-- about 페이지 -->
+        <div class="about_page">
+            <div class = "about_box1">
+                <div class="about_first">   
+                        <h1>About</h1>
+                        <h2>mypd 테스트베드란?</h2>
+                        <p>이제 모든 업종에서 전송요구권이 도입되었어요.<br>
+                            mypd 테스트베드를 통해 개인정보를 API규격에 맞추고<br>
+                            쉽고 편리하게 시스템을 개발하고 테스트를 해보세요.</p>
+
+                        <a href="#">더 알아보기</a>
+                </div>
+                <div>
+                    <img src="../images/about_pic1.png" alt="about_pic1" width="100%">
+                </div>
+            </div>
+            <div class="about_box1" style="margin-top:240px;">
+                <div><img src="../images/about_pic2.png" alt="about_pic2" width="100%"></div>
+                <div class="about_first">
+                    <h2>API규격 및 가이드</h1>
+                    <p>업종별 표준 API 기본규격과 표준 처리절차,<br>mypd에서 체계적인 명세를 제공해드려요.</p>
+                    <a href="#">더 알아보기</a>
+                </div>
+            </div>
+        </div>
+    <!-- about 페이지 끝    -->
+
+    
+    <!-- 팀소개 -->
+        <div class="team">
+        </div>
+    <!-- 팀소개 끝 -->
+
+    <!-- contact 시작 -->
+        <div class="contact">
+            <div class="contact_wrap">
+                <div class="contact_box1">
+                    <div class="contact_box1_text">
+                        <h1>Contact US</h1>
+                        <h2>언제든 문의주세요</h2>
+                    </div>
+                </div>
+                <div class="contact_box2">
+                    <div class="input1">    
+                        <div class="con_label"><label for="name">성함<span class="essential"> *</span></label></div>
+                        <div><input type="text" id="name" class="input_size"></div>
+                    </div>
+                    <div class="input1">
+                        <div class="con_label"><label for="email">이메일<span class="essential"> *</span></label></div>
+                        <div><input type="text" id="email" class="input_size"></div>
+                    </div>
+                    <div class="input1">
+                        <div class="con_label"><label for="phone">전화<span class="essential"> *</span></label></div>
+                        <div><input type="text" id="phone" class="input_size"></div>
+                    </div>
+                </div>
+                <div class="contact_box2" style="margin-top:20px">
+                    <div class="input1">    
+                        <div class="con_label"><label for="name">회사이름</label></div>
+                        <div><input type="text" id="name" class="input_size"></div>
+                    </div>
+                    <div class="input1">
+                        <div class="con_label"><label for="email">부서명</label></div>
+                        <div><input type="text" id="email" class="input_size"></div>
+                    </div>
+                    <div class="input1">
+                        <div class="con_label"><label for="phone">직함</label></div>
+                        <div><input type="text" id="phone" class="input_size"></div>
+                    </div>  
+                </div>
+                
+                <div class="contact_box3" style="margin-top:20px">
+                    <div class="input2">    
+                        <div class="con_label"><label for="name">내용</label></div>
+                        <div><input type="text" id="name" class="input_size_con"></div>
+                    </div>  
+                </div>
+
+                <div class="contact_box2" style="margin-top:20px;">
+                    <div class="privacy_check">
+                        <h1>개인정보 수집 동의</h1>
+                        <h2>답변을 위한 개인정보 수집 및 이용에 동의합니다.  <input type="checkbox" class="check"> </h2>
+        
+                    </div>
+                    <a href="#" class="send">발송하기</a>
+                </div>
+            </div>
+
+        </div>
+    <!-- contact 끝 -->
+
+
+
+    </main>
+    <!-- 메인 끝 -->
+
+<!-- 푸터시작 -->
+
+<!-- 푸터끝 -->
+
+
+</body>
+</html>
