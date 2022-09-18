@@ -41,15 +41,21 @@ async function DBInsert(sql, params){
 }
  
 //DB select
-function DBselect(sql, params){
-    con.query(sql, params, function(err, rows, fields){
-        if(err){
-            console.log(err);
-        } else{
-            console.log(sucess);
-        }
-    });
+async function DBSelect(sql, params){
+    let conn, rows;
+    try{
+        conn = await con.getConnection();
+        rows = await conn.query(sql, params);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return rows[0];
+    }
 }
+
 async function loginQuery(query,database){
     let conn, results;
     try{
@@ -69,5 +75,6 @@ async function loginQuery(query,database){
 module.exports = {
     //getUserList: GetUserList,
     dbInsert: DBInsert,
-    loginquery: loginQuery
+    loginquery: loginQuery,
+    dbSelect: DBSelect
 }

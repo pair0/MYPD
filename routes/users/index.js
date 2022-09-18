@@ -35,13 +35,7 @@ router.post("/join", function(req, res, next){ // 회원가입 신청
   };
   var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?)';
   var params = [info['number'], info['id'], info['pw'], info['email']];
-  // mdbConn.getUserList('mypd', 'Customers_Enterprise')
-  // .then((rows) => {
-  //   console.log(rows);
-  // })
-  // .catch((errMsg) => {
-  //   console.log(errMsg);
-  // });
+
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
     console.log(rows);
@@ -54,6 +48,37 @@ router.post("/join", function(req, res, next){ // 회원가입 신청
     "<script>alert('회원가입 신청 완료되었습니다.!! 승인 완료 시 해당 이메일로 승인 메일이 발송됩니다.');location.href='/user/login';</" +
     "script>"
   );
+});
+
+router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
+  const id = req.body.ID;
+  var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
+  mdbConn.dbSelect(sql, id)
+  .then((rows) => {
+    if(rows){
+      res.send(true);
+    }else {
+      res.send(false);
+    }
+  })
+  .catch((errMsg) => {
+    console.log(errMsg);
+  }); 
+});
+
+router.post("/check_all", function(req, res, next){ //회원가입 검증
+  const {checkID, checkPW, comparePW} = req.body;
+  console.log("여기닷알"+checkID+" 1 "+checkPW+" 2 "+comparePW);
+
+  if(checkID == "false"){
+    res.send("아이디를 다시 확인하여 주세요.");
+  } else if(checkPW == "false"){
+    res.send("비밀번호를 다시 확인하여 주세요.");
+  } else if(comparePW == "false"){
+    res.send("비밀번호 확인을 다시 확인하여 주세요.");
+  } else{
+    res.send("true");
+  }
 });
 
 module.exports = router;
