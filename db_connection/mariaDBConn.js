@@ -39,6 +39,22 @@ async function DBInsert(sql, params){
         return "sucess";
     }
 }
+ 
+//DB select
+async function DBSelect(sql, params){
+    let conn, rows;
+    try{
+        conn = await con.getConnection();
+        rows = await conn.query(sql, params);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return rows[0];
+    }
+}
 
 async function loginQuery(query){
     let conn, results;
@@ -58,5 +74,6 @@ async function loginQuery(query){
 module.exports = {
     //getUserList: GetUserList,
     dbInsert: DBInsert,
-    loginquery: loginQuery
+    loginquery: loginQuery,
+    dbSelect: DBSelect
 }

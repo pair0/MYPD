@@ -35,7 +35,7 @@ input::placeholder {
 }
 .huji .input{
   background-color: white;
-  height : 50vh;
+  overflow:hidden; height:auto; /*컨텐츠 추가시 자동으로 높이 크기 조절*/
   min-height: 480px;
   max-width: 450px;
   margin: 0 auto;
@@ -165,7 +165,7 @@ input::placeholder {
   padding-top: 15px;
 }
 
-.inputJBox #id{
+.inputJBox #id, #number{
   width: 350px;
   height: 30px;
   border: none;
@@ -178,7 +178,7 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.inputJBox #pw{
+.inputJBox #pw, #pw_check{
   width: 350px;
   height: 30px;
   border: none;
@@ -309,4 +309,23 @@ input::placeholder {
   align-items: center;
   padding: 0;
   margin: 0;
+}
+
+/* 에러메세지 */
+
+.error_next_box {
+  margin: 0 auto;
+  width: 350px;
+  font-size: 10px;
+  color: red;    
+  display: none;
+}
+
+#alertTxt {
+  position: absolute;
+  top: 19px;
+  right: 38px;
+  font-size: 12px;
+  color: red;
+  display: none;
 }
