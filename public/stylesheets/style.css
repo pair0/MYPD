@@ -13,8 +13,8 @@ input::placeholder {
 }
 .huji {
   width : 100%;
-  height : 100vh;
-  min-height: 900px;
+  height : 90vh;
+  min-height: 1000px;
   background: url(../images/login-bg.png) center no-repeat;
   background-size: cover;
 }
@@ -304,6 +304,480 @@ input::placeholder {
   transition: all 0.15s ease 0.15s; /* 0.15초 변화시간 + 딜레이 시간 줌*/
 }
 
+/* SeungWook CSS */
+
+/*General*/
+
+a{
+  text-decoration: none;
+}
+
+
+/*=========================================================*/
+/*===================== findIdpw_main =====================*/
+/*=========================================================*/
+
+/*백그라운드 이미지*/
+.bg_findIdpw_169{
+  width : 100%;
+  min-height: 1000px;
+  background: url(../images/login_bg_169.png) center no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+/*아이디/비밀번호 찾기 페이지 제목*/
+.page_title_findIdpw{
+  font-size: 35px;
+  font-weight: 800;
+  color: black;
+  margin-top : 10px;
+  margin-bottom: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/*찾기 페이지 상자*/
+.inputBox_findIdpw{
+  background-color: #FFFFFF;
+  height : 5vh;
+  min-height: 200px;
+  min-width: 100px;
+  max-width: 650px;
+  margin: 3% auto;
+  margin-bottom: 70px;
+  border-radius: 24px;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+/*찾기 페이지 상자 제목*/
+.inputBox_title_findIdpw{
+  position: relative;
+  margin:25px auto; /*이상하면 여기 auto 빼기*/
+  margin-bottom: 10px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 35px;
+  color: #0C61FE;
+
+}
+
+
+/*찾기 페이지 상자 밑줄*/
+.underline_findIdpw{
+position: relative;
+width: 500px;
+height:0px;
+border: 0.5px solid #C7C7C7;
+}
+
+/*찾기 페이지 상자 외부*/
+.boxO_findIdpw{
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 480px;
+  margin: auto;
+  position: relative ;
+  display: flex;
+}
+
+/*찾기 페이지 상자 내부*/
+.boxI_findIdpw{
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 450px;
+  margin: 25px auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  position: relative ;
+  display: flex;
+}
+
+/*찾기 페이지 클릭 버튼*/
+.btn_find{
+  background: transparent;
+  border: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 150%;
+  letter-spacing: -0.022em;
+  margin:5px;
+  margin-left: 20px;
+  margin-top: 10px;
+  color: #a9a9a9;
+}
+
+
+.btm_rect{
+  height : 25px;
+  min-width: 650px;
+  background: #0C61FE;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  border-radius: 0px 0px 24px 24px;
+  align-self: flex-end;
+}
+
+/*============================================================*/
+
+
+
+
+/*===========================================================*/
+/*======================== join_main ========================*/
+/*===========================================================*/
+
+
+.page_title_joinMain{
+  font-size: 35px;
+  font-weight: 800;
+  color: black;
+  margin:10px auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.page_subtitle_joinMain{
+  font-size: 20px;
+  font-weight: 800;
+  color: black;
+  margin: 10px auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  line-height: 29px;
+}
+
+.boxO_joinMain{
+  width: 55%;
+  margin:10px auto;
+  margin-top: 50px;
+  display: flex;
+
+  justify-content: center;
+}
+ 
+/*찾기 페이지 상자*/
+.inputBox_joinMain{
+  flex-basis: 450px;
+  min-width: 400px;
+  margin: 20px;
+  min-height: 550px;
+  border-radius: 24px;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  background-color: #FFFFFF;
+
+
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+
+.inputBox_title_joinMain{
+  position: relative;
+  margin:35px auto; /*이상하면 여기 auto 빼기*/
+  margin-bottom: 10px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 35px;
+  color: #0C61FE;
+
+}
+
+.underline_joinMain{
+  position: relative;
+  width: 80%;
+  border: 0.5px solid #C7C7C7;
+  margin: 10px auto;
+  }
+
+.content_joinMain{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 550;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px auto;
+
+  color: #000000;
+}
+
+.boxM_joinMain{
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
+
+.boxI_joinMain{
+  width: 60%;
+  margin:5px auto;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+
+
+}
+
+/*찾기 페이지 클릭 버튼*/
+.btn_find{
+  min-width: 210px;
+  background: transparent;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: #000000;
+}
+
+#check_joinMain{
+  margin-top: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.btm_rect_joinMain{
+  height: 45px;
+  width: 100%;
+  background: #0C61FE;
+  box-shadow:   0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  border-radius: 0px 0px 24px 24px; 
+  display: flex;
+  margin: 0px auto;
+  justify-content: center;
+}
+
+.btn_joinMain{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+
+  margin-top: 5px;
+
+  color: #FFFFFF;
+}
+
+/*============================================================*/
+
+
+
+
+/*===========================================================*/
+/*======================== findIdPer ========================*/
+/*===========================================================*/
+
+
+.inputBox_findIdPer{
+  width: 30%;
+  min-width: 440px;
+  min-height: 400px;
+  margin: 20px auto;
+  border-radius: 24px;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  background-color: #FFFFFF;
+
+  margin-top: 80px;
+  padding-top: 50px;
+
+  flex-direction: column;
+  display: flex;
+}
+
+.content_findIdPer{
+  width: 77.2%;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: left;
+  margin: 10px auto;
+  color: #000000;
+
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.boxI_findIdPer{
+  width: 77.2%;
+  min-width: 340px;
+  margin: 10px auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-bottom: -10px;
+  margin-top:40px;
+  
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* 중복확인_Button */
+.btn_findIdPer{
+  width: 100px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  margin-top: 5px;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  color: #FFFFFF;
+  background: #5B5B5B;
+  box-shadow: 4px 4px 23px -4px rgb(0 0 0 / 25%);
+}
+
+.content_findIdPer_box{
+  width: 50%;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: left;
+  margin: 10px;
+
+  color: #a9a9a9;
+}
+
+
+.underline_findIdPer{
+  width: 75%;
+  height:0px;
+  
+  margin-right: 110px;
+
+  border: 1.5px solid #a9a9a9;
+  background-color: #a9a9a9;
+  align-self: baseline;
+  }
+
+.btn_findIdpw{
+  width: 160px;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  
+  margin:auto;
+  margin-top: 70px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  color: #FFFFFF;
+  background: #0C61FE;
+  box-shadow: 4px 4px 23px -4px rgb(0 0 0 / 25%);
+}
+
+
+/*============================================================*/
+
+
+
+
+/*===========================================================*/
+/*======================= findIdPer_1 =======================*/
+/*===========================================================*/
+
+
+.content_findIdPer_1{
+  width: 77.2%;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: bolder;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing :-1.5px;
+  color: #000000;
+
+  margin: 10px auto;
+  margin-top: 50px;
+  margin-bottom: -30px;
+
+}
+
+
+/*============================================================*/
+
+
+
+
+/*===========================================================*/
+/*======================== findPwPer ========================*/
+/*===========================================================*/
+
+.underline_findPwPer{
+  width: 100%;
+  height:0px;
+  
+  border: 1.5px solid #a9a9a9;
+  background-color: #a9a9a9;
+  align-self: baseline;
+  }
+
+.btn_findPw{
+  width: 220px;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  
+  margin:auto;
+  margin-top: 70px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  color: #FFFFFF;
+  background: #0C61FE;
+  box-shadow: 4px 4px 23px -4px rgb(0 0 0 / 25%);
+}
+
+.boxI_findPwPer{
+  width: 77.2%;
+  min-width: 340px;
+  margin: 10px auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-bottom: -10px;
+  margin-top:27px;
+  
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 .p-navbar__menu {
   display: flex;
   align-items: center;
