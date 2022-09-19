@@ -30,8 +30,10 @@ async function DBInsert(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
+        console.log("DB instet")
     }
     catch(err){
+        console.log(err);
         throw err;
     }
     finally{
