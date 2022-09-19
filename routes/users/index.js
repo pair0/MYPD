@@ -3,7 +3,10 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const { body } = require('express-validator');
 const { validatorErrorChecker} = require('./valcheck');
+const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt')
+require("dotenv").config();
+
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
@@ -11,20 +14,28 @@ router.get("/login", function (req, res, next) { // 로그인
 });
 
 router.post("/login", async function(req, res) { //로그인 신청
-  var id = req.body.id;
-  var pw = req.body.pw;
-  
-  var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${id}" ;`
+  const payload = {
+    pw : req.body.pw
+  };
+  var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${req.body.id}" ;`
   var result = await mdbConn.loginquery(sql);
   if (result == 0){
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    bcrypt.compare(pw, result[0].e_customer_pw, (err, same) => {
+    bcrypt.compare(payload['pw'], result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
       } 
       else{
+        payload['idx'] = result[0].id_idx;
+        jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+          console.log(token)
+          res.json({
+              success: true,
+              token: 'Bearer ' + token
+          })
+        });
         var username = result[0].e_customer_id;
         res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../main/")</script>`);  
       }    
@@ -46,8 +57,7 @@ router.post('/join', [
   }).withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value,{req, res, path}) => {
     if (value !== req.body.pw) {
-        // return res.send(`<script>alert('악성 사용자 꺼저라 시발련아! ');location.replace("../../user/join")</script>`);   
-        return res.status(400).json({ errors: errors.array() });
+      res.redirect('/user/join')
     } else {
         return value;
     }
