@@ -56,4 +56,17 @@ router.post("/join", function(req, res, next){ // 회원가입 신청
   );
 });
 
+router.get("/find_main", function(req, res, next){ //id 찾기
+  res.render("findIdpw_main");
+});
+
+
+router.get("/find_id", function(req, res, next){ //id 찾기
+  res.render("findIdPer");
+});
+
+router.get("/find_pw", function(req, res, next){ //pw 찾기
+  res.render("findPwPer");
+});
+
 module.exports = router;
