@@ -5,9 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYPD 마이데이터의 첫걸음</title>
+
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
     <link rel="stylesheet" href="../stylesheets/home.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+    
 </head>
 <body class="about">
         <div class="about_bg">
@@ -95,29 +101,94 @@
             </div>
         </div>
 
-        <!-- <div class="about_section3">
-            <div class="about_sec3_text">
-                <h2>마이데이터 서비스 테스트</h2>
-                <p>mypd API 제공서버를 이용하여 여러분의 마이데이터 서비스가<br>
-                    API를 정상적으로 호출하는지 테스트할 수 있어요.</p>
-            </div>
-            
-            <div class="about_sec3_pic">
-                <img src="../images/mydataservice_pic.png" alt="서비스테스트 소개" width="900px">
-            </div>
-        </div> -->
 
-        <div class="about_section3">
-            <div class="about_sec3_text">
-                <h2>마이데이터 서비스 테스트</h2>
-                <p>mypd API 제공서버를 이용하여 여러분의 마이데이터 서비스가<br>
-                    API를 정상적으로 호출하는지 테스트할 수 있어요.</p>
+
+
+        <!-- swiper -->
+        <div class="about_section3 swiper mySwiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide ">
+                <div class="about_sec3_text">
+                    <h2>마이데이터 서비스 테스트</h2>
+                    <p>mypd API 제공서버를 이용하여 여러분의 마이데이터 서비스가<br>
+                        API를 정상적으로 호출하는지 테스트할 수 있어요.</p>
+                </div>
+                <div class="about_sec3_pic">
+                    <img src="../images/mydataservice_pic.png" alt="서비스테스트 소개" width="700px">
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="about_sec3_text">
+                    <h1>마이데이터 서비스 테스트</h1>
+                    <h2>단위 테스트</h2>
+                    <p>mypd API 제공 서버를 통해 여러분의 서비스의 개별 API 동작을 테스트할 수 있어요. <br>
+                        테스트베드 내 샘플 데이터를 이용하거나, 직접 테스트데이터를 추가하여 테스트 할 수 있어요.</p>
+                </div>
+                <div class="about_sec3_pic">
+                    <img src="../images/mydataservice_pic2.png" alt="서비스테스트 소개" width="500px">
+                </div>
+                <div class="about_sec3_unittest_detail">
+                    <p>①  테스트 서비스 및 데이터 선택</p>
+                    <p>②  인증 및 지원 API 호출</p>
+                    <p style="margin-right: 0;">③  개별 API 단위 테스트</p>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="about_sec3_text">
+                    <h1>마이데이터 서비스 테스트</h1>
+                    <h2>단위 테스트 - ① 테스트 서비스 및 데이터 선택</h2>
+                    <p>테스트하고자 하는 서비스와 데이터를 선택해주세요<br>
+                        등록하신 테스트 서비스 또는 테스트 데이터가 없으시다면 마이페이지를 통해서 등록하실 수 있어요<br>
+                        또는 mypd에서 무료로 제공해드리는 샘플 데이터를 다운로드 받으실 수 있어요
+                </div>
+                <div class="about_sec3_pic">
+                    <img src="../images/mydataservice_pic3.png" alt="서비스테스트 소개" width="230px">
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="about_sec3_text">
+                    <h1>마이데이터 서비스 테스트</h1>
+                    <h2>단위 테스트 - ② 인증 및 지원 API 호출</h2>
+                    <p>본격적 단위테스트를 하기 앞서 사용자는 SWAGGER UI기반 API를 호출해야해요 <br>
+                        인증 API : 클라이언트 별 정보로 인가 코드를 발급해줘요<br>
+                        지원 API : 단위테스트를 진행하기위한 접근 토큰을 발급해줘요
+                </div>
+                <div class="about_sec3_pic">
+                    <img src="../images/mydataservice_pic4.png" alt="서비스테스트 소개" width="400px">
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="about_sec3_text">
+                    <h1>마이데이터 서비스 테스트</h1>
+                    <h2>단위 테스트 - ③ 개별 API 단위 테스트</h2>
+                    <p>모든 준비가 끝났어요! <br>
+                        앞서 발급 받은 접근 토큰을 이용해 mypd의 가상 API 제공 서버에 접근하실 수 있어요 <br>
+                        테스트하고자 하는 API를 개별적으로 호출해서 마음껏 테스트해보세요!  
+                        
+                        
+                </div>
+                <div class="about_sec3_pic">
+                    <img src="../images/mydataservice_pic5.png" alt="서비스테스트 소개" width="400px">
+                </div>a
+              </div>
+              <div class="swiper-slide">Slide</div>
+
             </div>
-            
-            <div class="about_sec3_pic">
-                <img src="../images/mydataservice_pic.png" alt="서비스테스트 소개" width="900px">
-            </div>
-        </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+         <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+        <!-- Initialize Swiper -->
+        <script>
+            var swiper = new Swiper(".mySwiper", {
+                navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+                },
+            });
+        </script>
 
     
 </body>
