@@ -1,9 +1,10 @@
 var express = require('express')
 const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
-const { body } = require('express-validator');
-const { validatorErrorChecker} = require('./valcheck');
-const bcrypt = require('bcrypt')
+const {body} = require('express-validator');
+const {validatorErrorChecker} = require('./valcheck');
+const emailsend = require("../../lib/mail");
+const bcrypt = require('bcrypt');
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
@@ -97,8 +98,37 @@ router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
   }); 
 });
 
+router.post("/mail_send", async function (req, res, next) { //메일 발송
+    const mail = req.body.mail;
+
+    number = await emailsend.sendmail(toEmail = mail).catch(console.error);
+    if (number) {
+        const hashAuth = await bcrypt.hash(number, 12);
+        res.cookie('hashAuth', hashAuth, {maxAge: 300000});
+        res.send(true);
+    } else {
+        res.send(false);
+    }
+});
+
+router.post("/mail_check", function (req, res, next) { //인증번호 체크
+    const mail_check = req.body.mail_check;
+    const hashAuth = req.cookies.hashAuth;
+
+    try {
+        if (bcrypt.compareSync(mail_check, hashAuth)) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    } catch (err) {
+        res.send(false);
+        console.error(err);
+    }
+});
+
 router.post("/check_all", function(req, res, next){ //회원가입 검증
-  const {checkID, checkPW, comparePW} = req.body;
+  const {checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
 
   if(checkID == "false"){
     res.send("아이디를 다시 확인하여 주세요.");
@@ -106,7 +136,11 @@ router.post("/check_all", function(req, res, next){ //회원가입 검증
     res.send("비밀번호를 다시 확인하여 주세요.");
   } else if(comparePW == "false"){
     res.send("비밀번호 확인을 다시 확인하여 주세요.");
-  } else{
+  } else if(checkMAIL == "false"){
+    res.send("인증번호를 다시 확인하여 주세요.");
+  }else if(checkBOX == "false"){
+    res.send("기업 회원 약관 및 개인정보 수집 및 이용에 동의를 해주세요!");
+  }else{
     res.send("true");
   }
 });
