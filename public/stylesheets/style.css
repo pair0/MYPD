@@ -191,7 +191,7 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.inputJBox #email{
+.inputJBox #femail, #semail, #cmail{
   width: 110px;
   height: 30px;
   border: none;
