@@ -22,26 +22,38 @@
       <p class = "page_title_joinMain">개인회원 아이디 찾기</p>
     </div>
 
-    <div class="inputBox_findIdPer">
+    <form class="inputBox_findIdPer" method="POST" action="/user/find_id" onsubmit="check">
 
       <p class="content_findIdPer" style="font-weight: bold; font-size:26px;">등록된 이메일로 찾기</p>
       <p class="content_findIdPer">가입 당시 입력한 이메일을 통해 인증번호를 입력해주세요</p>
-
-      <div class="boxI_findIdPer">
-        <p class="content_findIdPer_box">이메일 입력</p>
-        <a href="/user/join" class="btn_findIdPer">인증번호 전송</a>
-        <div class="underline_findIdPer"> </div>
+      
+      <div class="inputJBox">
+        <span class="star" style="height: 35px; margin: 12px 0px 0px">*</span>
+        <input type="text" id="find_femail" style="font-size: 16px" name="f_email" placeholder="이메일 주소" required="required" autofocus="autofocus">
+        <span class="golbang" style="margin: 10px 10px 0px">@</span>
+        <input type="text" id="find_semail" style="font-size: 16px" name="s_email" placeholder="직접 입력" required="required" autofocus="autofocus">
+        <button class="joinBtn" type="button" style="height: auto;" onclick="sendMail()">인증코드 발송</button>
       </div>
+        <!-- <div class="boxI_findIdPer">
+        <input type="text" id="femail" name="f_email" placeholder="이메일 주소" required="required" autofocus="autofocus">
+        <button href="/user/join" class="btn_findIdPer">인증번호 전송</button>
+        <div class="underline_findIdPer"> </div>
+      </div> -->
 
-      <div class="boxI_findIdPer">
+      <div class="inputJBox">
+        <input type="text" style="width: 270px; font-size: 16px;"id="find_cmail" name="email_check" placeholder="인증확인" required="required" autofocus="autofocus">
+        <button class="joinBtn" style="width: 70px; height: auto;" type="button" onclick="checkMail()">인증확인</button>
+      </div>
+      <!-- <div class="boxI_findIdPer">
         <p class="content_findIdPer_box">인증번호 입력</p>
         <a href="/user/join" class="btn_findIdPer">확인</a>
         <div class="underline_findIdPer"> </div>
-      </div>
+      </div> -->
 
       <a href="/user/join" class="btn_findIdpw">아이디 찾기</a>
-    </div>
-
+    </form>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/joinscr.js"></script>
 
 </body>
 </html>

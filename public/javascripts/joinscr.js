@@ -1,3 +1,4 @@
+/*변수 선언*/
 var ID = document.querySelector('#id');
 var PW = document.querySelector('#pw');
 var PWCheck = document.querySelector('#pw_check');
@@ -9,13 +10,11 @@ var error = document.querySelectorAll('.error_next_box');
 var test = true;
 
 /*이벤트 핸들러 연결*/
-
 ID.addEventListener("focusout", checkId);
 PW.addEventListener("focusout", checkPw);
 PWCheck.addEventListener("focusout", comparePw);
 
 /*콜백 함수*/
-
 function checkId() {
     var idPattern = /^[a-z0-9][a-z0-9_\-].{4,19}$/;
     var result;
@@ -33,7 +32,7 @@ function checkId() {
         $.ajax({
             url: "/user/check_overlap",
             type: "POST",
-            async: false,
+            async: false, 
             data: {
                 "ID": ID.value
             },
@@ -54,7 +53,6 @@ function checkId() {
         return result;
     }
 }
-
 function checkPw() {
     var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,16}$/;
     if (PW.value == "") {
@@ -74,65 +72,26 @@ function checkPw() {
         return true;
     }
 }
-
 function comparePw() {
-    if (PWCheck.value == "") {
+    if(PWCheck.value == ""){
         error[2].innerHTML = "필수 정보입니다.";
         error[2].style.color = "red";
         error[2].style.display = "flex";
         return false;
-    } else if (PW.value != PWCheck.value) {
+    }
+    else if(PW.value != PWCheck.value){
         error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
         error[2].style.color = "red";
         error[2].style.display = "flex"
         return false;
-    } else {
-        error[2].innerHTML = "비밀번호가 일치합니다!";
+    }
+    else{
+        error[2].innerHTML = "사용 가능합니다!";
         error[2].style.color = "#08A600";
         error[2].style.display = "flex";
         return true;
     }
-}
-
-function checkAll() {
-    var result;
-    $.ajax({
-        url: "/user/check_all",
-        type: "POST",
-        async: false,
-        data: {
-            "checkID": checkId(),
-            "checkPW": checkPw(),
-            "comparePW": comparePw(),
-            "checkMAIL": checkMail()
-        },
-
-        success: function (data) {
-            if (data == "true") {
-                console.log("성공" + data);
-                result = true;
-            } else {
-                alert(data);
-                result = false;
-            }
-        }
-    })
-    console.log("adsfasdfawefㅁㄴㅇㄹ"+$("#check1").is(":checked")==true);
-    if($("#check1").is(":checked")==true && $("#check2").is(":checked")==true){
-        result = true;
-    }else if($("#check1").is(":checked")==false && $("#check2").is(":checked")==true){
-        alert("기업 회원 약관에 동의란을 확인해주세요!");
-        result = false;
-    } else if($("#check1").is(":checked")==true && $("#check2").is(":checked")==false){
-        alert("개인정보 수집 및 이용에 동의란을 확인해주세요!");
-        result = false;
-    } else{
-        alert("기업 회원 약관 및 개인정보 수집 및 이용에 동의를 해주세요!");
-        result = false;
-    } 
-
-    return result;
-}
+} 
 
 function sendMail() {
     if (emailF.value == "" || emailS.value == "") {
@@ -167,7 +126,7 @@ function checkMail() {
     } else if (emailCheck.value == "") {
         alert('인증번호를 입력하여 주세요!');
         return false;
-    } else if(test) {
+    } else if (test) {
         alert('인증코드 발송을 진행하여 주세요!');
         return false;
     } else {
@@ -186,7 +145,7 @@ function checkMail() {
                     emailCheck.readOnly = true;
                 } else {
                     result = false;
-                    alert('인증이 실패하였습니다. 메일을 다시 확인해주기 바랍니다!');
+                    alert('인증이 실패하였습니다. 메일을 다시 확인해주기 바랍니다! \n계속해서 진행이 되지 않는다면 메일 발송을 다시 한번 진행해주세요');
                 }
             }
         })
@@ -194,17 +153,55 @@ function checkMail() {
     return result;
 }
 
-$(document).ready(function() {
-    $("#checkAll").click(function() {
-        if($("#checkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-        else $("input[name=chk]").prop("checked", false);
+function checkBox(){
+    if ($("#check1").is(":checked") == true && $("#check2").is(":checked") == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkAll() {
+    var result;
+    $.ajax({
+        url: "/user/check_all",
+        type: "POST",
+        async: false,
+        data: {
+            "checkID": checkId(),
+            "checkPW": checkPw(),
+            "comparePW": comparePw(),
+            "checkMAIL" : checkMail(),
+            "checkBOX" : checkBox()
+        },
+        success: function (data) {
+            if (data == "true") {
+                result = true;
+            } else {
+                alert(data);
+                result = false;
+            }
+        }
+    })
+    return result;
+}
+
+$(document).ready(function () {
+        $("#checkboxAll").click(function () {
+            if ($("#checkboxAll").is(":checked")) 
+                $("input[name=chk]").prop("checked", true);
+            else 
+                $("input[name=chk]").prop("checked", false);
+            }
+        );
+        $("input[name=chk]").click(function () {
+            var total = $("input[name=chk]").length;
+            var checked = $("input[name=chk]:checked").length;
+
+            if (total != checked) 
+                $("#checkboxAll").prop("checked", false);
+            else 
+                $("#checkboxAll").prop("checked", true);
+            }
+        );
     });
-    
-    $("input[name=chk]").click(function() {
-        var total = $("input[name=chk]").length;
-        var checked = $("input[name=chk]:checked").length;
-        
-        if(total != checked) $("#checkAll").prop("checked", false);
-        else $("#checkAll").prop("checked", true); 
-    });
-});
