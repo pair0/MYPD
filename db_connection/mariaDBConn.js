@@ -1,11 +1,11 @@
 const mariadb = require('mariadb');
-const vals = require('./consts.js');
+require("dotenv").config();
 
 const con = mariadb.createPool({
-    host: vals.DBHost, port:vals.DBPort,
-    user: vals.DBUser, password: vals.DBPass,
-    connectionLimit: vals.connectionLimit,
-    database :  vals.database
+    host: process.env.DBHost, port:process.env.DBPort,
+    user: process.env.DBUser, password: process.env.DBPass,
+    connectionLimit: process.env.connectionLimit,
+    database :  process.env.database
 });
 /* <test 용도>
 async function GetUserList(database, tables){
@@ -30,10 +30,9 @@ async function DBInsert(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
-        console.log("DB instet")
+        console.log("DB insert")
     }
     catch(err){
-        console.log(err);
         throw err;
     }
     finally{

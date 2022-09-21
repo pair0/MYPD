@@ -3,31 +3,49 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('./valcheck');
+const {generateAccessToken , generateRefreshToken, authenticateToken }= require('../../passport/abouttoken')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
+require("dotenv").config();
+;
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
   res.render("login");
 });
+router.get("/admin", authenticateToken, (req, res) => {
+  res.render("admin");
+});
 
 router.post("/login", async function(req, res) { //로그인 신청
-  var id = req.body.id;
-  var pw = req.body.pw;
-  
-  var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${id}" ;`
+  var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${req.body.id}" ;`
   var result = await mdbConn.loginquery(sql);
   if (result == 0){
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    bcrypt.compare(pw, result[0].e_customer_pw, (err, same) => {
+    bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
       } 
       else{
-        var username = result[0].e_customer_id;
-        res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../main/")</script>`);  
+        const payload = {
+          idx : req.body.id_idx
+        };
+        const accessToken = generateAccessToken(payload);
+        const refreshToken = generateRefreshToken(payload,process.env.REFRESH_TOKEN_SECRET);
+        var sql = `UPDATE Customers_Enterprise SET refresh_token = "${'Bearer ' + refreshToken}" WHERE e_customer_id = "${result[0].e_customer_id}"`;
+        var params = [];
+        mdbConn.dbInsert(sql, params)
+        .then((rows) => {
+          console.log(rows);
+        })
+        .catch((errMsg) => {
+          console.log(errMsg);
+        });
+        res.cookie('accessToken' , 'Bearer ' + accessToken);
+        res.cookie('refreshToken' , 'Bearer ' + refreshToken)
+        res.send(`<script>location.replace("/main")</script>`)
       }    
     })
   }
@@ -47,14 +65,13 @@ router.post('/join', [
   }).withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value,{req, res, path}) => {
     if (value !== req.body.pw) {
-        // return res.send(`<script>alert('악성 사용자 꺼저라 시발련아! ');location.replace("../../user/join")</script>`);   
-        return res.status(400).json({ errors: errors.array() });
+      res.redirect('/user/join')
     } else {
         return value;
     }
   }),
   validatorErrorChecker
-], async (req, res) => {
+], (req, res) => {
   const info = {
     "number": req.body.number,
     "id": req.body.id,
