@@ -1,43 +1,51 @@
 var express = require('express')
 const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
-const { body } = require('express-validator');
-const { validatorErrorChecker} = require('./valcheck');
-const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt')
+const {body} = require('express-validator');
+const {validatorErrorChecker} = require('./valcheck');
+const {generateAccessToken , generateRefreshToken, authenticateToken }= require('../../passport/abouttoken')
+const emailsend = require("../../lib/mail");
+const bcrypt = require('bcrypt');
 require("dotenv").config();
-
+;
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
   res.render("login");
 });
+router.get("/admin", authenticateToken, (req, res) => {
+  res.render("admin");
+});
 
 router.post("/login", async function(req, res) { //로그인 신청
-  const payload = {
-    pw : req.body.pw
-  };
   var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${req.body.id}" ;`
   var result = await mdbConn.loginquery(sql);
   if (result == 0){
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    bcrypt.compare(payload['pw'], result[0].e_customer_pw, (err, same) => {
+    bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
       } 
       else{
-        payload['idx'] = result[0].id_idx;
-        jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-          console.log(token)
-          res.json({
-              success: true,
-              token: 'Bearer ' + token
-          })
+        const payload = {
+          idx : req.body.id_idx
+        };
+        const accessToken = generateAccessToken(payload);
+        const refreshToken = generateRefreshToken(payload,process.env.REFRESH_TOKEN_SECRET);
+        var sql = `UPDATE Customers_Enterprise SET refresh_token = "${'Bearer ' + refreshToken}" WHERE e_customer_id = "${result[0].e_customer_id}"`;
+        var params = [];
+        mdbConn.dbInsert(sql, params)
+        .then((rows) => {
+          console.log(rows);
+        })
+        .catch((errMsg) => {
+          console.log(errMsg);
         });
-        var username = result[0].e_customer_id;
-        res.send(`<script>alert('로그인 성공! ${username}님 안녕하세요!');location.replace("../../main/")</script>`);  
+        res.cookie('accessToken' , 'Bearer ' + accessToken);
+        res.cookie('refreshToken' , 'Bearer ' + refreshToken)
+        res.send(`<script>location.replace("/main")</script>`)
       }    
     })
   }
@@ -63,7 +71,7 @@ router.post('/join', [
     }
   }),
   validatorErrorChecker
-], async (req, res) => {
+], (req, res) => {
   const info = {
     "number": req.body.number,
     "id": req.body.id,
@@ -107,8 +115,37 @@ router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
   }); 
 });
 
+router.post("/mail_send", async function (req, res, next) { //메일 발송
+    const mail = req.body.mail;
+
+    number = await emailsend.sendmail(toEmail = mail).catch(console.error);
+    if (number) {
+        const hashAuth = await bcrypt.hash(number, 12);
+        res.cookie('hashAuth', hashAuth, {maxAge: 300000});
+        res.send(true);
+    } else {
+        res.send(false);
+    }
+});
+
+router.post("/mail_check", function (req, res, next) { //인증번호 체크
+    const mail_check = req.body.mail_check;
+    const hashAuth = req.cookies.hashAuth;
+
+    try {
+        if (bcrypt.compareSync(mail_check, hashAuth)) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    } catch (err) {
+        res.send(false);
+        console.error(err);
+    }
+});
+
 router.post("/check_all", function(req, res, next){ //회원가입 검증
-  const {checkID, checkPW, comparePW} = req.body;
+  const {checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
 
   if(checkID == "false"){
     res.send("아이디를 다시 확인하여 주세요.");
@@ -116,7 +153,11 @@ router.post("/check_all", function(req, res, next){ //회원가입 검증
     res.send("비밀번호를 다시 확인하여 주세요.");
   } else if(comparePW == "false"){
     res.send("비밀번호 확인을 다시 확인하여 주세요.");
-  } else{
+  } else if(checkMAIL == "false"){
+    res.send("인증번호를 다시 확인하여 주세요.");
+  }else if(checkBOX == "false"){
+    res.send("기업 회원 약관 및 개인정보 수집 및 이용에 동의를 해주세요!");
+  }else{
     res.send("true");
   }
 });

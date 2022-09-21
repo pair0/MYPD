@@ -1,5 +1,8 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+
 body {
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family:  "Spoqa Han Sans", serif;
   color: #444444;
   margin: 0;
   padding: 0;
@@ -191,9 +194,22 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.inputJBox #email{
+.inputJBox #femail, #semail, #cmail{
   width: 110px;
   height: 30px;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid #c7c7c7;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #000000;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.inputJBox #find_femail, #find_semail, #find_cmail{
+  width: 110px;
+  height: 50px;
   border: none;
   outline: none;
   border-bottom: 3px solid #c7c7c7;
