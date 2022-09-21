@@ -33,6 +33,8 @@ async function DBInsert(sql, params){
         console.log("DB insert")
     }
     catch(err){
+        // console.log(err)
+        // return res.status(400).json({ errors: errors.array() });
         throw err;
     }
     finally{
@@ -40,7 +42,6 @@ async function DBInsert(sql, params){
         return "sucess";
     }
 }
- 
 //DB select
 async function DBSelect(sql, params){
     let conn, rows;
