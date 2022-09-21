@@ -31,6 +31,18 @@ body{
     background-size: cover;
   }
 
+<<<<<<< HEAD
+=======
+  .city_short {
+    position: absolute;
+    width: 100%;
+    height: 1640px;
+    top: -2px;
+    background: url(../images/city_short.png) center no-repeat;
+    background-size: cover;
+  }
+
+>>>>>>> b290481c29d01442d715a7f03ab7ae650cff6985
 
 
 .navigation{
