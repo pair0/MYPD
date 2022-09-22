@@ -13,22 +13,26 @@
     <!-- 네비게이션 바 -->
     <nav class="navigation">
         <div class="top">
-            <h1><a href=""><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+            <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
             <div class="menu">
                 <ul>
+<<<<<<< HEAD
                     <li><a href="javascript:;" data-anchor="about_page">About</a></li>
                     <li><a href="#">Mypage</a></li>
                     <li style="margin-right: 40px;"><a href="">Contact</a></li>
+=======
+                    <li><span id="menu_about">About</span></li>
+                    <li><span id="menu_contact">Contact</span></li>
+                    <li style="margin-right:80px;"><a href="">Mypage</a></li>  
+>>>>>>> 6e374e2fde2ba29b7ce58cbd6b02bb8448f0f0b2
                 </ul>
                 <a class="login_box" href="/user/login" >로그인</a>
             </div>
         </div>
     </nav>
-    <!-- 네비게이션 바 끝 -->
-
+    <!-- 네비게이션 바 끝 -->>
     <!-- 메인 시작 -->
     <main class=" ">
-
         <div class="main_pic_bg">
             <div class="city"> 
 
@@ -37,7 +41,7 @@
                     <div class="main_first">
                         <h1><span style="font-weight:700; color:black;">mypd,<br>마이데이터의 무한한 가능성</span>을<br>열어보는 곳<br></h1>
                         <h3>mypd는 마이데이터 테스트베드를 제공함으로써<br>데이터 경제를 활성화하고자 하는 사회적 기업이에요.</h3>
-                        <a href="#" class="main_button">지금 무료로 이용하기</a>
+                        <a href="#" class="main_button btn_hover">지금 무료로 이용하기</a>
                     </div>
                    
                 <!-- 메인소개 끝 -->
@@ -48,7 +52,11 @@
 
 
     <!-- about 페이지 -->
+<<<<<<< HEAD
         <div class="about_page" id="about_page">
+=======
+        <div class="about_page scroll_content" id="scroll_about">
+>>>>>>> 6e374e2fde2ba29b7ce58cbd6b02bb8448f0f0b2
             <div class = "about_box1">
                 <div class="about_first">   
                         <h1>About</h1>
@@ -81,7 +89,7 @@
     <!-- 팀소개 끝 -->
 
     <!-- contact 시작 -->
-        <div class="contact">
+        <div class="contact scroll_content" id="scroll_contact">
             <div class="contact_wrap">
                 <div class="contact_box1">
                     <div class="contact_box1_text">
@@ -89,53 +97,61 @@
                         <h2>언제든 문의주세요</h2>
                     </div>
                 </div>
-                <div class="contact_box2">
-                    <div class="input1">    
-                        <div class="con_label"><label for="name">성함<span class="essential"> *</span></label></div>
-                        <div><input type="text" id="name" class="input_size"></div>
-                    </div>
-                    <div class="input1">
-                        <div class="con_label"><label for="email">이메일<span class="essential"> *</span></label></div>
-                        <div><input type="text" id="email" class="input_size"></div>
-                    </div>
-                    <div class="input1">
-                        <div class="con_label"><label for="phone">전화<span class="essential"> *</span></label></div>
-                        <div><input type="text" id="phone" class="input_size"></div>
-                    </div>
-                </div>
-                <div class="contact_box2" style="margin-top:20px">
-                    <div class="input1">    
-                        <div class="con_label"><label for="name">회사이름</label></div>
-                        <div><input type="text" id="name" class="input_size"></div>
-                    </div>
-                    <div class="input1">
-                        <div class="con_label"><label for="email">부서명</label></div>
-                        <div><input type="text" id="email" class="input_size"></div>
-                    </div>
-                    <div class="input1">
-                        <div class="con_label"><label for="phone">직함</label></div>
-                        <div><input type="text" id="phone" class="input_size"></div>
-                    </div>  
-                </div>
-                
-                <div class="contact_box3" style="margin-top:20px">
-                    <div class="input2">    
-                        <div class="con_label"><label for="name">내용</label></div>
-                        <div><input type="text" id="name" class="input_size_con"></div>
-                    </div>  
-                </div>
 
-                <div class="contact_box2" style="margin-top:20px;">
-                    <div class="privacy_check">
-                        <h1>개인정보 수집 동의</h1>
-                        <h2>답변을 위한 개인정보 수집 및 이용에 동의합니다.  <input type="checkbox" class="check"> </h2>
-        
+                <!-- 폼 태그 시작 -->
+                <form action="" method="POST" >
+                    <div class="contact_box2">
+                        <div class="input1">    
+                            <div class="con_label"><label for="name">성함<span class="essential"> *</span></label></div>
+                            <div><input type="text" id="name" class="input_size" required></div>
+                        </div>
+                        <div class="input1">
+                            <div class="con_label"><label for="email">이메일<span class="essential"> *</span></label></div>
+                            <div><input type="email" id="email" class="input_size" required></div>
+                        </div>
+                        <div class="input1">
+                            <div class="con_label"><label for="phone">전화<span class="essential"> *</span></label></div>
+                            <div><input type="tel" id="phone" class="input_size" required></div>
+                        </div>
                     </div>
-                    <a href="#" class="send">발송하기</a>
-                </div>
+                    <div class="contact_box2" style="margin-top:20px">
+                        <div class="input1">    
+                            <div class="con_label"><label for="name">회사이름</label></div>
+                            <div><input type="text" id="name" class="input_size"></div>
+                        </div>
+                        <div class="input1">
+                            <div class="con_label"><label for="email">부서명</label></div>
+                            <div><input type="text" id="email" class="input_size"></div>
+                        </div>
+                        <div class="input1">
+                            <div class="con_label"><label for="phone">직함</label></div>
+                            <div><input type="text" id="phone" class="input_size"></div>
+                        </div>  
+                    </div>
+                    
+                    <div class="contact_box3" style="margin-top:20px">
+                        <div class="input2">    
+                            <div class="con_label"><label for="name">내용</label></div>
+                            <div><textarea " id="name" class="input_size_con" cols="100" row="200"></textarea> <div class="count"><span>0</span>/1000</div></div>
+                           
+                        </div>  
+                    </div>
+
+                    <div class="contact_box2" style="margin-top:10px;">
+                        <div class="privacy_check">
+                            <h1>개인정보 수집 동의</h1>
+                            <h2>답변을 위한 개인정보 수집 및 이용에 동의합니다.  <input type="checkbox" class="check" required> </h2>
+            
+                        </div>
+                        <input type="submit" class="send" value="문의하기"></input>
+                    </div>
+                </form>
             </div>
 
+
         </div>
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../javascripts/ClickToMove.js"></script>
     <!-- contact 끝 -->
 
 

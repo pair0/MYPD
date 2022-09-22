@@ -1,26 +1,27 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
 *{
     /* font-family: "Open Sans", sans-serif; */
-    font-family:  "Spoqa Han Sans", serif;
-    color: #444444;
+    font-family:  "Spoqa Han Sans", serif; 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+    color:#373737;
+}
 
 body{
     height:100%;
     background-color: #007aff;
 }
 
-  .city {
+
+.city {
     position: absolute;
     width: 100%;
     height: 1640px;
     top: -2px;
     background: url(../images/city.png) center no-repeat;
     background-size: cover;
-  }
+}
 
   .city_short {
     position: absolute;
@@ -30,8 +31,6 @@ body{
     background: url(../images/city_short.png) center no-repeat;
     background-size: cover;
   }
-
-
 
 .navigation{
     display:flex;
@@ -58,11 +57,26 @@ nav .menu ul{
 }
 
 nav .menu li{
-    margin-right: 32px;
+    margin-right: 35px;
     font-size: 20px;
     font-weight: 600;
-    
+    cursor:pointer;
 }
+
+
+nav .menu li:after {
+    display:block;
+    content: '';
+    border-bottom: solid 2px #707070b7;  
+    border-radius: 13px;
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+  }
+
+nav .menu li:hover:after{
+    transform: scaleX(1); 
+}
+
 
 
 div .login_box{
@@ -144,8 +158,15 @@ div .login_box{
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
-    line-height: 28px;
+    line-height: 28px;  
+    transition:all 0.9s, color 0.3s;
 }
+.main_first a:hover{
+    color:white;
+    box-shadow:280px 0 0 0 rgba(0,0,0,0.5) inset;
+}
+
+
 
 .main_pic_bg{
     background-color: #007aff;
@@ -294,7 +315,7 @@ div .login_box{
     text-indent:20px;
     border-radius: 10px;
     transition: all 0.5s;
-    vertical-align:middle
+    vertical-align:middle;
 }
 
 
@@ -317,6 +338,12 @@ div .login_box{
     white-space: pre-wrap!important;
     vertical-align: top;
     padding : 20px 20px;
+    resize: none;
+}
+
+.count{
+    display:flex;
+    justify-content: right;
 }
 
 .con_label{
@@ -341,7 +368,7 @@ div .login_box{
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
-    margin-top:4px;
+    margin-bottom: 100px;
 }
 
 .check{
@@ -640,7 +667,7 @@ div .login_box{
     display:flex;
     flex-direction: column;
     align-items: center;
-    width:100%;
+    width:150%;
     justify-content: center;
 }
 
