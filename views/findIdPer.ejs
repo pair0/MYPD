@@ -13,7 +13,7 @@
     <title>아이디/비밀번호 찾기</title>
 </head>
 
-<body class="bg_findIdpw_169">
+<body class="huji">
     <div class="logo">
       <!--왜 여긴 ../user/join임? 아래는 /user/join인데 -->
       <a href="../user/join">
@@ -22,7 +22,7 @@
       <p class = "page_title_joinMain">개인회원 아이디 찾기</p>
     </div>
 
-    <form class="inputBox_findIdPer" method="POST" action="/user/find_id" onsubmit="check">
+    <form class="inputBox_findIdPer" method="POST" action="/user/find_id" onsubmit="return checkMail()">
 
       <p class="content_findIdPer" style="font-weight: bold; font-size:26px;">등록된 이메일로 찾기</p>
       <p class="content_findIdPer">가입 당시 입력한 이메일을 통해 인증번호를 입력해주세요</p>
@@ -41,8 +41,8 @@
       </div> -->
 
       <div class="inputJBox">
-        <input type="text" style="width: 270px; font-size: 16px;"id="find_cmail" name="email_check" placeholder="인증확인" required="required" autofocus="autofocus">
-        <button class="joinBtn" style="width: 70px; height: auto;" type="button" onclick="checkMail()">인증확인</button>
+        <input type="text" style="width: 350px; font-size: 16px;"id="find_cmail" name="email_check" placeholder="인증확인" required="required" autofocus="autofocus">
+        <!-- <button class="joinBtn" style="width: 70px; height: auto;" type="button" onclick="checkMail()">인증확인</button> -->
       </div>
       <!-- <div class="boxI_findIdPer">
         <p class="content_findIdPer_box">인증번호 입력</p>
@@ -50,10 +50,10 @@
         <div class="underline_findIdPer"> </div>
       </div> -->
 
-      <a href="/user/join" class="btn_findIdpw">아이디 찾기</a>
+      <button type="submit" class="btn_findIdpw" style="margin-top: 50px">아이디 찾기</button>
     </form>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="../javascripts/joinscr.js"></script>
+    <script src="../javascripts/findscr.js"></script>
 
 </body>
 </html>

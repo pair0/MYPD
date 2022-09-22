@@ -16,8 +16,8 @@
             <h1><a href=""><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
             <div class="menu">
                 <ul>
-                    <li><a href="">About</a></li>
-                    <li><a href="">Mypage</a></li>
+                    <li><a href="javascript:;" data-anchor="about_page">About</a></li>
+                    <li><a href="#">Mypage</a></li>
                     <li style="margin-right: 40px;"><a href="">Contact</a></li>
                 </ul>
                 <a class="login_box" href="/user/login" >로그인</a>
@@ -48,7 +48,7 @@
 
 
     <!-- about 페이지 -->
-        <div class="about_page">
+        <div class="about_page" id="about_page">
             <div class = "about_box1">
                 <div class="about_first">   
                         <h1>About</h1>
@@ -57,7 +57,7 @@
                             mypd 테스트베드를 통해 개인정보를 API규격에 맞추고<br>
                             쉽고 편리하게 시스템을 개발하고 테스트를 해보세요.</p>
 
-                        <a href="#">더 알아보기</a>
+                        <a href="/about">더 알아보기</a>
                 </div>
                 <div>
                     <img src="../images/about_pic1.png" alt="about_pic1" width="100%">

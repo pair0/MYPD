@@ -119,7 +119,8 @@ function sendMail() {
 }
 
 function checkMail() {
-    var result;
+    var result = false;
+    if(result == true) return result;
     if (emailF.value == "" || emailS.value == "") {
         alert('이메일을 입력하여 주세요!');
         return false;

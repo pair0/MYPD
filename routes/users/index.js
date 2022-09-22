@@ -111,7 +111,7 @@ router.post("/mail_send", async function (req, res, next) { //메일 발송
     }
 });
 
-router.post("/mail_check", function (req, res, next) { //인증번호 체크
+router.post("/mail_check", function mail_check (req, res, next) { //인증번호 체크
     const mail_check = req.body.mail_check;
     const hashAuth = req.cookies.hashAuth;
 
@@ -145,13 +145,40 @@ router.post("/check_all", function(req, res, next){ //회원가입 검증
   }
 });
 
-router.get("/find_main", function(req, res, next){ //id 찾기
+router.get("/find_main", function(req, res, next){ //아이디 패스워드 찾기
   res.render("findIdpw_main");
 });
 
+router.get("/findIdPer", function(req, res, next){ //id 찾기
+    var row=req.query.id;
+    console.log("여기"+row);
+    res.render("findIdPer_1", { ID: row });
+});
 
 router.get("/find_id", function(req, res, next){ //id 찾기
   res.render("findIdPer");
+});
+
+router.post("/find_id", async function(req, res, next){ //id 찾기
+    const {f_email, s_email, email_check} = req.body;
+    mail = f_email+"@"+s_email;
+    const hashAuth = req.cookies.hashAuth;
+    try {
+        if (bcrypt.compareSync(email_check, hashAuth)) {
+            var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_email=?"
+            var rows = await mdbConn.dbSelect(sql, mail);
+            rows = rows.e_customer_id
+            res.cookie('hashAuth', hashAuth, {maxAge: 300000});
+            console.log("찾는 아이디 : "+ rows);
+            res.redirect("/user/findIdPer?id="+rows);
+        } else {
+            res.send("<script>alert('비정상적인 접근입니다.');location.href='/user/find_id';</" +"script>");
+        }
+    } catch (err) {
+        res.send(false);
+        console.error(err);
+    }
+    
 });
 
 router.get("/find_pw", function(req, res, next){ //pw 찾기
