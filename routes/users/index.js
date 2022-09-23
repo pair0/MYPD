@@ -141,7 +141,7 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
         const hashAuth = req.cookies.hashAuth;
         try {
             if (bcrypt.compareSync(mail_check, hashAuth)) {
-                res.clearCookie('hashAuth');
+                //res.clearCookie('hashAuth');
                 res.send("true");
             } else {
                 res.send("인증번호가 올바르지 않습니다.");
@@ -158,7 +158,6 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
 
 router.post("/check_all", function(req, res, next){ //회원가입 검증
   const {checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
-
   if(checkID == "false"){
     res.send("아이디를 다시 확인하여 주세요.");
   } else if(checkPW == "false"){

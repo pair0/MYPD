@@ -21,12 +21,12 @@ function checkId() {
         error[0].innerHTML = "필수 정보입니다.";
         error[0].style.color = "red";
         error[0].style.display = "flex";
-        return false;
+        checkId = false;
     } else if (!idPattern.test(ID.value)) {
         error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
         error[0].style.color = "red";
         error[0].style.display = "flex";
-        return false;
+        checkId = false;
     } else {
         $.ajax({
             url: "/user/check_overlap",
@@ -40,16 +40,15 @@ function checkId() {
                     error[0].innerHTML = "사용 가능합니다!";
                     error[0].style.color = "#08A600";
                     error[0].style.display = "flex";
-                    result = true;
+                    checkId = true;
                 } else {
                     error[0].innerHTML = "이미 존재하는 ID입니다.";
                     error[0].style.color = "red";
                     error[0].style.display = "flex";
-                    result = false;
+                    checkId = false;
                 }
             }
         })
-        return result;
     }
 }
 function checkPw() {
@@ -58,17 +57,17 @@ function checkPw() {
         error[1].innerHTML = "필수 정보입니다.";
         error[1].style.color = "red";
         error[1].style.display = "flex";
-        return false;
+        checkPw = false;
     } else if (!pwPattern.test(PW.value)) {
         error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
         error[1].style.color = "red";
         error[1].style.display = "flex";
-        return false;
+        checkPw = false;
     } else {
         error[1].innerHTML = "사용 가능합니다!";
         error[1].style.color = "#08A600";
         error[1].style.display = "flex";
-        return true;
+        checkPw = true;
     }
 }
 function comparePw() {
@@ -76,19 +75,19 @@ function comparePw() {
         error[2].innerHTML = "필수 정보입니다.";
         error[2].style.color = "red";
         error[2].style.display = "flex";
-        return false;
+        comparePw = false;
     }
     else if(PW.value != PWCheck.value){
         error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
         error[2].style.color = "red";
         error[2].style.display = "flex"
-        return false;
+        comparePw = false;
     }
     else{
         error[2].innerHTML = "사용 가능합니다!";
         error[2].style.color = "#08A600";
         error[2].style.display = "flex";
-        return true;
+        comparePw = true;
     }
 } 
 
@@ -117,14 +116,12 @@ function sendMail() {
 }
 
 function checkMail() {
-    var result = false;
-    if(result == true) return result;
     if (emailF.value == "" || emailS.value == "") {
         alert('이메일을 입력하여 주세요!');
-        return false;
+        checkMail = false;
     } else if (emailCheck.value == "") {
         alert('인증번호를 입력하여 주세요!');
-        return false;
+        checkMail =  false;
     }  else {
         $.ajax({
             url: "/user/mail_check",
@@ -135,18 +132,17 @@ function checkMail() {
             },
             success: function (data) {
                 if (data == "true") {
-                    result = true;
+                    checkMail = true;
                     alert('인증이 완료되었습니다.');
                     emailCheck.style.background = "#c7c7c7";
                     emailCheck.readOnly = true;
                 } else {
-                    result = false;
+                    checkMail = false;
                     alert(data);
                 }
             }
         })
     }
-    return result;
 }
 
 function checkBox(){
@@ -164,14 +160,14 @@ function checkAll() {
         type: "POST",
         async: false,
         data: {
-            "checkID": checkId(),
-            "checkPW": checkPw(),
-            "comparePW": comparePw(),
-            "checkMAIL" : checkMail(),
-            "checkBOX" : checkBox()
+            "checkID": checkId,
+            "checkPW": checkPw,
+            "comparePW": comparePw,
+            "checkMAIL" : checkMail,
+            "checkBOX" : checkBox
         },
         success: function (data) {
-            if (data=="true") {
+            if (data==true) {
                 result = true;
             } else {
                 alert(data);
