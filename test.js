@@ -1,7 +1,5 @@
 
-        var emailF = document.querySelector('#femail');
-        var emailS = document.querySelector('#semail');
-        var emailCheck = document.querySelector('#cmail');
+
         var input = document.querySelector('.huji .input');
         var error = document.querySelectorAll('.error_next_box');
         var test = true;
@@ -91,7 +89,7 @@
         } 
 
         function sendMail() {
-            if ($("#femail").value == "" || emailS.value == "") {
+            if ($("#femail").value == "" || $("#semail").value == "") {
                 alert('이메일을 입력하여 주세요!');
                 return false;
             }
@@ -100,7 +98,7 @@
                 type: "POST",
                 async: false,
                 data: {
-                    "mail": $("#femail").value + "@" + emailS.value
+                    "mail": $("#femail").value + "@" + $("#semail").value
                 },
                 success: function (data) {
                     if (data) {
@@ -117,10 +115,10 @@
 
         function checkMail() {
             var result;
-            if ($("#femail").value == "" || emailS.value == "") {
+            if ($("#femail").value == "" || $("#semail").value == "") {
                 alert('이메일을 입력하여 주세요!');
                 return false;
-            } else if (emailCheck.value == "") {
+            } else if ($("#cmail").value == "") {
                 alert('인증번호를 입력하여 주세요!');
                 return false;
             } else if (test) {
@@ -132,14 +130,14 @@
                     type: "POST",
                     async: false,
                     data: {
-                        "mail_check": emailCheck.value
+                        "mail_check": $("#cmail").value
                     },
                     success: function (data) {
                         if (data) {
                             result = true;
                             alert('인증이 완료되었습니다.');
-                            emailCheck.style.background = "#c7c7c7";
-                            emailCheck.readOnly = true;
+                            $("#cmail").style.background = "#c7c7c7";
+                            $("#cmail").readOnly = true;
                         } else {
                             result = false;
                             alert('인증이 실패하였습니다. 메일을 다시 확인해주기 바랍니다! \n계속해서 진행이 되지 않는다면 메일 발송을 다시 한번 진행해주세요');

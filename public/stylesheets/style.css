@@ -30,12 +30,14 @@ input::placeholder {
   align-items: center;
   justify-content: center;
 }
+
 .logo{
   margin-top: 20px;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
+
 .huji .input{
   background-color: white;
   overflow:hidden; height:auto; /*컨텐츠 추가시 자동으로 높이 크기 조절*/
@@ -207,7 +209,7 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.inputJBox #find_femail, #find_semail, #find_cmail{
+.inputJBox #find_id, #find_femail, #find_semail, #find_cmail, #init_pw, #init_pw_check{
   width: 110px;
   height: 50px;
   border: none;
@@ -609,6 +611,7 @@ border: 0.5px solid #C7C7C7;
   width: 30%;
   min-width: 440px;
   min-height: 400px;
+  overflow:hidden; height:auto;
   margin: 20px auto;
   border-radius: 24px;
   box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);

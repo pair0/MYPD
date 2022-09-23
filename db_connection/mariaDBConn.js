@@ -30,11 +30,9 @@ async function DBInsert(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
-        console.log("DB insert")
+        console.log(rows);
     }
     catch(err){
-        // console.log(err)
-        // return res.status(400).json({ errors: errors.array() });
         throw err;
     }
     finally{
@@ -48,6 +46,7 @@ async function DBSelect(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
+        console.log("asdf"+rows);
     }
     catch(err){
         throw err;
