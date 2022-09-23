@@ -16,13 +16,13 @@
 <body class="huji">
     <div class="logo">
       <!--왜 여긴 ../user/join임? 아래는 /user/join인데 -->
-      <a href="../user/join">
+      <a href="/main">
         <img src="../images/logo.png" width="230px" height="100%" alt="" id="login_page">
       </a>
       <p class = "page_title_joinMain">개인회원 아이디 찾기</p>
     </div>
 
-    <form class="inputBox_findIdPer" method="POST" action="/user/find_id" onsubmit="return checkMail()">
+    <form class="inputBox_findIdPer" method="POST" action="/user/find_id" onsubmit="return IDcheckMail()">
 
       <p class="content_findIdPer" style="font-weight: bold; font-size:26px;">등록된 이메일로 찾기</p>
       <p class="content_findIdPer">가입 당시 입력한 이메일을 통해 인증번호를 입력해주세요</p>

@@ -7,7 +7,6 @@ var emailS = document.querySelector('#semail');
 var emailCheck = document.querySelector('#cmail');
 var input = document.querySelector('.huji .input');
 var error = document.querySelectorAll('.error_next_box');
-var test = true;
 
 /*이벤트 핸들러 연결*/
 ID.addEventListener("focusout", checkId);
@@ -109,7 +108,6 @@ function sendMail() {
             if (data) {
                 alert('인증번호가 발송되었습니다!');
                 auth = data;
-                test = false;
             } else {
                 auth = false;
             }
@@ -127,10 +125,7 @@ function checkMail() {
     } else if (emailCheck.value == "") {
         alert('인증번호를 입력하여 주세요!');
         return false;
-    } else if (test) {
-        alert('인증코드 발송을 진행하여 주세요!');
-        return false;
-    } else {
+    }  else {
         $.ajax({
             url: "/user/mail_check",
             type: "POST",
@@ -139,14 +134,14 @@ function checkMail() {
                 "mail_check": emailCheck.value
             },
             success: function (data) {
-                if (data) {
+                if (data == "true") {
                     result = true;
                     alert('인증이 완료되었습니다.');
                     emailCheck.style.background = "#c7c7c7";
                     emailCheck.readOnly = true;
                 } else {
                     result = false;
-                    alert('인증이 실패하였습니다. 메일을 다시 확인해주기 바랍니다! \n계속해서 진행이 되지 않는다면 메일 발송을 다시 한번 진행해주세요');
+                    alert(data);
                 }
             }
         })
@@ -176,7 +171,7 @@ function checkAll() {
             "checkBOX" : checkBox()
         },
         success: function (data) {
-            if (data == "true") {
+            if (data=="true") {
                 result = true;
             } else {
                 alert(data);
