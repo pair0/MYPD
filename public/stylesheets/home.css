@@ -895,3 +895,14 @@ div .login_box{
     color:white;
     border-radius: 5px;
 }
+
+
+#logout_btn{
+    margin-right: 10px !important;
+    font-size: 15px;
+    font-weight: 400;
+    display: flex;
+}
+#logout_btn p {
+    padding-top: 5px;
+}

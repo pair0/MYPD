@@ -24,6 +24,7 @@ router.post("/login", async function(req, res) { //로그인 신청
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
+    // console.log(result)
     bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
@@ -35,27 +36,70 @@ router.post("/login", async function(req, res) { //로그인 신청
         const accessToken = generateAccessToken(payload);
         const refreshToken = generateRefreshToken(payload,process.env.REFRESH_TOKEN_SECRET);
         const info = {
-          "refreshToken": 'Bearer ' + refreshToken,
-          "id": result[0].e_customer_id
+          refreshToken: 'Bearer ' + refreshToken,
+          accessToken: 'Bearer ' + accessToken,
+          e_customer_id: result[0].e_customer_id
         };
         
         var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
-        var params = [info['refreshToken'], info['id']];
-
+        var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params)
-        .then((rows) => {
-          console.log(rows);
+        .then(() => {
+          // console.log(rows);
+          req.session.joinUser = {
+            // enterprise_num : result[0].enterprise_number,
+            // id : result[0].e_customer_id,
+            nickname : result[0].nickname,
+            snsID: result[0].snsID,
+            // email: result[0].e_customer_email,
+            refreshToken : 'Bearer ' + refreshToken
+          };
+          req.session.save(() => {
+            return req.logIn(info, (error) => {
+              if (error) {
+                return console.error(error);
+              }
+              // console.log(req.session)
+              res.redirect(`/main`);    
+            });
+          });
         })
         .catch((errMsg) => {
           console.log(errMsg);
         });
-        res.cookie('accessToken' , 'Bearer ' + accessToken);
-        res.cookie('refreshToken' , 'Bearer ' + refreshToken)
-        res.send(`<script>location.replace("/main")</script>`)
       }    
     })
   }
 }) 
+
+router.get('/logout', async function(req, res) {
+  var session = req.session;
+  // console.log(session.joinUser)
+    try {
+
+        if (session.joinUser.snsID === 'kakao'){
+          return res.redirect('/auth/kakao/logout')
+        }
+        else  { //세션정보가 존재하는 경우
+          req.session.destroy(function (err) {
+            if (err)
+                console.log(err)
+            else {
+              console.log("일반 로그아웃")
+              req.logout(function(err) {
+                if (err) { return next(err); }
+              });
+              res.clearCookie('connect.sid');
+              res.redirect('/main');
+            }
+          })
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+});
+
 /* GET users listing. */
 
 router.get("/join", function (req, res, next) { // 회원가입

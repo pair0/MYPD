@@ -116,11 +116,12 @@ input::placeholder {
   display: flex;
   width: 280px;
   margin: 0 auto;
-  padding-left: 30px;
+  padding-left: 32px;
 }
 .snsBtn{
   background: transparent !important;
   border: none;
+  padding-right: 30px;
 }
 #loginImg{
   width: 25px;
@@ -129,6 +130,7 @@ input::placeholder {
   padding-top: 10px;
 }
 #snsImg{
+  border: none;
   width: 47px;
   height: 47px;
   margin: 0 auto;
