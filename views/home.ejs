@@ -20,7 +20,13 @@
                     <li><span id="menu_contact">Contact</span></li>
                     <li style="margin-right:80px;"><a href="">Mypage</a></li>  
                 </ul>
-                <a class="login_box" href="/user/login" >로그인</a>
+                <% if(isAuthenticated){ %>
+                    <a href="/auth/kakao/logout" >로그아웃</a>
+                    <p> | </p>
+                    <p><%= currentUser.e_customer_id %>님</p>
+                <% } else { %>
+                    <a class="login_box" href="/user/login" >로그인</a>
+                <% } %>
             </div>
         </div>
     </nav>
