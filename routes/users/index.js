@@ -281,4 +281,7 @@ router.post("/findPwPer", function(req, res, next){ //pw 초기화 실행
   }
 });
 
+router.get("/test", function(req, res, next){
+  res.render("byounwook_test");
+});
 module.exports = router;

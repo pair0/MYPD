@@ -13,6 +13,32 @@ ID.addEventListener("focusout", checkId);
 PW.addEventListener("focusout", checkPw);
 PWCheck.addEventListener("focusout", comparePw);
 
+$(document).ready(function number_check() {
+    $("input[name='number']").click(function () {
+        var result = false;
+        var data = {
+            "b_no": [$("#number").val()] // 사업자번호 "xxxxxxx" 로 조회 시,
+        }; 
+        
+        $.ajax({
+            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=FBONefeh0BNms/zROn6qTrT7HiD8OIXfye0Du4rE97od/UHXKHdz6KCdy5PexGfKzuPxyALWTqOUlSwwFucbNg==",  // serviceKey 값을 xxxxxx에 입력
+            type: "POST",
+            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function(result) {
+                console.log(result);
+                result = false;
+            },
+            error: function(result) {
+                console.log(result.responseText); //responseText의 에러메세지 확인
+                result = false;
+            }
+        });
+    });
+});
+
 /*콜백 함수*/
 function checkId() {
     var idPattern = /^[a-z0-9][a-z0-9_\-].{4,19}$/;
