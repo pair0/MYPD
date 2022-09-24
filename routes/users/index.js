@@ -11,7 +11,12 @@ require("dotenv").config();
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
-  res.render("login");
+  if(res.locals.isAuthenticated){
+    res.redirect("/main");
+  }
+  else{
+    res.render("login");
+  }
 });
 router.get("/admin", authenticateToken, (req, res) => {
   res.render("admin");
