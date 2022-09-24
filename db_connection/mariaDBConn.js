@@ -46,7 +46,6 @@ async function DBSelect(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
-        console.log("asdf"+rows);
     }
     catch(err){
         throw err;
