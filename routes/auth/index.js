@@ -14,23 +14,21 @@ router.get('/kakao/callback', (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // console.log('user callback')
-      console.log("info")
       req.session.joinUser = {
         enterprise_num : info['enterprise_num'],
         id : info['id'],
         nickname : info['nickname'],
-        snsId: info['snsID'],
+        snsID: info['snsID'],
         email: info['email'],
         accessToken : info['accessToken']
       };
-      // console.log(req.session)
       req.session.save(() => {
         // 세션이 생성되면 사용자를 회원가입 페이지로 리다이렉트 시킨다.
         return req.logIn(info, (error) => {
           if (error) {
             return console.error(error);
           }
+          console.log(info)
           res.redirect(`/main`);    
         });
       });
@@ -42,7 +40,6 @@ router.get('/kakao/callback', (req, res, next) => {
 router.get('/kakao/logout', async (req,res)=>{
   // https://kapi.kakao/com/v1/user/logout
   try {
-    console.log(req.user.accessToken);
     const ACCESS_TOKEN = req.user.accessToken
     let logout = await axios({
       method:'post',
@@ -56,13 +53,76 @@ router.get('/kakao/logout', async (req,res)=>{
     res.json(error);
   }
   // 세션 정리
-  console.log(req.session);
   req.logout(function(err) {
     if (err) { return next(err); }
   });
-  req.session.destroy();
-  res.redirect('/main');
-  console.log(req.isAuthenticated());
+  req.session.destroy(function (err) {
+    if (err)
+        console.log(err)
+    else {
+      console.log("카카오 로그아웃")
+      res.clearCookie('connect.sid');
+      res.redirect('/main');
+    }
+  });
 })
+
+router.get('/naver', passport.authenticate('naver', { authType: 'reprompt' }));
+//? 위에서 네이버 서버 로그인이 되면, 네이버 redirect url 설정에 따라 이쪽 라우터로 오게 된다.
+router.get('/naver/callback', (req, res, next) => {
+  passport.authenticate('naver', (err, user, info) => { // passport-kakao 전략 done 함수의 파라미터가 여기 콜백 함수의 인자로 전달된다.
+    if (err) {
+      return next(err);
+    }
+      req.session.joinUser = {
+        enterprise_num : info['enterprise_num'],
+        id : info['id'],
+        nickname : info['nickname'],
+        snsID: info['snsID'],
+        email: info['email'],
+        accessToken : info['accessToken']
+      };
+      req.session.save(() => {
+        // 세션이 생성되면 사용자를 회원가입 페이지로 리다이렉트 시킨다.
+        return req.logIn(info, (error) => {
+          if (error) {
+            return console.error(error);
+          }
+          console.log(info)
+          res.redirect(`/main`);    
+        });
+      });
+  })(req, res, next); // 미들웨어 내의 미들웨어에는 호출 별도로 진행
+});
+
+//* 구글로 로그인하기 라우터 ***********************
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] })); // 프로파일과 이메일 정보를 받는다.
+
+//? 위에서 구글 서버 로그인이 되면, 네이버 redirect url 설정에 따라 이쪽 라우터로 오게 된다. 인증 코드를 박게됨
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', (err, user, info) => { // passport-kakao 전략 done 함수의 파라미터가 여기 콜백 함수의 인자로 전달된다.
+    if (err) {
+      return next(err);
+    }
+      req.session.joinUser = {
+        enterprise_num : info['enterprise_num'],
+        id : info['id'],
+        nickname : info['nickname'],
+        snsID: info['snsID'],
+        email: info['email'],
+        accessToken : info['accessToken']
+      };
+      req.session.save(() => {
+        // 세션이 생성되면 사용자를 회원가입 페이지로 리다이렉트 시킨다.
+        return req.logIn(info, (error) => {
+          if (error) {
+            return console.error(error);
+          }
+          console.log(info)
+          res.redirect(`/main`);    
+        });
+      });
+  })(req, res, next); // 미들웨어 내의 미들웨어에는 호출 별도로 진행
+});
 
 module.exports = router;

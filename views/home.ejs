@@ -21,9 +21,9 @@
                     <li style="margin-right:80px;"><a href="">Mypage</a></li>  
                 </ul>
                 <% if(isAuthenticated){ %>
-                    <a href="/auth/kakao/logout" >로그아웃</a>
-                    <p> | </p>
-                    <p><%= currentUser.nickname %>님</p>
+                    <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                    <li id="logout_btn"><p> | </p></li>
+                    <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
                 <% } else { %>
                     <a class="login_box" href="/user/login" >로그인</a>
                 <% } %>

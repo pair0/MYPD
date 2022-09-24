@@ -30,7 +30,6 @@ app.use(passport.session());
 app.use(function(req,res,next){
   res.locals.isAuthenticated = req.isAuthenticated();
   res.locals.currentUser = req.user;
-  // console.log(res.locals.currentUser)
   next();
 });
 
