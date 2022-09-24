@@ -1,4 +1,5 @@
 /*변수 선언*/
+var NUMBER = document.querySelector('.joinBtn');
 var ID = document.querySelector('#id');
 var PW = document.querySelector('#pw');
 var PWCheck = document.querySelector('#pw_check');
@@ -12,36 +13,73 @@ var error = document.querySelectorAll('.error_next_box');
 ID.addEventListener("focusout", checkId);
 PW.addEventListener("focusout", checkPw);
 PWCheck.addEventListener("focusout", comparePw);
+NUMBER.addEventListener("click", number_check);
 
-$(document).ready(function number_check() {
-    $("input[name='number']").click(function () {
-        var result = false;
-        var data = {
+function number_check() {
+    var numberPattern =/^[0-9]{10}$/; 
+    if($("#number").val()==""){
+        alert("사업자번호를 넣어주세요");
+        number_check = false;
+    } else if(!numberPattern.test($("#number").val())){
+        alert("-를 제외한 숫자 10자리를 입력해주세요.")
+        number_check = false;
+    } else {
+        var data_number = {
             "b_no": [$("#number").val()] // 사업자번호 "xxxxxxx" 로 조회 시,
         }; 
-        
         $.ajax({
-            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=FBONefeh0BNms/zROn6qTrT7HiD8OIXfye0Du4rE97od/UHXKHdz6KCdy5PexGfKzuPxyALWTqOUlSwwFucbNg==",  // serviceKey 값을 xxxxxx에 입력
+            url: "/user/check_overlap",
             type: "POST",
-            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-            dataType: "JSON",
-            contentType: "application/json",
-            accept: "application/json",
-            success: function(result) {
-                console.log(result);
-                result = false;
+            async: false, 
+            data: {
+                "NUMBER": $("#number").val()
             },
-            error: function(result) {
-                console.log(result.responseText); //responseText의 에러메세지 확인
-                result = false;
+            success: function (result1) {
+                if (!result1) {
+                    $.ajax({
+                        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=FBONefeh0BNms/zROn6qTrT7HiD8OIXfye0Du4rE97od/UHXKHdz6KCdy5PexGfKzuPxyALWTqOUlSwwFucbNg==",  // serviceKey 값을 xxxxxx에 입력
+                        type: "POST",
+                        data: JSON.stringify(data_number), // json 을 string으로 변환하여 전송
+                        dataType: "JSON",
+                        contentType: "application/json",
+                        accept: "application/json",
+                        success: function(result2) {
+                            console.log(result2.data[0]['b_stt']);
+                            $.ajax({
+                                url: "/user/number_check",
+                                type: "POST",
+                                async: false, 
+                                data: {
+                                    "use": result2.data[0]['b_stt']
+                                },
+                                success: function(result3){
+                                    if(result3 == "true"){
+                                        alert("사용 가능한 사업자번호입니다.");
+                                        number_check = true;
+                                    } else {
+                                        alert(result3);
+                                        number_check = false;
+                                    }
+                                }
+                            });
+                        },
+                        error: function(result2) {
+                            console.log(result.responseText); //responseText의 에러메세지 확인
+                            number_check = false;
+                        }
+                    });
+                } else {
+                    alert("회원님께서는 이미 MYPD에 가입하셨습니다.");
+                    number_check = false;
+                }
             }
-        });
-    });
-});
+        })
+    };
+}
 
 /*콜백 함수*/
 function checkId() {
-    var idPattern = /^[a-z0-9][a-z0-9_\-].{4,19}$/;
+    var idPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
     var result;
     if (ID.value == "") {
         error[0].innerHTML = "필수 정보입니다.";
@@ -77,8 +115,9 @@ function checkId() {
         })
     }
 }
+
 function checkPw() {
-    var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,16}$/;
+    var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}$/;
     if (PW.value == "") {
         error[1].innerHTML = "필수 정보입니다.";
         error[1].style.color = "red";
@@ -187,6 +226,7 @@ function checkAll() {
         type: "POST",
         async: false,
         data: {
+            "Number_check" : number_check,
             "checkID": checkId,
             "checkPW": checkPw,
             "comparePW": comparePw,

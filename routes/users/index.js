@@ -107,10 +107,29 @@ router.post('/join', [
 
 });
 
+router.post("/number_check", function(req, res, next){
+  const USE = req.body.use;
+  if(USE == "폐업자"){
+    res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
+  } else if(USE == ""){
+    res.send("등록되지 않은 사업자 번호 입니다. 사업자 번호 확인해 주세요.");
+  } else if(USE == "계속사업자"){
+    res.send("true");
+  }
+});
+
 router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
-  const id = req.body.ID;
-  var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
-  mdbConn.dbSelect(sql, id)
+  if(req.body.NUMBER == undefined){
+    const id = req.body.ID;
+    var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
+    var params = id;
+  } else if (req.body.ID == undefined){
+    const number = req.body.NUMBER;
+    var sql = "SELECT enterprise_number FROM Customers_Enterprise WHERE enterprise_number=?";
+    var params = number;
+  }
+  
+  mdbConn.dbSelect(sql, params)
   .then((rows) => {
     if(rows){
       res.send(true);
@@ -157,8 +176,10 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
 });
 
 router.post("/check_all", function(req, res, next){ //회원가입 검증
-  const {checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
-  if(checkID == "false"){
+  const {Number_check, checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
+  if(Number_check == "false"){
+    res.send("사업자번호를 다시 확인하여 주세요.")
+  }else if(checkID == "false"){
     res.send("아이디를 다시 확인하여 주세요.");
   } else if(checkPW == "false"){
     res.send("비밀번호를 다시 확인하여 주세요.");
