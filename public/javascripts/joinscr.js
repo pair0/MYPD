@@ -95,24 +95,25 @@ function sendMail() {
     if (emailF.value == "" || emailS.value == "") {
         alert('이메일을 입력하여 주세요!');
         return false;
-    }
-    $.ajax({
-        url: "/user/mail_send",
-        type: "POST",
-        async: false,
-        data: {
-            "mail": emailF.value + "@" + emailS.value
-        },
-        success: function (data) {
-            if (data) {
-                alert('인증번호가 발송되었습니다!');
-                auth = data;
-            } else {
-                auth = false;
+    } else{
+        alert('인증번호가 발송되었습니다!');
+        $.ajax({
+            url: "/user/mail_send",
+            type: "POST",
+            async: false,
+            data: {
+                "mail": emailF.value + "@" + emailS.value
+            },
+            success: function (data) {
+                if (data) {
+                    auth = data;
+                } else {
+                    auth = false;
+                }
             }
-        }
-    })
-    return auth;
+        })
+        return auth;
+    }
 }
 
 function checkMail() {

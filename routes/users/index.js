@@ -13,6 +13,7 @@ require("dotenv").config();
 router.get("/login", function (req, res, next) { // 로그인
   res.render("login");
 });
+
 router.get("/admin", authenticateToken, (req, res) => {
   res.render("admin");
 });
@@ -124,7 +125,6 @@ router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
 
 router.post("/mail_send", async function (req, res, next) { //메일 발송
     const mail = req.body.mail;
-
     const number = await emailsend.sendmail(toEmail = mail).catch(console.error);
     if (number) {
         const hashAuth = await bcrypt.hash(number, 12);
