@@ -23,7 +23,7 @@
                 <% if(isAuthenticated){ %>
                     <a href="/auth/kakao/logout" >로그아웃</a>
                     <p> | </p>
-                    <p><%= currentUser.e_customer_id %>님</p>
+                    <p><%= currentUser.nickname %>님</p>
                 <% } else { %>
                     <a class="login_box" href="/user/login" >로그인</a>
                 <% } %>
