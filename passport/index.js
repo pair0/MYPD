@@ -2,8 +2,9 @@ const passport = require('passport');
 // const local = require('./localStrategy'); // 로컬서버로 로그인할때
 const kakao = require('./kakaoStrategy'); // 카카오서버로 로그인할때
 const mdbConn = require('../db_connection/mariaDBConn');
+const naver = require('./naverStrategy');
+const google = require('./googleStrategy');
 
-// const User = require('../models/user');
 
   passport.serializeUser((user, done) => {
     done(null,{ id :user.e_customer_id, accessToken:user.accessToken});
@@ -21,8 +22,8 @@ passport.deserializeUser((user, done) => {
     })
     .catch(error => done(null,false))
   });
-
-
   // local();
   kakao(); // 구글 전략 등록
+  naver();
+  google();
 
