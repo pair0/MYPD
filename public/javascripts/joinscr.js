@@ -1,5 +1,6 @@
 /*변수 선언*/
-var NUMBER = document.querySelector('.joinBtn');
+var NUMBER = document.querySelector('#number_check');
+var NICKNAME = document.querySelector('#nickname');
 var ID = document.querySelector('#id');
 var PW = document.querySelector('#pw');
 var PWCheck = document.querySelector('#pw_check');
@@ -14,6 +15,7 @@ ID.addEventListener("focusout", checkId);
 PW.addEventListener("focusout", checkPw);
 PWCheck.addEventListener("focusout", comparePw);
 NUMBER.addEventListener("click", number_check);
+NICKNAME.addEventListener("focusout", checkNickname);
 
 function number_check() {
     var numberPattern =/^[0-9]{10}$/; 
@@ -77,19 +79,55 @@ function number_check() {
     };
 }
 
-/*콜백 함수*/
-function checkId() {
-    var idPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
-    var result;
-    if (ID.value == "") {
+function checkNickname() {
+    var nickPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+    if (NICKNAME.value == "") {
         error[0].innerHTML = "필수 정보입니다.";
         error[0].style.color = "red";
         error[0].style.display = "flex";
-        checkId = false;
-    } else if (!idPattern.test(ID.value)) {
+        checkNickname = false;
+    } else if (!nickPattern.test(NICKNAME.value)) {
         error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
         error[0].style.color = "red";
         error[0].style.display = "flex";
+        checkNickname = false;
+    } else {
+        $.ajax({
+            url: "/user/check_overlap",
+            type: "POST",
+            async: false, 
+            data: {
+                "NICKNAME": NICKNAME.value
+            },
+            success: function (data) {
+                if (!data) {
+                    error[0].innerHTML = "사용 가능합니다!";
+                    error[0].style.color = "#08A600";
+                    error[0].style.display = "flex";
+                    checkNickname = true;
+                } else {
+                    error[0].innerHTML = "이미 존재하는 닉네임입니다.";
+                    error[0].style.color = "red";
+                    error[0].style.display = "flex";
+                    checkNickname = false;
+                }
+            }
+        })
+    }
+}
+
+/*콜백 함수*/
+function checkId() {
+    var idPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+    if (ID.value == "") {
+        error[1].innerHTML = "필수 정보입니다.";
+        error[1].style.color = "red";
+        error[1].style.display = "flex";
+        checkId = false;
+    } else if (!idPattern.test(ID.value)) {
+        error[1].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+        error[1].style.color = "red";
+        error[1].style.display = "flex";
         checkId = false;
     } else {
         $.ajax({
@@ -101,14 +139,14 @@ function checkId() {
             },
             success: function (data) {
                 if (!data) {
-                    error[0].innerHTML = "사용 가능합니다!";
-                    error[0].style.color = "#08A600";
-                    error[0].style.display = "flex";
+                    error[1].innerHTML = "사용 가능합니다!";
+                    error[1].style.color = "#08A600";
+                    error[1].style.display = "flex";
                     checkId = true;
                 } else {
-                    error[0].innerHTML = "이미 존재하는 ID입니다.";
-                    error[0].style.color = "red";
-                    error[0].style.display = "flex";
+                    error[1].innerHTML = "이미 존재하는 ID입니다.";
+                    error[1].style.color = "red";
+                    error[1].style.display = "flex";
                     checkId = false;
                 }
             }
@@ -119,39 +157,39 @@ function checkId() {
 function checkPw() {
     var pwPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}$/;
     if (PW.value == "") {
-        error[1].innerHTML = "필수 정보입니다.";
-        error[1].style.color = "red";
-        error[1].style.display = "flex";
+        error[2].innerHTML = "필수 정보입니다.";
+        error[2].style.color = "red";
+        error[2].style.display = "flex";
         checkPw = false;
     } else if (!pwPattern.test(PW.value)) {
-        error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
-        error[1].style.color = "red";
-        error[1].style.display = "flex";
+        error[2].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
+        error[2].style.color = "red";
+        error[2].style.display = "flex";
         checkPw = false;
     } else {
-        error[1].innerHTML = "사용 가능합니다!";
-        error[1].style.color = "#08A600";
-        error[1].style.display = "flex";
+        error[2].innerHTML = "사용 가능합니다!";
+        error[2].style.color = "#08A600";
+        error[2].style.display = "flex";
         checkPw = true;
     }
 }
 function comparePw() {
     if(PWCheck.value == ""){
-        error[2].innerHTML = "필수 정보입니다.";
-        error[2].style.color = "red";
-        error[2].style.display = "flex";
+        error[3].innerHTML = "필수 정보입니다.";
+        error[3].style.color = "red";
+        error[3].style.display = "flex";
         comparePw = false;
     }
     else if(PW.value != PWCheck.value){
-        error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
-        error[2].style.color = "red";
-        error[2].style.display = "flex"
+        error[3].innerHTML = "비밀번호가 일치하지 않습니다.";
+        error[3].style.color = "red";
+        error[3].style.display = "flex"
         comparePw = false;
     }
     else{
-        error[2].innerHTML = "사용 가능합니다!";
-        error[2].style.color = "#08A600";
-        error[2].style.display = "flex";
+        error[3].innerHTML = "사용 가능합니다!";
+        error[3].style.color = "#08A600";
+        error[3].style.display = "flex";
         comparePw = true;
     }
 } 

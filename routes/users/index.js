@@ -168,14 +168,18 @@ router.post("/number_check", function(req, res, next){
 });
 
 router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
-  if(req.body.NUMBER == undefined){
-    const id = req.body.ID;
-    var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
-    var params = id;
-  } else if (req.body.ID == undefined){
+  if(req.body.NUMBER != undefined){
     const number = req.body.NUMBER;
     var sql = "SELECT enterprise_number FROM Customers_Enterprise WHERE enterprise_number=?";
     var params = number;
+  } else if (req.body.ID != undefined){
+    const id = req.body.ID;
+    var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
+    var params = id;
+  } else if (req.body.NICKNAME != undefined){
+    const nickname = req.body.NICKNAME;
+    var sql = "SELECT nickname FROM Customers_Enterprise WHERE nickname=?";
+    var params = nickname;
   }
   
   mdbConn.dbSelect(sql, params)
