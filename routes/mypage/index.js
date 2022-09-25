@@ -16,5 +16,9 @@ router.get('/reg_svc', function(req, res, next) {
   res.render('reg_svc');
 });
 
+router.get('/reg_svc_no', function(req, res, next) {
+  res.render('reg_svc_no');
+});
+
 module.exports = router;
 

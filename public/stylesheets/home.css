@@ -107,10 +107,9 @@ body{
 }
 
 .mypage_box_input2 label{
-    width:120px;
+    width:100px;
     font-size:15px;
     font-weight: 800;
-    margin-right: 15px;
     margin-top:2px;
     margin-bottom:5px;
 }
@@ -959,15 +958,28 @@ div .login_box{
     height:130px;
     font-size:16px;
     color:#373737;
-    background:#fff;
     border-radius: 10px;
     transition: all 0.5s;
     vertical-align:middle;
-    background: rgba(217, 217, 217, 0.4);
-    border: 1px solid rgba(198, 198, 198, 0.5);
+    background: rgba(217, 217, 217, 0.1);
+    border: 1px solid #C6C6C6;
     overflow: auto;
     white-space: pre-wrap!important;
     vertical-align: top;
     padding : 10px 10px;
     resize: none;
+}
+
+.test_manage_btn{
+    font-weight: 700;
+    font-size: 15px;
+    background-color: #007aff;
+    color: white;
+    width:130px;
+    height: 30px;
+    border-radius:15px;
+    margin-top:40px;
+    text-align: center;
+    padding:3px 10px 0 10px;
+    width:200px;
 }
