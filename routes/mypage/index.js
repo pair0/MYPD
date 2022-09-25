@@ -1,22 +1,21 @@
 var express = require('express')
-const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
-
+const { isLogIn }= require('../auth/auth')
 
 /* GET home page. */
-router.get('/editcheck', function(req, res, next) {
+router.get('/editcheck', isLogIn, function(req, res, next) {
   res.render('editcheck');
 });
 
-router.get('/edit', function(req, res, next) {
+router.get('/edit', isLogIn, function(req, res, next) {
   res.render('edit');
 });
 
-router.get('/reg_svc', function(req, res, next) {
+router.get('/reg_svc', isLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svc_no', function(req, res, next) {
+router.get('/reg_svc_no', isLogIn, function(req, res, next) {
   res.render('reg_svc_no');
 });
 
