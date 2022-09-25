@@ -21,7 +21,11 @@
                         <ul id="sub-menu">
                             <div class="sub_menu_box">
                                 <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                            <% if(isAuthenticated){ %>
                                 <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                            <% } else { %>
+                                <li><a href="/user/login" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                            <% } %>
                             </div>  
                         </ul>
                     </li>

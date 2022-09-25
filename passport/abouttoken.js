@@ -33,5 +33,32 @@ module.exports = {
         if(error) return res.redirect('/user/login')
         next();
         })
+    },
+    checkTokens : async function(req, res, next){
+        let user = req.session;
+        if (user.passport.user.access === undefined) throw Error('API 사용 권한이 없습니다.'); 
+        const accessToken = jwt.verify(user.passport.user.access, process.env.ACCESS_TOKERN_SECRET);
+
+        var sql = `SELECT refreshToken FROM Customers_Enterprise WHERE refreshToken = ? ;`
+        var params = [
+            user.joinUser.refreshToken
+        ]
+        mdbConn.dbSelect(sql, params)
+        .then((rows ,req, res) => {
+            if(rows){
+                const refreshToken = jwt.verify(user.passport.user.access, process.env.REFRESH_TOKERN_SECRET);
+                if(accessToken == null) {
+                    if (refreshToken === undefined) {
+                        return res.redirect('/user/login')
+                    } else {
+                        const payload = {
+                            idx : rows.id_idx
+                        };
+                        const newAccessToken = generateAccessToken(payload);
+                        
+                    }
+                }
+            }
+        })
     }
 }
