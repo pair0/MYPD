@@ -20,7 +20,13 @@
                     <li><a href="#">Mypage</a></li>
                     <li style="margin-right: 40px;"><a href="">Contact</a></li>
                 </ul>
-                <a class="login_box" href="/user/login" >로그인</a>
+                <% if(isAuthenticated){ %>
+                    <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                    <li id="logout_btn"><p> | </p></li>
+                    <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                <% } else { %>
+                    <a class="login_box" href="/user/login" >로그인</a>
+                <% } %>
             </div>
         </div>
     </nav>

@@ -15,8 +15,9 @@ app.set('view engine', 'ejs');
 
 app.use(session({
   resave: false,
-  saveUninitialized : false,
+  saveUninitialized : true,
   secret: process.env.COOKIE_SECRET,
+  rolling : true,
   cookie:{
       httpOnly: true,
       secure: false,
