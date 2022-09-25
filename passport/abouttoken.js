@@ -27,7 +27,8 @@ module.exports = {
     },
     // 토큰 재발급, 쿠키 숨기기 등등
     authenticateToken : function (req,res,next){
-        const token = req.cookies.accessToken.slice(7)
+        console.log(req.session)
+        const token = req.session.passport.user.accessToken.slice(7)
         if(token == null) return res.sendState(401)
         jwt.verify(token, process.env.ACCESS_TOKERN_SECRET, (error, payload) => {
         if(error) return res.redirect('/user/login')
@@ -55,7 +56,24 @@ module.exports = {
                             idx : rows.id_idx
                         };
                         const newAccessToken = generateAccessToken(payload);
-                        
+                        req.session.passport.user.accessToken = 'Bearer ' + newAccessToken;
+                        next();
+                    }
+                }else {
+                    if (refreshToken === undefined) {
+                        const newRefreshToken = generateRefreshToken(payload);
+                        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
+                        var params = [newRefreshToken, user.passport.user.id];
+                        mdbConn.dbInsert(sql, params)
+                        .then((rows) => {
+                            req.session.passport.joinUser.refreshToken = 'Bearer ' + newRefreshToken;
+                            next();
+                        })
+                        .catch((errMsg) => {
+                            console.log(errMsg);
+                        });
+                    } else {
+                        next();
                     }
                 }
             }

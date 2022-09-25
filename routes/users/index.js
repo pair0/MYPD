@@ -3,23 +3,19 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('./valcheck');
-const {generateAccessToken , generateRefreshToken, authenticateToken }= require('../../passport/abouttoken')
+const {generateAccessToken , generateRefreshToken, authenticateToken}= require('../../passport/abouttoken')
+const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
 ;
 /* Login */
 
-router.get("/login", function (req, res, next) { // 로그인
-  if(res.locals.isAuthenticated){
-    res.redirect("/main");
-  }
-  else{
+router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
     res.render("login");
-  }
 });
 
-router.get("/admin", authenticateToken, (req, res) => {
+router.get("/admin", isLogIn, authenticateToken, (req, res) => {
   res.render("admin");
 });
 
@@ -30,7 +26,6 @@ router.post("/login", async function(req, res) { //로그인 신청
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    // console.log(result)
     bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
@@ -91,7 +86,6 @@ router.get('/logout', async function(req, res) {
             if (err)
                 console.log(err)
             else {
-              console.log("일반 로그아웃")
               req.logout(function(err) {
                 if (err) { return next(err); }
               });
@@ -108,12 +102,13 @@ router.get('/logout', async function(req, res) {
 
 /* GET users listing. */
 
-router.get("/join", function (req, res, next) { // 회원가입
+router.get("/join", isNotLogIn, (req, res, next) => { // 회원가입
   res.render("join");
 });
 
 router.post('/join', [
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
+  body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
     minLowercase : 0,
@@ -250,11 +245,11 @@ router.post("/check_all", function(req, res, next){ //회원가입 검증
 
 // ----------------------ID, PW 찾기------------------------------------------ 
 
-router.get("/find_main", function(req, res, next){ //아이디 패스워드 찾기
+router.get("/find_main", isNotLogIn, (req, res, next) => { //아이디 패스워드 찾기
   res.render("findIdpw_main");
 });
 
-router.get("/find_id", function(req, res, next){ //id 찾기
+router.get("/find_id", isNotLogIn, (req, res, next) => { //id 찾기
   res.render("findIdPer");
 });
 
@@ -277,7 +272,7 @@ router.post("/find_id", async function(req, res, next){ //id 찾기
     }
 });
 
-router.get("/findIdPer", function(req, res, next){ //id 띄우기
+router.get("/findIdPer", isNotLogIn, function(req, res, next){ //id 띄우기
   if(req.cookies.row != undefined){
       const row = req.cookies.row; 
       res.render("findIdPer_1", { ID: row });
@@ -286,11 +281,11 @@ router.get("/findIdPer", function(req, res, next){ //id 띄우기
   }
 });
 
-router.get("/find_pw", function(req, res, next){ //pw 찾기
+router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
   res.render("findPwPer");
 });
 
-router.post("/find_pw", async function(req, res, next){ //pw 찾기
+router.post("/find_pw", isNotLogIn, async function(req, res, next){ //pw 찾기
   const {find_id, f_email, s_email, email_check} = req.body;
   const info = {
     "id": find_id,
@@ -310,7 +305,7 @@ router.post("/find_pw", async function(req, res, next){ //pw 찾기
   }
 });
 
-router.get("/findPwPer", function(req, res, next){ //pw 초기화 화면
+router.get("/findPwPer", isNotLogIn, function(req, res, next){ //pw 초기화 화면
   if(req.cookies.rows != undefined){
       res.render("findPwPer_1");
   } else {
@@ -318,7 +313,7 @@ router.get("/findPwPer", function(req, res, next){ //pw 초기화 화면
   }
 });
 
-router.post("/findPwPer", function(req, res, next){ //pw 초기화 실행
+router.post("/findPwPer", isNotLogIn, function(req, res, next){ //pw 초기화 실행
   if(req.cookies.rows != undefined){
     rows = req.cookies.rows;
     const {init_pw, init_pw_check} = req.body;
@@ -356,7 +351,4 @@ router.post("/findPwPer", function(req, res, next){ //pw 초기화 실행
   }
 });
 
-router.get("/test", function(req, res, next){
-  res.render("byounwook_test");
-});
 module.exports = router;
