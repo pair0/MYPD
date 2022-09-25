@@ -130,6 +130,7 @@ router.post('/join', [
 ], (req, res) => {
   const info = {
     "number": req.body.number,
+    "nickname" : req.body.nickname,
     "id": req.body.id,
     "email" : req.body.f_email+"@"+req.body.s_email 
   };
@@ -137,8 +138,8 @@ router.post('/join', [
     if(err) return next(err)
     info['pw'] = hash;
 
-    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?)';
-    var params = [info['number'], info['id'], info['pw'], info['email']];
+    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, nickname, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?,?)';
+    var params = [info['number'], info['nickname'], info['id'], info['pw'], info['email']];
 
     mdbConn.dbInsert(sql, params)
     .then((rows) => {
