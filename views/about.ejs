@@ -23,12 +23,25 @@
                     <div class="top">
                         <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
                         <div class="menu">
-                            <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Mypage</a></li>
-                                <li style="margin-right: 40px;"><a href="">Contact</a></li>
+                            <ul id="main-menu">
+                                <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                                <li><div class="menu_list"><a href="">Mypage</a></div>
+                                    <ul id="sub-menu">
+                                        <div class="sub_menu_box">
+                                            <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                            <li><a href="#" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        </div>  
+                                    </ul>
+                                </li>
+                                <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
                             </ul>
-                            <a class="login_box" href="/user/login" >로그인</a>
+                            <% if(isAuthenticated){ %>
+                                <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                                <li id="logout_btn"><p> | </p></li>
+                                <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                            <% } else { %>
+                                <a class="login_box" href="/user/login" >로그인</a>
+                            <% } %>
                         </div>
                     </div>
                 </nav>

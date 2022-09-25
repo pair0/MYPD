@@ -156,18 +156,19 @@ nav .menu ul{
     display:flex;
 }
 
-nav .menu li{
-    margin-right: 35px;
+nav .menu .menu_list{
+    margin: 0 20px;
     font-size: 20px;
     font-weight: 600;
     cursor:pointer;
 }
 
 
-nav .menu li:after {
+nav .menu li:after{
     display:block;
     content: '';
-    border-bottom: solid 2px #707070b7;  
+    /* border-bottom: solid 2px #707070b7;   */
+    border-bottom: solid 2px  #4d4d4d;  
     border-radius: 13px;
     transform: scaleX(0);  
     transition: transform 250ms ease-in-out;
@@ -176,6 +177,14 @@ nav .menu li:after {
 nav .menu li:hover:after{
     transform: scaleX(1); 
 }
+
+nav .sub_menu_box li:hover:after{
+    transform: scaleX(0); 
+}
+nav .sub_menu_box li:hover a{
+    font-weight: 700;
+}
+
 
 
 
@@ -906,3 +915,40 @@ div .login_box{
 #logout_btn p {
     padding-top: 5px;
 }
+
+#main-menu > li {
+    float: left;
+    position: relative;
+}
+  
+  
+#sub-menu {
+    background-color: rgb(255, 255, 255);
+    position: absolute;     /* html의 flow에 영향을 미치지 않게 absolute 설정 */
+    height: 0px;            /* 초기 높이는 0px로 설정 */
+    overflow: hidden;       /* 실 내용이 높이보다 커지면 해당 내용 감춤 */
+    transition: height .2s; /* height를 변화 시켰을 때 0.2초간 변화 되도록 설정(기본) */
+    -webkit-transition: height .2s; /* height를 변화 시켰을 때 0.2초간 변화 되도록 설정(구버전 크롬/사파라ㅣ) */
+    -moz-transition: height .2s; /* height를 변화 시켰을 때 0.2초간 변화 되도록 설정(구버전 파폭) */
+    -o-transition: height .2s; /* height를 변화 시켰을 때 0.2초간 변화 되도록 설정(구버전 오페라) */
+    text-align: center;
+    margin-top:3px;
+    width:100%;
+    justify-content: center;
+}
+    
+.sub_menu_box > li{
+    margin-top:10px;
+}
+
+.sub_list{
+    color: #2d2d2d;             /* 글씨 색을 RGB(2D2D2D)로 설정 */   /* 배경색을 흰색으로 설정 */  /* 테두리를 설정 */
+    font-size:15px;
+    font-weight: 500;
+
+}
+  
+#main-menu > li:hover #sub-menu {
+    height: 230%;
+}
+  
