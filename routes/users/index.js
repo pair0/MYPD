@@ -7,16 +7,11 @@ const {generateAccessToken , generateRefreshToken, authenticateToken }= require(
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
-;
 /* Login */
 
 router.get("/login", function (req, res, next) { // 로그인
-  if(res.locals.isAuthenticated){
-    res.redirect("/main");
-  }
-  else{
-    res.render("login");
-  }
+  if(res.locals.isAuthenticated) res.redirect("/main");
+  else res.render("login");
 });
 
 router.get("/admin", authenticateToken, (req, res) => {
@@ -33,7 +28,7 @@ router.post("/login", async function(req, res) { //로그인 신청
     // console.log(result)
     bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
-        res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
+        res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
       } 
       else{
         const payload = {
@@ -114,6 +109,7 @@ router.get("/join", function (req, res, next) { // 회원가입
 
 router.post('/join', [
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
+  body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
     minLowercase : 0,
@@ -356,7 +352,4 @@ router.post("/findPwPer", function(req, res, next){ //pw 초기화 실행
   }
 });
 
-router.get("/test", function(req, res, next){
-  res.render("byounwook_test");
-});
 module.exports = router;

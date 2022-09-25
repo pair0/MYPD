@@ -53,8 +53,23 @@
                     <form class="mypage_box_form" style="margin-top:50px">
                         <div class="mypage_box_input2">
                             <div class="mypage_box_input_id">
-                                <label for="id">아이디</label>
-                                <input type="text" name="id" class="mypage_input2" style="width:47%" disabled >
+                                <label for="id">사업자 등록번호</label>
+                                        <input type="text" name="number" id="number_check" class="mypage_input2"  value=" <%=currentUser.enterprise_number %>" disabled >
+                            </div>
+                        </div>
+                        <div class="mypage_box_input2">
+                            <div class="mypage_box_input_id">
+                                <div class = mypage_edit_section>
+                                    <div class="mypage_edit_input">
+                                        <label for="id">아이디</label>
+                                        <input type="text" name="id" id="id" class="mypage_input2"  value=" <%=currentUser.e_customer_id %>" disabled >
+                                 </div>
+                                    <div class="mypage_edit_input">
+                                        <label for="id">닉네임</label>
+                                        <input type="text" name="nickname" id="nickname" class="mypage_input2"  value=" <%=currentUser.nickname %>" >
+                                        <span class="error_next_box"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -63,15 +78,17 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="pw">비밀번호</label>
-                                        <input type="password" name="pw" class="mypage_input2" required>
+                                        <input type="password" id="pw" name="pw" class="mypage_input2" required>
+                                        <span class="error_next_box"></span>
                                     </div>
+                                    
                                     <div class="mypage_edit_input">
                                         <label for="f_email">이메일</label>
                                         <label for="s_email"></label>
                                         <div class="email" style="position:relative"> 
-                                            <input  class="mypage_input2" type="text" id="femail" name="f_email" required="required" autofocus="autofocus" style="width:47%;">
+                                            <input  class="mypage_input2" type="text" id="femail" name="f_email" value="<%=currentUser.e_customer_email.split('@')[0] %>" required="required" autofocus="autofocus" style="width:47%;">
                                             <span class="golbang">@</span>
-                                            <input class="mypage_input2" type="text" id="semail" name="s_email" required="required" autofocus="autofocus" style="width:47%;">
+                                            <input class="mypage_input2" type="text" id="semail" name="s_email" value="<%=currentUser.e_customer_email.split('@')[1] %>" required="required" autofocus="autofocus" style="width:47%;">
                                             <button class="emailcheckBtn" type="button" onclick="sendMail()" style="position:absolute; margin-left:15px;">인증코드 발송</button>
                                         </div>
                                     </div>
@@ -84,7 +101,8 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="pwcheck">비밀번호 재입력</label>
-                                        <input type="password" name="pwcheck" class="mypage_input2" required  >
+                                        <input type="password" name="pwcheck" id="pw_check" class="mypage_input2" required  >
+                                        <span class="error_next_box"></span>
                                     </div>
                                     <div class="mypage_edit_input">
                                         <label for="check">인증확인</label>
@@ -100,7 +118,8 @@
                 </div>  
             </div>
         </div>
-
     </main>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/edit.js"></script>
 </body>
 </html>
