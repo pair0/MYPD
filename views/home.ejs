@@ -16,16 +16,16 @@
             <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
             <div class="menu">
                 <ul id="main-menu">
-                    <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                    <li id="menu_about" class="menu_list"><a>About</a></li>
                     <li><div class="menu_list"><a href="">Mypage</a></div>
                         <ul id="sub-menu">
                             <div class="sub_menu_box">
+                                <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                 <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
-                                <li><a href="#" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                             </div>  
                         </ul>
                     </li>
-                    <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    <li style="margin-right: 40px;"  id="menu_contact" class="menu_list"><a>Contact</a></li>
                 </ul>
                 <% if(isAuthenticated){ %>
                     <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>

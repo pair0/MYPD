@@ -12,5 +12,9 @@ router.get('/edit', function(req, res, next) {
   res.render('edit');
 });
 
+router.get('/reg_svc', function(req, res, next) {
+  res.render('reg_svc');
+});
+
 module.exports = router;
 
