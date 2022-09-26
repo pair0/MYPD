@@ -15,7 +15,7 @@ router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
     res.render("login");
 });
 
-router.get("/admin", isLogIn, authenticateToken,(req, res) => {
+router.get("/admin", isLogIn, authenticateToken,(req, res) => { // 나중에 지울 친구!!
   res.render("admin");
 });
 
