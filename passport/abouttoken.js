@@ -25,10 +25,11 @@ function getTokenChk(token, value) {
 }
 function authenticateToken (req,res,next){
     const token = req.session.passport.user.accessToken.slice(7)
+    console.log(token)
     if(token == null) return res.sendState(401)
-    jwt.verify(token, process.env.ACCESS_TOKERN_SECRET, (error, payload) => {
-    if(error) return res.redirect('/user/login')
-    next();
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
+        if(error) return res.redirect('/user/login')
+        next();
     })
 }
 async function checkTokens(req, res, next){

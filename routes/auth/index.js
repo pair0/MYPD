@@ -59,7 +59,6 @@ router.get('/kakao/logout', async (req,res)=>{
     if (err)
         console.log(err)
     else {
-      console.log("카카오 로그아웃")
       res.clearCookie('connect.sid');
       res.redirect('/main');
     }

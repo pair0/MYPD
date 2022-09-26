@@ -33,11 +33,6 @@ app.use(function(req,res,next){
   res.locals.currentUser = req.user;
   next();
 });
-// app.use(function(req,res,next){
-//   res.locals.isAuthenticated = req.session.
-//   res.locals.currentUser = req.user;
-//   next();
-// });
 
 app.use(logger('dev'));
 app.use(express.json());
