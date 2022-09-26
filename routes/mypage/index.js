@@ -22,6 +22,8 @@ router.get('/editmty', function(req, res, next) {
 /* 테스트 개발 페이지 (나중에 삭제) */
 router.get('/tmp', function(req, res, next) {
   res.render('tmp');
+});
+
 router.get('/reg_svc', isLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
