@@ -3,7 +3,7 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('./valcheck');
-const {generateAccessToken , generateRefreshToken, authenticateToken}= require('../../passport/abouttoken')
+const {generateAccessToken , generateRefreshToken, authenticateToken, checkTokens}= require('../../passport/abouttoken')
 const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
@@ -15,7 +15,7 @@ router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
     res.render("login");
 });
 
-router.get("/admin", isLogIn, authenticateToken, (req, res) => {
+router.get("/admin", isLogIn, authenticateToken,(req, res) => {
   res.render("admin");
 });
 
@@ -46,13 +46,9 @@ router.post("/login", async function(req, res) { //로그인 신청
         var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params)
         .then(() => {
-          // console.log(rows);
           req.session.joinUser = {
-            // enterprise_num : result[0].enterprise_number,
-            // id : result[0].e_customer_id,
             nickname : result[0].nickname,
             snsID: result[0].snsID,
-            // email: result[0].e_customer_email,
             refreshToken : 'Bearer ' + refreshToken
           };
           req.session.save(() => {
@@ -60,7 +56,6 @@ router.post("/login", async function(req, res) { //로그인 신청
               if (error) {
                 return console.error(error);
               }
-              // console.log(req.session)
               res.redirect(`/main`);    
             });
           });
@@ -111,8 +106,8 @@ router.post('/join', [
   body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
-    minLowercase : 0,
-    minUppercase : 0
+    minLowercase : 1,
+    minUppercase : 1
   }).withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value,{req, res, path}) => {
     if (value !== req.body.pw) {
