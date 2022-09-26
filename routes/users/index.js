@@ -3,7 +3,7 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('./valcheck');
-const {generateAccessToken , generateRefreshToken, authenticateToken}= require('../../passport/abouttoken')
+const {generateAccessToken , generateRefreshToken, authenticateToken, checkTokens}= require('../../passport/abouttoken')
 const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
@@ -15,7 +15,7 @@ router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
     res.render("login");
 });
 
-router.get("/admin", isLogIn, authenticateToken, (req, res) => {
+router.get("/admin", isLogIn, checkTokens, (req, res) => {
   res.render("admin");
 });
 
@@ -60,7 +60,7 @@ router.post("/login", async function(req, res) { //로그인 신청
               if (error) {
                 return console.error(error);
               }
-              // console.log(req.session)
+              console.log(req.session)
               res.redirect(`/main`);    
             });
           });

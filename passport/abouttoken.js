@@ -1,82 +1,81 @@
-require("dotenv").config();
 const jwt = require("jsonwebtoken");
-module.exports = {
-    generateAccessToken : function(payload){
-        return jwt.sign(payload, process.env.ACCESS_TOKERN_SECRET, { expiresIn: '15s' });
-    },
-    generateRefreshToken : function(payload){
-        return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: 86400 });
-    },
-    getTokenChk : async function(token, value) {
-        try {
-            let secret;
-            if (value === 'access') {
-                secret = process.env.ACCESS_TOKEN_SECRET
-            } else {
-                secret = process.env.REFRESH_TOKEN_SECRET
-            }
-            const tokenVal = await jwt.verify(token, secret);
-    
-    
-            return tokenVal;
-        } catch (err) {
-            logger.error(err);
-            logger.error("Token Verify Error");
-            return false;
-        }
-    },
-    // 토큰 재발급, 쿠키 숨기기 등등
-    authenticateToken : function (req,res,next){
-        console.log(req.session)
-        const token = req.session.passport.user.accessToken.slice(7)
-        if(token == null) return res.sendState(401)
-        jwt.verify(token, process.env.ACCESS_TOKERN_SECRET, (error, payload) => {
-        if(error) return res.redirect('/user/login')
-        next();
-        })
-    },
-    checkTokens : async function(req, res, next){
-        let user = req.session;
-        if (user.passport.user.access === undefined) throw Error('API 사용 권한이 없습니다.'); 
-        const accessToken = jwt.verify(user.passport.user.access, process.env.ACCESS_TOKERN_SECRET);
+const mdbConn = require('../db_connection/mariaDBConn')
+require("dotenv").config();
 
-        var sql = `SELECT refreshToken FROM Customers_Enterprise WHERE refreshToken = ? ;`
-        var params = [
-            user.joinUser.refreshToken
-        ]
-        mdbConn.dbSelect(sql, params)
-        .then((rows ,req, res) => {
-            if(rows){
-                const refreshToken = jwt.verify(user.passport.user.access, process.env.REFRESH_TOKERN_SECRET);
-                if(accessToken == null) {
-                    if (refreshToken === undefined) {
-                        return res.redirect('/user/login')
-                    } else {
-                        const payload = {
-                            idx : rows.id_idx
-                        };
-                        const newAccessToken = generateAccessToken(payload);
-                        req.session.passport.user.accessToken = 'Bearer ' + newAccessToken;
+function generateAccessToken(payload){
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 });
+}
+function generateRefreshToken(payload){
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: 86400 });
+}
+function getTokenChk(token, value) {
+    try {
+        let secret;
+        let TOKEN = token.slice(7)
+        if (value == 'access') {
+            secret = process.env.ACCESS_TOKEN_SECRET
+        } else {
+            secret = process.env.REFRESH_TOKEN_SECRET
+        }
+        const tokenVal =  jwt.verify(TOKEN, secret);
+        return tokenVal;
+    } catch (err) {
+        console.log(err)
+    }
+}
+function authenticateToken (req,res,next){
+    const token = req.session.passport.user.accessToken.slice(7)
+    if(token == null) return res.sendState(401)
+    jwt.verify(token, process.env.ACCESS_TOKERN_SECRET, (error, payload) => {
+    if(error) return res.redirect('/user/login')
+    next();
+    })
+}
+async function checkTokens(req, res, next){
+    let user = req.session;
+    if (user.passport.user.accessToken === undefined) throw Error(' 사용 권한이 없습니다.'); 
+
+    const accessToken = getTokenChk(user.passport.user.accessToken, 'access')
+    var sql = "SELECT refresh_token FROM Customers_Enterprise WHERE refresh_token = ? ;"
+    var params = [
+        user.joinUser.refreshToken
+    ]
+    mdbConn.dbSelect(sql, params)
+
+    const refreshToken = getTokenChk(user.joinUser.refreshToken, 'refresh')
+            if(accessToken == null) {
+                if (refreshToken === undefined) {
+                    return res.redirect('/user/login')
+                } else {
+                    const payload = {
+                        idx : rows.id_idx
+                    };
+                    const newAccessToken = generateAccessToken(payload)
+                    req.session.passport.user.accessToken = 'Bearer ' + newAccessToken;
+                    next();
+                }
+            }else {
+                if (refreshToken === undefined) {
+                    const newRefreshToken = generateRefreshToken(payload);
+                    var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
+                    var params = [newRefreshToken, user.passport.user.id];
+                    mdbConn.dbInsert(sql, params)
+                    .then((rows) => {
+                        req.session.passport.joinUser.refreshToken = 'Bearer ' + newRefreshToken;
                         next();
-                    }
-                }else {
-                    if (refreshToken === undefined) {
-                        const newRefreshToken = generateRefreshToken(payload);
-                        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
-                        var params = [newRefreshToken, user.passport.user.id];
-                        mdbConn.dbInsert(sql, params)
-                        .then((rows) => {
-                            req.session.passport.joinUser.refreshToken = 'Bearer ' + newRefreshToken;
-                            next();
-                        })
-                        .catch((errMsg) => {
-                            console.log(errMsg);
-                        });
-                    } else {
-                        next();
-                    }
+                    })
+                    .catch((errMsg) => {
+                        console.log(errMsg);
+                    });
+                } else {
+                    next();
                 }
             }
-        })
-    }
+}
+module.exports = {
+    generateAccessToken : generateAccessToken,
+    generateRefreshToken : generateRefreshToken,
+    getTokenChk : getTokenChk,
+    authenticateToken : authenticateToken,
+    checkTokens : checkTokens
 }
