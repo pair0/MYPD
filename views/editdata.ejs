@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+</head>
+<body>
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/main#scroll_about">About</a></li>
+                        <li><a href="">Mypage</a></li>
+                        <li style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                    <a class="login_box" href="/user/login" >로그인</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <main>
+        <div class="main_pic_bg">
+            <div class="city_edit"> 
+                <h1>서비스 테스트 관리</h1>
+                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
+
+                <div class="mypage_menu">
+                    <div class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </div>
+                    <!-- editdata / editmty 나눠야함 -->
+                    <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
+                    <div class="mypage_menuBtn"> 연동 테스트 </div>
+                    <div class="mypage_menuBtn"> 테스트 현황 </div>
+                </div>
+
+                <div class="mypage_box" style="padding-bottom:70px; min-width:870px;">
+                    <form class="mypage_box_form" style="margin-top:50px">
+                      <div class="mypage_box_input2">
+                        <div class="mypage_box_input_id">
+                            <div class = mypage_edit_section>
+                                <div class="mypage_edit_input">
+                                    <label for="data_name">데이터 이름</label>
+                                    <input type="text" name="data_name" class="mypage_input2" required>
+                                </div>
+                                <div class="mypage_edit_input">
+                                  <label for="biz_type">업권</label>
+                                  <select class="mypage_input2" name="biz_type" required>
+                                    <option value="finance">은행 업권</option>
+                                    <option value="commerce">전자상거래 업권</option>
+                                    <option value="tmp1">tmp1</option>
+                                    <option value="tmp2">tmp2</option>
+                                  </select>
+                                </div>
+                                
+                            </div>
+                        </div>                            
+                      </div>
+                        
+                      <div class="mypage_box_input2">
+                          <div class="mypage_box_input_id">
+                              <div class = mypage_edit_section>
+                                  <div class="mypage_edit_input">
+                                      <label for="corp_code">기관코드</label>
+                                      <input type="text" name="corp_code" class="mypage_input2" required>
+                                  </div>
+                                  <div class="mypage_edit_input">
+                                    <label for="api">API</label>
+                                    <select class="mypage_input2" name="api" required>
+                                      <option value="api1">api1</option>
+                                      <option value="api2">api2</option>
+                                      <option value="api3">api3</option>
+                                      <option value="api4">api4</option>
+                                    </select>
+                                  </div>
+                                  
+                              </div>
+                          </div>                            
+                      </div>
+
+                      <div class="mypage_box_input2">
+                          <div class="mypage_box_input_id">
+                              <div class = mypage_edit_section>
+                                  <div class="mypage_edit_input">
+                                      <label for="assetId">자산식별번호</label>
+                                      <input type="text" name="assetId" class="mypage_input2" required  >
+                                  </div>
+                                  <div class="mypage_edit_input">
+                                      <label for="data">데이터</label>
+                                      <!-- editClick() -->
+                                      <button class="dataEditBtn" type="button" onclick="sendMail()">편집하기</button>
+                                  </div>
+                              </div>
+                          </div>                            
+                      </div>    
+
+                      <div class="mypage_box_input2">
+                          <div class = dataEdit_section>
+                            <div class="mypage_btn"><button style="background-color: #888888;">취소하기</button></div>
+                            <div class="mypage_btn" style="margin-left: 20px;"><button>저장하기</button></div>
+                          </div>                      
+                      </div>
+
+
+                    </form>
+                </div>  
+            </div>
+
+        </div>
+
+    </main>
+</body>
+</html>
