@@ -15,11 +15,11 @@ router.get('/kakao/callback', (req, res, next) => {
       return next(err);
     }
       req.session.joinUser = {
-        enterprise_num : info['enterprise_num'],
-        id : info['id'],
+        enterprise_num : info['enterprise_number'],
+        id : info['e_customer_id'],
         nickname : info['nickname'],
         snsID: info['snsID'],
-        email: info['email'],
+        email: info['e_customer_email'],
         accessToken : info['accessToken']
       };
       req.session.save(() => {
@@ -28,7 +28,6 @@ router.get('/kakao/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          console.log(info)
           res.redirect(`/main`);    
         });
       });
@@ -67,19 +66,20 @@ router.get('/kakao/logout', async (req,res)=>{
   });
 })
 
-router.get('/naver', passport.authenticate('naver', { authType: 'reprompt' }));
+router.get('/naver', passport.authenticate('naver', { authType: 'reauthenticate' }));
 //? 위에서 네이버 서버 로그인이 되면, 네이버 redirect url 설정에 따라 이쪽 라우터로 오게 된다.
 router.get('/naver/callback', (req, res, next) => {
   passport.authenticate('naver', (err, user, info) => { // passport-kakao 전략 done 함수의 파라미터가 여기 콜백 함수의 인자로 전달된다.
     if (err) {
       return next(err);
     }
+    // console.log(info)
       req.session.joinUser = {
-        enterprise_num : info['enterprise_num'],
-        id : info['id'],
+        enterprise_num : info['enterprise_number'],
+        id : info['e_customer_id'],
         nickname : info['nickname'],
         snsID: info['snsID'],
-        email: info['email'],
+        email: info['e_customer_email'],
         accessToken : info['accessToken']
       };
       req.session.save(() => {
@@ -88,7 +88,6 @@ router.get('/naver/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          console.log(info)
           res.redirect(`/main`);    
         });
       });
@@ -96,7 +95,7 @@ router.get('/naver/callback', (req, res, next) => {
 });
 
 //* 구글로 로그인하기 라우터 ***********************
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] })); // 프로파일과 이메일 정보를 받는다.
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'select_account' })); // 프로파일과 이메일 정보를 받는다.
 
 //? 위에서 구글 서버 로그인이 되면, 네이버 redirect url 설정에 따라 이쪽 라우터로 오게 된다. 인증 코드를 박게됨
 router.get('/google/callback', (req, res, next) => {
@@ -105,11 +104,11 @@ router.get('/google/callback', (req, res, next) => {
       return next(err);
     }
       req.session.joinUser = {
-        enterprise_num : info['enterprise_num'],
-        id : info['id'],
+        enterprise_num : info['enterprise_number'],
+        id : info['e_customer_id'],
         nickname : info['nickname'],
         snsID: info['snsID'],
-        email: info['email'],
+        email: info['e_customer_email'],
         accessToken : info['accessToken']
       };
       req.session.save(() => {
@@ -118,7 +117,6 @@ router.get('/google/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          console.log(info)
           res.redirect(`/main`);    
         });
       });

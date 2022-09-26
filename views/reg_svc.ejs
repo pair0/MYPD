@@ -48,59 +48,63 @@
     <main>
         <div class="main_pic_bg">
             <div class="city_edit"> 
-                <h1>회원정보 수정</h1>
+                <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
 
-                <div class="mypage_box" style="padding-bottom:30px; min-width:870px;">
+                <div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
                     <form class="mypage_box_form" style="margin-top:50px">
-                        <div class="mypage_box_input2">
-                            <div class="mypage_box_input_id">
-                                <label for="id">아이디</label>
-                                <input type="text" name="id" class="mypage_input2" style="width:47%" disabled >
-                            </div>
-                        </div>
-                        
-                        <div class="mypage_box_input2">
+                        <div class="mypage_box_input2" >
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
-                                        <label for="pw">비밀번호</label>
-                                        <input type="password" name="pw" class="mypage_input2" required>
+                                        <label for="svc_name">서비스명</label>
+                                        <input type="text" name="svc_name" class="mypage_input2" required>
                                     </div>
                                     <div class="mypage_edit_input">
-                                        <label for="f_email">이메일</label>
-                                        <label for="s_email"></label>
+                                        <label for="c_id">Client ID</label>
                                         <div class="email" style="position:relative"> 
-                                            <input  class="mypage_input2" type="text" id="femail" name="f_email" required="required" autofocus="autofocus" style="width:47%;">
-                                            <span class="golbang">@</span>
-                                            <input class="mypage_input2" type="text" id="semail" name="s_email" required="required" autofocus="autofocus" style="width:47%;">
-                                            <button class="emailcheckBtn" type="button" onclick="sendMail()" style="position:absolute; margin-left:15px;">인증코드 발송</button>
+                                            <input  class="mypage_input2" type="text" id="femail" name="c_id" required="required" disabled>
+                                            <button class="emailcheckBtn" type="button" onclick="sendMail()" style="position:absolute; margin-left:15px;">key 발급</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>                            
                         </div>
-
+                        
                         <div class="mypage_box_input2">
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
-                                        <label for="pwcheck">비밀번호 재입력</label>
-                                        <input type="password" name="pwcheck" class="mypage_input2" required  >
+                                        <label for="callback">Callback URL</label>
+                                        <input type="text" name="callback" class="mypage_input2" required>
                                     </div>
                                     <div class="mypage_edit_input">
-                                        <label for="check">인증확인</label>
-                                        <input type="text" name="check" class="mypage_input2" required >
+                                        <label for="c_secret">Client Secret</label>
+                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" disabled>
                                     </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="mypage_box_input2">
+                            <div class="mypage_box_input_id">
+                                <div class = mypage_edit_section style="margin-top:30px;">
+                                    <label for="pwcheck">서비스 설명</label>
+                                    <textarea " id="name" class="input_size_con" cols="100" row="200"></textarea>
                                 </div>
                             </div>                            
                         </div>    
                         
 
-                        <div class="mypage_btn"><button>수정하기</button></div>
+                        <div class="mypage_btn">
+                            <button style="margin-right:15px; background-color:gray">취소하기</button>
+                            <button>저장하기</button>
+                        </div>
+
                     </form>
                 </div>  
             </div>
+
         </div>
 
     </main>

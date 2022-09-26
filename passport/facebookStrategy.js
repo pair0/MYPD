@@ -1,16 +1,16 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const mdbConn = require('../db_connection/mariaDBConn')
 require('dotenv').config();
 
 module.exports = () => {
     passport.use(
-    new GoogleStrategy({
-        clientID: process.env.GOOGLE_ID, // 구글 로그인에서 발급받은 REST API 키
-            clientSecret: process.env.GOOGLE_SECRET,
-            callbackURL: '/auth/google/callback', // 구글 로그인 Redirect URI 경로
+    new FacebookStrategy({
+        clientID: process.env.FACEBOOK_ID, // 구글 로그인에서 발급받은 REST API 키
+        clientSecret: process.env.FACEBOOK_SECRET,
+        callbackURL: '/auth/facebook/callback', // 구글 로그인 Redirect URI 경로
     }, async (accessToken, refreshToken, profile, done) => {
-        // console.log('google profile : ', profile);
+        console.log('facebook profile : ', profile);
         try{
             let info = {
             "enterprise_number" : "NULL",

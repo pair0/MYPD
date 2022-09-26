@@ -15,10 +15,19 @@
         <div class="top">
             <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
             <div class="menu">
-                <ul>
-                    <li><span id="menu_about">About</span></li>
-                    <li><span id="menu_contact">Contact</span></li>
-                    <li style="margin-right:80px;"><a href="">Mypage</a></li>  
+                <ul id="main-menu">
+                    <li id="menu_about" class="menu_list"><a>About</a></li>
+                    <% if(isAuthenticated){ %>
+                    <li><div class="menu_list"><a href="">Mypage</a></div>
+                        <ul id="sub-menu">
+                            <div class="sub_menu_box">
+                                <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                            </div>  
+                        </ul>
+                    </li>
+                    <% } %>
+                    <li style="margin-right: 40px;"  id="menu_contact" class="menu_list"><a>Contact</a></li>
                 </ul>
                 <% if(isAuthenticated){ %>
                     <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
@@ -41,7 +50,11 @@
                     <div class="main_first">
                         <h1><span style="font-weight:700; color:black;">mypd,<br>마이데이터의 무한한 가능성</span>을<br>열어보는 곳<br></h1>
                         <h3>mypd는 마이데이터 테스트베드를 제공함으로써<br>데이터 경제를 활성화하고자 하는 사회적 기업이에요.</h3>
-                        <a href="/testbed" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% if(isAuthenticated){ %>
+                            <a href="/testbed" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% } else { %>
+                            <a href="/user/login" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% } %>
                     </div>
                    
                 <!-- 메인소개 끝 -->

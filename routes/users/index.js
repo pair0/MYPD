@@ -3,22 +3,19 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('./valcheck');
-const {generateAccessToken , generateRefreshToken, authenticateToken }= require('../../passport/abouttoken')
+const {generateAccessToken , generateRefreshToken, authenticateToken}= require('../../passport/abouttoken')
+const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
 ;
 /* Login */
 
-router.get("/login", function (req, res, next) { // 로그인
-  if(res.locals.isAuthenticated){
-    res.redirect("/main");
-  }
-  else{
+router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
     res.render("login");
-  }
 });
-router.get("/admin", authenticateToken, (req, res) => {
+
+router.get("/admin", isLogIn, authenticateToken, (req, res) => {
   res.render("admin");
 });
 
@@ -29,7 +26,6 @@ router.post("/login", async function(req, res) { //로그인 신청
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    // console.log(result)
     bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
@@ -90,7 +86,6 @@ router.get('/logout', async function(req, res) {
             if (err)
                 console.log(err)
             else {
-              console.log("일반 로그아웃")
               req.logout(function(err) {
                 if (err) { return next(err); }
               });
@@ -107,12 +102,13 @@ router.get('/logout', async function(req, res) {
 
 /* GET users listing. */
 
-router.get("/join", function (req, res, next) { // 회원가입
+router.get("/join", isNotLogIn, (req, res, next) => { // 회원가입
   res.render("join");
 });
 
 router.post('/join', [
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
+  body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
     minLowercase : 0,
@@ -129,6 +125,7 @@ router.post('/join', [
 ], (req, res) => {
   const info = {
     "number": req.body.number,
+    "nickname" : req.body.nickname,
     "id": req.body.id,
     "email" : req.body.f_email+"@"+req.body.s_email 
   };
@@ -136,8 +133,8 @@ router.post('/join', [
     if(err) return next(err)
     info['pw'] = hash;
 
-    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?)';
-    var params = [info['number'], info['id'], info['pw'], info['email']];
+    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, nickname, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?,?)';
+    var params = [info['number'], info['nickname'], info['id'], info['pw'], info['email']];
 
     mdbConn.dbInsert(sql, params)
     .then((rows) => {
@@ -155,10 +152,33 @@ router.post('/join', [
 
 });
 
+router.post("/number_check", function(req, res, next){
+  const USE = req.body.use;
+  if(USE == "폐업자"){
+    res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
+  } else if(USE == ""){
+    res.send("등록되지 않은 사업자 번호 입니다. 사업자 번호 확인해 주세요.");
+  } else if(USE == "계속사업자"){
+    res.send("true");
+  }
+});
+
 router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
-  const id = req.body.ID;
-  var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
-  mdbConn.dbSelect(sql, id)
+  if(req.body.NUMBER != undefined){
+    const number = req.body.NUMBER;
+    var sql = "SELECT enterprise_number FROM Customers_Enterprise WHERE enterprise_number=?";
+    var params = number;
+  } else if (req.body.ID != undefined){
+    const id = req.body.ID;
+    var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_id=?";
+    var params = id;
+  } else if (req.body.NICKNAME != undefined){
+    const nickname = req.body.NICKNAME;
+    var sql = "SELECT nickname FROM Customers_Enterprise WHERE nickname=?";
+    var params = nickname;
+  }
+  
+  mdbConn.dbSelect(sql, params)
   .then((rows) => {
     if(rows){
       res.send(true);
@@ -173,7 +193,6 @@ router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
 
 router.post("/mail_send", async function (req, res, next) { //메일 발송
     const mail = req.body.mail;
-
     const number = await emailsend.sendmail(toEmail = mail).catch(console.error);
     if (number) {
         const hashAuth = await bcrypt.hash(number, 12);
@@ -206,8 +225,10 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
 });
 
 router.post("/check_all", function(req, res, next){ //회원가입 검증
-  const {checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
-  if(checkID == "false"){
+  const {Number_check, checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
+  if(Number_check == "false"){
+    res.send("사업자번호를 다시 확인하여 주세요.")
+  }else if(checkID == "false"){
     res.send("아이디를 다시 확인하여 주세요.");
   } else if(checkPW == "false"){
     res.send("비밀번호를 다시 확인하여 주세요.");
@@ -224,11 +245,11 @@ router.post("/check_all", function(req, res, next){ //회원가입 검증
 
 // ----------------------ID, PW 찾기------------------------------------------ 
 
-router.get("/find_main", function(req, res, next){ //아이디 패스워드 찾기
+router.get("/find_main", isNotLogIn, (req, res, next) => { //아이디 패스워드 찾기
   res.render("findIdpw_main");
 });
 
-router.get("/find_id", function(req, res, next){ //id 찾기
+router.get("/find_id", isNotLogIn, (req, res, next) => { //id 찾기
   res.render("findIdPer");
 });
 
@@ -251,7 +272,7 @@ router.post("/find_id", async function(req, res, next){ //id 찾기
     }
 });
 
-router.get("/findIdPer", function(req, res, next){ //id 띄우기
+router.get("/findIdPer", isNotLogIn, function(req, res, next){ //id 띄우기
   if(req.cookies.row != undefined){
       const row = req.cookies.row; 
       res.render("findIdPer_1", { ID: row });
@@ -260,11 +281,11 @@ router.get("/findIdPer", function(req, res, next){ //id 띄우기
   }
 });
 
-router.get("/find_pw", function(req, res, next){ //pw 찾기
+router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
   res.render("findPwPer");
 });
 
-router.post("/find_pw", async function(req, res, next){ //pw 찾기
+router.post("/find_pw", isNotLogIn, async function(req, res, next){ //pw 찾기
   const {find_id, f_email, s_email, email_check} = req.body;
   const info = {
     "id": find_id,
@@ -284,7 +305,7 @@ router.post("/find_pw", async function(req, res, next){ //pw 찾기
   }
 });
 
-router.get("/findPwPer", function(req, res, next){ //pw 초기화 화면
+router.get("/findPwPer", isNotLogIn, function(req, res, next){ //pw 초기화 화면
   if(req.cookies.rows != undefined){
       res.render("findPwPer_1");
   } else {
@@ -292,7 +313,7 @@ router.get("/findPwPer", function(req, res, next){ //pw 초기화 화면
   }
 });
 
-router.post("/findPwPer", function(req, res, next){ //pw 초기화 실행
+router.post("/findPwPer", isNotLogIn, function(req, res, next){ //pw 초기화 실행
   if(req.cookies.rows != undefined){
     rows = req.cookies.rows;
     const {init_pw, init_pw_check} = req.body;

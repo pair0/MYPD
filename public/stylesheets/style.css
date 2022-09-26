@@ -172,7 +172,7 @@ input::placeholder {
   padding-top: 15px;
 }
 
-.inputJBox #id, #number{
+.inputJBox #id, #number, #nickname{
   width: 350px;
   height: 30px;
   border: none;
