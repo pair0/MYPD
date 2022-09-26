@@ -975,7 +975,18 @@ div .login_box{
 }
 
 .editData_btn > button{
+    font-weight: 700;
+    font-size: 15px;
+    background-color: #007aff;
+    color: white;
+    width: 250px;
+    height: 35px;
+    border-radius:15px;
+    margin: 10px;
 }
+
+
+
 #main-menu > li {
     float: left;
     position: relative;
