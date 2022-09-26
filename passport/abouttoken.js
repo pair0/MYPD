@@ -25,8 +25,7 @@ function getTokenChk(token, value) {
 }
 function authenticateToken (req,res,next){
     const token = req.session.passport.user.accessToken.slice(7)
-    console.log(token)
-    if(token == null) return res.sendState(401)
+    if(req.session.joinUser.snsID !== null) return next();
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
         if(error) return res.redirect('/user/login')
         next();
@@ -34,7 +33,7 @@ function authenticateToken (req,res,next){
 }
 async function checkTokens(req, res, next){
     let user = req.session;
-    if (user.passport.user.accessToken === undefined) throw Error(' 사용 권한이 없습니다.'); 
+    if (req.session.joinUser.snsID !== null) return next();
 
     const accessToken = getTokenChk(user.passport.user.accessToken, 'access')
     var sql = "SELECT refresh_token FROM Customers_Enterprise WHERE refresh_token = ? ;"
