@@ -51,18 +51,15 @@
                             <div class = mypage_edit_section>
                                 <div class="mypage_edit_input">
                                     <label for="data_name">데이터 이름</label>
-                                    <input type="text" name="data_name" class="mypage_input2" required>
+                                    <input type="text" id="data_name" name="data_name"  required="required" autofocus="autofocus">
+                                    <span class="errorBox_myPage"></span>
                                 </div>
+
                                 <div class="mypage_edit_input">
-                                  <label for="biz_type">업권</label>
-                                  <select class="mypage_input2" name="biz_type" required>
-                                    <option value="finance">은행 업권</option>
-                                    <option value="commerce">전자상거래 업권</option>
-                                    <option value="tmp1">tmp1</option>
-                                    <option value="tmp2">tmp2</option>
-                                  </select>
+                                    <label for="org_code">기관코드</label>
+                                    <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                                    <span class="errorBox_myPage"></span>
                                 </div>
-                                
                             </div>
                         </div>                            
                       </div>
@@ -71,9 +68,15 @@
                           <div class="mypage_box_input_id">
                               <div class = mypage_edit_section>
                                   <div class="mypage_edit_input">
-                                      <label for="corp_code">기관코드</label>
-                                      <input type="text" name="corp_code" class="mypage_input2" required>
+                                    <label for="biz_type">업권</label>
+                                    <select class="mypage_input2" name="biz_type" required>
+                                      <option value="finance">은행 업권</option>
+                                      <option value="commerce">전자상거래 업권</option>
+                                      <option value="tmp1">tmp1</option>
+                                      <option value="tmp2">tmp2</option>
+                                    </select>
                                   </div>
+
                                   <div class="mypage_edit_input">
                                     <label for="api">API</label>
                                     <select class="mypage_input2" name="api" required>
@@ -93,7 +96,8 @@
                               <div class = mypage_edit_section>
                                   <div class="mypage_edit_input">
                                       <label for="assetId">자산식별번호</label>
-                                      <input type="text" name="assetId" class="mypage_input2" required  >
+                                      <input type="text" name="assetId" id="assetId" placeholder="   ex) 계좌번호, 카드번호" required="required" autofocus="autofocus" >
+                                      <span class="errorBox_myPage"></span>
                                   </div>
                                   <div class="mypage_edit_input">
                                       <label for="data">데이터</label>
@@ -111,13 +115,15 @@
                           </div>                      
                       </div>
 
-
                     </form>
                 </div>  
             </div>
-
         </div>
-
     </main>
+
+
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/tmp.js"></script>
+
 </body>
 </html>
