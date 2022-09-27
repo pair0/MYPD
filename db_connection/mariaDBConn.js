@@ -7,22 +7,6 @@ const con = mariadb.createPool({
     connectionLimit: process.env.connectionLimit,
     database :  process.env.database
 });
-/* <test 용도>
-async function GetUserList(database, tables){
-    let conn, rows;
-    try{
-        conn = await con.getConnection();
-        conn.query('USE '+database);
-        rows = await conn.query('SELECT * FROM '+tables);
-    }
-    catch(err){
-        throw err;
-    }
-    finally{
-        if (conn) conn.end();
-        return rows[0];
-    }
-}*/
 
 //DB insert
 async function DBInsert(sql, params){
@@ -39,6 +23,7 @@ async function DBInsert(sql, params){
         return "sucess";
     }
 }
+
 //DB select
 async function DBSelect(sql, params){
     let conn, rows;
