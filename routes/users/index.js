@@ -8,7 +8,6 @@ const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
-;
 /* Login */
 
 router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
@@ -28,7 +27,7 @@ router.post("/login", async function(req, res) { //로그인 신청
   else {
     bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
       if(!same){
-        res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.2');location.replace("/user/login")</script>`);
+        res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
       } 
       else{
         const payload = {
@@ -103,7 +102,7 @@ router.get("/join", isNotLogIn, (req, res, next) => { // 회원가입
 
 router.post('/join', [
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
-  body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}),
+  body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
     minLowercase : 1,
@@ -171,6 +170,7 @@ router.post("/check_overlap", function(req, res, next){ //ID 중복 체크
     const nickname = req.body.NICKNAME;
     var sql = "SELECT nickname FROM Customers_Enterprise WHERE nickname=?";
     var params = nickname;
+    if(req.session.joinUser.nickname == req.body.NICKNAME) return res.send(false);
   }
   
   mdbConn.dbSelect(sql, params)
@@ -204,7 +204,7 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
         const hashAuth = req.cookies.hashAuth;
         try {
             if (bcrypt.compareSync(mail_check, hashAuth)) {
-                //res.clearCookie('hashAuth');
+                res.clearCookie('hashAuth');
                 res.send("true");
             } else {
                 res.send("인증번호가 올바르지 않습니다.");
@@ -220,21 +220,38 @@ router.post("/mail_check", function mail_check (req, res, next) { //인증번호
 });
 
 router.post("/check_all", function(req, res, next){ //회원가입 검증
-  const {Number_check, checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
-  if(Number_check == "false"){
-    res.send("사업자번호를 다시 확인하여 주세요.")
-  }else if(checkID == "false"){
-    res.send("아이디를 다시 확인하여 주세요.");
-  } else if(checkPW == "false"){
-    res.send("비밀번호를 다시 확인하여 주세요.");
-  } else if(comparePW == "false"){
-    res.send("비밀번호 확인을 다시 확인하여 주세요.");
-  } else if(checkMAIL == "false"){
-    res.send("인증번호를 다시 확인하여 주세요.");
-  }else if(checkBOX == "false"){
-    res.send("기업 회원 약관 및 개인정보 수집 및 이용에 동의를 해주세요!");
-  }else{
-    res.send(true);
+  const {Number_check, checkNICKNAME, checkID, checkPW, comparePW, checkMAIL, checkBOX} = req.body;
+
+  if(checkID != undefined) {
+    if(Number_check == "false"){
+      res.send("사업자번호를 다시 확인하여 주세요.")
+    } else if(checkNICKNAME == "false"){
+      res.send("닉네임을 다시 확인하여 주세요.")
+    } else if(checkID == "false"){
+      res.send("아이디를 다시 확인하여 주세요.");
+    } else if(checkPW == "false"){
+      res.send("비밀번호를 다시 확인하여 주세요.");
+    } else if(comparePW == "false"){
+      res.send("비밀번호 확인을 다시 확인하여 주세요.");
+    } else if(checkMAIL == "false"){
+      res.send("인증번호를 다시 확인하여 주세요.");
+    } else if(checkBOX == "false"){
+      res.send("기업 회원 약관 및 개인정보 수집 및 이용에 동의를 해주세요!");
+    } else{
+      res.send(true);
+    }
+  } else if(checkID == undefined) {
+    if(checkNICKNAME == "false"){
+      res.send("닉네임을 다시 확인하여 주세요.")
+    } else if(checkPW == "false"){
+      res.send("비밀번호를 다시 확인하여 주세요.");
+    } else if(comparePW == "false"){
+      res.send("비밀번호 확인을 다시 확인하여 주세요.");
+    } else if(checkMAIL == "false"){
+      res.send("인증번호를 다시 확인하여 주세요.");
+    } else{
+      res.send(true);
+    }
   }
 });
 
