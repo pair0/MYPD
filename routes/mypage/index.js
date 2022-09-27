@@ -33,5 +33,9 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc_no');
 });
 
+router.get('/reg_link', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_link');
+});
+
 module.exports = router;
 
