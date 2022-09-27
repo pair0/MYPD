@@ -1,10 +1,11 @@
 var express = require('express')
-const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
+const { isLogIn }= require('../auth/auth')
+const { checkTokens } = require("../../passport/abouttoken");
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', isLogIn, checkTokens, function(req, res, next) {
   res.render('test');
 });
 

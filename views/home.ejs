@@ -50,7 +50,11 @@
                     <div class="main_first">
                         <h1><span style="font-weight:700; color:black;">mypd,<br>마이데이터의 무한한 가능성</span>을<br>열어보는 곳<br></h1>
                         <h3>mypd는 마이데이터 테스트베드를 제공함으로써<br>데이터 경제를 활성화하고자 하는 사회적 기업이에요.</h3>
-                        <a href="/testbed" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% if(isAuthenticated){ %>
+                            <a href="/testbed" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% } else { %>
+                            <a href="/user/login" class="main_button btn_hover">지금 무료로 이용하기</a>
+                        <% } %>
                     </div>
                    
                 <!-- 메인소개 끝 -->

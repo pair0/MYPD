@@ -56,7 +56,7 @@
                                 </div>
 
                                 <div class="mypage_edit_input">
-                                    <label for="org_code">Callback URL</label>
+                                    <label for="org_code">기관코드</label>
                                     <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
                                     <span class="errorBox_myPage"></span>
                                 </div>
@@ -68,7 +68,7 @@
                           <div class="mypage_box_input_id">
                               <div class = mypage_edit_section>
                                   <div class="mypage_edit_input">
-                                    <label for="biz_type">Client ID</label>
+                                    <label for="biz_type">업권</label>
                                     <select class="mypage_input2" name="biz_type" required>
                                       <option value="finance">은행 업권</option>
                                       <option value="commerce">전자상거래 업권</option>
@@ -78,7 +78,7 @@
                                   </div>
 
                                   <div class="mypage_edit_input">
-                                    <label for="api">Client Secret</label>
+                                    <label for="api">API</label>
                                     <select class="mypage_input2" name="api" required>
                                       <option value="api1">api1</option>
                                       <option value="api2">api2</option>
@@ -94,10 +94,15 @@
                       <div class="mypage_box_input2">
                           <div class="mypage_box_input_id">
                               <div class = mypage_edit_section>
-                                  <div class="mypage_edit_input" style="width: 100%;">
-                                      <label for="svc_exp">서비스 설명</label>
-                                      <input type="text" id="svc_exp" name="svc_exp"  placeholder="   ex) 최대 200자" required="required" autofocus="autofocus" >
+                                  <div class="mypage_edit_input">
+                                      <label for="assetId">자산식별번호</label>
+                                      <input type="text" name="assetId" id="assetId" placeholder="   ex) 계좌번호, 카드번호" required="required" autofocus="autofocus" >
                                       <span class="errorBox_myPage"></span>
+                                  </div>
+                                  <div class="mypage_edit_input">
+                                      <label for="data">데이터</label>
+                                      <!-- editClick() -->
+                                      <button class="dataEditBtn" type="button" onclick="sendMail()">편집하기</button>
                                   </div>
                               </div>
                           </div>                            

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+</head>
+<body>
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/main#scroll_about">About</a></li>
+                        <li><a href="">Mypage</a></li>
+                        <li style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                    <a class="login_box" href="/user/login" >로그인</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <main>
+        <div class="main_pic_bg">
+            <div class="city_edit"> 
+                <h1>서비스 테스트 관리</h1>
+                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
+  
+                <div class="mypage_menu">
+                  <div class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </div>
+                  <!-- editdata / editmty 나눠야함 -->
+                  <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
+                  <div class="mypage_menuBtn"> 연동 테스트 </div>
+                  <div class="mypage_menuBtn"> 테스트 현황 </div>
+                </div>
+
+                <!-- 비밀번호 재확인 -->
+                <div class="mypage_box">
+                    <div class="img">
+                        <img src="../images/sad.png" alt="">
+                    </div>
+                    <h1 class="edit_pw_check_txt">등록된 테스트 데이터가 없어요</h1>
+                    <p>테스트 데이터를 등록하고 테스트데이터를 관리하세요</p>
+                    <p>테스트데이터가 없다면 샘플데이터를  사용할 수 있어요</p>
+                    <a href="../mypage/editdata" class="editData_btn" style="margin-top: 20px; background-color: #888888;">테스트 데이터 추가하기</a>
+                    <button class="editData_btn">샘플 데이터 다운받기</button>
+
+                </div>
+
+          </div>
+        </div>
+    </main>
+</body>
+</html>
