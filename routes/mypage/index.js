@@ -19,7 +19,7 @@ router.post('/editcheck', async function(req, res, next){
   console.log(result);
   bcrypt.compare(req.body.pw_Check, result.e_customer_pw, (err, same) => {
     if(!same){
-      res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
+      res.send(`<script>alert('패스워드가 맞지 않습니다!.');location.replace("/mypage/editcheck")</script>`);
     } else{
      res.redirect('/mypage/edit'); 
     };
