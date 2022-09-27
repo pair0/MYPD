@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+</head>
+<body>
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                <div class="menu">
+                    <ul id="main-menu">
+                        <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                        <li><div class="menu_list"><a href="">Mypage</a></div>
+                            <ul id="sub-menu">
+                                <div class="sub_menu_box">
+                                    <li><a href="#" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                    <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                </div>  
+                            </ul>
+                        </li>
+                        <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                    <% if(isAuthenticated){ %>
+                        <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                        <li id="logout_btn"><p> | </p></li>
+                        <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                    <% } else { %>
+                        <a class="login_box" href="/user/login" >로그인</a>
+                    <% } %>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <main>
+        <div class="main_pic_bg">
+            <div class="city_edit"> 
+                <h1>테스트 관리</h1>
+                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
+
+                <div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
+                    <form class="mypage_box_form" style="margin-top:50px">
+                        <div class="mypage_box_input2" >
+                            <div class="mypage_box_input_id">
+                                <div class = mypage_edit_section>
+                                    <div class="mypage_edit_input">
+                                        <label for="svc_name">서비스명</label>
+                                        <input type="text" name="svc_name" class="mypage_input2" required>
+                                    </div>
+                                    <div class="mypage_edit_input">
+                                        <label for="c_id">Client ID</label>
+                                        <div class="email" style="position:relative"> 
+                                            <input  class="mypage_input2" type="text" id="femail" name="c_id" required="required" disabled>
+                                            <button class="emailcheckBtn" type="button" onclick="sendMail()" style="position:absolute; margin-left:15px;">key 발급</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        
+                        <div class="mypage_box_input2">
+                            <div class="mypage_box_input_id">
+                                <div class = mypage_edit_section>
+                                    <div class="mypage_edit_input">
+                                        <label for="callback">Callback URL</label>
+                                        <input type="text" name="callback" class="mypage_input2" required>
+                                    </div>
+                                    <div class="mypage_edit_input">
+                                        <label for="c_secret">Client Secret</label>
+                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" disabled>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="mypage_box_input2">
+                            <div class="mypage_box_input_id">
+                                <div class = mypage_edit_section style="margin-top:30px;">
+                                    <label for="pwcheck">서비스 설명</label>
+                                    <textarea " id="name" class="input_size_con" cols="100" row="200"></textarea>
+                                </div>
+                            </div>                            
+                        </div>    
+                        
+
+                        <div class="mypage_btn">
+                            <button style="margin-right:15px; background-color:gray">취소하기</button>
+                            <button>저장하기</button>
+                        </div>
+
+                    </form>
+                </div>  
+            </div>
+
+        </div>
+
+    </main>
+</body>
+</html>

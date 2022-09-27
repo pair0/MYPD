@@ -1,12 +1,10 @@
 /*변수 선언*/
 var NICKNAME = document.querySelector('#nickname');
-var ID = document.querySelector('#id');
 var PW = document.querySelector('#pw');
 var PWCheck = document.querySelector('#pw_check');
 var emailF = document.querySelector('#femail');
 var emailS = document.querySelector('#semail');
 var emailCheck = document.querySelector('#cmail');
-var input = document.querySelector('.huji .input');
 var error = document.querySelectorAll('.error_next_box');
 
 /*이벤트 핸들러 연결*/
@@ -138,6 +136,10 @@ function checkMail() {
                     alert('인증이 완료되었습니다.');
                     emailCheck.style.background = "#c7c7c7";
                     emailCheck.readOnly = true;
+                    emailF.style.background = "#c7c7c7";
+                    emailF.readOnly = true;
+                    emailS.style.background = "#c7c7c7";
+                    emailS.readOnly = true;
                 } else {
                     checkMail = false;
                     alert(data);
@@ -162,12 +164,10 @@ function checkAll() {
         type: "POST",
         async: false,
         data: {
-            "Number_check" : number_check,
-            "checkID": checkId,
+            "checkNICKNAME" : checkNickname,
             "checkPW": checkPw,
             "comparePW": comparePw,
-            "checkMAIL" : checkMail,
-            "checkBOX" : checkBox
+            "checkMAIL" : checkMail
         },
         success: function (data) {
             if (data==true) {
@@ -180,23 +180,3 @@ function checkAll() {
     })
     return result;
 }
-
-$(document).ready(function () {
-        $("#checkboxAll").click(function () {
-            if ($("#checkboxAll").is(":checked")) 
-                $("input[name=chk]").prop("checked", true);
-            else 
-                $("input[name=chk]").prop("checked", false);
-            }
-        );
-        $("input[name=chk]").click(function () {
-            var total = $("input[name=chk]").length;
-            var checked = $("input[name=chk]:checked").length;
-
-            if (total != checked) 
-                $("#checkboxAll").prop("checked", false);
-            else 
-                $("#checkboxAll").prop("checked", true);
-            }
-        );
-    });

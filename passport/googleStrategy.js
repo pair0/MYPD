@@ -10,7 +10,7 @@ module.exports = () => {
             clientSecret: process.env.GOOGLE_SECRET,
             callbackURL: '/auth/google/callback', // 구글 로그인 Redirect URI 경로
     }, async (accessToken, refreshToken, profile, done) => {
-        console.log('google profile : ', profile);
+        // console.log('google profile : ', profile);
         try{
             let info = {
             "enterprise_number" : "NULL",
