@@ -27,10 +27,6 @@ router.post('/editcheck', async function(req, res, next){
   });
 });
 
-router.get('/edit', function(req, res, next) {
-  res.render('edit');
-});
-
 router.post('/edit', [
   body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('닉네임을 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
