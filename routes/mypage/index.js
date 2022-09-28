@@ -1,4 +1,5 @@
 var express = require('express')
+const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('../users/valcheck');
@@ -98,4 +99,3 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
 });
 
 module.exports = router;
-
