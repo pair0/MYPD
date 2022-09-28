@@ -1,4 +1,5 @@
 var express = require('express')
+const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('../users/valcheck');
@@ -19,7 +20,7 @@ router.post('/editcheck', async function(req, res, next){
   console.log(result);
   bcrypt.compare(req.body.pw_Check, result.e_customer_pw, (err, same) => {
     if(!same){
-      res.send(`<script>alert('패스워드가 맞지 않습니다!.');location.replace("/mypage/editcheck")</script>`);
+      res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
     } else{
      res.redirect('/mypage/edit'); 
     };
@@ -98,4 +99,3 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
 });
 
 module.exports = router;
-
