@@ -240,10 +240,6 @@ function checkMail() {
                     alert('인증이 완료되었습니다.');
                     emailCheck.style.background = "#c7c7c7";
                     emailCheck.readOnly = true;
-                    emailF.style.background = "#c7c7c7";
-                    emailF.readOnly = true;
-                    emailS.style.background = "#c7c7c7";
-                    emailS.readOnly = true;
                 } else {
                     checkMail = false;
                     alert(data);
@@ -269,7 +265,6 @@ function checkAll() {
         async: false,
         data: {
             "Number_check" : number_check,
-            "checkNICKNAME" : checkNickname,
             "checkID": checkId,
             "checkPW": checkPw,
             "comparePW": comparePw,
@@ -289,21 +284,21 @@ function checkAll() {
 }
 
 $(document).ready(function () {
-    $("#checkboxAll").click(function () {
-        if ($("#checkboxAll").is(":checked")) 
-            $("input[name=chk]").prop("checked", true);
-        else 
-            $("input[name=chk]").prop("checked", false);
-        }
-    );
-    $("input[name=chk]").click(function () {
-        var total = $("input[name=chk]").length;
-        var checked = $("input[name=chk]:checked").length;
+        $("#checkboxAll").click(function () {
+            if ($("#checkboxAll").is(":checked")) 
+                $("input[name=chk]").prop("checked", true);
+            else 
+                $("input[name=chk]").prop("checked", false);
+            }
+        );
+        $("input[name=chk]").click(function () {
+            var total = $("input[name=chk]").length;
+            var checked = $("input[name=chk]:checked").length;
 
-        if (total != checked) 
-            $("#checkboxAll").prop("checked", false);
-        else 
-            $("#checkboxAll").prop("checked", true);
-        }
-    );
-});
+            if (total != checked) 
+                $("#checkboxAll").prop("checked", false);
+            else 
+                $("#checkboxAll").prop("checked", true);
+            }
+        );
+    });

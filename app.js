@@ -31,6 +31,11 @@ app.use(passport.session());
 app.use(function(req,res,next){
   res.locals.isAuthenticated = req.isAuthenticated();
   res.locals.currentUser = req.user;
+  res.locals.isSns = false;
+  if(req.user != undefined){
+    if(req.user.snsID != null)
+      res.locals.isSns = true;
+  }
   next();
 });
 

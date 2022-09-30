@@ -32,7 +32,6 @@ async function DBSelect(sql, params){
         rows = await conn.query(sql, params);
     }
     catch(err){
-        console.log(err)
         throw err;
     }
     finally{

@@ -80,7 +80,11 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="pw">비밀번호</label>
+                                        <% if(isSns){ %>
+                                        <input type="password" id="pw" name="pw" class="mypage_input2" >
+                                        <% } else { %>
                                         <input type="password" id="pw" name="pw" class="mypage_input2" required>
+                                        <% } %>
                                         <span class="error_next_box"></span>
                                     </div>
                                     
@@ -103,7 +107,11 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="pwcheck">비밀번호 재입력</label>
-                                        <input type="password" name="pw_check" id="pw_check" class="mypage_input2" required  >
+                                        <% if(isSns){ %>
+                                            <input type="password" name="pw_check" id="pw_check" class="mypage_input2"  >
+                                        <% } else { %>
+                                            <input type="password" name="pw_check" id="pw_check" class="mypage_input2" required  >
+                                        <% } %>
                                         <span class="error_next_box"></span>
                                     </div>
                                     <div class="mypage_edit_input">
