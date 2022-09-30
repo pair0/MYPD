@@ -28,32 +28,26 @@ function getTokenChk(token, value) {
         console.log(err)
     }
 }
-function authenticateToken (req,res,next){
-    const token = req.session.passport.user.accessToken.slice(7)
-    if(req.session.joinUser.snsID !== null) return next();
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
-        if(error) return res.redirect('/user/login')
-        next();
-    })
-}
+
+// access 토큰 및 refresh 토큰 검증
 async function checkTokens(req, res, next){
     let user = req.session;
-    if (req.session.joinUser.snsID !== null) return next();
+    if (req.session.joinUser.snsID !== null) return next();   // sns 로그인일 경우 토큰 확인 pass (Router에서 isLogin으로 accessToken 확인해줌)
 
-    const accessToken = getTokenChk(user.passport.user.accessToken, 'access')
+    const accessToken = getTokenChk(user.passport.user.accessToken, 'access')   // access 토큰 verify
     var sql = "SELECT refresh_token FROM Customers_Enterprise WHERE refresh_token = ? ;"
     var params = [
         user.joinUser.refreshToken
     ]
     mdbConn.dbSelect(sql, params)
-
-    const refreshToken = getTokenChk(user.joinUser.refreshToken, 'refresh')
+    .then((row) => {
+            const refreshToken = getTokenChk(user.joinUser.refreshToken, 'refresh')
             if(accessToken == null) {
                 if (refreshToken === undefined) {
                     return res.redirect('/user/login')
                 } else {
                     const payload = {
-                        idx : rows.id_idx
+                        idx : row.id_idx
                     };
                     const newAccessToken = generateAccessToken(payload)
                     req.session.passport.user.accessToken = 'Bearer ' + newAccessToken;
@@ -65,7 +59,7 @@ async function checkTokens(req, res, next){
                     var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
                     var params = [newRefreshToken, user.passport.user.id];
                     mdbConn.dbInsert(sql, params)
-                    .then((rows) => {
+                    .then((row) => {
                         req.session.passport.joinUser.refreshToken = 'Bearer ' + newRefreshToken;
                         next();
                     })
@@ -76,11 +70,16 @@ async function checkTokens(req, res, next){
                     next();
                 }
             }
+    }
+    
+    )
+
+
 }
 module.exports = {
     generateAccessToken : generateAccessToken,
     generateRefreshToken : generateRefreshToken,
     getTokenChk : getTokenChk,
-    authenticateToken : authenticateToken,
+    // authenticateToken : authenticateToken,
     checkTokens : checkTokens
 }
