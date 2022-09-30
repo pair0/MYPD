@@ -6,7 +6,6 @@ const {validatorErrorChecker} = require('../users/valcheck');
 const bcrypt = require('bcrypt');
 const { isLogIn, isSNSLogIn}= require('../auth/auth')
 const { checkTokens } = require("../../passport/abouttoken");
-const mdbConn = require('../../db_connection/mariaDBConn')
 
 /* GET home page. */
 router.get('/editcheck', isLogIn, isSNSLogIn, checkTokens, function(req, res, next) {
