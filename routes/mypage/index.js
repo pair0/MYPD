@@ -4,11 +4,11 @@ var router = express.Router();
 const {body} = require('express-validator');
 const {validatorErrorChecker} = require('../users/valcheck');
 const bcrypt = require('bcrypt');
-const { isLogIn }= require('../auth/auth')
+const { isLogIn, isSNSLogIn}= require('../auth/auth')
 const { checkTokens } = require("../../passport/abouttoken");
 
 /* GET home page. */
-router.get('/editcheck', isLogIn, checkTokens, function(req, res, next) {
+router.get('/editcheck', isLogIn, isSNSLogIn, checkTokens, function(req, res, next) {
   res.render('editcheck');
 });
 
@@ -25,6 +25,10 @@ router.post('/editcheck', async function(req, res, next){
      res.redirect('/mypage/edit'); 
     };
   });
+});
+
+router.get('/edit', isLogIn, checkTokens, function(req, res, next) {
+  res.render('edit');
 });
 
 router.post('/edit', [
@@ -69,9 +73,6 @@ router.post('/edit', [
   })
 });
 
-router.get('/edit', isLogIn, checkTokens, function(req, res, next) {
-  res.render('edit');
-});
 
 router.get('/editdata', isLogIn, checkTokens, function(req, res, next) {
   res.render('editdata');
