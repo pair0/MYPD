@@ -33,19 +33,19 @@ router.post("/login", async function(req, res) { //로그인 신청
         const payload = {
           idx : req.body.id_idx
         };
-        const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload,process.env.REFRESH_TOKEN_SECRET);
+        const accessToken = generateAccessToken(payload);     //access Token 발급(userid)
+        const refreshToken = generateRefreshToken(payload, process.env.REFRESH_TOKEN_SECRET);  //refresh Token 발급(userid, refresh_token_secret)
         const info = {
           refreshToken: 'Bearer ' + refreshToken,
           accessToken: 'Bearer ' + accessToken,
           e_customer_id: result[0].e_customer_id
         };
         
-        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
+        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?"; //회원 DB에 refresh 토큰 저장
         var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params)
         .then(() => {
-          req.session.joinUser = {
+          req.session.joinUser = { //refreshtoekn을 session에 저장?
             nickname : result[0].nickname,
             snsID: result[0].snsID,
             refreshToken : 'Bearer ' + refreshToken
@@ -71,7 +71,6 @@ router.get('/logout', async function(req, res) {
   var session = req.session;
   // console.log(session.joinUser)
     try {
-
         if (session.joinUser.snsID === 'kakao'){
           return res.redirect('/auth/kakao/logout')
         }
