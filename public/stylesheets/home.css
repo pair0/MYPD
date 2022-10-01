@@ -114,6 +114,7 @@ body{
     background: rgba(217, 217, 217, 0.1);
     border: 1px solid #C6C6C6;
     border-radius: 10px;
+    padding-left:15px;
 }
 
 .mypage_pwcheck > label{
@@ -922,10 +923,9 @@ div .login_box{
 
 
 .emailcheckBtn{
-    width:100px;
     font-weight: 700;
     font-size: 13px;
-    width: 91px;
+    width: 70px;
     height: 36px;
     background-color: #545454;
     color:white;
