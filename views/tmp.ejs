@@ -20,12 +20,27 @@
             <div class="top">
                 <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
                 <div class="menu">
-                    <ul>
-                        <li><a href="/main#scroll_about">About</a></li>
-                        <li><a href="">Mypage</a></li>
-                        <li style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    <ul id="main-menu">
+                        <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                        <% if(isAuthenticated){ %>
+                            <li><div class="menu_list"><a href="">Mypage</a></div>
+                                <ul id="sub-menu">
+                                    <div class="sub_menu_box">
+                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                    </div>  
+                                </ul>
+                            </li>
+                            <% } %>
+                        <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
                     </ul>
-                    <a class="login_box" href="/user/login" >로그인</a>
+                    <% if(isAuthenticated){ %>
+                        <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                        <li id="logout_btn"><p> | </p></li>
+                        <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                    <% } else { %>
+                        <a class="login_box" href="/user/login" >로그인</a>
+                    <% } %>
                 </div>
             </div>
         </nav>
@@ -44,64 +59,45 @@
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
 
-                <div class="mypage_box" style="padding-bottom:70px; min-width:870px;">
-                    <form class="mypage_box_form" style="margin-top:50px">
-                      <div class="mypage_box_input2">
-                        <div class="mypage_box_input_id">
-                            <div class = mypage_edit_section>
-                                <div class="mypage_edit_input">
-                                    <label for="data_name">데이터 이름</label>
-                                    <input type="text" id="data_name" name="data_name"  required="required" autofocus="autofocus">
-                                    <span class="errorBox_myPage"></span>
-                                </div>
+                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px;">
+                    <form class="unitTest_box_form" style="margin-top:50px">
 
-                                <div class="mypage_edit_input">
-                                    <label for="org_code">Callback URL</label>
-                                    <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
-                                    <span class="errorBox_myPage"></span>
-                                </div>
+                        <div class="unitTest_box_input">
+                            <div class="unitTest_edit_input">
+                            <label for="biz_type">서비스 선택</label>
+                            <select class="unitTest_input" name="biz_type" required>
+                                <option value="finance">은행 업권</option>
+                                <option value="commerce">전자상거래 업권</option>
+                                <option value="tmp1">tmp1</option>
+                                <option value="tmp2">tmp2</option>
+                            </select>
                             </div>
-                        </div>                            
-                      </div>
+                        </div>
+
+                        <div class="unitTest_box_input">
+                            <div class="unitTest_edit_input">
+                                <label for="org_code">Client ID</label>
+                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                                <span class="errorBox_myPage"></span>
+                            </div>                     
+                        </div>
                         
-                      <div class="mypage_box_input2">
-                          <div class="mypage_box_input_id">
-                              <div class = mypage_edit_section>
-                                  <div class="mypage_edit_input">
-                                    <label for="biz_type">Client ID</label>
-                                    <select class="mypage_input2" name="biz_type" required>
-                                      <option value="finance">은행 업권</option>
-                                      <option value="commerce">전자상거래 업권</option>
-                                      <option value="tmp1">tmp1</option>
-                                      <option value="tmp2">tmp2</option>
-                                    </select>
-                                  </div>
+                        <div class="unitTest_box_input">
+                            <div class="unitTest_edit_input">
+                                <label for="org_code">Client Secret</label>
+                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                                <span class="errorBox_myPage"></span>
+                            </div>                     
+                        </div>
 
-                                  <div class="mypage_edit_input">
-                                    <label for="api">Client Secret</label>
-                                    <select class="mypage_input2" name="api" required>
-                                      <option value="api1">api1</option>
-                                      <option value="api2">api2</option>
-                                      <option value="api3">api3</option>
-                                      <option value="api4">api4</option>
-                                    </select>
-                                  </div>
-                                  
-                              </div>
-                          </div>                            
-                      </div>
-
-                      <div class="mypage_box_input2">
-                          <div class="mypage_box_input_id">
-                              <div class = mypage_edit_section>
-                                  <div class="mypage_edit_input" style="width: 100%;">
-                                      <label for="svc_exp">서비스 설명</label>
-                                      <input type="text" id="svc_exp" name="svc_exp"  placeholder="   ex) 최대 200자" required="required" autofocus="autofocus" >
-                                      <span class="errorBox_myPage"></span>
-                                  </div>
-                              </div>
-                          </div>                            
-                      </div>    
+                        <div class="unitTest_box_input">
+                            <div class="unitTest_edit_input">
+                                <label for="org_code">접근 토큰</label>
+                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                                <span class="errorBox_myPage"></span>
+                            </div>                     
+                        </div>
+    
 
                       <div class="mypage_box_input2">
                           <div class = dataEdit_section>
@@ -112,6 +108,24 @@
 
                     </form>
                 </div>  
+
+                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px; height: 2000px;"> 
+                    <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
+                        <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1800px">로드 중…</iframe>
+                    </div>
+                </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
             </div>
         </div>
     </main>
