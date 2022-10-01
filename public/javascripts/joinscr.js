@@ -238,8 +238,6 @@ function checkMail() {
                 if (data == "true") {
                     checkMail = true;
                     alert('인증이 완료되었습니다.');
-                    emailCheck.style.background = "#c7c7c7";
-                    emailCheck.readOnly = true;
                 } else {
                     checkMail = false;
                     alert(data);
