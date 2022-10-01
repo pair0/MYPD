@@ -13,12 +13,9 @@ const options = {
             {
                 url: "http://localhost:3000", // 요청 URL
             },
-            {
-                url: "http://localhost:3333", // 요청 URL
-            },   
         ],
     },
-  apis: ["./routes/*.js", "./routes/swaggertest/svc_test.js"], //Swagger 파일 연동
+  apis: ["./routes/*.js", "./routes/v1/*.js", "./routes/v1/oauth/*.js", "./routes/v1/oauth/2.0/*.js"], //Swagger 파일 연동
 }
 const specs_svc = swaggereJsdoc(options)
 

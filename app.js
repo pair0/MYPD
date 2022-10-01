@@ -9,7 +9,7 @@ var session = require('express-session');
 var app = express();
 require('dotenv').config();
 require('./passport');
-const { swaggerUi_api, specs_api } = require("./swagger/api_test")
+// const { swaggerUi_api, specs_api } = require("./swagger/api_test")
 const { swaggerUi_svc, specs_svc } = require("./swagger/svc_test")
 
 app.set('views', path.join(__dirname, 'views'));
@@ -46,11 +46,11 @@ app.use(function(req,res,next){
 var options = {
   customCssUrl : '/stylesheets/swagger.css'
 };
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs,options))
 
- 
- app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
- 
- app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options), swaggerUi_svc.setup(specs_svc,options));
+//  app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
+
+app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options), swaggerUi_svc.setup(specs_svc,options));
 
 
 
