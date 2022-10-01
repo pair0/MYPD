@@ -71,7 +71,6 @@ router.get('/logout', async function(req, res) {
   var session = req.session;
   // console.log(session.joinUser)
     try {
-
         if (session.joinUser.snsID === 'kakao'){
           return res.redirect('/auth/kakao/logout')
         }

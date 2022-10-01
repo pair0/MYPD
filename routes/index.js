@@ -7,6 +7,7 @@ const testbed = require('./testbed');
 const about = require('./about');
 const auth = require('./auth');
 const mypage = require('./mypage');
+const swaggertest = require("./swaggertest");
 
 router.use('/main', main);
 router.use('/user', user);
@@ -14,5 +15,6 @@ router.use('/testbed', testbed);
 router.use('/about',about);
 router.use('/auth',auth);
 router.use('/mypage',mypage);
+router.use('/swaggertest',swaggertest);
 
 module.exports = router;
