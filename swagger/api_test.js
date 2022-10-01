@@ -1,4 +1,4 @@
-const swaggerUi = require("swagger-ui-express")
+const swaggerUi_api = require("swagger-ui-express")
 const swaggereJsdoc = require("swagger-jsdoc")
 
 const options = {
@@ -13,10 +13,13 @@ const options = {
             {
                 url: "http://localhost:3000", // 요청 URL
             },
+            {
+                url: "http://localhost:3333", // 요청 URL
+            },            
         ],
     },
-  apis: ["./routes/*.js", "./routes/swaggertest/*.js"], //Swagger 파일 연동
+  apis: ["./routes/*.js", "./routes/swaggertest/api_test.js"], //Swagger 파일 연동
 }
-const specs = swaggereJsdoc(options)
+const specs_api = swaggereJsdoc(options)
 
-module.exports = { swaggerUi, specs }
+module.exports = { swaggerUi_api, specs_api }
