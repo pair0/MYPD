@@ -1,14 +1,10 @@
 const router = require("express").Router()
-/**
- * @swagger
- * tags:
- *   name: Test
- *   description: MYPD API TEST
- */
+const api = require("./individual")
+
 /**
  * @swagger
  * paths:
- *  /oauth/2.0/authorize:
+ *  /v1/oauth/2.0/authorize:
  *    get:
  *      summary: "인가코드 발급 요청"
  *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
@@ -78,5 +74,9 @@ const router = require("express").Router()
  *                      example:
  *                          "fail"
  */
-router.get("/users");
+
+router.get("/authorize", api.authorization)
+
+// router.get("/token",)
+
 module.exports = router

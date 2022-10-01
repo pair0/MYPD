@@ -8,24 +8,29 @@ const { isLogIn, isNotLogIn }= require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
-/* Login */
 
-router.get("/login", isNotLogIn, (req, res, next) => { // 로그인
-    res.render("login");
-});
-
-router.get("/admin", isLogIn, checkTokens,(req, res) => { // 나중에 지울 친구!!
+// 나중에 지울 친구!!
+router.get("/admin", isLogIn, checkTokens,(req, res) => { 
   res.render("admin");
 });
 
+/* Login */
+/* 로그인, 로그인 되지 않은 상태에서만 접근 가능하도록 하기 위햐 isNotLogin 함수 정의 후 사용 (auth 폴더 안 auth.js 파일 참고)  */
+router.get("/login", isNotLogIn, (req, res, next) => { 
+    res.render("login");
+});
+
+/* 로그인시 accessToken 발급 및 DB에 refresh Token update, 세션 생성 */
 router.post("/login", async function(req, res) { //로그인 신청
-  var sql = `SELECT * FROM Customers_Enterprise WHERE e_customer_id = "${req.body.id}" ;`
-  var result = await mdbConn.loginquery(sql);
-  if (result == 0){
+  var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id = ? ;"
+  var params = [req.body.id.toString()];
+  var result = await mdbConn.dbSelect(sql,params);
+  if (result == undefined){
     res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
   } 
   else {
-    bcrypt.compare(req.body.pw, result[0].e_customer_pw, (err, same) => {
+    // bcrypt 모듈 사용해 비밀번호 hash 결과가 같은지 check
+    bcrypt.compare(req.body.pw, result.e_customer_pw, (err, same) => {  
       if(!same){
         res.send(`<script>alert('아이디 혹은 패스워드가 잘못되었습니다.');location.replace("/user/login")</script>`);
       } 
@@ -33,23 +38,27 @@ router.post("/login", async function(req, res) { //로그인 신청
         const payload = {
           idx : req.body.id_idx
         };
+        // access Token 생성 (passport 폴더의 abouttoken 파일 확인)
         const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
+        // refresh Token 생성 (passport 폴더의 abouttoken 파일 확인)
+        const refreshToken = generateRefreshToken(payload); 
         const info = {
           refreshToken: 'Bearer ' + refreshToken,
           accessToken: 'Bearer ' + accessToken,
-          e_customer_id: result[0].e_customer_id
+          e_customer_id: result.e_customer_id
         };
         
         var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
         var params = [info['refreshToken'], info['e_customer_id']];
-        mdbConn.dbInsert(sql, params)
+        mdbConn.dbInsert(sql, params) // DB에 refresh Token Update
         .then(() => {
+          // Session 정보 생성
           req.session.joinUser = {
-            nickname : result[0].nickname,
-            snsID: result[0].snsID,
+            nickname : result.nickname,
+            snsID: result.snsID,
             refreshToken : 'Bearer ' + refreshToken
           };
+          // Session 저장 및 passport 모듈 내장함수인 logIn 사용해 로그인 완료 후 main 페이지로 redirect
           req.session.save(() => {
             return req.logIn(info, (error) => {
               if (error) {
@@ -66,15 +75,16 @@ router.post("/login", async function(req, res) { //로그인 신청
     })
   }
 }) 
-
+/* 로그아웃 router */
 router.get('/logout', async function(req, res) {
   var session = req.session;
-  // console.log(session.joinUser)
     try {
+        // kakao 로그인은 로그아웃 방식이 따로 존재하기 때문에 세션 정보의 snsID가 kakao일 경우 auth폴더 안에 index.js에 정의해놓은 kakao logut 라우터 실행
         if (session.joinUser.snsID === 'kakao'){
           return res.redirect('/auth/kakao/logout')
         }
-        else  { //세션정보가 존재하는 경우
+        // kakao 외의 로그인 일 경우 세션을 지우고 passport모듈 내장 함수인 logout 기능을 이용, 그리고 마지막에 세션 쿠키를 지워주면서 완전히 로그아웃
+        else  { 
           req.session.destroy(function (err) {
             if (err)
                 console.log(err)
@@ -93,20 +103,27 @@ router.get('/logout', async function(req, res) {
     }
 });
 
-/* GET users listing. */
-
-router.get("/join", isNotLogIn, (req, res, next) => { // 회원가입
+/* 회원가입 */
+/* 회원가입시 로그인이 되어있지 않은지 체크하기 위해 isNotLogin 함수 정의 후 사용 (auth 폴더 안 auth.js 파일 참고)  */
+router.get("/join", isNotLogIn, (req, res, next) => { 
   res.render("join");
 });
 
+/* 회원가입시 데이터 유효성 검사, front에서도 검증 하지만 express-validator 모듈을 이용해 DB에 들어가기 전 한번 더 검사 */
 router.post('/join', [
+  // .notEmpty() : 값이 비어있는지 확인, 비어있지 않다면 pass, 비어 있다면 error
+  // .bail() : 만약 앞에서 error가 있다면 뒷부분은 확인하지 않고 바로 error를 return
+  // .trim() : 공백을 없애주는 기능
+  // .withmessage('message') : 에러 발생 시 메시지와 함께 에러를 띄움
+  // .isLength({min:5 , max:20}) : 최소 길이와 최대길이 지정
+  // .isAlphanumeric() : 알파벳인지 확인, 또한 ignore를 통해 예외처리
+  // .isStrongPassword() : 강력한 패스워드를 사용하는지 확인 (대문자, 소문자, 숫자, 특수문자 하나 이상씩 사용)
+  // .custom() : 내가 원하는 기능을 지정하기 위한 함수
+  // https://github.com/validatorjs/validator.js 참고
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
   body('nickname').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({min:5 , max:20}).isAlphanumeric('en-US',  {ignore: '_-'}).withMessage('id를 확인해주세요.').bail(),
-  body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword({
-    minLowercase : 1,
-    minUppercase : 1
-  }).withMessage('비밀번호를 확인해주세요.').bail(),
+  body('pw').notEmpty().bail().trim().isLength({min:8, max:16}).isAlphanumeric('en-US',  {ignore: '~!@#$%^&*()_+|<>?:{}]/;'}).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value,{req, res, path}) => {
     if (value !== req.body.pw) {
       res.redirect('/user/join')
@@ -116,12 +133,14 @@ router.post('/join', [
   }),
   validatorErrorChecker
 ], (req, res) => {
+  // 위에서 패스워드 검증이 끝났다면 DB에 회원 정보 등록
   const info = {
     "number": req.body.number,
     "nickname" : req.body.nickname,
     "id": req.body.id,
     "email" : req.body.f_email+"@"+req.body.s_email 
   };
+  // bcrypt 모듈을 이용해 password 해싱 후 저장
   bcrypt.hash(req.body.pw,10, function(err, hash) {
     if(err) return next(err)
     info['pw'] = hash;
