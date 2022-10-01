@@ -82,10 +82,6 @@ router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
   res.render('editmty');
 });
 
-/* 테스트 개발 페이지 (나중에 삭제) */
-router.get('/tmp', isLogIn, checkTokens, function(req, res, next) {
-  res.render('tmp');
-});
 
 router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc');

@@ -9,5 +9,10 @@ router.get('/', isLogIn, checkTokens, function(req, res, next) {
   res.render('test');
 });
 
+/* 테스트 개발 페이지 (나중에 삭제) */
+router.get('/tmp', isLogIn, checkTokens, function(req, res, next) {
+  res.render('tmp');
+});
+
 
 module.exports = router;

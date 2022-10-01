@@ -46,6 +46,18 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
  * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
  */
 
+/* testing swagger */
+var options={
+  customCss:'.swagger-ui .topbar{display:none} .information-container.wrapper{display:none} .scheme-container{display:none}',
+}
+
+ app.use("/authAPI", swaggerUi.serve, swaggerUi.setup(specs, options))
+ /**
+  * @path {GET} http://localhost:3000/
+  * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
+  */
+ 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
