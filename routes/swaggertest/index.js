@@ -8,7 +8,7 @@ const router = require("express").Router()
  *    get:
  *      summary: "인가코드 발급 요청"
  *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
- *      tags: [인증 API]
+ *      tags: [MydataAuthorization]
  *      parameters:
  *        - in: query
  *          name: org_code
