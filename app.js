@@ -39,8 +39,11 @@ app.use(function(req,res,next){
   }
   next();
 });
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
+var options = {
+  // customCss: '.swagger-ui .topbar { display: none }; .info .main {align-items: center; justify-content: center;}',
+  customCssUrl : '/stylesheets/swagger.css'
+};
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs,options))
 /**
  * @path {GET} http://localhost:3000/
  * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
