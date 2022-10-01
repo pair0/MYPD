@@ -12,13 +12,14 @@ var swaggerUi = require("swagger-ui-express");
 var app = express();
 require('dotenv').config();
 require('./passport');
+const { swaggerUi, specs } = require("./swagger/swagger")
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
   resave: false,
-  saveUninitialized : true,
+  saveUninitialized : false,
   secret: process.env.COOKIE_SECRET,
   rolling : true,
   cookie:{
@@ -41,6 +42,15 @@ app.use(function(req,res,next){
   }
   next();
 });
+var options = {
+  // customCss: '.swagger-ui .topbar { display: none }; .info .main {align-items: center; justify-content: center;}',
+  customCssUrl : '/stylesheets/swagger.css'
+};
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs,options))
+/**
+ * @path {GET} http://localhost:3000/
+ * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
+ */
 
 app.use(logger('dev'));
 app.use(express.json());

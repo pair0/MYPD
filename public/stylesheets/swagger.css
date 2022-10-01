@@ -1,0 +1,23 @@
+.swagger-ui .topbar { 
+    display: none ;
+}
+.info .main {
+    display: flex;
+    height: 100px;
+    align-items: center; 
+    justify-content: center;
+    background: url(../images/logo.png) center no-repeat;
+    background-size: 100% 100%;
+}
+.info .title {
+    opacity: 0;
+}
+.renderedMarkdown {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.main span{
+    display: none ;
+}

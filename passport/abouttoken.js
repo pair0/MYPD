@@ -11,7 +11,8 @@ function generateAccessToken(payload){ //access 토큰 발급
 function generateRefreshToken(payload){ //refresh 토큰 발급
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
         algorithm: 'HS256',
-        expiresIn: 86400 });
+        expiresIn: 86400 
+    });
 }
 function getTokenChk(token, value) {
     try {
