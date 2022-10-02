@@ -91,4 +91,53 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc_no');
 });
 
+//키 발급
+router.get('/key_gen',(req,res,next)=>
+{
+  function uuidv4() {
+    return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+  var key={
+    id: uuidv4(),
+    secret: uuidv4()
+  }
+  res.json(key);
+  // res.send("hello");
+})
+
+router.post('/reg_svc',(req, res, next)=>
+{
+  var svc_name = req.body.svc_name;  
+  var Callback = req.body.callback;
+  var svc_desc = req.body.svc_desc; 
+  console.log(req.user.id_idx);
+
+  
+  const info = {
+    "id": req.user.id_idx,
+    "ent_num" : req.user.enterprise_number,
+    "id": req.body.svc_name,
+    "c_id" : req.body.c_id,
+    //더 넣어야됨
+  };
+
+  // var sql = 'INSERT INTO service_test(id_idx, enterprise_number, service_name, service_client_id,service_client_secret,service_callback_url,service_text) VALUES(?,?,?,?,?,?,?)';
+  // var params = [info['id'], info['ent_num'], info['id'], info['pw'], info['email']];
+
+  // mdbConn.dbInsert(sql, params)
+  // .then((rows) => {
+  //   console.log(rows);
+  // })
+  // .catch((errMsg) => {
+  //   console.log(errMsg);
+  // });
+  console.log(req.body);
+  res.json(req.body);
+});
+
+// 서비스등록 끝
+
 module.exports = router;
