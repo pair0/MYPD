@@ -40,6 +40,21 @@ async function DBSelect(sql, params){
     }
 }
 
+async function DBSelectAll(sql, params){
+    let conn, rows;
+    try{
+        conn = await con.getConnection();
+        rows = await conn.query(sql, params);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return rows;
+    }
+}
+
 async function loginQuery(query){
     let conn, results;
     try{
@@ -55,9 +70,14 @@ async function loginQuery(query){
     }
 }
 
+
+
+
+
 module.exports = {
     //getUserList: GetUserList,
     dbInsert: DBInsert,
     loginquery: loginQuery,
-    dbSelect: DBSelect
+    dbSelect: DBSelect,
+    dbSelectall : DBSelectAll
 }

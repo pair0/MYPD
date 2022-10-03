@@ -58,7 +58,7 @@
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
                 <div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
-                    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svc">
+                    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svc" onsubmit="return event_click()">
                         <div class="mypage_box_input2" >
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
@@ -82,11 +82,11 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="callback">Callback URL</label>
-                                        <input type="text" name="callback" class="mypage_input2" required>
+                                        <input type="text" name="callback" class="mypage_input2" placeholder="ex) http://www.mypd.com" required>
                                     </div>
                                     <div class="mypage_edit_input">
                                         <label for="c_secret">Client Secret</label>
-                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" readonly>
+                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" readonly required>
                                     </div>
                                 </div>
                             </div>                            
