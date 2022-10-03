@@ -12,3 +12,11 @@ function key_gen(){
         }
     })
 }
+//키 미발급시 알림
+function event_click(){
+    if(document.getElementById("c_id").value==''){
+        alert("key를 발급 받으세요.");
+        return false;
+    }
+}
+

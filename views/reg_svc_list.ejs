@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../javascripts/svc_list.js"></script>
+
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+</head>
+<body>
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                <div class="menu">
+                    <ul id="main-menu">
+                        <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                        <% if(isAuthenticated){ %>
+                            <li><div class="menu_list"><a href="">Mypage</a></div>
+                                <ul id="sub-menu">
+                                    <div class="sub_menu_box">
+                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                    </div>  
+                                </ul>
+                            </li>
+                            <% } %>
+                        <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                    <% if(isAuthenticated){ %>
+                        <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                        <li id="logout_btn"><p> | </p></li>
+                        <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                    <% } else { %>
+                        <a class="login_box" href="/user/login" >로그인</a>
+                    <% } %>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <main>
+        <div class="main_pic_bg">
+            <div class="city_edit"> 
+                <h1>테스트 관리</h1>
+                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
+
+                <!-- 비밀번호 재확인 -->
+                <div class="mypage_box">
+                        <div class="reg_svc_list_title">
+                            현재 등록된 서비스
+                        </div>
+                        <div class="table_box">
+                            <table class="data_table">
+                                <thead>
+                                    <tr>
+                                        <th>서비스명</th>
+                                        <th>Callback URL</th>
+                                        <th>Client ID</th>
+                                        <th>설명</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mytable">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    <a class="test_manage_btn" href="/mypage/reg_svc">서비스 추가하기</a>
+                    
+            </div>
+
+        </div>
+
+    </main>
+</body>
+<script>
+
+    // var myArray = [];
+
+    // $.ajax({
+    //     url: "/mypage/svc_list",
+    //     type: "GET",
+    //     async: true,
+    //     data: {},
+    //     dataType:"json",
+    //     success: function (svc) {
+    //         myArray=svc;
+    //         console.log(myArray);
+    //         buildtable(myArray);
+    //     }
+    // })
+
+
+    // function buildtable(data){
+
+    //     for(var i=0; i< data.length;i++)
+    //     {
+    //         var table = document.getElementById('mytable')
+    //         var row = `<tr>
+    //                         <td>${data[i].service_name}</td>
+    //                         <td>${data[i].service_callback_url}</td>
+    //                         <td>${data[i].service_client_id}</td>
+    //                         <td>${data[i].service_text}</td>
+    //                     </tr>
+    //                     `
+    //         table.innerHTML +=row
+    //     }
+    //     }
+
+
+
+</script>
+</html>
