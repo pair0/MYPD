@@ -70,8 +70,19 @@ async function loginQuery(query){
     }
 }
 
+function DBCheck (req, res, next){
+    console.log(req.user.id_idx)
+    var sql = "SELECT COUNT(*) FROM service_test WHERE id_idx = ?"
+    var params = [req.user.id_idx];
 
-
+    DBSelect(sql,params)
+    .then((rows) => {
+        if(rows['COUNT(*)'] == 0) 
+            res.redirect('/mypage/reg_svc_no');
+        else
+            next();
+    })
+}
 
 
 module.exports = {
@@ -79,5 +90,6 @@ module.exports = {
     dbInsert: DBInsert,
     loginquery: loginQuery,
     dbSelect: DBSelect,
-    dbSelectall : DBSelectAll
+    dbSelectall : DBSelectAll,
+    dbCheck : DBCheck
 }

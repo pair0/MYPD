@@ -87,7 +87,7 @@ router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svc_list', isLogIn, checkTokens, function(req, res, next) {
+router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck, function(req, res, next) {
   res.render('reg_svc_list');
 });
 
@@ -114,11 +114,6 @@ router.get('/key_gen',(req,res,next)=>
 
 router.post('/reg_svc',(req, res, next)=>
 {
-  var svc_name = req.body.svc_name;  
-  var Callback = req.body.callback;
-  var svc_desc = req.body.svc_desc; 
-  console.log(req.user.id_idx);
-
   
   const info = {
     "id": req.user.id_idx,
