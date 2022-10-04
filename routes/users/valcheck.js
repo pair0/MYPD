@@ -1,6 +1,5 @@
 
 const { validationResult} = require("express-validator");
-const bcrypt = require('bcrypt');
 
 exports.validatorErrorChecker = (req, res, next) => {
     const errors = validationResult(req);
