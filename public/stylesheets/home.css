@@ -1124,10 +1124,10 @@ div .login_box{
 }
 
 .unitTest_box{
-    width:40%;
+    width:80%;
     background-color: white;
     border-radius:30px;
-    margin-top:30px;
+    margin: 30px auto;
     box-shadow: 3px 9px 14px 2px rgba(0, 0, 0, 0.1);
     display:flex;
     flex-direction: column;
@@ -1179,3 +1179,141 @@ div .login_box{
 /* ===========================================*/
 /* ========================================== */
 
+.header{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header > h1{
+    margin-top:50px;
+    font-size:35px;
+    text-align: center;
+}
+
+.header p{font-size:20px;}
+
+aside{  
+    flex-grow: 1;            
+    height:1500px;     
+    width: 20%;
+}
+
+section{   
+    flex-grow: 2;            
+    height:1500px;   
+    width: 60%;  
+    display: flex;
+    flex-direction: column;
+}
+
+.main_bg{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+.body_bg{
+    width: 100%;
+    min-height: 100%; 
+    top: -2px;
+    background: url(../images/city.png) center no-repeat;
+    background-size: cover;
+}
+
+.side_bar{            
+    position:sticky;    
+    left: 10%;   
+    top:100px;        
+    
+    margin-top: 100px;
+    padding:30px;
+
+    width: 70%;
+    height: 500px;
+
+    background-color: white;
+    border-radius:30px;
+    margin: 30px auto;
+    box-shadow: 3px 9px 14px 2px rgba(0, 0, 0, 0.1);
+
+    font-weight: 700;
+    font-size: 15px;
+}
+
+
+.dropdown {
+    /* 보더를 통해서 틀을 봐주는게 좋다 ! */
+    /* border: 1px solid #000; */
+    /* width: 200px; */
+    display: inline-block;
+}
+.dropdown-btn {
+    width: 200px;
+    /* 패딩으로 크기 늘려주기 */
+    padding: 20px 0px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #ffffff;
+    border-radius: 10px;
+    color : #000000;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* 커서를 올리면 */
+.dropdown-btn:hover{
+    font-weight: 600;
+    color: #007aff;
+    cursor:pointer;
+    display: block;
+}
+
+/* 커서를 올리고 나서 */
+.dropdown-btn:hover:after{
+    border-bottom: solid 2px  #007aff;
+    border-radius: 13px;
+    transform: scaleX(1);
+}
+
+/* 커서 내리면서 */
+.dropdown-btn:after{
+    display:block;
+    content: '';
+    border-bottom: solid 2px  #4d4d4d;  
+    border-radius: 13px;
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+}
+
+.dropdown-submenu{
+    /* border: 1px solid #000; */
+    width:200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.192);
+    display: none;
+}
+
+.dropdown-submenu a {
+    display: block;
+    padding: 7px;
+}
+
+.dropdown-submenu a:hover{
+    background-color: #eee;
+}
+/* hover 뒤에 다른 selector가 이어지면 앞이 명령의 대상, 뒤에가 style이 수행되고 적용되는 부분 */
+/* dropdown-btn 과 dropdown-sumbenu는 둘이 같은 계층이다 그래서 동작 안하는거임 (상하관계가 되어야 동작함)
+한칸을 띄운다 = 상하관계가 전제가 되어있다는거임 !!!!!*/
+
+.dropdown:hover .dropdown-submenu {
+    display: block;
+    transition : .2s ease-in-out;
+    background-color: #0cfee2;
+}
+
+
+
+.dropdown:hover:after{
+    transform: scaleX(0); 
+}
