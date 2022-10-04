@@ -11,11 +11,11 @@ function making_select() {
         },
         success: function(data){
             if(data){
-                $('input[name=C_ID]').attr('value',data.service_client_id);
-                $('input[name=C_Se]').attr('value',data.service_client_secret);
+                $('input[name=C_ID]').attr('value',data['clientid']);
+                $('input[name=C_Se]').attr('value',data['clientsecret']);
             } else {
-                $('input[name=C_ID]').removeAttr( 'value' );
-                $('input[name=C_Se]').removeAttr( 'value' );
+                $('input[name=C_ID]').removeAttr('value');
+                $('input[name=C_Se]').removeAttr('value');
             }
         }
     });

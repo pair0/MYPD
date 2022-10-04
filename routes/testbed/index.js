@@ -10,7 +10,6 @@ router.get("/", isLogIn, checkTokens, function (req, res, next) {
 });
 
 router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) {
-  console.log("와 여기" + req.user.id_idx);
   var sql = "SELECT * FROM service_test WHERE id_idx=?";
   params = req.user.id_idx;
   var rows = await mdbConn.dbSelectall(sql, params);
@@ -18,10 +17,16 @@ router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) {
   res.render("tmp");
 });
 
-router.post("/ServiceSelet", async function (req, res, next){
+router.post("/ServiceSelet", function (req, res, next){
   var data = req.body.data;
   var sql = "SELECT * FROM service_test WHERE service_id=?";
-  var rows = await mdbConn.dbSelect(sql, data);
-  res.send(rows);
+  mdbConn.dbSelect(sql, data)
+  .then((rows) => {
+    if(rows){
+      res.json({ clientid: rows.service_client_id, clientsecret: rows.service_client_secret});
+    }else {
+      res.send(false);
+    }
+  });
 });
 module.exports = router;
