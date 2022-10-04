@@ -143,11 +143,28 @@ router.post('/reg_svc',(req, res, next)=>
 
 //서비스 리스트 가져오기
 router.get('/svc_list',async function(req,res,next){
-  console.log(req.user.id_idx);
-  var sql = "select * from service_test where id_idx=97";
+  var id= req.user.id_idx;
+  var sql = `select * from service_test where id_idx=${id}`;
   var params = req.session.passport.user.id;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 });
+
+
+router.post('/svc_list_del',async function(req,res,next){
+  var id= req.user.id_idx;
+  console.log(req.body);
+  var svc_id = req.body.service_id;
+  var sql = `delete from service_test where service_id=${svc_id} and id_idx=${id};`;
+  var params = [];
+  await mdbConn.dbSelect(sql, params)
+  .then(() => {
+    console.log("success")
+    res.redirect('/mypage/reg_svc');
+  })
+});
+
+
+
 
 module.exports = router;

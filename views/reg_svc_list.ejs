@@ -30,7 +30,7 @@
                             <li><div class="menu_list"><a href="">Mypage</a></div>
                                 <ul id="sub-menu">
                                     <div class="sub_menu_box">
-                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                         <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
                                     </div>  
                                 </ul>
@@ -54,7 +54,13 @@
             <div class="city_edit"> 
                 <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
-
+                <div class="mypage_menu">
+                    <a href="../mypage/reg_svc" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
+                    <!-- editdata / editmty 나눠야함 -->
+                    <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
+                    <a href="../mypage/reg_link" class="mypage_menuBtn"> 연동 테스트 </a>
+                    <div class="mypage_menuBtn"> 테스트 현황 </div>
+                </div>
                 <!-- 비밀번호 재확인 -->
                 <div class="mypage_box">
                         <div class="reg_svc_list_title">
@@ -68,6 +74,7 @@
                                         <th>Callback URL</th>
                                         <th>Client ID</th>
                                         <th>설명</th>
+                                        <th>삭제</th>
                                     </tr>
                                 </thead>
                                 <tbody id="mytable">
@@ -83,41 +90,4 @@
 
     </main>
 </body>
-<script>
-
-    // var myArray = [];
-
-    // $.ajax({
-    //     url: "/mypage/svc_list",
-    //     type: "GET",
-    //     async: true,
-    //     data: {},
-    //     dataType:"json",
-    //     success: function (svc) {
-    //         myArray=svc;
-    //         console.log(myArray);
-    //         buildtable(myArray);
-    //     }
-    // })
-
-
-    // function buildtable(data){
-
-    //     for(var i=0; i< data.length;i++)
-    //     {
-    //         var table = document.getElementById('mytable')
-    //         var row = `<tr>
-    //                         <td>${data[i].service_name}</td>
-    //                         <td>${data[i].service_callback_url}</td>
-    //                         <td>${data[i].service_client_id}</td>
-    //                         <td>${data[i].service_text}</td>
-    //                     </tr>
-    //                     `
-    //         table.innerHTML +=row
-    //     }
-    //     }
-
-
-
-</script>
 </html>
