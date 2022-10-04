@@ -15,7 +15,7 @@ const options = {
             },
         ],
     },
-  apis: ["./routes/*.js", "./routes/v1/*.js", "./routes/v1/oauth/*.js", "./routes/v1/oauth/2.0/*.js"], //Swagger 파일 연동
+  apis: ["./routes/*.js", "./routes/v1/*.js", "./routes/v1/oauth/*.js", "./routes/v1/oauth/2.0/*.js","./routes/v1/specification/*.js","./routes/v1/diagnosis/*.js", "./routes/v1/pharmacy/*.js"], //Swagger 파일 연동
 }
 const specs_svc = swaggereJsdoc(options)
 

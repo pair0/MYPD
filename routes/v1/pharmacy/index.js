@@ -1,13 +1,13 @@
 const router = require("express").Router()
-const specification = require('./specification');
+const pharmacy = require('./pharmacy')
 /**
  * @swagger
  * paths:
- *  /v1/specification/lists:
+ *  /v1/pharmacy/lists:
  *    get:
- *      summary: "명세서 목록 조회 API"
- *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
- *      tags: [InformationProvision]
+ *      summary: "의료기관약제내역목록 조회 API"
+ *      description: "정정보주체가 특정한 전송요구 내역 조회"
+ *      tags: [Pharmacy]
  *      parameters:
  *        - in: header
  *          name: Authorization
@@ -27,11 +27,11 @@ const specification = require('./specification');
  *          description: 기관코드
  *        - in: query
  *          name: search_timestamp
- *          required: true
+ *          required: false
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
- *          description: 명세서 목록 조회
+ *          description: 전송요구내역 조회
  *          content:
  *            application/json:
  *              schema:
@@ -59,16 +59,17 @@ const specification = require('./specification');
  *                          "1234567890123456789012345"
  */
 
-router.get("/lists", specification.lists)
+router.get("/lists", pharmacy.lists)
+
 
 /**
  * @swagger
  * paths:
- *  /v1/specification/specifics:
+ *  /v1/pharmacy/histories:
  *    post:
- *      summary: "명세서 내역 조회 API"
+ *      summary: "의료기관약제내역 조회 API"
  *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
- *      tags: [InformationProvision]
+ *      tags: [Pharmacy]
  *      parameters:
  *        - in: header
  *          name: Authorization
@@ -92,11 +93,11 @@ router.get("/lists", specification.lists)
  *          description: 명세서 ID
  *        - in: query
  *          name: search_timestamp
- *          required: true
+ *          required: false
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
- *          description: 명세서 목록 조회
+ *          description: 진료내역 조회 
  *          content:
  *            application/json:
  *              schema:
@@ -114,197 +115,79 @@ router.get("/lists", specification.lists)
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    patient_name:
+ *                    prescription_diagnosis_type_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    patient_age:
+ *                    specification_certify_no:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    sex_type_code:
+ *                    division_type_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    format_type_code:
+ *                    division_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    hospital_type_code:
+ *                    united_division_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    dw_main_diagnosis_code:
+ *                    prescription_certify_organization_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    sub_diagnosis_code:
+ *                    pharmacy_division_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    diagnosis_department_code:
+ *                    medicine_standard_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    specific_sign_type_code:
+ *                    general_name_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    wound_external_type_code:
+ *                    whoatc_code:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    civil_type_code:
+ *                    medicine_effect_division_no:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    diagnosis_result_type_code:
+ *                    medicine_unit:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    treatment_commerce_date:
+ *                    unit_price_amount:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    visit_days_num:
+ *                    1time_dosage_amount:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    treatment_total_payment:
+ *                    1day_dosage_amount:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- */
-
-router.post("/specifics", specification.specifics);
-
-/**
- * @swagger
- * paths:
- *  /v1/specification/apis:
- *    get:
- *      summary: "API 목록 조회"
- *      description: "보제공자가 제공하는 정보제공 API 목록을 회신"
- *      tags: [InformationProvision]
- *      parameters:
- *        - in: header
- *          name: x-api-tran-id
- *          required: true
- *          description: 거래고유번호
- *        - in: header
- *          name: x-api-type
- *          required: true
- *          description: 정기적/비정기적 전송 API 유형
- *        - in: query
- *          name: org_code
- *          required: true
- *          description: 기관코드
- *        - in: query
- *          name: client_id
- *          required: true
- *          description: 클라이언트 식별값
- *      responses:
- *        "200":
- *          description: API 목록 조회
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                    rsp_code:
- *                      type: number
- *                      example:
- *                          "123456789"
- *                    rsp_msg:
- *                      type: string
- *                      example:
- *                          "0123456789abcdef0123456789abcdef01234567"
- *                    version:
+ *                    treat_start_date:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    min_version:
+ *                    total_dosage_day:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    api_cnt:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    api_list:
+ *                    price_amount:
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
  */
+router.post('/histories', pharmacy.histories);
 
-router.get("/apis", specification.apis)
-
-/**
- * @swagger
- * paths:
- *  /v1/specification/consents:
- *    get:
- *      summary: "전송요구내역 조회 API"
- *      description: "정정보주체가 특정한 전송요구 내역 조회"
- *      tags: [InformationProvision]
- *      parameters:
- *        - in: header
- *          name: Authorization
- *          required: true
- *          description: 접근토큰
- *        - in: header
- *          name: x-api-tran-id
- *          required: true
- *          description: 거래고유번호
- *        - in: header
- *          name: x-api-type
- *          required: true
- *          description: 정기적/비정기적 전송 API 유형
- *        - in: query
- *          name: org_code
- *          required: true
- *          description: 기관코드
- *      responses:
- *        "200":
- *          description: 전송요구내역 조회
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                    rsp_code:
- *                      type: number
- *                      example:
- *                          "123456789"
- *                    rsp_msg:
- *                      type: string
- *                      example:
- *                          "0123456789abcdef0123456789abcdef01234567"
- *                    is_scheduled:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    fnd_cycle:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    add_cycle:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    end_date:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    purpose:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- *                    period:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
- */
-
-router.get("/consents", specification.consents)
 module.exports = router

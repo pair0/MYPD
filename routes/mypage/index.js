@@ -5,7 +5,7 @@ const {body} = require('express-validator');
 const {validatorErrorChecker} = require('../users/valcheck');
 const bcrypt = require('bcrypt');
 const { isLogIn, isSNSLogIn}= require('../auth/auth')
-const { checkTokens } = require("../../passport/abouttoken");
+const { checkTokens, generateuuidv4 } = require("../../passport/abouttoken");
 
 /* GET home page. */
 router.get('/editcheck', isLogIn, isSNSLogIn, checkTokens, function(req, res, next) {
@@ -98,15 +98,9 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
 //키 발급
 router.get('/key_gen',(req,res,next)=>
 {
-  function uuidv4() {
-    return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
   var key={
-    id: uuidv4(),
-    secret: uuidv4()
+    id: generateuuidv4(),
+    secret: generateuuidv4()
   }
   res.json(key);
 })
@@ -129,13 +123,14 @@ router.post('/reg_svc',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    console.log(rows);
+    res.redirect('/mypage/reg_svc_list')
   })
   .catch((errMsg) => {
-    console.log(errMsg);
+    res.send(
+      "<script>alert('저장 실패!!');location.href='/mypage/reg_svc';</" +
+      "script>"
+    );
   });
-
-  res.json(info);
 });
 
 // 서비스등록 끝
@@ -143,11 +138,27 @@ router.post('/reg_svc',(req, res, next)=>
 
 //서비스 리스트 가져오기
 router.get('/svc_list',async function(req,res,next){
-  console.log(req.user.id_idx);
-  var sql = "select * from service_test where id_idx=97";
+  var id= req.user.id_idx;
+  var sql = `select * from service_test where id_idx=${id}`;
   var params = req.session.passport.user.id;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 });
+
+
+router.post('/svc_list_del',async function(req,res,next){
+  var id= req.user.id_idx;
+  console.log(req.body);
+  var svc_id = req.body.service_id;
+  var sql = `delete from service_test where service_id=${svc_id} and id_idx=${id};`;
+  var params = [];
+  await mdbConn.dbSelect(sql, params)
+  .then(() => {
+    res.redirect('/mypage/reg_svc');
+  })
+});
+
+
+
 
 module.exports = router;
