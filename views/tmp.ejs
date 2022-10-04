@@ -13,8 +13,10 @@
     <link rel="stylesheet" href="../stylesheets/home.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+
+
 </head>
-<body>
+<body class="body_bg">
     <div class="about_nav">
         <nav class="navigation">
             <div class="top">
@@ -45,89 +47,122 @@
             </div>
         </nav>
     </div>
-    <main>
-        <div class="main_pic_bg">
-            <div class="city_edit"> 
-                <h1>서비스 테스트 관리</h1>
-                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
 
-                <div class="mypage_menu">
-                    <div class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </div>
-                    <!-- editdata / editmty 나눠야함 -->
-                    <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
-                    <div class="mypage_menuBtn"> 연동 테스트 </div>
-                    <div class="mypage_menuBtn"> 테스트 현황 </div>
-                </div>
+    <div class="header">
+        <h1>단위테스트 페이지</h1>
+        <p>여러분의 서비스 단위 테스트 ㄱㄱ.</p>
+    </div>
 
-                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px;">
-                    <form class="unitTest_box_form" style="margin-top:50px">
+    <main class="main_bg">
 
-                        <div class="unitTest_box_input">
-                            <div class="unitTest_edit_input">
-                            <label for="biz_type">서비스 선택</label>
-                            <select class="unitTest_input" name="biz_type" required>
-                                <option value="finance">은행 업권</option>
-                                <option value="commerce">전자상거래 업권</option>
-                                <option value="tmp1">tmp1</option>
-                                <option value="tmp2">tmp2</option>
-                            </select>
-                            </div>
-                        </div>
 
-                        <div class="unitTest_box_input">
-                            <div class="unitTest_edit_input">
-                                <label for="org_code">Client ID</label>
-                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
-                                <span class="errorBox_myPage"></span>
-                            </div>                     
-                        </div>
-                        
-                        <div class="unitTest_box_input">
-                            <div class="unitTest_edit_input">
-                                <label for="org_code">Client Secret</label>
-                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
-                                <span class="errorBox_myPage"></span>
-                            </div>                     
-                        </div>
+        <!-- 왼쪽 사이드 바-->
+        <aside>   
+            <div class="side_bar">     
 
-                        <div class="unitTest_box_input">
-                            <div class="unitTest_edit_input">
-                                <label for="org_code">접근 토큰</label>
-                                <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
-                                <span class="errorBox_myPage"></span>
-                            </div>                     
-                        </div>
-    
-
-                      <div class="mypage_box_input2">
-                          <div class = dataEdit_section>
-                            <div class="mypage_btn"><button style="background-color: #888888;">취소하기</button></div>
-                            <div class="mypage_btn" style="margin-left: 20px;"><button>저장하기</button></div>
-                          </div>                      
-                      </div>
-
-                    </form>
-                </div>  
-
-                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px; height: 2000px;"> 
-                    <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
-                        <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1800px">로드 중…</iframe>
+                <div class="dropdown">
+                    <button class="dropdown-btn">마이데이터 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ단위테스트</a>
+                        <a href="#none">ㄴ통합테스트</a>
+                        <a href="#none">ㄴ연동테스트</a>
                     </div>
                 </div>
 
-
-
+                
+                <div class="dropdown">
+                    <button class="dropdown-btn">API 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ단위테스트</a>
+                        <a href="#none">ㄴ통합테스트</a>
+                        <a href="#none">ㄴ연동테스트</a>
+                    </div>
                 </div>
 
+                <div class="dropdown">
+                    <button class="dropdown-btn">테스트 관리</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ테스트 데이터 관리</a>
+                        <a href="#none">ㄴ테스트 서비스 관리</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">테스트 내역 조회</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ마이데이터 서비스 테스트</a>
+                        <a href="#none">ㄴAPI 서버 테스트</a>
+                    </div>
+                </div>
+            </div>    
+            <div class="btm_rect"></div>
+        </aside>
+
+        <!-- 중앙 내용 -->
+        <section>
+            <div class="unitTest_box">
+                <form class="unitTest_box_form" style="margin-top:50px">
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                        <label for="biz_type">서비스 선택</label>
+                        <select class="unitTest_input" name="biz_type" required>
+                            <option value="finance">은행 업권</option>
+                            <option value="commerce">전자상거래 업권</option>
+                            <option value="tmp1">tmp1</option>
+                            <option value="tmp2">tmp2</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Client ID</label>
+                            <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+                    
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Client Secret</label>
+                            <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">접근 토큰</label>
+                            <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
 
 
+                  <div class="mypage_box_input2">
+                      <div class = dataEdit_section>
+                        <div class="mypage_btn"><button style="background-color: #888888;">취소하기</button></div>
+                        <div class="mypage_btn" style="margin-left: 20px;"><button>저장하기</button></div>
+                      </div>                      
+                  </div>
 
+                </form>
+            </div>  
 
-
-
-
+            <!-- SWAGger UI-->
+            <div class="unitTest_box" style="padding-bottom:70px; min-width:870px; height: 1000px;"> 
+                <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
+                    <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+                </div>
             </div>
-        </div>
+
+            
+        </section>        
+
+
+        <!-- 오른쪽 사이드바 -->
+        <aside></aside>
+
     </main>
 
 
