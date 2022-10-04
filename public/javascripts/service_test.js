@@ -3,19 +3,19 @@ function making_select() {
     var service_select=$("#biz_type").val();
     
     $.ajax({
-        url: "/user/number_check",
+        url: "/testbed/ServiceSelet",
         type: "POST",
         async: false, 
         data: {
             "data": service_select
         },
-        success: function(result3){
-            if(result3 == "true"){
-                alert("사용 가능한 사업자번호입니다.");
-                number_check = true;
+        success: function(data){
+            if(data){
+                $('input[name=C_ID]').attr('value',data.service_client_id);
+                $('input[name=C_Se]').attr('value',data.service_client_secret);
             } else {
-                alert(result3);
-                number_check = false;
+                $('input[name=C_ID]').removeAttr( 'value' );
+                $('input[name=C_Se]').removeAttr( 'value' );
             }
         }
     });
