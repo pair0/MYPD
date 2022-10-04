@@ -1,4 +1,4 @@
-var express = require("express");
+ var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
 const { isLogIn } = require("../auth/auth");
@@ -17,6 +17,13 @@ router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) {
   res.locals.service_select = rows;
   res.render("tmp");
 });
+
+
+router.get('/unit_svc', isLogIn, checkTokens, function(req, res, next) {
+  res.render('unit_svc');
+});
+
+
 
 router.post("/ServiceSelet", async function (req, res, next){
   var data = req.body.data;
