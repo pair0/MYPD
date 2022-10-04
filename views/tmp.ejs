@@ -103,12 +103,12 @@
                 <form class="unitTest_box_form">
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
-                        <label for="biz_type">API 서버 선택</label>
-                        <select class="unitTest_input" name="svr_unittest" required>
-                            <option value="finance">은행 업권</option>
-                            <option value="commerce">전자상거래 업권</option>
-                            <option value="tmp1">tmp1</option>
-                            <option value="tmp2">tmp2</option>
+                        <label for="biz_type">서비스 선택</label>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
+                            <option>서비스 선택</option>
+                            <% for(var i=0; i<service_select.length; i++){ %>
+                            <option value=<%=service_select[i].service_id%>><%=service_select[i].service_name%></option>
+                            <% } %>
                         </select>
                         </div>
                     </div>
