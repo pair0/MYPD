@@ -40,6 +40,21 @@ async function DBSelect(sql, params){
     }
 }
 
+async function DBSelectAll(sql, params){
+    let conn, rows;
+    try{
+        conn = await con.getConnection();
+        rows = await conn.query(sql, params);
+    }
+    catch(err){
+        throw err;
+    }
+    finally{
+        if (conn) conn.end();
+        return rows;
+    }
+}
+
 async function loginQuery(query){
     let conn, results;
     try{
@@ -55,9 +70,26 @@ async function loginQuery(query){
     }
 }
 
+function DBCheck (req, res, next){
+    console.log(req.user.id_idx)
+    var sql = "SELECT COUNT(*) FROM service_test WHERE id_idx = ?"
+    var params = [req.user.id_idx];
+
+    DBSelect(sql,params)
+    .then((rows) => {
+        if(rows['COUNT(*)'] == 0) 
+            res.redirect('/mypage/reg_svc_no');
+        else
+            next();
+    })
+}
+
+
 module.exports = {
     //getUserList: GetUserList,
     dbInsert: DBInsert,
     loginquery: loginQuery,
-    dbSelect: DBSelect
+    dbSelect: DBSelect,
+    dbSelectall : DBSelectAll,
+    dbCheck : DBCheck
 }

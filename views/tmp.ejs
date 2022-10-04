@@ -65,11 +65,11 @@
                         <div class="unitTest_box_input">
                             <div class="unitTest_edit_input">
                             <label for="biz_type">서비스 선택</label>
-                            <select class="unitTest_input" name="biz_type" onclick="making_select()" required>
-                                <option value="finance">은행 업권</option>
-                                <option value="commerce">전자상거래 업권</option>
-                                <option value="tmp1">tmp1</option>
-                                <option value="tmp2">tmp2</option>
+                            <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
+                                <option value="undefined">서비스 선택</option>
+                                <% for(var i=0; i<service_select.length; i++){ %>
+                                <option value=<%=i%>><%=service_select[i].service_name%></option>
+                                <% } %>
                             </select>
                             </div>
                         </div>
@@ -109,9 +109,9 @@
                     </form>
                 </div>  
 
-                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px;"> 
+                <div class="unitTest_box" style="padding-bottom:70px; min-width:870px; height: 2000px;"> 
                     <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
-                        <iframe src="http://localhost:3000/authAPI" style="border: 0px; background-color: #ffffff;"  width="800" height="500">로드 중…</iframe>
+                        <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1800px">로드 중…</iframe>
                     </div>
                 </div>
 

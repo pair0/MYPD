@@ -26,7 +26,7 @@
                             <li><div class="menu_list"><a href="">Mypage</a></div>
                                 <ul id="sub-menu">
                                     <div class="sub_menu_box">
-                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                         <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
                                     </div>  
                                 </ul>
@@ -50,9 +50,15 @@
             <div class="city_edit"> 
                 <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
-
+                <div class="mypage_menu">
+                    <a href="../mypage/reg_svc" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
+                    <!-- editdata / editmty 나눠야함 -->
+                    <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
+                    <a href="../mypage/reg_link" class="mypage_menuBtn"> 연동 테스트 </a>
+                    <div class="mypage_menuBtn"> 테스트 현황 </div>
+                </div>
                 <div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
-                    <form class="mypage_box_form" style="margin-top:50px">
+                    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svc" onsubmit="return event_click()">
                         <div class="mypage_box_input2" >
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
@@ -63,8 +69,8 @@
                                     <div class="mypage_edit_input">
                                         <label for="c_id">Client ID</label>
                                         <div class="email" style="position:relative"> 
-                                            <input  class="mypage_input2" type="text" id="femail" name="c_id" required="required" disabled>
-                                            <button class="emailcheckBtn" type="button" onclick="sendMail()" style="position:absolute; margin-left:15px;">key 발급</button>
+                                            <input  class="mypage_input2" type="text" id="c_id" name="c_id" required="required" readonly>
+                                            <button onclick="key_gen()" class="emailcheckBtn key" type="button" style="position:absolute; margin-left:15px;">key 발급</button>
                                         </div>
                                     </div>
                                 </div>
@@ -76,11 +82,11 @@
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
                                         <label for="callback">Callback URL</label>
-                                        <input type="text" name="callback" class="mypage_input2" required>
+                                        <input type="text" name="callback" class="mypage_input2" placeholder="ex) http://www.mypd.com" required>
                                     </div>
                                     <div class="mypage_edit_input">
                                         <label for="c_secret">Client Secret</label>
-                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" disabled>
+                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" readonly required>
                                     </div>
                                 </div>
                             </div>                            
@@ -90,7 +96,7 @@
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section style="margin-top:30px;">
                                     <label for="pwcheck">서비스 설명</label>
-                                    <textarea " id="name" class="input_size_con" cols="100" row="200"></textarea>
+                                    <textarea  name="svc_desc" class="input_size_con" cols="100" row="200"></textarea>
                                 </div>
                             </div>                            
                         </div>    
@@ -98,8 +104,10 @@
 
                         <div class="mypage_btn">
                             <button style="margin-right:15px; background-color:gray">취소하기</button>
-                            <button>저장하기</button>
+                            <button type="submit" style="cursor:pointer;">저장하기</button>
                         </div>
+
+                    
 
                     </form>
                 </div>  
@@ -108,5 +116,8 @@
         </div>
 
     </main>
+
+<script src="../javascripts/key.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </body>
 </html>

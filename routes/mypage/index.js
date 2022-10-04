@@ -81,17 +81,89 @@ router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
   res.render('editmty');
 });
 
-/* 테스트 개발 페이지 (나중에 삭제) */
-router.get('/tmp', isLogIn, checkTokens, function(req, res, next) {
-  res.render('tmp');
-});
 
 router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc');
 });
 
+router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck, function(req, res, next) {
+  res.render('reg_svc_list');
+});
+
 router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc_no');
 });
+
+//키 발급
+router.get('/key_gen',(req,res,next)=>
+{
+  function uuidv4() {
+    return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+  var key={
+    id: uuidv4(),
+    secret: uuidv4()
+  }
+  res.json(key);
+})
+//키 발급
+
+router.post('/reg_svc',(req, res, next)=>
+{
+  
+  const info = {
+    "id": req.user.id_idx,
+    "svc_name": req.body.svc_name,
+    "c_id" : req.body.c_id,
+    "callback" : req.body.callback,
+    "c_secret" : req.body.c_secret,
+    "svc_desc" : req.body.svc_desc,
+  };
+
+  var sql = 'INSERT INTO service_test(service_name, service_client_id,service_client_secret,service_callback_url,service_text,id_idx) VALUES(?,?,?,?,?,?)';
+  var params = [info['svc_name'], info['c_id'], info['c_secret'], info['callback'], info['svc_desc'],info['id']];
+
+  mdbConn.dbInsert(sql, params)
+  .then((rows) => {
+    console.log(rows);
+  })
+  .catch((errMsg) => {
+    console.log(errMsg);
+  });
+
+  res.json(info);
+});
+
+// 서비스등록 끝
+
+
+//서비스 리스트 가져오기
+router.get('/svc_list',async function(req,res,next){
+  var id= req.user.id_idx;
+  var sql = `select * from service_test where id_idx=${id}`;
+  var params = req.session.passport.user.id;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+
+router.post('/svc_list_del',async function(req,res,next){
+  var id= req.user.id_idx;
+  console.log(req.body);
+  var svc_id = req.body.service_id;
+  var sql = `delete from service_test where service_id=${svc_id} and id_idx=${id};`;
+  var params = [];
+  await mdbConn.dbSelect(sql, params)
+  .then(() => {
+    console.log("success")
+    res.redirect('/mypage/reg_svc');
+  })
+});
+
+
+
 
 module.exports = router;

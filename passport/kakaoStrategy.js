@@ -14,7 +14,7 @@ module.exports = () => {
         let info = {
         "enterprise_number" : "NULL",
         "e_customer_id" : profile.id,
-        "nickname" : profile.displayname,
+        "nickname" : profile.displayName,
         "e_customer_email" : profile._json.kakao_account.email,
         "snsID" : "kakao",
         accessToken : accessToken

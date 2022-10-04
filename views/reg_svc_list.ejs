@@ -6,9 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYPD 마이데이터의 첫걸음</title>
 
-    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../javascripts/svc_list.js"></script>
+
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    
     <!-- CSS -->
     <link rel="stylesheet" href="../stylesheets/home.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
@@ -26,7 +30,7 @@
                             <li><div class="menu_list"><a href="">Mypage</a></div>
                                 <ul id="sub-menu">
                                     <div class="sub_menu_box">
-                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                         <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
                                     </div>  
                                 </ul>
@@ -51,7 +55,7 @@
                 <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
                 <div class="mypage_menu">
-                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
+                    <a href="../mypage/reg_svc" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
                     <a href="../mypage/editdata" class="mypage_menuBtn" >테스트 데이터 관리</a>
                     <a href="../mypage/reg_link" class="mypage_menuBtn"> 연동 테스트 </a>
@@ -59,11 +63,25 @@
                 </div>
                 <!-- 비밀번호 재확인 -->
                 <div class="mypage_box">
-                    <div class="img">
-                        <img src="../images/sad.png" alt="">
-                    </div>
-                    <h1 class="edit_pw_check_txt">등록된 서비스가 없어요.</h1>
-                    <p>서비스를 등록하고 mypd테스트베드를 이용해보세요!</p>
+                        <div class="reg_svc_list_title">
+                            현재 등록된 서비스
+                        </div>
+                        <div class="table_box">
+                            <table class="data_table">
+                                <thead>
+                                    <tr>
+                                        <th>서비스명</th>
+                                        <th>Callback URL</th>
+                                        <th>Client ID</th>
+                                        <th>설명</th>
+                                        <th>삭제</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mytable">
+
+                                </tbody>
+                            </table>
+                        </div>
                     <a class="test_manage_btn" href="/mypage/reg_svc">서비스 추가하기</a>
                     
             </div>

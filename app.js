@@ -9,7 +9,8 @@ var session = require('express-session');
 var app = express();
 require('dotenv').config();
 require('./passport');
-const { swaggerUi, specs } = require("./swagger/swagger")
+const { swaggerUi_api, specs_api } = require("./swagger/api_test")
+const { swaggerUi_svc, specs_svc } = require("./swagger/svc_test")
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,15 +40,18 @@ app.use(function(req,res,next){
   }
   next();
 });
+
+
+
 var options = {
-  // customCss: '.swagger-ui .topbar { display: none }; .info .main {align-items: center; justify-content: center;}',
   customCssUrl : '/stylesheets/swagger.css'
 };
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs,options))
-/**
- * @path {GET} http://localhost:3000/
- * @description 요청 데이터 값이 없고 반환 값이 있는 GET Method
- */
+
+app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
+
+app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options), swaggerUi_svc.setup(specs_svc,options));
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
