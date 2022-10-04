@@ -57,7 +57,7 @@ body{
     flex-direction: column;
     align-items: center;
     min-width: 607px;
-    padding-bottom:130px;
+    padding-bottom:30px;
 }
 
 
@@ -1179,6 +1179,7 @@ div .login_box{
 /* ===========================================*/
 /* ========================================== */
 
+<<<<<<< HEAD
 .header{
     width: 100%;
     text-align: center;
@@ -1317,3 +1318,45 @@ section{
 .dropdown:hover:after{
     transform: scaleX(0); 
 }
+=======
+/*리스트*/
+
+.table_box{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+    margin-top:20px;
+}
+.data_table {
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 1px solid rgb(222, 226, 230);
+    border-radius: 0.25rem;
+    width:70%;
+    align-items: center;
+    border-collapse: collapse;
+}
+
+.table_box td, th{
+    border:1px solid rgb(222, 226, 230);
+    padding:10px;
+    text-align: left;
+}
+
+.table_box th{
+    border-bottom: 1px solid #000000;
+}
+
+.table_box tbody tr:hover{
+    background-color: #adadad3c;
+}
+
+.reg_svc_list_title{
+    padding:30px 0 15px;
+    font-size: 20px;
+    font-weight: 600;
+}
+>>>>>>> e5aff8b90252345e61a552dcfe56989cd72069da
