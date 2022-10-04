@@ -1125,10 +1125,10 @@ div .login_box{
 }
 
 .unitTest_box{
-    width:40%;
+    width:80%;
     background-color: white;
     border-radius:30px;
-    margin-top:30px;
+    margin: 30px auto;
     box-shadow: 3px 9px 14px 2px rgba(0, 0, 0, 0.1);
     display:flex;
     flex-direction: column;
@@ -1180,7 +1180,160 @@ div .login_box{
 /* ===========================================*/
 /* ========================================== */
 
-/*리스트*/
+.header{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header > h1{
+    margin-top:50px;
+    font-size:35px;
+    text-align: center;
+}
+
+.header p{font-size:20px;}
+
+aside{  
+    flex-grow: 1;            
+    height:1500px;     
+    width: 20%;
+}
+
+section{   
+    flex-grow: 2;            
+    height:1500px;   
+    width: 60%;  
+    display: flex;
+    flex-direction: column;
+}
+
+.main_bg{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+.body_bg{
+    width: 100%;
+    min-height: 100%; 
+    top: -2px;
+    background: url(../images/city.png) center no-repeat;
+    background-size: cover;
+}
+
+.side_bar{            
+    position:sticky;    
+    left: 10%;   
+    top:100px;        
+    margin-top: 100px;
+    padding:30px;
+    width: 75%;
+    min-width: 266px;
+    height: 500px;
+
+
+    border: solid 3px  #0C61FE;  
+    background-color: white;
+    border-radius:30px;
+    margin: 30px auto;
+    margin-bottom: 0px;
+    box-shadow: 3px 9px 14px 2px rgba(0, 0, 0, 0.1);
+
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.btm_rect {    
+    position:sticky;    
+    left: 10%;   
+    top:540px;        
+    margin-top: -50px;
+    padding:30px;
+    max-height: 30px;
+    width: 75%;
+    min-width: 266px;
+    background: #0C61FE;
+    box-shadow: 0px 4px 23px -4px rgb(0 0 0 / 25%);
+    border-radius: 0px 0px 30px 30px;
+    align-self: flex-end;
+}
+
+.dropdown {
+    display: inline-block;
+}
+.dropdown-btn {
+    width: 230px;
+    /* 패딩으로 크기 늘려주기 */
+    margin: 15px 0px;
+    padding: 5px 5px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #ffffff;
+    border-radius: 3px;
+    color : #000000;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* 커서를 올리면 */
+.dropdown-btn:hover{
+    background-color: #007aff;
+    font-weight: 600;
+    color: #ffffff;
+    cursor:pointer;
+    display: block;
+}
+
+/* 커서를 올리고 나서 */
+.dropdown-btn:hover:after{
+    border-bottom: solid 2px  #ffffff;
+    border-radius: 13px;
+    transform: scaleX(1);
+}
+
+/* 커서 내리면서 */
+.dropdown-btn:after{
+    display:block;
+    content: '';
+    border-bottom: solid 2px  #4d4d4d;  
+    border-radius: 13px;
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+}
+
+.dropdown-submenu{
+    /* border: 1px solid #000; */
+    width:200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.192);
+    display: none;
+}
+
+.dropdown-submenu a {
+    display: block;
+    padding: 7px;
+}
+
+.dropdown-submenu a:hover{
+    background-color: #eee;
+}
+
+.dropdown:hover .dropdown-submenu {
+    display: block;
+    transform: scaleX(1);
+}
+
+.dropdown:hover:after .dropdown-submenu {
+    display: block;
+    transform: scaleX(0);
+    transition : .2s ease-in-out;
+}
+
+
+/* ===========================================*/
+/* ========================================== */
+
 
 .table_box{
     display:flex;
