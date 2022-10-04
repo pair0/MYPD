@@ -107,7 +107,7 @@
                         <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
                             <option value="undefined">서비스 선택</option>
                             <% for(var i=0; i<service_select.length; i++){ %>
-                            <option value=<%=i%>><%=service_select[i].service_name%></option>
+                            <option value=<%=service_select[i].service_id%>><%=service_select[i].service_name%></option>
                             <% } %>
                         </select>
                         </div>
@@ -116,7 +116,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client ID</label>
-                            <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                            <input type="text" id="org_code" name="C_ID" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -124,7 +124,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client Secret</label>
-                            <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                            <input type="text" id="org_code" name="C_Se" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
