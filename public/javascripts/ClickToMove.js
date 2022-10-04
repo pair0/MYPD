@@ -20,5 +20,5 @@ $('.input_size_con').keyup(function(){
       $(this).val(content.substring(0, 1000));
       $('.text_box .count span').html(1000);
     }
-  });
+});
 
