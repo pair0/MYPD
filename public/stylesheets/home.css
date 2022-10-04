@@ -81,7 +81,7 @@ body{
     width:130px;
     display:flex;
     flex-direction: column;
-    margin-top:120px;
+    margin-top:60px;
 }
 
 .mypage_box > h1{
@@ -1031,6 +1031,25 @@ div .login_box{
     cursor:pointer;
 }
 
+.mypage_menuBtnnow{
+    margin:10px auto;
+    font-weight: 900;
+    color: #007aff;
+    cursor:pointer;
+    display: block;
+    height: 30px;
+    font-size: 16px;
+    cursor:pointer;
+}
+
+.mypage_menuBtnnow:after{
+    border-bottom: solid 2px  #007aff;  
+    border-radius: 13px;
+    transform: scaleX(1);
+}
+
+
+
 /* 커서를 올리면 */
 .mypage_menuBtn:hover{
     margin:10px auto;
@@ -1389,3 +1408,7 @@ section{
     width:65px;
     margin:0;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
