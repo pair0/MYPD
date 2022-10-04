@@ -73,7 +73,6 @@ router.post('/edit', [
   })
 });
 
-
 router.get('/editdata', isLogIn, checkTokens, function(req, res, next) {
   res.render('editdata');
 });

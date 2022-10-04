@@ -48,7 +48,7 @@ router.post("/login", async function(req, res) { //로그인 신청
           e_customer_id: result.e_customer_id
         };
         
-        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?";
+        var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?"; //회원 DB에 refresh 토큰 저장
         var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params) // DB에 refresh Token Update
         .then(() => {

@@ -134,12 +134,6 @@ function checkMail() {
                 if (data == "true") {
                     checkMail = true;
                     alert('인증이 완료되었습니다.');
-                    emailCheck.style.background = "#c7c7c7";
-                    emailCheck.readOnly = true;
-                    emailF.style.background = "#c7c7c7";
-                    emailF.readOnly = true;
-                    emailS.style.background = "#c7c7c7";
-                    emailS.readOnly = true;
                 } else {
                     checkMail = false;
                     alert(data);

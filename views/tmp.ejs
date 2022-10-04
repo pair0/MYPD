@@ -55,7 +55,6 @@
 
     <main class="main_bg">
 
-
         <!-- 왼쪽 사이드 바-->
         <aside>   
             <div class="side_bar">     
@@ -105,11 +104,11 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                         <label for="biz_type">서비스 선택</label>
-                        <select class="unitTest_input" name="biz_type" required>
-                            <option value="finance">은행 업권</option>
-                            <option value="commerce">전자상거래 업권</option>
-                            <option value="tmp1">tmp1</option>
-                            <option value="tmp2">tmp2</option>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
+                            <option value="undefined">서비스 선택</option>
+                            <% for(var i=0; i<service_select.length; i++){ %>
+                            <option value=<%=i%>><%=service_select[i].service_name%></option>
+                            <% } %>
                         </select>
                         </div>
                     </div>
@@ -167,7 +166,7 @@
 
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="../javascripts/tmp.js"></script>
+    <script src="../javascripts/service_test.js"></script>
 
 </body>
 </html>
