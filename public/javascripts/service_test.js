@@ -1,5 +1,4 @@
 function making_select() {
-    console.log("맞아 바로 여기야");
     var service_select=$("#biz_type").val();
     
     $.ajax({
