@@ -372,7 +372,7 @@ router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
   res.render("findPwPer");
 });
 
-router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
+router.get("/find_Cpw", isNotLogIn, function(req, res, next){ //pw 찾기
   res.render("findPwCor");
 });
 
