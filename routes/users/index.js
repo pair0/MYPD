@@ -109,6 +109,15 @@ router.get("/join", isNotLogIn, (req, res, next) => {
   res.render("join");
 });
 
+router.get("/join_main", isNotLogIn, (req, res, next) => { 
+  res.render("join_main");
+});
+
+router.get("/Pjoin", isNotLogIn, (req, res, next) => { 
+  res.render("join_Per");
+});
+
+
 /* 회원가입시 데이터 유효성 검사, front에서도 검증 하지만 express-validator 모듈을 이용해 DB에 들어가기 전 한번 더 검사 */
 router.post('/join', [
   // .notEmpty() : 값이 비어있는지 확인, 비어있지 않다면 pass, 비어 있다면 error
@@ -279,11 +288,14 @@ router.get("/find_main", isNotLogIn, (req, res, next) => { //아이디 패스워
   res.render("findIdpw_main");
 });
 
-router.get("/find_id", isNotLogIn, (req, res, next) => { //id 찾기
+// ====== 개인회원 아이디 찾기 ======
+
+router.get("/find_id", isNotLogIn, (req, res, next) => {
   res.render("findIdPer");
 });
 
-router.post("/find_id", async function(req, res, next){ //id 찾기
+
+router.post("/find_id", async function(req, res, next){
     const {f_email, s_email, email_check} = req.body;
     mail = f_email+"@"+s_email;
     const hashAuth = req.cookies.hashAuth;
@@ -302,6 +314,38 @@ router.post("/find_id", async function(req, res, next){ //id 찾기
     }
 });
 
+// ==================================
+
+// ====== 기업회원 아이디 찾기 ======
+
+router.get("/find_Cid", isNotLogIn, (req, res, next) => {
+  res.render("findIdCor");
+});
+
+//const {biz_reg} 추가해야함
+router.post("/find_Cid", async function(req, res, next){
+  const {f_email, s_email, email_check} = req.body;
+  mail = f_email+"@"+s_email;
+  const hashAuth = req.cookies.hashAuth;
+  try {
+      if (bcrypt.compareSync(email_check, hashAuth)) {
+          var sql = "SELECT e_customer_id FROM Customers_Enterprise WHERE e_customer_email=?"
+          var rows = await mdbConn.dbSelect(sql, mail);
+          rows = rows.e_customer_id
+          res.cookie('rows', rows, {maxAge: 10});
+          res.redirect("/user/findIdPer");
+      } else {
+          res.send("<script>alert('비정상적인 접근입니다.');location.href='/user/find_id';</" +"script>");
+      }
+  } catch (err) {
+    res.send("<script>alert('해당 이메일이 존재하지 않습니다. 다시 시도해 주세요.!');location.href='/user/find_Cid';</" +"script>");
+  }
+});
+
+// ====================================
+
+// ====== 기업, 개인회원 id 조회 ======
+
 router.get("/findIdPer", isNotLogIn, function(req, res, next){ //id 띄우기
   if(req.cookies.row != undefined){
       const row = req.cookies.row; 
@@ -311,8 +355,25 @@ router.get("/findIdPer", isNotLogIn, function(req, res, next){ //id 띄우기
   }
 });
 
+router.get("/findIdCor", isNotLogIn, function(req, res, next){ //id 띄우기
+  if(req.cookies.row != undefined){
+      const row = req.cookies.row; 
+      res.render("findIdCor_1", { ID: row });
+  } else {
+      res.render("home");
+  }
+});
+
+// ====================================
+
+
+// findPwCor findPwPer 뭐에서 왔는지에 따라 render되는 페이지가 달라야함
 router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
   res.render("findPwPer");
+});
+
+router.get("/find_pw", isNotLogIn, function(req, res, next){ //pw 찾기
+  res.render("findPwCor");
 });
 
 router.post("/find_pw", isNotLogIn, async function(req, res, next){ //pw 찾기

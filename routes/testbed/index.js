@@ -9,12 +9,16 @@ router.get("/", isLogIn, checkTokens, function (req, res, next) {
   res.render("test");
 });
 
-router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/tmp", isLogIn, checkTokens, function (req, res, next) {
+  res.render("tmp");
+});
+
+router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
   var sql = "SELECT * FROM service_test WHERE id_idx=?";
   params = req.user.id_idx;
   var rows = await mdbConn.dbSelectall(sql, params);
   res.locals.service_select = rows;
-  res.render("tmp");
+  res.render("unit_svc");
 });
 
 router.post("/ServiceSelet", function (req, res, next){
