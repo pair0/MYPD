@@ -17,6 +17,14 @@ router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) { //마
   res.render("tmp");
 });
 
+router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
+  var sql = "SELECT * FROM service_test WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  res.locals.service_select = rows;
+  res.render("unit_svc");
+});
+
 router.post("/ServiceSelet", function (req, res, next){
   var data = req.body.data;
   var sql = "SELECT * FROM service_test WHERE service_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
