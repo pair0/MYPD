@@ -18,6 +18,10 @@ const individual = require("./individual")
  *          name: x-api-tran-id
  *          required: true
  *          description: 거래고유번호
+ *          schema:
+ *              type: string
+ *              enum:
+ *                  - now
  *        - in: query
  *          name: org_code
  *          required: true
