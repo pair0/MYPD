@@ -74,7 +74,18 @@ router.post('/edit', [
 });
 
 router.get('/editdata', isLogIn, checkTokens, function(req, res, next) {
-  res.render('editdata');
+  var sql = "SELECT enterprise_number FROM Customers_Enterprise WHERE id_idx=?";
+  params = req.user.id_idx;
+  mdbConn.dbSelect(sql, params)
+  .then((rows) => {
+    if(rows){
+      res.locals.user_number = rows.enterprise_number;
+      res.render('editdata');
+    }else {
+      next();
+    } 
+  });
+ 
 });
 
 router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {

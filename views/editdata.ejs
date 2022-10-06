@@ -55,7 +55,7 @@
                     <a href="../mypage/reg_svc" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
                     <a href="../mypage/editdata" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
-                    <div class="mypage_menuBtn"> 연동 테스트 </div>
+                    <a href="../mypage/reg_link" class="mypage_menuBtn">연동 테스트</a>
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
 
@@ -72,7 +72,7 @@
 
                                 <div class="mypage_edit_input">
                                     <label for="org_code">기관코드</label>
-                                    <input type="text" id="org_code" name="org_code" required="required" autofocus="autofocus">
+                                    <input type="text" id="org_code" name="org_code" value=<%=user_number%> required="required" autofocus="autofocus" readonly>
                                     <span class="errorBox_myPage"></span>
                                 </div>
                             </div>

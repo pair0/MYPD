@@ -1,5 +1,5 @@
-const {generateuuidv4} = require("../../../../passport/abouttoken");
-const mdbConn = require('../../../../db_connection/mariaDBConn')
+const {generateuuidv4, generateAccessToken, generateRefreshToken, getTokenChk} = require("../../../../passport/abouttoken");
+const mdbConn = require('../../../../db_connection/mariaDBConn');
 
 /**
    * @path {GET} http://localhost:3000/v1/oauth/2.0/authorize
@@ -27,7 +27,7 @@ exports.authorization = (req, res) => {
             var params = [info['authorization_code'], info['client_id']];
             mdbConn.dbInsert(sql,params)
             .then(() => {
-                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
                 res.json({ 
                     ok: true, 
                     code: info['authorization_code'],
@@ -52,5 +52,45 @@ exports.authorization = (req, res) => {
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
 exports.token = (req, res) => {
-    // 접근 토큰 발급 및 접근 토큰 갱신 코드 추가
+    // scope 설정????????
+    if(req.query.refresh_token != undefined){
+        var refreshToken  = getTokenChk(req.query.refresh_token, "refresh")
+        if(refreshToken != false){
+            const info = {
+                'idx' : req.user.id_idx
+            }
+            const newAccessToken = 'Bearer ' + generateAccessToken(info);
+            res.status(200).json({
+                "token_type" : 'Bearer',
+                "access_token" : newAccessToken,
+                "expires_in" : 3600
+            })
+        }
+    }
+    else{
+        const info = {
+            'org_code' : req.query.org_code,
+            'client_id' : req.query.client_id,
+            'client_secret' : req.query.client_secret,
+            'authorization_code' : req.query.code,
+            'id_idx' : req.user.id_idx
+        }
+        var sql = 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?'
+        var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+        mdbConn.dbSelect(sql,params)
+        .then((rows) => {
+            var accessExpiresIn = 3600;
+            var refreshExpiresIn = 86400;
+            const accessToken = 'Bearer ' + generateAccessToken(info['id_idx'], accessExpiresIn)
+            const refreshToken = 'Bearer ' + generateRefreshToken(info['id_idx'],refreshExpiresIn)
+            res.json({ 
+                token_type: Bearer, 
+                access_token: accessToken,
+                expires_in: accessExpiresIn,
+                refresh_token: refreshToken,
+                refresh_token_expires_in: refreshExpiresIn,
+                scope: '?'
+            })
+        })
+    }
 }

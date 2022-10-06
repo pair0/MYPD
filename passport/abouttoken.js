@@ -2,15 +2,13 @@ const jwt = require("jsonwebtoken");
 const mdbConn = require('../db_connection/mariaDBConn')
 require("dotenv").config();
 
-function generateAccessToken(payload){ //access 토큰 발급
+function generateAccessToken(payload, erpire = 3600){ //access 토큰 발급
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { 
-        algorithm: 'HS256',
         expiresIn: 3600 
     });
 }
-function generateRefreshToken(payload){ //refresh 토큰 발급
+function generateRefreshToken(payload, erpire = 86400){ //refresh 토큰 발급
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-        algorithm: 'HS256',
         expiresIn: 86400 
     });
 }
@@ -41,6 +39,7 @@ function getTokenChk(token, value) {
         return tokenVal;
     } catch (err) {
         console.log(err)
+        return false
     }
 }
 

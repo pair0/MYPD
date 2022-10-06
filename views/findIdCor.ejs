@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content=""> 
+
+    <!--CSS -->
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <title>아이디/비밀번호 찾기</title>
+</head>
+
+<body class="huji">
+    <div class="logo">
+      <!--왜 여긴 ../user/join임? 아래는 /user/join인데 -->
+      <a href="/main">
+        <img src="../images/logo.png" width="230px" height="100%" alt="" id="login_page">
+      </a>
+      <p class = "page_title_joinMain">기업회원 아이디 찾기</p>
+    </div>
+
+    <div class="findCor_box">
+      <form class="inputBox_findIdPer" style="margin-right: 40px;" method="POST" action="/user/find_Cid" onsubmit="return IDcheckMail()">
+
+        <p class="content_findIdPer" style="font-weight: bold; font-size:26px;">등록된 이메일로 찾기</p>
+        <p class="content_findIdPer">가입 당시 입력한 이메일을 통해 인증번호를 입력해주세요</p>
+        
+        <div class="inputJBox">
+          <span class="star" style="height: 35px; margin: 12px 0px 0px">*</span>
+          <input type="text" id="find_femail" style="font-size: 16px" name="f_email" placeholder="이메일 주소" required="required" autofocus="autofocus">
+          <span class="golbang" style="margin: 10px 10px 0px">@</span>
+          <input type="text" id="find_semail" style="font-size: 16px" name="s_email" placeholder="직접 입력" required="required" autofocus="autofocus">
+          <button class="joinBtn" type="button" style="height: auto;" onclick="sendMail()">인증코드 발송</button>
+        </div>
+  
+        <div class="inputJBox">
+          <input type="text" style="width: 350px; font-size: 16px;"id="find_cmail" name="email_check" placeholder="인증확인" required="required" autofocus="autofocus">
+        </div>
+  
+        <button type="submit" class="btn_findIdpw" style="margin-top: 50px">아이디 찾기</button>
+      </form>
+  
+  
+      <!-- 여기서 action=/user/find_id로 가야함 /user/find_Cid 따로 만들어야함-->
+      <form class="inputBox_findIdPer" style="margin-left: 40px;" method="POST" action="/user/find_Cid" onsubmit="return IDcheckMail()">
+  
+        <p class="content_findIdPer" style="font-weight: bold; font-size:26px;">사업자 등록번호로 찾기</p>
+        <p class="content_findIdPer">회원정보에 등록된 정보로 아이디를 찾을 수 있어요</p>
+        
+        <div class="inputJBox">
+          <span class="star" style="height: 35px; margin: 12px 0px 0px">*</span>
+          <input type="text" id="biz_reg" style="font-size: 16px" name="biz_reg" placeholder="사업자등록번호 (‘-’ 없이 입력)" required="required" autofocus="autofocus">
+        </div>
+
+        <!-- 좌측 이메일로 찾기랑 위치 맞추기 위한 빈 상자-->
+        <div class="inputJBox"> <div id="find_cmail" style="border:none"></div></div>
+  
+        <button type="submit" class="btn_findIdpw" style="margin-top: 50px; background-color: #05B3FE"style="">아이디 찾기</button>
+      </form>
+    </div>
+
+
+
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/findscr.js"></script>
+
+</body>
+</html>
