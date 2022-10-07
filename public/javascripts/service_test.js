@@ -2,7 +2,7 @@ function making_select() {
     var service_select=$("#biz_type").val();
     
     $.ajax({
-        url: "/testbed/ServiceSelet",
+        url: "/testbed/ServiceSelect",
         type: "POST",
         async: false, 
         data: {
