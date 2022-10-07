@@ -35,10 +35,6 @@ const individual = require("./individual")
  *          required: true
  *          description: 마이데이터 서비스 URI
  *        - in: query
- *          name: app_scheme
- *          required: true
- *          description: 현재 실행중인 앱 scheme
- *        - in: query
  *          name: state
  *          required: true
  *          description: CSRF 방지 목적의 임의설정 값
@@ -86,35 +82,38 @@ router.get("/authorize", individual.authorization)
  *      summary: "접근토큰 발급 요청"
  *      description: "(Authorization code)를 이용하여 접근토큰을 발급"
  *      tags: [MydataAuthorization]
+ *      produces:
+ *      - application/x-www-form-urlencoded
  *      parameters:
  *        - in: header
  *          name: x-api-tran-id
  *          required: true
  *          description: 거래고유번호
- *        - in: query
- *          name: org_code
- *          required: true
- *          description: 기관코드
- *        - in: query
- *          name: grant_type
- *          required: true
- *          description: authorization_code
- *        - in: query
- *          name: code
- *          required: true
- *          description: 인가코드
- *        - in: query
- *          name: client_id
- *          required: true
- *          description: 클라이언트 식별값
- *        - in: query
- *          name: client_secret
- *          required: true
- *          description: 클라이언트 Secret값
- *        - in: query
- *          name: redirect_uri
- *          required: true
- *          description: 인가코드 발급요청 시 요청했던 Callback URL
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/x-www-form-urlencoded:
+ *            schema:
+ *              type: object
+ *              properties:
+ *               org_code:
+ *                type: string
+ *                description : 기관코드
+ *               grant_type:
+ *                type : string
+ *                description :  authorization_code
+ *               code:
+ *                type : string
+ *                description :  인가코드
+ *               client_id:
+ *                type : string
+ *                description :  클라이언트 식별값
+ *               client_secret:
+ *                type : string
+ *                description :  클라이언트 Secret값
+ *               redirect_uri:
+ *                type : string
+ *                description :  인가코드 발급요청 시 요청했던 Callback URL
  *      responses:
  *        "302":
  *          description: 접근토큰 발급
