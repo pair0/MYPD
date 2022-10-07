@@ -14,10 +14,20 @@ router.get("/tmp", isLogIn, checkTokens, function (req, res, next) {
 });
 
 router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
+  
+  // servce idx
   var sql = "SELECT * FROM service_test WHERE id_idx=?";
   params = req.user.id_idx;
   var rows = await mdbConn.dbSelectall(sql, params);
   res.locals.service_select = rows;
+
+  // data idx
+  var sql = "SELECT * FROM data_test WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  res.locals.data_select = rows;
+
+
   res.render("unit_svc");
 });
 
@@ -34,3 +44,19 @@ router.post("/ServiceSelet", function (req, res, next){
   });
 });
 module.exports = router;
+
+router.post("/DataSelect", function (req, res, next){
+  var data = req.body.data;
+  var sql = "SELECT * FROM data_test WHERE data_id=?";
+  
+  mdbConn.dbSelect(sql, data)
+  .then((rows) => {
+    if(rows){
+      res.json({ data_json: rows.data_json});
+    }else {
+      res.send(false);
+    }
+  });
+});
+module.exports = router;
+
