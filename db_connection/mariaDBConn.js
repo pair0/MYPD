@@ -16,7 +16,8 @@ async function DBInsert(sql, params){
         rows = await conn.query(sql, params);
     }
     catch(err){
-        throw err;
+        console.log(err)
+        return err;
     }
     finally{
         if (conn) conn.end();
@@ -32,7 +33,7 @@ async function DBSelect(sql, params){
         rows = await conn.query(sql, params);
     }
     catch(err){
-        throw err;
+        return err;
     }
     finally{
         if (conn) conn.end();
@@ -56,7 +57,6 @@ async function DBSelectAll(sql, params){
 }
 
 function DBCheck (req, res, next){
-    console.log(req.user.id_idx)
     var sql = "SELECT COUNT(*) FROM service_test WHERE id_idx = ?"
     var params = [req.user.id_idx];
 

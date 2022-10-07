@@ -22,7 +22,7 @@ router.post('/editcheck', async function(req, res, next){
     if(!same){
       res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
     } else{
-     res.redirect('/mypage/edit'); 
+      res.redirect('/mypage/edit'); 
     };
   });
 });
@@ -127,7 +127,6 @@ router.post('/reg_svc',(req, res, next)=>
     "c_secret" : req.body.c_secret,
     "svc_desc" : req.body.svc_desc,
   };
-
   var sql = 'INSERT INTO service_test(service_name, service_client_id,service_client_secret,service_callback_url,service_text,id_idx) VALUES(?,?,?,?,?,?)';
   var params = [info['svc_name'], info['c_id'], info['c_secret'], info['callback'], info['svc_desc'],info['id']];
 
@@ -155,7 +154,7 @@ router.get('/svc_list',async function(req,res,next){
   res.json(result);
 });
 
-
+//서비스 리스트 지우기
 router.post('/svc_list_del',async function(req,res,next){
   var id= req.user.id_idx;
   console.log(req.body);
@@ -168,7 +167,28 @@ router.post('/svc_list_del',async function(req,res,next){
   })
 });
 
+//테스트데이터 등록하기
 
+router.post('/editdata',(req, res, next)=>
+{
+  
+  const info = {
+    "id": req.user.id_idx,
+    "data_name": req.body.data_name,
+    "enterprise_code" : req.body.org_code,
+    "business_right" : req.body.biz_type,
+    "asset_id" : req.body.assetId,
+    "data_api" : req.body.api,
+    "data_json" : req.body.testdata,
+  };
+  var sql = "INSERT INTO data_test(data_name, enterprise_code, business_right,asset_id,data_api,data_json,id_idx) VALUES(?,?,?,?,?,?,?)";
+  var params = [info['data_name'], info['enterprise_code'], info['business_right'], info['asset_id'], info['data_api'],info['data_json'],info['id']];
+
+  mdbConn.dbInsert(sql, params)
+  .then((rows) => {
+    res.redirect('/mypage/editdata');
+  })
+});
 
 
 module.exports = router;
