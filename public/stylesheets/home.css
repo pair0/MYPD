@@ -11,7 +11,7 @@
 body{
     height:100%;
     background-color: #007aff;
-}
+}   
 
 
 .city {
@@ -82,6 +82,7 @@ body{
     display:flex;
     flex-direction: column;
     margin-top:60px;
+    margin-left:26px;
 }
 
 .mypage_box > h1{
