@@ -9,11 +9,7 @@ router.get("/", isLogIn, checkTokens, function (req, res, next) {
   res.render("test");
 });
 
-router.get("/tmp", isLogIn, checkTokens, async function (req, res, next) { //마이데이터 서비스 테스트(단위 테스트)
-  var sql = "SELECT * FROM service_test WHERE id_idx=?"; //현재 로그인 된 사용자의 서비스 데이터를 가져오기 위한 쿼리
-  params = req.user.id_idx;
-  var rows = await mdbConn.dbSelectall(sql, params);
-  res.locals.service_select = rows; 
+router.get("/tmp", isLogIn, checkTokens, function (req, res, next) {
   res.render("tmp");
 });
 
@@ -36,5 +32,22 @@ router.post("/ServiceSelet", function (req, res, next){
       res.send(false);
     }
   });
+});
+
+router.get("inte_svc", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_svc");
+});
+
+
+router.get("/unit_api", isLogIn, checkTokens, async function (req, res, next) {
+  var sql = "SELECT * FROM service_test WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  res.locals.service_select = rows;
+  res.render("unit_api");
+});
+
+router.get("inte_api", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_api");
 });
 module.exports = router;
