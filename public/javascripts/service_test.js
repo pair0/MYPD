@@ -20,3 +20,23 @@ function making_select() {
         }
     });
 }
+
+function making_select_data() {
+    var data_select=$("#data_select").val();
+
+    $.ajax({
+        url: "/testbed/DataSelect",
+        type: "POST",
+        async: false, 
+        data: {
+            "data": data_select
+        },
+        success: function(data){
+            if(data){
+                $('input[name=tmp_data]').attr('value',data['data_json']);
+            } else {
+                $('input[name=tmp_data]').removeAttr('value');
+            }
+        }
+    });
+}

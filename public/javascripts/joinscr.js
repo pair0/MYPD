@@ -79,6 +79,38 @@ function number_check() {
     };
 }
 
+//================================================================
+
+function check_bizNum() {
+    var numberPattern =/^[0-9]{10}$/; 
+    if($("#biz_num").val()==""){
+        alert("사업자번호를 넣어주세요");
+        number_check = false;
+    } else if(!numberPattern.test($("#biz_num").val())){
+        alert("-를 제외한 숫자 10자리를 입력해주세요.")
+        number_check = false;
+    } else {
+        $.ajax({
+            url: "/user/biz_num",
+            type: "POST",
+            async: false,
+            data: {
+                "NUMBER": $("#biz_num").val()
+            },
+            success: function (data) {
+                if (data == true) {
+                    result = true;
+                    alert('인증이 완료되었습니다.');
+                } else {
+                    result = false;
+                }
+            }
+        })
+    };
+}
+
+//================================================================
+
 function checkNickname() {
     var nickPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
     if (NICKNAME.value == "") {
