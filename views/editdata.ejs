@@ -31,7 +31,7 @@
                             <li><div class="menu_list"><a href="">Mypage</a></div>
                                 <ul id="sub-menu">
                                     <div class="sub_menu_box">
-                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                         <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
                                     </div>  
                                 </ul>
@@ -57,9 +57,9 @@
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
 
                 <div class="mypage_menu">
-                    <a href="../mypage/reg_svc" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
+                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
-                    <a href="../mypage/editdata" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
+                    <a href="../mypage/editdata_list" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
                     <a href="../mypage/reg_link" class="mypage_menuBtn">연동 테스트</a>
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
@@ -91,9 +91,9 @@
                                     <label for="biz_type">업권</label>
                                     <select class="mypage_input2" name="biz_type" onchange="changeAPI(this)" required="required">
                                         <option value="">업권을 선택해주세요.</option>
-                                        <option value="medical">의료 업권</option>
-                                        <option value="finance">금융 업권</option>
-                                        <option value="ecommerce">전자상거래 업권</option>
+                                        <option value="의료">의료 업권</option>
+                                        <option value="금융">금융 업권</option>
+                                        <option value="전자상거래">전자상거래 업권</option>
                                     </select>
                                   </div>
 
@@ -147,7 +147,7 @@
 
                     <div class="mypage_box_input2">
                         <div class = dataEdit_section>
-                        <div class="mypage_btn"><button type="submit" style="background-color: #888888;">취소하기</button></div>
+                        <div class="mypage_btn"><button type="button" onclick="location.href='../mypage/editdata_list'" style="background-color: #888888; cursor:pointer;">취소하기</button></div>
                         <div class="mypage_btn" style="margin-left: 20px;"><button style="cursor:pointer">저장하기</button></div>
                         </div>                      
                     </div>

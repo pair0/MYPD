@@ -86,14 +86,14 @@ async function changeAPI(val){
     
     var res = [];
 
-    if(val.value ==="medical"){
+    if(val.value ==="의료"){
         res = medical;
     }
-    else if(val.value==="ecommerce")
+    else if(val.value==="전자상거래")
     {
         res=ecommerce;
     }
-    else if(val.value==="finance"){
+    else if(val.value==="금융"){
         res=finance;
     }
     
