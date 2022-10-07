@@ -22,7 +22,7 @@ router.post('/editcheck', async function(req, res, next){
     if(!same){
       res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
     } else{
-     res.redirect('/mypage/edit'); 
+      res.redirect('/mypage/edit'); 
     };
   });
 });
@@ -105,6 +105,14 @@ router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc_no');
 });
 
+router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck, function(req, res, next) {
+  res.render('editdata_list');
+});
+
+router.get('/editdata_no', isLogIn, checkTokens, function(req, res, next) {
+  res.render('editdata_no');
+});
+
 //키 발급
 router.get('/key_gen',(req,res,next)=>
 {
@@ -127,7 +135,6 @@ router.post('/reg_svc',(req, res, next)=>
     "c_secret" : req.body.c_secret,
     "svc_desc" : req.body.svc_desc,
   };
-
   var sql = 'INSERT INTO service_test(service_name, service_client_id,service_client_secret,service_callback_url,service_text,id_idx) VALUES(?,?,?,?,?,?)';
   var params = [info['svc_name'], info['c_id'], info['c_secret'], info['callback'], info['svc_desc'],info['id']];
 
@@ -187,7 +194,29 @@ router.post('/editdata',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    res.redirect('/mypage/editdata');
+    res.redirect('/mypage/editdata_list');
+  })
+});
+
+//테스트데이터 리스트 가져오기
+router.get('/data_list',async function(req,res,next){
+  var id= req.user.id_idx;
+  var sql = `select * from data_test where id_idx=${id}`;
+  var params = req.session.passport.user.id;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//e테스트데이터 지우기
+router.post('/data_list_del',async function(req,res,next){
+  var id= req.user.id_idx;
+  console.log(req.body);
+  var data_id = req.body.data_id;
+  var sql = `delete from data_test where data_id=${data_id} and id_idx=${id};`;
+  var params = [];
+  await mdbConn.dbSelect(sql, params)
+  .then(() => {
+    res.redirect('/mypage/editdata_list');
   })
 });
 
