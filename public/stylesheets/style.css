@@ -224,7 +224,7 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.inputJBox #biz_reg{
+.inputJBox #biz_num{
   width: 350px;
   height: 50px;
   border: none;

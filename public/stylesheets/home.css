@@ -11,7 +11,7 @@
 body{
     height:100%;
     background-color: #007aff;
-}
+}   
 
 
 .city {
@@ -82,6 +82,7 @@ body{
     display:flex;
     flex-direction: column;
     margin-top:60px;
+    margin-left:26px;
 }
 
 .mypage_box > h1{
@@ -1198,7 +1199,7 @@ div .login_box{
 }
 
 .unitTest_input{
-    width: 100% ;
+    width: 100%;
     height: 50px;
     background: rgba(217, 217, 217, 0.1);
     border: 1px solid #C6C6C6;

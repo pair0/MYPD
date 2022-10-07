@@ -28,7 +28,7 @@
                             <li><div class="menu_list"><a href="">Mypage</a></div>
                                 <ul id="sub-menu">
                                     <div class="sub_menu_box">
-                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
                                         <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
                                     </div>  
                                 </ul>
@@ -80,8 +80,8 @@
                 <div class="dropdown">
                     <button class="dropdown-btn">테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
@@ -114,12 +114,11 @@
                     
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
-                        <label for="biz_type">데이터 선택</label>
-                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
+                        <label for="data_select">데이터 선택</label>
+                        <select class="unitTest_input" name="data_select" id="data_select" onchange="making_select_data()" required>
                             <option>데이터 선택</option>
-                            <% for(var i=0; i<service_select.length; i++){ %>
-                            <!-- .service_name 말고 .data_name 그런거로 대체해야할듯-->
-                            <option value=<%=service_select[i].service_id%>><%=service_select[i].service_name%></option>
+                            <% for(var i=0; i<data_select.length; i++){ %>
+                            <option value=<%=data_select[i].data_id%>><%=data_select[i].data_name%></option>
                             <% } %>
                         </select>
                         </div>
@@ -141,6 +140,16 @@
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
+
+                    <!-- 테스트 데이터 출력용 임시 박스임 삭제 해야함 -->
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="tmp_data">테스트 데이터 미리보기</label>
+                            <input type="text" class="unitTest_input" name="tmp_data" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+                    <!-- =========================================== -->
 
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
