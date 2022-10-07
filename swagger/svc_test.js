@@ -5,7 +5,7 @@ const options = {
     swaggerDefinition: {
         openapi: "3.0.0",
         info: {
-            version: "1.0.0",
+            version: "3.23.0",
             title: "MYPD API TEST",
             description: "TEST for APT",
         },

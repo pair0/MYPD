@@ -36,7 +36,7 @@ router.post("/login", async function(req, res) { //로그인 신청
       } 
       else{
         const payload = {
-          idx : req.body.id_idx
+          'idx' : req.body.id_idx
         };
         // access Token 생성 (passport 폴더의 abouttoken 파일 확인)
         const accessToken = generateAccessToken(payload);

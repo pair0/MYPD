@@ -22,7 +22,7 @@ router.post('/editcheck', async function(req, res, next){
     if(!same){
       res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
     } else{
-     res.redirect('/mypage/edit'); 
+      res.redirect('/mypage/edit'); 
     };
   });
 });
@@ -127,7 +127,6 @@ router.post('/reg_svc',(req, res, next)=>
     "c_secret" : req.body.c_secret,
     "svc_desc" : req.body.svc_desc,
   };
-
   var sql = 'INSERT INTO service_test(service_name, service_client_id,service_client_secret,service_callback_url,service_text,id_idx) VALUES(?,?,?,?,?,?)';
   var params = [info['svc_name'], info['c_id'], info['c_secret'], info['callback'], info['svc_desc'],info['id']];
 
