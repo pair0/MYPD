@@ -8,24 +8,29 @@ const mdbConn = require('../../../../db_connection/mariaDBConn');
 exports.authorization = (req, res) => {
     //org_code == 사업자등록번호
     //org_code, client_id
+    //ci를 검증하라 하지만 ci에 대한 정보 없음.....
+    //마이데이터사업자가 전송한 개별인증-001 파라미터들 (x-user-ci, client_id, redirect_uri 등) 검증
+    //마이데이터사업자가 전송한 redirect_uri가 해당 마이데이터사업자의 Callback URL 목록*에 속해있는지 여부 검증
     const info = {
         'org_code' : req.query.org_code,
         'client_id' : req.query.client_id,
         'id' : req.user.e_customer_id
     }
-    var sql = 'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?'
+    const sql = {
+        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?',
+        'checkClient_id' : 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?',
+        'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?'
+    }
     var params = [info['org_code'], info['id']];
-    mdbConn.dbSelect(sql, params)
+    mdbConn.dbSelect(sql['checkOrg_code'], params)
     .then((rows) => {
         info['id_idx'] = rows.id_idx
-        var sql = 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?'
         var params = [info['client_id'], info['id_idx']];
-        mdbConn.dbSelect(sql, params)
+        mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
             info['authorization_code'] = generateuuidv4(10)
-            var sql = "UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?"
             var params = [info['authorization_code'], info['client_id']];
-            mdbConn.dbInsert(sql,params)
+            mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
                 res.json({ 
@@ -52,9 +57,14 @@ exports.authorization = (req, res) => {
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
 exports.token = (req, res) => {
-    // scope 설정????????
-    if(req.query.refresh_token != undefined){
-        var refreshToken  = getTokenChk(req.query.refresh_token, "refresh")
+    // 거래고유번호는 API 요청기관이 넘겨주는 것
+    // iss : 접근 토큰 발급자 (접근토큰을 발급하는 기관의 기관코드)  -> API 종류에 따라 다름
+    // aud : 접근 토큰 수신자 (접근토큰을 발급받는 기관 식별자) -> API 종류에 따라 다름
+    // jti : 접근 토큰 식별자 (발급주체가 토큰을 식별할 수 있는 ID(임의지정))
+    // exp : 접근토큰 만료시간 
+    // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
+    if(req.body.refresh_token != undefined){
+        var refreshToken  = getTokenChk(req.body.refresh_token, "refresh")
         if(refreshToken != false){
             const info = {
                 'idx' : req.user.id_idx
@@ -69,28 +79,46 @@ exports.token = (req, res) => {
     }
     else{
         const info = {
-            'org_code' : req.query.org_code,
-            'client_id' : req.query.client_id,
-            'client_secret' : req.query.client_secret,
-            'authorization_code' : req.query.code,
+            'org_code' : req.body.org_code,
+            'client_id' : req.body.client_id,
+            'client_secret' : req.body.client_secret,
+            'authorization_code' : req.body.code,
             'id_idx' : req.user.id_idx
         }
-        var sql = 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?'
+        const sql = {
+            'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+            'updateRefresh_token' : "UPDATE service_test SET refresh_token = ?  WHERE service_client_id = ?"
+        }
         var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
-        mdbConn.dbSelect(sql,params)
+        mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
             var accessExpiresIn = 3600;
             var refreshExpiresIn = 86400;
-            const accessToken = 'Bearer ' + generateAccessToken(info['id_idx'], accessExpiresIn)
-            const refreshToken = 'Bearer ' + generateRefreshToken(info['id_idx'],refreshExpiresIn)
-            res.json({ 
-                token_type: Bearer, 
-                access_token: accessToken,
-                expires_in: accessExpiresIn,
-                refresh_token: refreshToken,
-                refresh_token_expires_in: refreshExpiresIn,
-                scope: '?'
+            const payload = {
+                'idx' : info['id_idx']
+            };
+            const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
+            const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
+            var params = [refreshToken, info['client_id']]
+            mdbConn.dbInsert(sql['updateRefresh_token'], params)
+            .then(() => {
+                res.json({ 
+                    token_type: 'Bearer', 
+                    access_token: accessToken,
+                    expires_in: accessExpiresIn,
+                    refresh_token: refreshToken,
+                    refresh_token_expires_in: refreshExpiresIn,
+                    scope: '?'
+                })
             })
+            .catch((err) => {
+                console.log(err)
+                res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
         })
     }
 }
