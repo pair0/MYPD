@@ -1,0 +1,19 @@
+.swagger-ui .topbar { 
+    display: none ;
+}
+.swagger-ui .scheme-container{
+    display: none ;
+}
+
+.info .title {
+    opacity: 0;
+}
+.renderedMarkdown {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.main span{
+    display: none ;
+}
