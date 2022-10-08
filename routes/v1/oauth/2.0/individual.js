@@ -19,7 +19,7 @@ exports.authorization = (req, res) => {
     const sql = {
         'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?',
         'checkClient_id' : 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?',
-        'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?'
+        'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?',
     }
     var params = [info['org_code'], info['id']];
     mdbConn.dbSelect(sql['checkOrg_code'], params)
@@ -28,7 +28,13 @@ exports.authorization = (req, res) => {
         var params = [info['client_id'], info['id_idx']];
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
-            info['authorization_code'] = generateuuidv4(10)
+            info['authorization_code'] = generateuuidv4(10);
+            var params_null = [null, info['client_id']];
+            // 인가코드 10분 제한 코드 (비동기 동작))
+            setTimeout(() => {
+                mdbConn.dbSelect(sql['updateAuthorization_code'], params_null);
+            }, 600000) 
+            // 인가코드 생성 및 DB 저장
             var params = [info['authorization_code'], info['client_id']];
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
@@ -52,6 +58,7 @@ exports.authorization = (req, res) => {
         res.status(404).json({rsp_msg : 'org_code is invalid.'})
     })
 }
+
 /**
    * @path {POST} http://localhost:3000/v1/oauth/2.0/token
    * @description (Authorization code)를 이용하여 접근토큰을 발급
@@ -67,7 +74,7 @@ exports.token = (req, res) => {
         'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
         'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
         'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
-        'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND id_idx = ?'
+        'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND service_client_id = ?'
     }
     const info = {
         'org_code' : req.body.org_code,
@@ -110,15 +117,15 @@ exports.token = (req, res) => {
         })
     }
     else{
-        var params = [req.body.refresh_token, info['id_idx']];
+        var params = [req.body.refresh_token, info['client_id']];
         mdbConn.dbSelect(sql['checkRefresh_token'], params)
         .then((rows) => {
             var refreshToken = getTokenChk(req.body.refresh_token, "refresh")
             if(refreshToken == "valid" && rows != undefined ){
-                const info = {
-                    'idx' : req.user.id_idx
+                const payload = {
+                    'idx' : info['id_idx']
                 }
-                const newAccessToken = 'Bearer ' + generateAccessToken(info);
+                const newAccessToken = 'Bearer ' + generateAccessToken(payload);
                 var params = [newAccessToken,  info['client_id']]
                 mdbConn.dbInsert(sql['updateAccessToken'], params)
                 .then(() => {
@@ -127,6 +134,9 @@ exports.token = (req, res) => {
                         "access_token" : newAccessToken,
                         "expires_in" : 3600
                     })
+                })
+                .catch(() => {
+                    res.status(500).json({rsp_msg : 'access token 생성 실패.'})
                 })
             }
             else{
@@ -151,13 +161,13 @@ exports.token = (req, res) => {
                 })
                 .catch((err) => {
                     console.log(err)
-                    res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+                    res.status(500).json({rsp_msg : 'refresh token 생성 실패.'})
                 })
             }
         })
         .catch(() => {
             console.log(err)
-            res.status(404).json({rsp_msg : 'refresh token 갱신 실패.'})
+            res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
         })
     }
 }
