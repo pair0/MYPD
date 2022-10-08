@@ -65,7 +65,8 @@ exports.token = (req, res) => {
     // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
     const sql = {
         'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
-        'updateRefresh_token' : "UPDATE service_test SET refresh_token = ?  WHERE service_client_id = ?",
+        'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
+        'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
         'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND id_idx = ?'
     }
     const info = {
@@ -86,8 +87,8 @@ exports.token = (req, res) => {
             };
             const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
             const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
-            var params = [refreshToken, info['client_id']]
-            mdbConn.dbInsert(sql['updateRefresh_token'], params)
+            var params = [accessToken, refreshToken, info['client_id']]
+            mdbConn.dbInsert(sql['updateToken'], params)
             .then(() => {
                 res.status(302).json({ 
                     token_type: 'Bearer', 
@@ -118,10 +119,14 @@ exports.token = (req, res) => {
                     'idx' : req.user.id_idx
                 }
                 const newAccessToken = 'Bearer ' + generateAccessToken(info);
-                res.status(200).json({
-                    "token_type" : 'Bearer',
-                    "access_token" : newAccessToken,
-                    "expires_in" : 3600
+                var params = [newAccessToken,  info['client_id']]
+                mdbConn.dbInsert(sql['updateAccessToken'], params)
+                .then(() => {
+                    res.status(200).json({
+                        "token_type" : 'Bearer',
+                        "access_token" : newAccessToken,
+                        "expires_in" : 3600
+                    })
                 })
             }
             else{
@@ -132,8 +137,8 @@ exports.token = (req, res) => {
                 };
                 const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                 const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
-                var params = [refreshToken, info['client_id']]
-                mdbConn.dbInsert(sql['updateRefresh_token'], params)
+                var params = [accessToken, refreshToken, info['client_id']]
+                mdbConn.dbInsert(sql['updateToken'], params)
                 .then(() => {
                     res.status(200).json({ 
                         token_type: 'Bearer', 
