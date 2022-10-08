@@ -22,6 +22,12 @@ router.get("/login", isNotLogIn, (req, res, next) => {
 
 /* 로그인시 accessToken 발급 및 DB에 refresh Token update, 세션 생성 */
 router.post("/login", async function (req, res) { //로그인 신청
+  // 로그인 후 이전페이지로 돌아기 위한 코드
+  if (req.session.return == undefined)
+    var returnUrl = '/main';
+  else
+    var returnUrl = req.session.return;
+  // 로그인 Start
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id = ? ;"
   var params = [req.body.id.toString()];
   var result = await mdbConn.dbSelect(sql, params);
@@ -63,7 +69,7 @@ router.post("/login", async function (req, res) { //로그인 신청
                 if (error) {
                   return console.error(error);
                 }
-                res.redirect(`/main`);
+                res.redirect(returnUrl);
               });
             });
           })
