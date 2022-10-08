@@ -71,10 +71,9 @@ router.get("/unit_api", isLogIn, checkTokens, async function (req, res, next) {
   res.render("unit_api");
 });
 
-router.get("inte_api", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/inte_api", isLogIn, checkTokens, async function (req, res, next) {
   res.render("inte_api");
 });
-module.exports = router;
 
 router.post("/DataSelect", function (req, res, next){
   var data = req.body.data;
@@ -89,5 +88,6 @@ router.post("/DataSelect", function (req, res, next){
     }
   });
 });
+
 module.exports = router;
 
