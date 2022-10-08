@@ -1,9 +1,8 @@
 function making_select() {
-    console.log("맞아 바로 여기야");
     var service_select=$("#biz_type").val();
-    
+
     $.ajax({
-        url: "/testbed/ServiceSelet",
+        url: "/testbed/ServiceSelect",
         type: "POST",
         async: false, 
         data: {
@@ -16,6 +15,26 @@ function making_select() {
             } else {
                 $('input[name=C_ID]').removeAttr('value');
                 $('input[name=C_Se]').removeAttr('value');
+            }
+        }
+    });
+}
+
+function making_select_server() {
+    var server_select=$("#biz_type").val();
+
+    $.ajax({
+        url: "/testbed/ServerSelect",
+        type: "POST",
+        async: false, 
+        data: {
+            "data": server_select
+        },
+        success: function(data){
+            if(data){
+                $('input[name=C_ip]').attr('value',data['clientip']);
+            } else {
+                $('input[name=C_ip]').removeAttr('value');
             }
         }
     });
@@ -40,3 +59,4 @@ function making_select_data() {
         }
     });
 }
+
