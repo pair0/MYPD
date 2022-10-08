@@ -63,32 +63,19 @@ exports.token = (req, res) => {
     // jti : 접근 토큰 식별자 (발급주체가 토큰을 식별할 수 있는 ID(임의지정))
     // exp : 접근토큰 만료시간 
     // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
-    if(req.body.refresh_token != undefined){
-        var refreshToken  = getTokenChk(req.body.refresh_token, "refresh")
-        if(refreshToken != false){
-            const info = {
-                'idx' : req.user.id_idx
-            }
-            const newAccessToken = 'Bearer ' + generateAccessToken(info);
-            res.status(200).json({
-                "token_type" : 'Bearer',
-                "access_token" : newAccessToken,
-                "expires_in" : 3600
-            })
-        }
+    const sql = {
+        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+        'updateRefresh_token' : "UPDATE service_test SET refresh_token = ?  WHERE service_client_id = ?",
+        'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND id_idx = ?'
     }
-    else{
-        const info = {
-            'org_code' : req.body.org_code,
-            'client_id' : req.body.client_id,
-            'client_secret' : req.body.client_secret,
-            'authorization_code' : req.body.code,
-            'id_idx' : req.user.id_idx
-        }
-        const sql = {
-            'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
-            'updateRefresh_token' : "UPDATE service_test SET refresh_token = ?  WHERE service_client_id = ?"
-        }
+    const info = {
+        'org_code' : req.body.org_code,
+        'client_id' : req.body.client_id,
+        'client_secret' : req.body.client_secret,
+        'authorization_code' : req.body.code,
+        'id_idx' : req.user.id_idx
+    }
+    if(req.body.refresh_token == ""){
         var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
         mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
@@ -102,7 +89,7 @@ exports.token = (req, res) => {
             var params = [refreshToken, info['client_id']]
             mdbConn.dbInsert(sql['updateRefresh_token'], params)
             .then(() => {
-                res.json({ 
+                res.status(302).json({ 
                     token_type: 'Bearer', 
                     access_token: accessToken,
                     expires_in: accessExpiresIn,
@@ -119,6 +106,53 @@ exports.token = (req, res) => {
         .catch((err) => {
             console.log(err)
             res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+        })
+    }
+    else{
+        var params = [req.body.refresh_token, info['id_idx']];
+        mdbConn.dbSelect(sql['checkRefresh_token'], params)
+        .then((rows) => {
+            var refreshToken = getTokenChk(req.body.refresh_token, "refresh")
+            if(refreshToken == "valid" && rows != undefined ){
+                const info = {
+                    'idx' : req.user.id_idx
+                }
+                const newAccessToken = 'Bearer ' + generateAccessToken(info);
+                res.status(200).json({
+                    "token_type" : 'Bearer',
+                    "access_token" : newAccessToken,
+                    "expires_in" : 3600
+                })
+            }
+            else{
+                var accessExpiresIn = 3600;
+                var refreshExpiresIn = 86400;
+                const payload = {
+                    'idx' : info['id_idx']
+                };
+                const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
+                const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
+                var params = [refreshToken, info['client_id']]
+                mdbConn.dbInsert(sql['updateRefresh_token'], params)
+                .then(() => {
+                    res.status(200).json({ 
+                        token_type: 'Bearer', 
+                        access_token: accessToken,
+                        expires_in: accessExpiresIn,
+                        refresh_token: refreshToken,
+                        refresh_token_expires_in: refreshExpiresIn,
+                        scope: '?'
+                    })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+                })
+            }
+        })
+        .catch(() => {
+            console.log(err)
+            res.status(404).json({rsp_msg : 'refresh token 갱신 실패.'})
         })
     }
 }
