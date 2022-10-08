@@ -4,7 +4,6 @@ const swaggereJsdoc = require("swagger-jsdoc")
 const options = {
     swaggerDefinition: {
         openapi: "3.0.0",
-
         servers: [
             {
                 url: "http://localhost:3000", // 요청 URL
