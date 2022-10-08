@@ -75,10 +75,10 @@ const individual = require("./individual")
  *                          "1234567890123456789012345"
  */
 
- router.post("/token",individual.token)
+router.post("/",individual.token)
 
 
- /**
+/**
   * @swagger
   * paths:
   *  /v1/oauth/2.0/token:
@@ -137,6 +137,6 @@ const individual = require("./individual")
   *                          "1234567890123456789012345"
   */
 
-router.post("/token",individual.token)
+router.post("/",individual.token)
 
 module.exports = router
