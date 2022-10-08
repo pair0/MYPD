@@ -1,6 +1,3 @@
-var url = require('url')
-var http = require('http');
-
 module.exports = {
     isLogIn : function (req,res, next) {
         console.log(req.originalUrl, "1")
