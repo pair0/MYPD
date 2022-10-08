@@ -103,10 +103,10 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                         <label for="biz_type">서버 선택</label>
-                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server()" required>
                             <option>서버 선택</option>
-                            <% for(var i=0; i<service_select.length; i++){ %>
-                            <option value=<%=service_select[i].service_id%>><%=service_select[i].service_name%></option>
+                            <% for(var i=0; i<server_select.length; i++){ %>
+                            <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
                             <% } %>
                         </select>
                         </div>
