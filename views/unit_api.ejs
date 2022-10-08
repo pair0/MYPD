@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+
+
+</head>
+<body class="body_bg">
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                <div class="menu">
+                    <ul id="main-menu">
+                        <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                        <% if(isAuthenticated){ %>
+                            <li><div class="menu_list"><a href="">Mypage</a></div>
+                                <ul id="sub-menu">
+                                    <div class="sub_menu_box">
+                                        <li><a href="/mypage/reg_svc" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                    </div>  
+                                </ul>
+                            </li>
+                            <% } %>
+                        <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                    <% if(isAuthenticated){ %>
+                        <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                        <li id="logout_btn"><p> | </p></li>
+                        <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+                    <% } else { %>
+                        <a class="login_box" href="/user/login" >로그인</a>
+                    <% } %>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="header">
+        <h1>단위테스트 페이지(API 서버) (수정필요)</h1>
+        <p>마이데이터 서비스 단위테스트 (수정필요)</p>
+    </div>
+
+    <main class="main_bg">
+
+        <!-- 왼쪽 사이드 바-->
+        <aside>   
+            <div class="side_bar">     
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">마이데이터 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_svc">ㄴ단위테스트</a>
+                        <a href="../testbed/inte_svc">ㄴ통합테스트</a>
+                        <a href="../testbed/link_svc">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">API 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_api">ㄴ단위테스트</a>
+                        <a href="../testbed/unit_api">ㄴ통합테스트</a>
+                        <a href="../testbed/unit_api">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">테스트 관리</button>
+                    <div class="dropdown-submenu">
+                        <a href="../mypage/editdata">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/reg_svc">ㄴ테스트 서비스 관리</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn">테스트 내역 조회</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ마이데이터 서비스 테스트</a>
+                        <a href="#none">ㄴAPI 서버 테스트</a>
+                    </div>
+                </div>
+            </div>    
+            <div class="btm_rect"></div>
+        </aside>
+
+        <!-- 중앙 내용 -->
+        <section>
+            <div class="unitTest_box">
+                <form class="unitTest_box_form">
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                        <label for="biz_type">서버 선택</label>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server()" required>
+                            <option>서버 선택</option>
+                            <% for(var i=0; i<server_select.length; i++){ %>
+                            <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
+                            <% } %>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">ip</label>
+                            <input type="text" class="unitTest_input" name="C_ip" placeholder="https://192.1.1.21:8000" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">접근 토큰</label>
+                            <input type="text" class="unitTest_input" name="org_code" placeholder="인증 API를 통해 발급된 접근토큰을 입력해 주세요." required="required" autofocus="autofocus">
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                </form>
+            </div>  
+
+            <!-- SWAGger UI-->
+            <div class="unitTest_box"> 
+                <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
+                    <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+                </div>
+            </div>
+
+            
+        </section>        
+
+
+        <!-- 오른쪽 사이드바 -->
+        <aside></aside>
+
+    </main>
+
+
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/service_test.js"></script>
+
+</body>
+</html>

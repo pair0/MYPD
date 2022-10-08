@@ -31,9 +31,9 @@ router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
   res.render("unit_svc");
 });
 
-router.post("/ServiceSelet", function (req, res, next){
+router.post("/ServiceSelect", function (req, res, next){
   var data = req.body.data;
-  var sql = "SELECT * FROM service_test WHERE service_id=?";
+  var sql = "SELECT * FROM service_test WHERE service_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
   mdbConn.dbSelect(sql, data)
   .then((rows) => {
     if(rows){
@@ -42,6 +42,37 @@ router.post("/ServiceSelet", function (req, res, next){
       res.send(false);
     }
   });
+});
+
+router.post("/ServerSelect", function (req, res, next){
+  var data = req.body.data;
+  var sql = "SELECT * FROM server_management WHERE server_manage_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
+  mdbConn.dbSelect(sql, data)
+  .then((rows) => {
+    if(rows){
+      res.json({ clientip: rows.server_ip});
+    }else {
+      res.send(false);
+    }
+  });
+});
+
+
+router.get("inte_svc", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_svc");
+});
+
+
+router.get("/unit_api", isLogIn, checkTokens, async function (req, res, next) {
+  var sql = "SELECT * FROM server_management WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  res.locals.server_select = rows;
+  res.render("unit_api");
+});
+
+router.get("inte_api", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_api");
 });
 module.exports = router;
 
