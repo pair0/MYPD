@@ -97,6 +97,10 @@ router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc');
 });
 
+router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_svr');
+});
+
 router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck, function(req, res, next) {
   res.render('reg_svc_list');
 });
@@ -207,7 +211,7 @@ router.get('/data_list',async function(req,res,next){
   res.json(result);
 });
 
-//e테스트데이터 지우기
+//테스트데이터 지우기
 router.post('/data_list_del',async function(req,res,next){
   var id= req.user.id_idx;
   console.log(req.body);
@@ -220,5 +224,25 @@ router.post('/data_list_del',async function(req,res,next){
   })
 });
 
+
+//서버 등록하기
+router.post('/reg_svr',(req, res, next)=>
+{
+  console.log(req.body);
+  const info = {
+    "id": req.user.id_idx,
+    "ip": req.body.ip,
+    "svr_name" : req.body.svr_name,
+    "biz_type" : req.body.biz_type,
+    "svr_desc" : req.body.svr_desc
+  };
+  var sql = "INSERT INTO server_management(server_ip, server_name, business_right, server_explain, id_idx) VALUES(?,?,?,?,?)";
+  var params = [info['ip'], info['svr_name'], info['biz_type'], info['svr_desc'], info['id']];
+
+  mdbConn.dbInsert(sql, params)
+  .then((rows) => {
+    res.redirect('/mypage/reg_svr_list');
+  })
+});
 
 module.exports = router;

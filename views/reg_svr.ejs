@@ -49,30 +49,27 @@
         <div class="main_pic_bg">
             <div class="city_edit"> 
                 <h1>테스트 관리</h1>
-                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
+                <p>여러분의 서버를 등록하세요.</p>
                 <div class="mypage_menu">
-                    <a href="../mypage/reg_svc_list" class="mypage_menuBtnnow" > 마이데이터 서비스 테스트 관리 </a>
+                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn" > 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
                     <a href="../mypage/editdata_list" class="mypage_menuBtn" >테스트 데이터 관리</a>
-                    <a href="../mypage/reg_svr_list" class="mypage_menuBtn" >서버 등록</a>
+                    <a href="../mypage/reg_svr_list" class="mypage_menuBtnnow" >서버 등록</a>
                     <a href="../mypage/reg_link" class="mypage_menuBtn"> 연동 테스트 </a>
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
                 <div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
-                    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svc" onsubmit="return event_click()">
+                    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svr">
                         <div class="mypage_box_input2" >
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
-                                        <label for="svc_name">서비스명</label>
-                                        <input type="text" name="svc_name" class="mypage_input2" required>
+                                        <label for="svr_name">서버명</label>
+                                        <input type="text" name="svr_name" class="mypage_input2" required>
                                     </div>
                                     <div class="mypage_edit_input">
-                                        <label for="c_id">Client ID</label>
-                                        <div class="email" style="position:relative"> 
-                                            <input  class="mypage_input2" type="text" id="c_id" name="c_id" required="required" readonly>
-                                            <button onclick="key_gen()" class="emailcheckBtn key" type="button" style="position:absolute; margin-left:15px;">key 발급</button>
-                                        </div>
+                                        <label for="ip">IP</label>
+                                        <input type="text" name="ip" class="mypage_input2" required>
                                     </div>
                                 </div>
                             </div>                            
@@ -82,12 +79,13 @@
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section>
                                     <div class="mypage_edit_input">
-                                        <label for="callback">Callback URL</label>
-                                        <input type="text" name="callback" class="mypage_input2" placeholder="ex) http://www.mypd.com" required>
-                                    </div>
-                                    <div class="mypage_edit_input">
-                                        <label for="c_secret">Client Secret</label>
-                                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" readonly required>
+                                        <label for="biz_type">API 업권</label>
+                                        <select class="mypage_input2" name="biz_type" required="required">
+                                            <option value="">업권을 선택해주세요.</option>
+                                            <option value="의료">의료 업권</option>
+                                            <option value="금융">금융 업권</option>
+                                            <option value="전자상거래">전자상거래 업권</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>                            
@@ -97,8 +95,8 @@
                             <div class="mypage_box_input_id">
                                 <div class = mypage_edit_section style="margin-top:7px;">
                                 <div>
-                                    <label for="pwcheck" >서비스 설명</label>
-                                    <textarea  name="svc_desc" style="margin-top:10px;" class="input_size_con" cols="100" row="200"></textarea>
+                                    <label for="svr_desc" >서버 설명</label>
+                                    <textarea  name="svr_desc" style="margin-top:10px;" class="input_size_con" cols="100" row="200"></textarea>
                                 </div>
                                 </div>
                             </div>                            
@@ -106,7 +104,7 @@
                         
 
                         <div class="mypage_btn">
-                            <button type="button" onclick=history.go(-1) style="margin-right:15px; background-color:gray">취소하기</button>
+                            <button style="margin-right:15px; background-color:gray">취소하기</button>
                             <button type="submit" style="cursor:pointer;">저장하기</button>
                         </div>
 
@@ -119,8 +117,6 @@
         </div>
 
     </main>
-
-<script src="../javascripts/key.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </body>
 </html>
