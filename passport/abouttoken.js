@@ -14,7 +14,7 @@ function generateRefreshToken(payload, expire = 86400){ //refresh 토큰 발급
 }
 function generateuuidv4(num = 16) {
     if (num == 10){
-        return 'xxxxyxxxx'.replace(/[xy]/g, function(c) {
+        return 'xxxxyxxxxx'.replace(/[xy]/g, function(c) {
             var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
@@ -36,10 +36,10 @@ function getTokenChk(token, value) {
             secret = process.env.REFRESH_TOKEN_SECRET
         }
         const tokenVal =  jwt.verify(TOKEN, secret);
-        return tokenVal;
+        return "valid";
     } catch (err) {
-        console.log(err)
-        return false
+        // console.log(err)
+        return "invalid"
     }
 }
 
