@@ -82,11 +82,25 @@ function DBCheck_data (req, res, next){
     })
 }
 
+function DBCheck_server (req, res, next){
+    var sql = "SELECT COUNT(*) FROM server_management WHERE id_idx = ?"
+    var params = [req.user.id_idx];
+
+    DBSelect(sql,params)
+    .then((rows) => {
+        if(rows['COUNT(*)'] == 0) 
+            res.redirect('/mypage/reg_svr_no');
+        else
+            next();
+    })
+}
+
 
 module.exports = {
     dbInsert: DBInsert,
     dbSelect: DBSelect,
     dbSelectall : DBSelectAll,
     dbCheck : DBCheck,
-    dataCheck : DBCheck_data
+    dataCheck : DBCheck_data,
+    svrCheck : DBCheck_server
 }

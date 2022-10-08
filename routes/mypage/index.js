@@ -101,12 +101,21 @@ router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svr');
 });
 
+
+router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck, function(req, res, next) {
+  res.render('reg_svr_list');
+});
+
+
 router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck, function(req, res, next) {
   res.render('reg_svc_list');
 });
 
 router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc_no');
+});
+router.get('/reg_svr_no', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_svr_no');
 });
 
 router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck, function(req, res, next) {
@@ -242,6 +251,27 @@ router.post('/reg_svr',(req, res, next)=>
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
     res.redirect('/mypage/reg_svr_list');
+  })
+});
+
+//서버리스트 가져오기
+router.get('/svr_list',async function(req,res,next){
+  var id= req.user.id_idx;
+  var sql = `select * from server_management where id_idx=${id}`;
+  var params = req.session.passport.user.id;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//테스트데이터 지우기
+router.post('/svr_list_del',async function(req,res,next){
+  console.log(req.body);
+  var data_id = req.body.server_manage_id;
+  var sql = `delete from server_management where server_manage_id=${data_id};`;
+  var params = [];
+  await mdbConn.dbSelect(sql, params)
+  .then(() => {
+    res.redirect('/mypage/editdata_list');
   })
 });
 

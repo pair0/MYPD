@@ -8,7 +8,7 @@
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="../javascripts/svc_list.js"></script>
+    <script src="../javascripts/svr_list.js"></script>
 
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -61,26 +61,26 @@
                 <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
                 <div class="mypage_menu">
-                    <a href="../mypage/reg_svc_list" class="mypage_menuBtnnow"> 마이데이터 서비스 테스트 관리 </a>
+                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
                     <a href="../mypage/editdata_list" class="mypage_menuBtn" >테스트 데이터 관리</a>
-                    <a href="../mypage/reg_svr_list" class="mypage_menuBtn" >서버 등록</a>
+                    <a href="../mypage/reg_svr_list" class="mypage_menuBtnnow" >서버 등록</a>
                     <a href="../mypage/reg_link" class="mypage_menuBtn"> 연동 테스트 </a>
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
                 <!-- 비밀번호 재확인 -->
                 <div class="mypage_box">
                         <div class="reg_svc_list_title">
-                            현재 등록된 서비스
+                            현재 등록된 서버
                         </div>
                         <div class="table_box">
                             <table class="data_table">
                                 <thead>
                                     <tr>
-                                        <th>서비스명</th>
-                                        <th>Callback URL</th>
-                                        <th>Client ID</th>
-                                        <th>설명</th>
+                                        <th>서버명</th>
+                                        <th>IP</th>
+                                        <th>API업권</th>
+                                        <th>서버 설명</th>
                                         <th>삭제</th>
                                     </tr>
                                 </thead>
@@ -89,7 +89,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    <a class="test_manage_btn" href="/mypage/reg_svc">서비스 추가하기</a>
+                    <a class="test_manage_btn" href="/mypage/reg_svr">서비스 추가하기</a>
                     
             </div>
 
