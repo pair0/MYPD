@@ -177,7 +177,10 @@ nav .menu ul{
     display:flex;
 }
 
-nav .menu .menu_list{
+.menu_left{
+    display:flex;
+}
+.menu_list{
     margin: 0 20px;
     font-size: 20px;
     font-weight: 600;
@@ -185,34 +188,34 @@ nav .menu .menu_list{
 }
 
 
-nav .menu li:after{
+/* .menu_left li:after{
     display:block;
     content: '';
-    /* border-bottom: solid 2px #707070b7;   */
     border-bottom: solid 2px  #4d4d4d;  
     border-radius: 13px;
     transform: scaleX(0);  
     transition: transform 250ms ease-in-out;
 }
 
-nav .menu li:hover:after{
+.menu_left li:hover:after{
     transform: scaleX(1); 
 }
 
-nav .sub_menu_box li:hover:after{
+.sub_menu_box li:hover:after{
     transform: scaleX(0); 
 }
-nav .sub_menu_box li:hover a{
+.sub_menu_box li:hover a{
     font-weight: 700;
-}
+} */
 
 
 
 
 div .login_box{
     background-color: #0059ff;
+    border: 1px solid  #0059ff;
     width:75px;
-    height: 30  px;
+    height: 35px;
     justify-content: center;
     align-items: center;
     color:white;
@@ -221,6 +224,42 @@ div .login_box{
     display:flex;
     border-radius: 5px;
 }
+
+
+div .login_box:hover{
+    background-color: #0246c6;
+    border: 1px solid  #0059ff;
+    width:75px;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    font-weight: 600;
+    font-size:15px;
+    display:flex;
+    border-radius: 5px;
+}
+
+div .use_box{
+    background-color: #0059ff00;
+    border: 1px solid  #0059ff;
+    width:120px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    color:#0059ff;
+    font-weight: 700;
+    font-size:15px;
+    display:flex;
+    border-radius: 5px;
+    margin-left:10px;
+    transition:all 0.3s, color 0.3s;
+}
+
+div .use_box:hover{
+    background-color : #0059ff;
+    color:white;
+}
+
 
 .main_first{
     display:flex;
@@ -324,7 +363,7 @@ div .login_box{
     height:1200px;
     flex-direction: column;
     align-items: center;
-    margin-top:800px;
+    margin-top:780px;
     
 }
 
@@ -962,6 +1001,10 @@ div .login_box{
     padding-top: 5px;
 }
 
+#main-menu{
+    padding:19px;
+}
+
 #main-menu > li {
     float: left;
     position: relative;
@@ -1061,7 +1104,7 @@ div .login_box{
 }
 
 .mypage_menuBtnnow:after{
-    border-bottom: solid 2px  #007aff;  
+    border-bottom: solid px  #007aff;  
     border-radius: 13px;
     transform: scaleX(1);
 }
@@ -1070,7 +1113,6 @@ div .login_box{
 
 /* 커서를 올리면 */
 .mypage_menuBtn:hover{
-    margin:10px auto;
     font-weight: 900;
     color: #007aff;
     cursor:pointer;
