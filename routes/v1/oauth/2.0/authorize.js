@@ -49,7 +49,7 @@ const individual = require("./individual")
  *                    code:
  *                      type: string
  *                      example:
- *                          "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+ *                          "321d8f2c76"
  *                    state:
  *                      type: string
  *                      example:
