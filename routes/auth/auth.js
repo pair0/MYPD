@@ -1,5 +1,7 @@
 module.exports = {
     isLogIn : function (req,res, next) {
+        console.log(req.originalUrl, "1")
+        req.session.return = req.originalUrl;
         if(res.locals.isAuthenticated == true) next();
         else res.redirect('/user/login')
     },
