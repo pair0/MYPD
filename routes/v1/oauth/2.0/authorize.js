@@ -71,6 +71,6 @@ const individual = require("./individual")
  *                          "fail"
  */
 
-router.get("/authorize", individual.authorization)
+router.get("/", individual.authorization)
 
 module.exports = router
