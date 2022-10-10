@@ -9,6 +9,7 @@ exports.users = (req, res) => {
     var params = [req.query.token];
     mdbConn.dbSelect(sql, params)
     .then(() => {
+        res.set('x-api-tran-id', req.headers['x-api-tran-id'])
         res.status(200).json({"rsp_code" : "00000" , rsp_msg :"삭제 완료"})
     })
     .catch((err) => {

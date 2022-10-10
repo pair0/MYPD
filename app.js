@@ -44,13 +44,13 @@ app.use(function(req,res,next){
 
 
 var options = {
-  customCssUrl : '/stylesheets/swagger_api.css'
+  customCssUrl : '/stylesheets/swagger_api.css',
 };
 
 app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
 
 var options1 = {
-  customCssUrl : '/stylesheets/swagger.css'
+  customCssUrl : '/stylesheets/swagger.css',
 };
 app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options1), swaggerUi_svc.setup(specs_svc,options1));
 

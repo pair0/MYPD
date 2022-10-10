@@ -39,7 +39,7 @@ exports.authorization = (req, res) => {
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
-                res.json({ 
+                res.status(200).json({ 
                     ok: true, 
                     code: info['authorization_code'],
                     state: req.query.state,
@@ -87,8 +87,8 @@ exports.token = (req, res) => {
         var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
         mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
-            var accessExpiresIn = 3600;
-            var refreshExpiresIn = 86400;
+            var accessExpiresIn = 7776000;
+            var refreshExpiresIn = 31557600;
             const payload = {
                 'idx' : info['id_idx']
             };
@@ -97,6 +97,7 @@ exports.token = (req, res) => {
             var params = [accessToken, refreshToken, info['client_id']]
             mdbConn.dbInsert(sql['updateToken'], params)
             .then(() => {
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                 res.status(302).json({ 
                     token_type: 'Bearer', 
                     access_token: accessToken,
@@ -129,6 +130,7 @@ exports.token = (req, res) => {
                 var params = [newAccessToken,  info['client_id']]
                 mdbConn.dbInsert(sql['updateAccessToken'], params)
                 .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                     res.status(200).json({
                         "token_type" : 'Bearer',
                         "access_token" : newAccessToken,
@@ -150,6 +152,7 @@ exports.token = (req, res) => {
                 var params = [accessToken, refreshToken, info['client_id']]
                 mdbConn.dbInsert(sql['updateToken'], params)
                 .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                     res.status(200).json({ 
                         token_type: 'Bearer', 
                         access_token: accessToken,
