@@ -38,7 +38,7 @@ function getTokenChk(token, value) {
         const tokenVal =  jwt.verify(TOKEN, secret);
         return "valid";
     } catch (err) {
-        // console.log(err)
+        console.log(err)
         return "invalid"
     }
 }
