@@ -1,6 +1,4 @@
-const {YYYYMMDD} = require('../../../controller/controller.js')
-const {getTokenChk} = require("../../../passport/abouttoken");
-const mdbConn = require('../../../db_connection/mariaDBConn')
+const {YYYYMMDD, checkAndAPICall} = require('../../../controller/controller.js')
 
 /**
    * @path {GET} http://localhost:3000/v1/specification/lists
@@ -9,12 +7,8 @@ const mdbConn = require('../../../db_connection/mariaDBConn')
 exports.lists = (req, res) => {
     const info = {
         'org_code' : req.query.org_code,
-        'api_tran_id': req.headers['x-api-tran-id'],
+        // 'api_tran_id': req.headers['x-api-tran-id'],
         'AccessToken' : req.headers.authorization
-    }
-    const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
-        'checkAccessToken' :'SELECT * FROM service_test WHERE access_token = ?'
     }
     var response = {
         "rsp_code": "00", //00: 성공, 01: 유효하지않은 접근토큰, 99: 실패
@@ -24,36 +18,7 @@ exports.lists = (req, res) => {
         "spec_list": '{명세서 목록(--spec_id, --is_consent)}'
         // 명세서 수, 명세서 목록 정의??????
     }
-    // 기관 코드 검증
-    var params = [info['org_code']];
-    mdbConn.dbSelect(sql['checkOrg_code'], params)
-    .then(() => {
-        // 접근 토큰 DB 검증
-        var params = [info['AccessToken']];
-        mdbConn.dbSelect(sql['checkAccessToken'], params)
-        .then(() => {
-            // 접근 토큰 유효성 검증
-            var isValid = getTokenChk(info['AccessToken'],'access')
-            if(isValid == "valid"){
-                res.status(200).json(response)
-            }
-            else{
-                response['rsp_code'] = "01"
-                response['rsp_msg'] = "unauthorized_token"
-                res.status(403).json(response)
-            }
-        })
-        .catch(() => {
-            response['rsp_code'] = "01"
-            response['rsp_msg'] = "unauthorized_token"
-            res.status(403).json(response)
-        })
-    })
-    .catch(() => {
-        response['rsp_code'] = "99"
-        response['rsp_msg'] = "fail"
-        res.status(403).json(response)
-    })
+    checkAndAPICall(res,info,response);
 }
 /**
    * @path {POST} http://localhost:3000/v1/specification/specifics
@@ -63,10 +28,6 @@ exports.specifics = (req, res) => {
     const info = {
         'org_code' : req.query.org_code,
         'AccessToken' : req.headers.authorization
-    }
-    const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
-        'checkAccessToken' :'SELECT * FROM service_test WHERE access_token = ?'
     }
     var response = {
         "rsp_code": "00", //00: 성공, 01: 유효하지않은 접근토큰, 99: 실패
@@ -88,35 +49,7 @@ exports.specifics = (req, res) => {
         "visit_days_num": "내원일수", // 다섯자리 정수
         "treatment_total_payment": "청구요양급여비용총금액" // 스무자리 정수
     }
-    var params = [info['org_code']];
-    mdbConn.dbSelect(sql['checkOrg_code'], params)
-    .then(() => {
-        // 접근 토큰 DB 검증
-        var params = [info['AccessToken']];
-        mdbConn.dbSelect(sql['checkAccessToken'], params)
-        .then(() => {
-            // 접근 토큰 유효성 검증
-            var isValid = getTokenChk(info['AccessToken'],'access')
-            if(isValid == "valid"){
-                res.status(200).json(response)
-            }
-            else{
-                response['rsp_code'] = "01"
-                response['rsp_msg'] = "unauthorized_token"
-                res.status(200).json(response)
-            }
-        })
-        .catch(() => {
-            response['rsp_code'] = "01"
-            response['rsp_msg'] = "unauthorized_token"
-            res.status(403).json(response)
-        })
-    })
-    .catch(() => {
-        response['rsp_code'] = "99"
-        response['rsp_msg'] = "fail"
-        res.status(403).json(response)
-    })
+    checkAndAPICall(res,info,response);
 }
 
 /**
@@ -128,33 +61,15 @@ exports.apis = (req, res) => {
         'org_code' : req.query.org_code,
         'client_id': req.query.client_id
     }
-    const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
-        'checkClientId' :'SELECT * FROM service_test WHERE service_client_id = ?'
-    }
     var response = {
         "rsp_code" : "세부 응답코드", 
-        "rsp_msg" : "세부 응답메시지",
+        "rsp_msg" : "Incorrect Client ID",
         "version" : "현재 버전",
         "min_version" : "호환가능 최소 버전",
         "api_cnt" : "API 개수",
         "api_list" : '{API 목록("--api_code":API 구분 코드, "--api_uri":해당하는 정보)}'
     }
-    var params = [info['org_code']];
-    mdbConn.dbSelect(sql['checkOrg_code'], params)
-    .then(() => {
-        var params = [info['client_id']];
-        mdbConn.dbSelect(sql['checkClientId'], params)
-        .then(() => {
-            res.status(200).json(response)
-        })
-        .catch(() => {
-            res.status(403).json(response)
-        })
-    })
-    .catch(() => {
-        res.status(403).json(response)
-    })
+    checkAndAPICall(res,info,response);
 }
 /**
    * @path {GET} http://localhost:3000/v1/specification/consents
@@ -164,10 +79,6 @@ exports.consents = (req, res) => {
     const info = {
         'org_code' : req.query.org_code,
         'AccessToken' : req.headers.authorization
-    }
-    const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
-        'checkAccessToken' :'SELECT * FROM service_test WHERE access_token = ?'
     }
     var response = {
         "rsp_code" : "세부 응답코드", 
@@ -179,28 +90,5 @@ exports.consents = (req, res) => {
         "purpose" : "목적",
         "period" : "보유기간"
     }
-    var params = [info['org_code']];
-    mdbConn.dbSelect(sql['checkOrg_code'], params)
-    .then(() => {
-        // 접근 토큰 DB 검증
-        var params = [info['AccessToken']];
-        mdbConn.dbSelect(sql['checkAccessToken'], params)
-        .then(() => {
-            // 접근 토큰 유효성 검증
-            var isValid = getTokenChk(info['AccessToken'],'access')
-            if(isValid == "valid"){
-            res.status(200).json(response)
-
-            }
-            else{
-            res.status(403).json(response)
-            }
-        })
-        .catch(() => {
-            res.status(403).json(response)
-        })
-    })
-    .catch(() => {
-        res.status(403).json(response)
-    })
+    checkAndAPICall(res,info,response);
 }
