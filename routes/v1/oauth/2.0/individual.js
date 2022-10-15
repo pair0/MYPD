@@ -39,7 +39,7 @@ exports.authorization = (req, res) => {
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
-                res.json({ 
+                res.status(200).json({ 
                     ok: true, 
                     code: info['authorization_code'],
                     state: req.query.state,
@@ -87,8 +87,8 @@ exports.token = (req, res) => {
         var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
         mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
-            var accessExpiresIn = 3600;
-            var refreshExpiresIn = 86400;
+            var accessExpiresIn = 7776000;
+            var refreshExpiresIn = 31557600;
             const payload = {
                 'idx' : info['id_idx']
             };
@@ -97,6 +97,7 @@ exports.token = (req, res) => {
             var params = [accessToken, refreshToken, info['client_id']]
             mdbConn.dbInsert(sql['updateToken'], params)
             .then(() => {
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                 res.status(302).json({ 
                     token_type: 'Bearer', 
                     access_token: accessToken,
@@ -129,6 +130,7 @@ exports.token = (req, res) => {
                 var params = [newAccessToken,  info['client_id']]
                 mdbConn.dbInsert(sql['updateAccessToken'], params)
                 .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                     res.status(200).json({
                         "token_type" : 'Bearer',
                         "access_token" : newAccessToken,
@@ -150,6 +152,7 @@ exports.token = (req, res) => {
                 var params = [accessToken, refreshToken, info['client_id']]
                 mdbConn.dbInsert(sql['updateToken'], params)
                 .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                     res.status(200).json({ 
                         token_type: 'Bearer', 
                         access_token: accessToken,
@@ -170,4 +173,57 @@ exports.token = (req, res) => {
             res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
         })
     }
+}
+
+/**
+   * @path {GET} http://localhost:3000/v1/oauth/oauth_api/authorize_api
+   * @description 인가코드 발급 요청
+*/
+exports.authorization_api = (req, res) => {
+    //org_code == 사업자등록번호
+    //org_code, client_id
+    //ci를 검증하라 하지만 ci에 대한 정보 없음.....
+    //마이데이터사업자가 전송한 개별인증-001 파라미터들 (x-user-ci, client_id, redirect_uri 등) 검증
+    //마이데이터사업자가 전송한 redirect_uri가 해당 마이데이터사업자의 Callback URL 목록*에 속해있는지 여부 검증
+    const info = {
+        'org_code' : req.query.org_code,
+        'client_id' : req.query.client_id,
+        'id' : req.user.e_customer_id
+    }
+    const sql = {
+        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?',
+        'checkClient_id' : 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?',
+        'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?',
+    }
+    var params = [info['org_code'], info['id']];
+    mdbConn.dbSelect(sql['checkOrg_code'], params)
+    .then((rows) => {
+        info['id_idx'] = rows.id_idx
+        var params = [info['client_id'], info['id_idx']];
+        mdbConn.dbSelect(sql['checkClient_id'], params)
+        .then((rows) => {
+            info['authorization_code'] = generateuuidv4(10);
+            var params_null = [null, info['client_id']];
+            // 인가코드 10분 제한 코드 (비동기 동작))
+            setTimeout(() => {
+                mdbConn.dbSelect(sql['updateAuthorization_code'], params_null);
+            }, 600000) 
+            // 인가코드 생성 및 DB 저장
+            var params = [info['authorization_code'], info['client_id']];
+            mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
+            .then(() => {
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
+                res.redirect('http://localhost:3000/testbed/inte_api_access')
+            })
+            .catch(() => {
+                console.log("DB Insert Error Check /v1/oauth/oauth_api/authorize_api")
+            })
+        })
+        .catch(() => {
+            res.status(404).json({rsp_msg : 'client_id is invalid.' })
+        })
+    })
+    .catch(() => {
+        res.status(404).json({rsp_msg : 'org_code is invalid.'})
+    })
 }

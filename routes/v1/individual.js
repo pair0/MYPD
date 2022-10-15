@@ -7,7 +7,7 @@ const mdbConn = require('../../db_connection/mariaDBConn');
 exports.users = (req, res) => {
     var sql = "DELETE FROM service_test where authorization_code = ?";
     var params = [req.query.token];
-    mdbConn.dbSelect(sql, params)
+    mdbConn.dbInsert(sql, params)
     .then(() => {
         res.status(200).json({"rsp_code" : "00000" , rsp_msg :"삭제 완료"})
     })

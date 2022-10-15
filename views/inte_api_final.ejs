@@ -55,8 +55,7 @@
     </div>
 
     <div class="header">
-        <h1>단위테스트 페이지 (수정필요)</h1>
-        <p>마이데이터 서비스 단위테스트 (수정필요)</p>
+        <h1>API 서버 통합테스트</h1>
     </div>
 
     <main class="main_bg">
@@ -78,16 +77,16 @@
                     <button class="dropdown-btn">API 서비스 테스트</button>
                     <div class="dropdown-submenu">
                         <a href="../testbed/unit_api">ㄴ단위테스트</a>
-                        <a href="../testbed/unit_api">ㄴ통합테스트</a>
-                        <a href="../testbed/unit_api">ㄴ연동테스트</a>
+                        <a href="../testbed/inte_api">ㄴ통합테스트</a>
+                        <a href="../testbed/link_api">ㄴ연동테스트</a>
                     </div>
                 </div>
 
                 <div class="dropdown">
                     <button class="dropdown-btn">테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/reg_svc">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
@@ -108,74 +107,69 @@
                 <form class="unitTest_box_form">
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
-                        <label for="biz_type">서비스 선택</label>
-                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select()" required>
-                            <option>서비스 선택</option>
-                            <% for(var i=0; i<service_select.length; i++){ %>
-                            <option value=<%=service_select[i].service_id%>><%=service_select[i].service_name%></option>
-                            <% } %>
-                        </select>
-                        </div>
-                    </div>
-                    
-                    <div class="unitTest_box_input">
-                        <div class="unitTest_edit_input">
-                        <label for="data_select">데이터 선택</label>
-                        <select class="unitTest_input" name="data_select" id="data_select" onchange="making_select_data()" required>
-                            <option>데이터 선택</option>
-                            <% for(var i=0; i<data_select.length; i++){ %>
-                            <option value=<%=data_select[i].data_id%>><%=data_select[i].data_name%></option>
+                        <label for="biz_type">서버 선택</label>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server()" required>
+                            <option>서버 선택</option>
+                            <% for(var i=0; i<server_select.length; i++){ %>
+                            <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
                             <% } %>
                         </select>
                         </div>
                     </div>
 
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">업권분류</label>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">orgcode</label>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Callback URL</label>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
 
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client ID</label>
-                            <input type="text" class="unitTest_input" name="C_ID" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
-                    
+
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client Secret</label>
-                            <input type="text" class="unitTest_input" name="C_Se" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
-
-                    <!-- 테스트 데이터 출력용 임시 박스임 삭제 해야함 -->
-                    <div class="unitTest_box_input">
-                        <div class="unitTest_edit_input">
-                            <label for="tmp_data">테스트 데이터 미리보기</label>
-                            <input type="text" class="unitTest_input" name="tmp_data" required="required" autofocus="autofocus" readonly>
-                            <span class="errorBox_myPage"></span>
-                        </div>                     
-                    </div>
-                    <!-- =========================================== -->
 
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
-                            <label for="org_code">접근 토큰</label>
-                            <input type="text" class="unitTest_input" name="org_code" required="required" autofocus="autofocus">
+                            <label for="org_code">Access token</label>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
-
+                    <div class="mypage_btn">
+                        <button type="submit" style="cursor:pointer;" onclick="popupclick()">테스트 실행</button>
+                    </div>
+                    
                 </form>
-            </div>  
-
-            <!-- SWAGger UI-->
-            <div class="unitTest_box"> 
-                <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
-                    <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
-                </div>
-            </div>
-
-            <div style="height: 20px;"> </div>
+            </div>   
         </section>        
 
 
@@ -184,6 +178,11 @@
 
     </main>
 
+    <script>
+        function popupclick() {
+            window.open("/testbed/popup", "인증 팝업", "width = 400, height = 500, top = 100, left = 200, location = no");
+        }
+    </script>
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
