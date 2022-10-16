@@ -7,7 +7,7 @@ const specification = require('./specification');
  *    get:
  *      summary: "명세서 목록 조회 API"
  *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
- *      tags: [InformationProvision]
+ *      tags: [Specification]
  *      security:  
  *        - Authorization: []
  *      parameters:
@@ -66,14 +66,10 @@ router.get("/lists", specification.lists)
  *    post:
  *      summary: "명세서 내역 조회 API"
  *      description: "정보주체의 인증 및 전송요구 확인 후 발급"
- *      tags: [InformationProvision]
+ *      tags: [Specification]
  *      security:  
  *        - Authorization: []
  *      parameters:
- *        - in: header
- *          name: Authorization
- *          required: true
- *          description: 접근토큰
  *        - in: header
  *          name: x-api-tran-id
  *          required: true
@@ -185,7 +181,7 @@ router.post("/specifics", specification.specifics);
  *    get:
  *      summary: "API 목록 조회"
  *      description: "보제공자가 제공하는 정보제공 API 목록을 회신"
- *      tags: [InformationProvision]
+ *      tags: [Specification]
  *      parameters:
  *        - in: header
  *          name: x-api-tran-id
@@ -246,7 +242,7 @@ router.get("/apis", specification.apis)
  *    get:
  *      summary: "전송요구내역 조회 API"
  *      description: "정정보주체가 특정한 전송요구 내역 조회"
- *      tags: [InformationProvision]
+ *      tags: [Specification]
  *      security:  
  *        - Authorization: []
  *      parameters:

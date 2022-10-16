@@ -83,6 +83,7 @@ exports.token = (req, res) => {
         'authorization_code' : req.body.code,
         'id_idx' : req.user.id_idx
     }
+    // refresh_token이 없다면 refreshToken, accessToken 생성
     if(req.body.refresh_token == ""){
         var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
         mdbConn.dbSelect(sql['checkInfo'],params)
@@ -170,6 +171,7 @@ exports.token = (req, res) => {
         })
         .catch(() => {
             console.log(err)
+            console.log(req.body.refresh_token)
             res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
         })
     }
