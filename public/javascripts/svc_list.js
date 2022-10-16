@@ -20,7 +20,7 @@ function buildtable(data){
     {
         var table = document.getElementById('mytable')
         var row = `<tr>
-                        <td>${data[i].service_name}</td>
+                        <td id="list_name">${data[i].service_name}</td>
                         <td>${data[i].service_callback_url}</td>
                         <td>${data[i].service_client_id}</td>
                         <td>${data[i].service_text}</td>
