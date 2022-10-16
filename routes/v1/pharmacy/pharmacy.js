@@ -14,8 +14,8 @@ exports.lists = (req, res) => {
         "rsp_code": "00", //00: 성공, 01: 유효하지않은 접근토큰, 99: 실패
         "rsp_msg": "success", //success: 성공, unauthorized_token: 유효하지않은 접근토큰 fail: 실패
         "search_timestamp": YYYYMMDD(new Date().getTime()), //YYYYMMDDHHMM
-        "spec_cnt": "명세서 수",
-        "spec_list": "{--spec_id, --is_consent}"
+        "spec_cnt": "명세서 수 (10)",
+        "spec_list": "{--spec_id(차세대 시스템에서 명세서를 유일하게 식별하기 위해 부여 되는 인조식별자, NUMBER), --is_consent}"
         // 명세서 수, 명세서 목록 정의??????
     }
     checkAndAPICall(res, info,response);
