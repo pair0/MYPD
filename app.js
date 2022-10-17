@@ -52,7 +52,7 @@ app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api
 app.use('/api_test_access', swaggerUi_api_access.serveFiles(specs_api_access, options), swaggerUi_api_access.setup(specs_api_access, options));
 
 var options1 = {
-  customCssUrl : '/stylesheets/swagger.css'
+  customCssUrl : '/stylesheets/swagger.css',
 };
 app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options1), swaggerUi_svc.setup(specs_svc,options1));
 
