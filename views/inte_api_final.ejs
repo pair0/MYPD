@@ -144,7 +144,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client ID</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" value="asdf" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -165,7 +165,7 @@
                         </div>                     
                     </div>
                     <div class="mypage_btn">
-                        <button type="submit" style="cursor:pointer;" onclick="popupclick()">테스트 실행</button>
+                        <button type="submit" id="clickpopup" style="cursor:pointer;">테스트 실행</button>
                     </div>
                     
                 </form>
@@ -179,8 +179,8 @@
     </main>
 
     <script>
-        function popupclick() {
-            window.open("/testbed/popup", "인증 팝업", "width = 400, height = 500, top = 100, left = 200, location = no");
+        document.getElementById("clickpopup").onclick = function() {
+            var myWindow = window.open("/testbed/popup", "인증 팝업", "width = 400, height = 500, top = 100, left = 200, location = no");
         }
     </script>
 

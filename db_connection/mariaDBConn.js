@@ -25,23 +25,6 @@ async function DBInsert(sql, params){
     }
 }
 
-//DB Delete
-async function DBDelete(sql, params){
-    let conn;
-    try{
-        conn = await con.getConnection();
-        rows = await conn.query(sql, params);
-    }
-    catch(err){
-        console.log(err)
-        return err;
-    }
-    finally{
-        if (conn) conn.end();
-        return "sucess";
-    }
-}
-
 //DB select
 async function DBSelect(sql, params){
     let conn, rows;
@@ -115,7 +98,6 @@ function DBCheck_server (req, res, next){
 
 module.exports = {
     dbInsert: DBInsert,
-    DBDelete: DBDelete,
     dbSelect: DBSelect,
     dbSelectall : DBSelectAll,
     dbCheck : DBCheck,
