@@ -251,8 +251,7 @@ input::placeholder {
   border-bottom: 3px solid #c7c7c7;
 }
 .BOX{
-  height : 100px; 
-  width : 350px; 
+  overflow:hidden; height:auto; /*컨텐츠 추가시 자동으로 높이 크기 조절*/
   min-height: 100px;
   max-width: 350px;
   margin: 20px auto 10px; 
@@ -851,4 +850,46 @@ border: 0.5px solid #C7C7C7;
 
 .findCor_box{
   display:flex;
+}
+
+
+
+/*===============================popup=====================================*/
+
+.input_test{
+  background-color: rgb(163, 160, 160);
+  overflow:hidden; height:auto; /*컨텐츠 추가시 자동으로 높이 크기 조절*/
+  min-height: 450px;
+  max-width: 350px;
+  margin: 30px auto;
+  border-radius: 24px;
+  box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.25);
+  /* opacity: 0.7; */
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.select_api{
+  width:400px; 
+  height: 400px; 
+  overflow: auto; 
+  margin: 20px auto;
+}
+
+.select_button1{
+  margin: 20px auto;
+  height: 50px;
+  width: 300px;
+  background-color: #000000;
+  /* text-align: center; */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 28px;
 }

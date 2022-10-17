@@ -7,6 +7,7 @@ const { generateAccessToken, generateRefreshToken, checkTokens } = require('../.
 const { isLogIn, isNotLogIn } = require('../auth/auth')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
+const { render } = require('ejs');
 require("dotenv").config();
 
 // 나중에 지울 친구!!
@@ -489,5 +490,4 @@ router.post("/findPwPer", isNotLogIn, function (req, res, next) { //pw 초기화
     res.send("<script>alert('세션이 만료되었습니다.');location.href='/main';</" + "script>");
   }
 });
-
 module.exports = router;

@@ -1,5 +1,6 @@
 const router = require("express").Router()
-const individual = require("./individual")
+const individual = require("../2.0/individual")
+
 
 /**
  * @swagger
@@ -74,7 +75,6 @@ const individual = require("./individual")
  *                      example:
  *                          "1234567890123456789012345"
  */
-
 router.post("/",individual.token)
 
 
@@ -136,7 +136,7 @@ router.post("/",individual.token)
   *                      example:
   *                          "1234567890123456789012345"
   */
-
 router.post("/",individual.token)
+
 
 module.exports = router
