@@ -42,7 +42,7 @@ const individual = require("./individual")
  *                type : string
  *                description :  인가코드 발급요청 시 요청했던 Callback URL
  *      responses:
- *        "302":
+ *        "200":
  *          description: 접근토큰 발급
  *          content:
  *            application/json:

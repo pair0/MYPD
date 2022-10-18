@@ -25,7 +25,7 @@ function yyyymmdd(timestamp , option = "FULL") {
 // info_key = ['AccessToken']
 // info_key = ['client_id']
 
-function checkAndAPICall(res, info, response){
+function checkAndAPICall(res, info, responseAlpa){
     const sql = {
         'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
         'checkAccessToken' :'SELECT * FROM service_test WHERE access_token = ?',
@@ -35,6 +35,9 @@ function checkAndAPICall(res, info, response){
         'org_code' : 'checkOrg_code',
         'AccessToken' : 'checkAccessToken',
         'client_id' : 'checkClientId'
+    }
+    var response = {
+        "search_timestamp" : yyyymmdd(new Date().getTime()), //YYYYMMDDHHMM
     }
     const key = Object.keys(info);
     var params = [info['org_code']];
@@ -52,6 +55,7 @@ function checkAndAPICall(res, info, response){
             if(isValid == "valid" && rows != undefined){
                 response['rsp_code'] = "00"
                 response['rsp_msg'] = "success"
+                Object.assign(response, responseAlpa)
                 res.status(200).json(response)
             }
             else{
@@ -71,7 +75,44 @@ function checkAndAPICall(res, info, response){
     })
 }
 
+function GetListAPI(res,info,params,) {
+    var response = {
+        'spec_list' : ''
+    }
+    const sql = 'SELECT * FROM data_test WHERE enterprise_code = ? AND data_api = ?'
+    mdbConn.dbSelectall(sql, params)
+    .then((rows) => {
+        response['spec_cnt'] = rows.length;
+        for(var i = 0; i < response['spec_cnt']; i++){
+            // response['spec_list'] += String(JSON.parse(rows[i]['data_json']).IDV_ID) + ', ' 
+            response['spec_list'] += String(JSON.parse(rows[i]['data_id'])) 
+            if( i != response['api_cnt'])
+                response['api_list'] += ', '
+        }
+        checkAndAPICall(res,info,response);
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+function GetSpecAPI(res,info,params){
+    var response = {}
+    const sql = 'SELECT * FROM data_test WHERE enterprise_code = ? and data_id = ?'
+    params = [info['org_code'], info['spec_id']]
+    mdbConn.dbSelect(sql, params)
+    .then((rows) => {
+        // response += String(JSON.parse(rows['data_json']))
+        response = JSON.parse(rows['data_json'])
+        checkAndAPICall(res,info,response);
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
 module.exports = {
     YYYYMMDD : yyyymmdd,
-    checkAndAPICall: checkAndAPICall
+    checkAndAPICall: checkAndAPICall,
+    getListAPI: GetListAPI,
+    getSpecAPI: GetSpecAPI
 }
