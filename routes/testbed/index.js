@@ -83,6 +83,10 @@ router.post("/inte_api_access", isLogIn, checkTokens, async function (req, res, 
   res.render("inte_api_access");
 });
 
+router.post("/inte_api_final", isLogIn, checkTokens, function (req, res, next){
+  res.send("<script>location.href='/testbed/inte_api_final';</" + "script>");
+});
+
 router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
   var sql = "SELECT * FROM server_management WHERE id_idx=?";
   params = req.user.id_idx;
@@ -105,6 +109,10 @@ router.get("/moneylist", isLogIn, checkTokens, async function (req, res, next) {
 
 router.get("/popup_api_select", isLogIn, checkTokens, async function (req, res, next) {
   res.render("popup_api_select");
+});
+
+router.get("/test1", isLogIn, checkTokens, function(req, res, next){
+  res.render("test1");
 });
 
 router.post("/DataSelect", isLogIn, checkTokens, async function (req, res, next) {
