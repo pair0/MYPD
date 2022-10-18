@@ -75,7 +75,39 @@ router.get("/inte_api", isLogIn, checkTokens, async function (req, res, next) {
   res.render("inte_api");
 });
 
-router.post("/DataSelect", function (req, res, next){
+router.get("/inte_api_access", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_api_access");
+});
+
+router.post("/inte_api_access", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("inte_api_access");
+});
+
+router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
+  var sql = "SELECT * FROM server_management WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  res.locals.server_select = rows;
+  res.render("inte_api_final");
+});
+
+router.get("/popup", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("popup");
+});
+
+router.post("/moneylist", isLogIn, checkTokens, async function (req, res, next) {
+  res.send("<script>alert('인증에 성공하였습니다.');location.href='/testbed/moneylist';</" + "script>");
+});
+
+router.get("/moneylist", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("moneylist");
+});
+
+router.get("/popup_api_select", isLogIn, checkTokens, async function (req, res, next) {
+  res.render("popup_api_select");
+});
+
+router.post("/DataSelect", isLogIn, checkTokens, async function (req, res, next) {
   var data = req.body.data;
   var sql = "SELECT * FROM data_test WHERE data_id=?";
   

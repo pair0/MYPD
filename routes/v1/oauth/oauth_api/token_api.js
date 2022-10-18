@@ -1,5 +1,6 @@
 const router = require("express").Router()
-const individual = require("./individual")
+const individual = require("../2.0/individual")
+
 
 /**
  * @swagger
@@ -42,7 +43,7 @@ const individual = require("./individual")
  *                type : string
  *                description :  인가코드 발급요청 시 요청했던 Callback URL
  *      responses:
- *        "200":
+ *        "302":
  *          description: 접근토큰 발급
  *          content:
  *            application/json:
@@ -74,7 +75,6 @@ const individual = require("./individual")
  *                      example:
  *                          "1234567890123456789012345"
  */
-
 router.post("/",individual.token)
 
 
@@ -136,7 +136,7 @@ router.post("/",individual.token)
   *                      example:
   *                          "1234567890123456789012345"
   */
-
 router.post("/",individual.token)
+
 
 module.exports = router

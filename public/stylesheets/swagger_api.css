@@ -4,7 +4,13 @@
 .swagger-ui .scheme-container{
     display: none ;
 }
+.opblock-description-wrapper{
+    display: none;
+}
 
+#operations-tag-MydataAuthorization{
+    display: none;
+}
 .info .title {
     opacity: 0;
 }

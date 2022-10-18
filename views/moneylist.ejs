@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="kor">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content=""> 
+
+        <!--CSS -->
+        <link rel="stylesheet" href="../stylesheets/style.css">
+        <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+        <title>mypd testbed</title>
+    </head>
+
+    <body>
+        <div>
+            <div style="text-align : center;">
+                <p class = "page_title" style="font-size:25px; margin-bottom: 0px; margin-top: 50px">자산목록</p>
+            </div>
+            <form method="post" action="/testbed/inte_api_access">
+                <div class="BOX" style="padding-bottom: 10px;">
+                    <div style="width : 320px; display: flex; margin: 10px auto; padding-top: 9px;">
+                        <label>
+                            <span class="p-navbar__menu"></span>
+                            <input type="checkbox"id="check1" name="chk" style="width: 20px; height: 20px; margin-right: 10px;">
+                        </label style="display: flex;">
+                        <p3 style="font-size: 15px; font-weight: 700;">기업 회원 약관에 동의</p3>
+                        
+                    </div>
+                    <div style="width : 320px; display: flex; margin: 10px auto; padding-top: 5px;">
+                        <label style="display: flex;">
+                            <span class="p-navbar__menu"></span>
+                            <input type="checkbox" id="check2" name="chk" style="width: 20px; height: 20px; margin-right: 10px;">
+                        </label>
+                        <p3 style="font-size: 15px; font-weight: 700;">개인정보 수집 및 이용에 동의</p3>
+                    </div>
+                    <div style="width : 320px; display: flex; margin: 10px auto; padding-top: 5px;">
+                        <label style="display: flex;">
+                            <span class="p-navbar__menu"></span>
+                            <input type="checkbox" id="check2" name="chk" style="width: 20px; height: 20px; margin-right: 10px;">
+                        </label>
+                        <p3 style="font-size: 15px; font-weight: 700;">개인정보 수집 및 이용에 동의</p3>
+                    </div>
+                    <div style="width : 320px; display: flex; margin: 10px auto; padding-top: 5px;">
+                        <label style="display: flex;">
+                            <span class="p-navbar__menu"></span>
+                            <input type="checkbox" id="check2" name="chk" style="width: 20px; height: 20px; margin-right: 10px;">
+                        </label>
+                        <p3 style="font-size: 15px; font-weight: 700;">개인정보 수집 및 이용에 동의</p3>
+                    </div>
+                    <div style="width : 320px; display: flex; margin: 10px auto; padding-top: 5px;">
+                        <label style="display: flex;">
+                            <span class="p-navbar__menu"></span>
+                            <input type="checkbox" id="check2" name="chk" style="width: 20px; height: 20px; margin-right: 10px;">
+                        </label>
+                        <p3 style="font-size: 15px; font-weight: 700;">개인정보 수집 및 이용에 동의</p3>
+                    </div>
+                </div>
+                <div class="btn" style="padding-top: 0;">
+                    <button type="button" class="loginBtn" id="SelectSuccess" style="padding: 10px 35px; border-radius:5px !important; font-size: 13px;"><strong>선택 완료</strong></button><br>
+                </div>
+            </form>
+        </div>
+        <script>
+            document.getElementById("SelectSuccess").onclick = function(){
+                opener.document.location.href="/testbed/inte_api_access"
+                window.close();
+            }
+        </script>
+    </body>
+</html>
