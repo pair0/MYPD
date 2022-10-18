@@ -1,6 +1,7 @@
 var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
+const individual = require("../v1/oauth/2.0/individual")
 const { isLogIn } = require("../auth/auth");
 const { checkTokens } = require("../../passport/abouttoken");
 
@@ -80,7 +81,8 @@ router.get("/inte_api_access", isLogIn, checkTokens, async function (req, res, n
 });
 
 router.post("/inte_api_access", isLogIn, checkTokens, async function (req, res, next) {
-  res.render("inte_api_access");
+  individual.authorization
+  res.redirect("/testbed/inte_api_access");
 });
 
 router.post("/inte_api_final", isLogIn, checkTokens, function (req, res, next){
