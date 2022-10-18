@@ -72,7 +72,9 @@ async function changeAPI(val){
         "[진료정보제공 API] 수진자상병내역 조회 API",
         "[진료정보제공 API] 전송요구내역 조회 API",
         "[의약품정보제공 API] 의료기관약제내역목록 조회 API",
-        "[의약품정보제공 API] 의료기관약제내역 조회 API"
+        "[의약품정보제공 API] 의료기관약제내역 조회 API",
+        "[의약품정보제공 API] API 목록 조회",
+
         ]
     
     var ecommerce=[

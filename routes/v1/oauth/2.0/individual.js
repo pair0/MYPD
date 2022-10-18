@@ -28,6 +28,8 @@ exports.authorization = (req, res) => {
         var params = [info['client_id'], info['id_idx']];
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
+            if(rows == undefined)
+                res.status(404).json({rsp_msg : 'client_id is invalid.' })
             info['authorization_code'] = generateuuidv4(10);
             var params_null = [null, info['client_id']];
             // 인가코드 10분 제한 코드 (비동기 동작))
@@ -99,7 +101,7 @@ exports.token = (req, res) => {
             mdbConn.dbInsert(sql['updateToken'], params)
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])
-                res.status(302).json({ 
+                res.status(200).json({ 
                     token_type: 'Bearer', 
                     access_token: accessToken,
                     expires_in: accessExpiresIn,
