@@ -17,7 +17,7 @@ const individual = require("./individual")
  *        - in: query
  *          name: token
  *          required: true
- *          description: authorization_code
+ *          default: authorization_code
  *        - in: query
  *          name: client_id
  *          required: true

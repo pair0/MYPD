@@ -59,19 +59,15 @@ function checkdata(){
 async function changeAPI(val){
     var target = document.getElementById("api");
     var medical = [
-        "[의료명세서 API] 명세서 목록 조회 API",
         "[의료명세서 API] 명세서 내역 조회 API",
         "[의료명세서 API] API 목록 조회",
         "[의료명세서 API] 전송요구내역 조회 API",
         "[의료명세서 API] 명세서 일반내역 조회 API(가안)",
-        "[진료정보제공 API] 진료내역 목록 조회 API",
         "[진료정보제공 API] 진료내역 조회 API",
         "[진료정보제공 API] API 목록 조회",
-        "[진료정보제공 API] 처방전교부목록 조회 API",
         "[진료정보제공 API] 처방전교부내역 조회 API",
         "[진료정보제공 API] 수진자상병내역 조회 API",
         "[진료정보제공 API] 전송요구내역 조회 API",
-        "[의약품정보제공 API] 의료기관약제내역목록 조회 API",
         "[의약품정보제공 API] 의료기관약제내역 조회 API",
         "[의약품정보제공 API] API 목록 조회",
 

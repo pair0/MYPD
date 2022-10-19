@@ -1,5 +1,6 @@
 const {getTokenChk} = require("../passport/abouttoken");
-const mdbConn = require('../db_connection/mariaDBConn')
+const mdbConn = require('../db_connection/mariaDBConn');
+const e = require("express");
 
 function yyyymmdd(timestamp , option = "FULL") {
     var d = new Date(timestamp), // Convert the passed timestamp to milliseconds
@@ -37,7 +38,9 @@ function checkAndAPICall(res, info, responseAlpa){
         'client_id' : 'checkClientId'
     }
     var response = {
-        "search_timestamp" : yyyymmdd(new Date().getTime()), //YYYYMMDDHHMM
+        "rsp_code" : "",
+        "rsp_msg" : "",
+        "search_timestamp" : yyyymmdd(new Date().getTime()) //YYYYMMDDHHMM
     }
     const key = Object.keys(info);
     var params = [info['org_code']];
@@ -77,6 +80,7 @@ function checkAndAPICall(res, info, responseAlpa){
 
 function GetListAPI(res,info,params,) {
     var response = {
+        'spec_cnt' : 0,
         'spec_list' : ''
     }
     const sql = 'SELECT * FROM data_test WHERE enterprise_code = ? AND data_api = ?'
@@ -84,35 +88,44 @@ function GetListAPI(res,info,params,) {
     .then((rows) => {
         response['spec_cnt'] = rows.length;
         for(var i = 0; i < response['spec_cnt']; i++){
-            // response['spec_list'] += String(JSON.parse(rows[i]['data_json']).IDV_ID) + ', ' 
-            response['spec_list'] += String(JSON.parse(rows[i]['data_id'])) 
-            if( i != response['api_cnt'])
-                response['api_list'] += ', '
+            if(params[1] == '[진료정보제공 API] 진료내역 조회 API' || params[1] == '[진료정보제공 API] 처방전교부내역 조회 API'){
+                response['spec_list'] += '{' + String(JSON.parse(rows[i]['data_json']).SPEC_ID)+ ',' + String(JSON.parse(rows[i]['data_id'])) + '}'+ ',' + String(JSON.parse(rows[i]['consents'])) + '}'
+            }
+            else{
+                response['spec_list'] += '{' + String(JSON.parse(rows[i]['data_json']).SPEC_ID) + ', ' + String(JSON.parse(rows[i]['consents'])) + '}'
+            }
+            if( i != response['spec_cnt'])
+                response['spec_list'] += ', '
         }
         checkAndAPICall(res,info,response);
     })
     .catch((err) => {
+        res.status(404).json({'rsp_code':99, 'rsp_msg':"Not Found API"})
         console.log(err)
     })
 }
-function GetSpecAPI(res,info,params){
+function GetAPI(res,info,params,addinfo = 'spec'){
     var response = {}
-    const sql = 'SELECT * FROM data_test WHERE enterprise_code = ? and data_id = ?'
-    params = [info['org_code'], info['spec_id']]
+    if (addinfo == 'spec')
+        var sql = "SELECT * FROM  data_test WHERE enterprise_code = ? AND json_value(data_json,'$.SPEC_ID') LIKE ? "
+    else if (addinfo == 'line')
+        var sql = "SELECT * FROM data_test WHERE enterprise_code = ? AND data_id = ?"
+    else
+        var sql = "SELECT * FROM data_test WHERE enterprise_code = ? AND json_value(data_json,'$.SPEC_ID') like ? AND data_id = ?"
     mdbConn.dbSelect(sql, params)
     .then((rows) => {
-        // response += String(JSON.parse(rows['data_json']))
+        console.log(rows)
         response = JSON.parse(rows['data_json'])
         checkAndAPICall(res,info,response);
     })
     .catch((err) => {
+        res.status(404).json({'rsp_code':99, 'rsp_msg':"Not Found SEPC_ID"})
         console.log(err)
     })
 }
-
 module.exports = {
     YYYYMMDD : yyyymmdd,
     checkAndAPICall: checkAndAPICall,
     getListAPI: GetListAPI,
-    getSpecAPI: GetSpecAPI
+    getAPI: GetAPI,
 }

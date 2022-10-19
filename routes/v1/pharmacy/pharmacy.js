@@ -9,7 +9,7 @@ exports.lists = (req, res) => {
         'org_code' : req.query.org_code,
         'AccessToken' : req.headers.authorization
     }
-    params = [info['org_code'], "[의약품정보제공 API] 의료기관약제내역목록 조회 API"]
+    params = [info['org_code'], "[의약품정보제공 API] 의료기관약제내역 조회 API"]
     getListAPI(res,info,params)
 }
 /**
@@ -23,7 +23,7 @@ exports.histories = (req, res) => {
         'spec_id' : req.query.spec_id
     }
     params = [info['org_code'], info['spec_id']]
-    getSpecAPI(res,info,params)
+    getAPI(res,info,params)
 }
 /**
    * @path {GET} http://localhost:3000/v1/pharmacy/apis
