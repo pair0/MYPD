@@ -18,7 +18,12 @@ const pharmacy = require('./pharmacy')
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -26,6 +31,7 @@ const pharmacy = require('./pharmacy')
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -78,7 +84,12 @@ router.get("/lists", pharmacy.lists)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -90,6 +101,7 @@ router.get("/lists", pharmacy.lists)
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -204,7 +216,12 @@ router.post('/histories', pharmacy.histories);
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -261,10 +278,15 @@ router.get("/apis", pharmacy.apis)
   *          name: x-api-tran-id
   *          required: true
   *          description: 거래고유번호
-  *        - in: header
-  *          name: x-api-type
-  *          required: true
-  *          description: 정기적/비정기적 전송 API 유형
+ *        - in: header
+ *          name: x-api-type
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
   *        - in: query
   *          name: org_code
   *          required: true

@@ -1,4 +1,4 @@
-const {YYYYMMDD, checkAndAPICall, getListAPI, getSpecAPI} = require('../../../controller/controller.js')
+const {YYYYMMDD, checkAndAPICall, getListAPI, getAPI} = require('../../../controller/controller.js')
 const mdbConn = require('../../../db_connection/mariaDBConn')
 
 /**
@@ -24,7 +24,7 @@ exports.specifics = (req, res) => {
         'spec_id' : req.query.spec_id
     }
     params = [info['org_code'], info['spec_id']]
-    getSpecAPI(res,info, params);
+    getAPI(res,info, params);
 }
 
 /**

@@ -18,7 +18,12 @@ const diagnosis = require('./diagnosis')
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -26,6 +31,7 @@ const diagnosis = require('./diagnosis')
  *        - in: query
  *          name: search_timestamp
  *          required: true
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -77,7 +83,12 @@ router.get('/lists',diagnosis.lists)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -93,6 +104,7 @@ router.get('/lists',diagnosis.lists)
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -187,7 +199,12 @@ router.post('/histories', diagnosis.histories);
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -195,6 +212,7 @@ router.post('/histories', diagnosis.histories);
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -246,7 +264,12 @@ router.get('/presciptions',diagnosis.presciptions)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -262,6 +285,7 @@ router.get('/presciptions',diagnosis.presciptions)
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -365,7 +389,12 @@ router.post('/certifications', diagnosis.certifications);
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -377,6 +406,7 @@ router.post('/certifications', diagnosis.certifications);
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -454,7 +484,12 @@ router.post('/patients', diagnosis.patients);
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -515,7 +550,12 @@ router.get("/apis", diagnosis.apis)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true

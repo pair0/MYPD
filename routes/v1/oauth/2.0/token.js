@@ -28,7 +28,7 @@ const individual = require("./individual")
  *                description : 기관코드
  *               grant_type:
  *                type : string
- *                description :  authorization_code
+ *                default :  authorization_code
  *               code:
  *                type : string
  *                description :  인가코드
@@ -105,7 +105,7 @@ router.post("/",individual.token)
   *                description : 기관코드
   *               grant_type:
   *                type : string
-  *                description :  authorization_code
+  *                default :  authorization_code
   *               refresh_token:
   *                type : string
   *                description :  접근토큰 갱신을 위한 토큰
