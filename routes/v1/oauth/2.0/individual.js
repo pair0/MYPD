@@ -1,5 +1,6 @@
 const {generateuuidv4, generateAccessToken, generateRefreshToken, getTokenChk} = require("../../../../passport/abouttoken");
 const mdbConn = require('../../../../db_connection/mariaDBConn');
+const { json } = require("express");
 
 /**
    * @path {GET} http://localhost:3000/v1/oauth/2.0/authorize
@@ -288,16 +289,22 @@ exports.authorization_api = (req, res) => {
                 mdbConn.dbInsert(sql['updateToken'], params)
                 .then(() => {
                     res.set('x-api-tran-id', req.headers['x-api-tran-id'])
-                    res.status(200).json({ 
-                        token_type: 'Bearer', 
-                        access_token: accessToken,
-                        expires_in: accessExpiresIn,
-                        refresh_token: refreshToken,
-                        refresh_token_expires_in: refreshExpiresIn,
-                        scope: '?'
-                    })
-                    var code = accessToken;
-                    req.session.code = code;
+                    // res.status(200).json({ 
+                    //     token_type: 'Bearer', 
+                    //     access_token: accessToken,
+                    //     expires_in: accessExpiresIn,
+                    //     refresh_token: refreshToken,
+                    //     refresh_token_expires_in: refreshExpiresIn,
+                    //     scope: '?'
+                    // })
+                    var code = {
+                        'org_code' : info['org_code'],
+                        'callback_url' : req.body.redirect_uri,
+                        'client_id' : info['client_id'],
+                        'client_secret' : info['client_secret'],
+                        'access_token': accessToken
+                    };
+                    req.session.code_final = code;
                     res.redirect('/testbed/inte_api_final');
                 })
                 .catch((err) => {
@@ -319,11 +326,18 @@ exports.authorization_api = (req, res) => {
                         mdbConn.dbInsert(sql['updateAccessToken'], params)
                         .then(() => {
                             res.set('x-api-tran-id', req.headers['x-api-tran-id'])
-                            res.status(200).json({
-                                "token_type" : 'Bearer',
-                                "access_token" : newAccessToken,
-                                "expires_in" : 7776000
-                            })
+                            // res.status(200).json({
+                            //     "token_type" : 'Bearer',
+                            //     "access_token" : newAccessToken,
+                            //     "expires_in" : 7776000
+                            // })
+                            var code = {
+                                'org_code' : info['org_code'],
+                                'callback_url' : req.body.redirect_uri,
+                                'client_id' : info['client_id'],
+                                'client_secret' : info['client_secret'],
+                                'access_token': newAccessToken
+                            };
                         })
                         .catch(() => {
                             res.status(500).json({rsp_msg : 'access token 생성 실패.'})
@@ -341,14 +355,21 @@ exports.authorization_api = (req, res) => {
                         mdbConn.dbInsert(sql['updateToken'], params)
                         .then(() => {
                             res.set('x-api-tran-id', req.headers['x-api-tran-id'])
-                            res.status(200).json({ 
-                                token_type: 'Bearer', 
-                                access_token: accessToken,
-                                expires_in: accessExpiresIn,
-                                refresh_token: refreshToken,
-                                refresh_token_expires_in: refreshExpiresIn,
-                                scope: '?'
-                            })
+                            // res.status(200).json({ 
+                            //     token_type: 'Bearer', 
+                            //     access_token: accessToken,
+                            //     expires_in: accessExpiresIn,
+                            //     refresh_token: refreshToken,
+                            //     refresh_token_expires_in: refreshExpiresIn,
+                            //     scope: '?'
+                            // })
+                            var code = {
+                                'org_code' : info['org_code'],
+                                'callback_url' : req.body.redirect_uri,
+                                'client_id' : info['client_id'],
+                                'client_secret' : info['client_secret'],
+                                'access_token': accessToken
+                            };
                         })
                         .catch((err) => {
                             console.log(err)

@@ -51,7 +51,7 @@ router.post("/ServerSelect", function (req, res, next){
   mdbConn.dbSelect(sql, data)
   .then((rows) => {
     if(rows){
-      res.json({ clientip: rows.server_ip});
+      res.json({ clientip: rows.server_ip, business_right: rows.business_right});
     }else {
       res.send(false);
     }
@@ -76,16 +76,14 @@ router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
 });
 
 router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
-  console.log(req.session.code)
   if(req.session.code != undefined && req.session.code != null){
     var code = req.session.code
     req.session.code = null;
-    console.log(code);
-    res.render("inte_api_access", { CODE: code });
+    res.locals.CODE = code;
+    res.render("inte_api_access");
   } else {
-    res.redirect('/main')
+    res.redirect('/main');
   }
-  
 });
 
 router.post("/inte_api_access", isLogIn, checkTokens, individual.authorization_api);
@@ -93,11 +91,21 @@ router.post("/inte_api_access", isLogIn, checkTokens, individual.authorization_a
 router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 
 router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
-  var sql = "SELECT * FROM server_management WHERE id_idx=?";
-  params = req.user.id_idx;
-  var rows = await mdbConn.dbSelectall(sql, params);
-  res.locals.server_select = rows;
-  res.render("inte_api_final");
+  if(req.session.code_final != undefined && req.session.code_final != null){
+    var code_final = req.session.code_final;
+    req.session.code_final = null;
+    var sql = "SELECT * FROM server_management WHERE id_idx=?";
+    params = req.user.id_idx;
+    var rows = await mdbConn.dbSelectall(sql, params);
+    console.log("asdf", code_final['access_token']);
+    res.locals.C_FINAL = code_final;
+    console.log(res.locals.C_FINAL);
+    res.locals.server_select = rows;
+
+    res.render("inte_api_final");
+  } else {
+    res.redirect('/main');
+  }
 });
 
 router.get("/popup", isLogIn, checkTokens, function (req, res, next) {
