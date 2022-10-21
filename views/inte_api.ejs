@@ -99,7 +99,7 @@
         <section>
             <!-- SWAGger UI-->
                 <div style="height:50px; text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
-                    <iframe id="api_test" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff; padding-top: 10px;"  width="850px" height="1000px">로드 중…</iframe>
+                    <iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff; padding-top: 10px;"  width="850px" height="1000px">로드 중…</iframe>
                 </div>
         </section>        
 
@@ -110,18 +110,6 @@
     </main>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
-    <script>
-        var iframeEle = $("#iframe1");
-        var swagger = iframeEle.contentWindow;
-        iframeEle.contents().find(".btn execute opblock-controlbtn").onclick = final();
-
-        function final() {
-            console.log("final")
-            // location.href = "http://localhost:3000/testbed/inte_api_final"
-        }
-
-        // console.log(iframeEle.contents().find(".btn execute opblock-controlbtn").text)
-    </script>
 
 </body>
 </html>

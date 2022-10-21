@@ -1,7 +1,7 @@
 var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
-const { isLogIn } = require("../auth/auth");
+const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
 
 /* GET home page. */

@@ -2,9 +2,8 @@ var express = require('express')
 const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
-const {validatorErrorChecker} = require('../users/valcheck');
 const bcrypt = require('bcrypt');
-const { isLogIn, isSNSLogIn}= require('../auth/auth')
+const { isLogIn, isSNSLogIn,validatorErrorChecker}= require('../../controller/login')
 const { checkTokens, generateuuidv4 } = require("../../passport/abouttoken");
 
 /* GET home page. */

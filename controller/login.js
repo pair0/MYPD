@@ -1,3 +1,5 @@
+const { validationResult} = require("express-validator");
+
 module.exports = {
     isLogIn : function (req,res, next) {
         req.session.return = req.originalUrl;
@@ -11,5 +13,13 @@ module.exports = {
     isSNSLogIn : (req,res,next) => {
         if(req.session.joinUser.snsID != null) res.redirect('/mypage/edit');
         else next();
+    },
+    validatorErrorChecker :  (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            // return res.status(400).json({ errors: errors.array() });
+            return res.redirect('/user/join');
+        }
+        next();
     }
 }
