@@ -2,7 +2,7 @@ var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
 const individual = require("../v1/oauth/2.0/individual")
-const { isLogIn } = require("../auth/auth");
+const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
 
 /* GET home page. */
