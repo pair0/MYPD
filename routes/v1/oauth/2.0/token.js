@@ -69,10 +69,6 @@ const individual = require("./individual")
  *                      type: number
  *                      example:
  *                          "1234567890123456789012345"
- *                    scope:
- *                      type: number
- *                      example:
- *                          "1234567890123456789012345"
  */
 
 router.post("/",individual.token)
