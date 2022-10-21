@@ -180,18 +180,19 @@ exports.token = (req, res) => {
 }
 
 /**
-   * @path {GET} http://localhost:3000/v1/oauth/oauth_api/authorize_api
+   * @path {POST} http://localhost:3000/v1/oauth/oauth_api/authorize_api
    * @description 인가코드 발급 요청
 */
 exports.authorization_api = (req, res) => {
+    console.log(req.body);
     //org_code == 사업자등록번호
     //org_code, client_id
     //ci를 검증하라 하지만 ci에 대한 정보 없음.....
     //마이데이터사업자가 전송한 개별인증-001 파라미터들 (x-user-ci, client_id, redirect_uri 등) 검증
     //마이데이터사업자가 전송한 redirect_uri가 해당 마이데이터사업자의 Callback URL 목록*에 속해있는지 여부 검증
     const info = {
-        'org_code' : req.query.org_code,
-        'client_id' : req.query.client_id,
+        'org_code' : req.body.org_code,
+        'client_id' : req.body.client_id,
         'id' : req.user.e_customer_id
     }
     const sql = {
@@ -206,6 +207,8 @@ exports.authorization_api = (req, res) => {
         var params = [info['client_id'], info['id_idx']];
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
+            if(rows == undefined)
+                res.status(404).json({rsp_msg : 'client_id is invalid.' })
             info['authorization_code'] = generateuuidv4(10);
             var params_null = [null, info['client_id']];
             // 인가코드 10분 제한 코드 (비동기 동작))
@@ -217,10 +220,18 @@ exports.authorization_api = (req, res) => {
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
-                res.redirect('http://localhost:3000/testbed/inte_api_access')
+                // res.status(200).json({ 
+                //     ok: true, 
+                //     code: info['authorization_code'],
+                //     state: req.query.state,
+                //     api_tran_id: req.headers['x-api-tran-id']
+                // })
+                var code = info['authorization_code'];
+                req.session.code = code;
+                res.redirect('/testbed/inte_api_access');
             })
             .catch(() => {
-                console.log("DB Insert Error Check /v1/oauth/oauth_api/authorize_api")
+                console.log("DB Insert Error Check /v1/oauth/2.0/authorize")
             })
         })
         .catch(() => {
