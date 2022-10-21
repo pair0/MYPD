@@ -40,6 +40,27 @@ function making_select_server() {
     });
 }
 
+function making_select_server_final() {
+    var server_select=$("#biz_type").val();
+
+    $.ajax({
+        url: "/testbed/ServerSelect",
+        type: "POST",
+        async: false, 
+        data: {
+            "data": server_select
+        },
+        success: function(data){
+            if(data){
+                $('input[name=b_right]').attr('value',data['business_right']);
+            } else {
+                $('input[name=b_right]').removeAttr('value');
+            }
+        }
+    });
+}
+
+
 function making_select_data() {
     var data_select=$("#data_select").val();
 
