@@ -873,7 +873,7 @@ border: 0.5px solid #C7C7C7;
 .select_api{
   width:400px; 
   height: 400px; 
-  overflow: auto; 
+  /* overflow: auto;  */
   margin: 20px auto;
 }
 

@@ -336,7 +336,7 @@ exports.authorization_api = (req, res) => {
                                 'callback_url' : req.body.redirect_uri,
                                 'client_id' : info['client_id'],
                                 'client_secret' : info['client_secret'],
-                                'access_token': accessToken
+                                'access_token': newAccessToken
                             };
                         })
                         .catch(() => {

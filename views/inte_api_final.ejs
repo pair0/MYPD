@@ -58,13 +58,15 @@
     </div>
 
     <main class="main_bg">
-
+        <aside>
+        </aside>
+        
         <!-- 왼쪽 사이드 바-->
-        <aside>   
-            <div class="side_bar">     
+        <section style="position:relative">
+            <div class="side_bar2">     
 
                 <div class="dropdown">
-                    <button class="dropdown-btn">마이데이터 서비스 테스트</button>
+                    <button class="dropdown-btn"><i class="fa-solid fa-mobile"></i>&nbsp;&nbsp;&nbsp;마이데이터 서비스 테스트 </button>
                     <div class="dropdown-submenu">
                         <a href="../testbed/unit_svc">ㄴ단위테스트</a>
                         <a href="../testbed/inte_svc">ㄴ통합테스트</a>
@@ -73,7 +75,7 @@
                 </div>
 
                 <div class="dropdown">
-                    <button class="dropdown-btn">API 서비스 테스트</button>
+                    <button class="dropdown-btn"><i class="fa-solid fa-server"></i>&nbsp;&nbsp;API 서비스 테스트</button>
                     <div class="dropdown-submenu">
                         <a href="../testbed/unit_api">ㄴ단위테스트</a>
                         <a href="../testbed/inte_api">ㄴ통합테스트</a>
@@ -82,25 +84,24 @@
                 </div>
 
                 <div class="dropdown">
-                    <button class="dropdown-btn">테스트 관리</button>
+                    <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
                 <div class="dropdown">
-                    <button class="dropdown-btn">테스트 내역 조회</button>
+                    <button class="dropdown-btn"><i class="fas fa-list"></i>&nbsp;&nbsp;테스트 내역 조회</button>
                     <div class="dropdown-submenu">
                         <a href="#none">ㄴ마이데이터 서비스 테스트</a>
                         <a href="#none">ㄴAPI 서버 테스트</a>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </div>    
 
-        <!-- 중앙 내용 -->
-        <section>
+
+            <!-- 중앙 내용 -->
             <div class="unitTest_box">
                 <form class="unitTest_box_form">
                     <div class="unitTest_box_input">
@@ -163,7 +164,7 @@
                         </div>                     
                     </div>
                     <div class="mypage_btn">
-                        <button type="submit" id="clickpopup" style="cursor:pointer;">테스트 실행</button>
+                        <button type="button" id="clickpopup" style="cursor:pointer;">테스트 실행</button>
                     </div>
                     
                 </form>
