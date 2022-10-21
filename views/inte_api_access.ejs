@@ -12,6 +12,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../stylesheets/home.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/swagger_ui.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
 
 
@@ -91,18 +92,152 @@
                         <a href="#none">ㄴAPI 서버 테스트</a>
                     </div>
                 </div>
-            </div>    
-            <div class="btm_rect"></div>
+            </div>   
         </aside>
-
         <!-- 중앙 내용 -->
         <section>
             <!-- SWAGger UI-->
-                <div style="text-align: center; align-items: center; justify-content: center; margin: 0 auto; ">
-                    <iframe id="api_test" src="http://localhost:3000/api_test_access" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+            <form class="swagger-ui" method="POST" action="/testbed/inte_api_final">
+                <div class="wrapper">
+                    <div class="block col-12 block-desktop col-12-desktop">
+                        <div>
+                            <span>
+                                <div class="opblock-tag-section is-open">
+                                    <div class="no-margin">
+                                        <div class="operation-tag-content">
+                                            <span>
+                                                <div
+                                                    class="opblock opblock-get is-open"
+                                                    id="operations-MydataAuthorization-get_v1_oauth_oauth_api_authorize_api">
+                                                    <div class="no-margin">
+                                                        <div class="opblock-body">
+                                                            <div class="opblock-section">
+                                                                <div class="parameters-container">
+                                                                    <div class="table-container">
+                                                                        <table class="parameters">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th class="col_header parameters-col_name">Name</th>
+                                                                                    <th class="col_header parameters-col_description">Description</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr data-param-name="x-api-tran-id" data-param-in="header">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">x-api-tran-id<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(header)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>거래고유번호</p>
+                                                                                        </div><input type="text" name="x-api-tran-id" placeholder="x-api-tran-id" value=""></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="org_code" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">org_code<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>기관코드</p>
+                                                                                        </div><input type="text" name="org_code" placeholder="org_code" value=""></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="grant_type" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">grant_type<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>권한부여 방식</p>
+                                                                                        </div><input type="text" name="grant_type" placeholder="grant_type" value="authorization_code" readonly></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="code" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">code<span>&nbsp;*</span></div>    
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>인가코드</p>
+                                                                                        </div><input type="text" name="code" placeholder="code" readonly value= <%=CODE %>></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="client_id" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">client_id<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>클라이언트 식별값</p>
+                                                                                        </div><input type="text" name="client_id" placeholder="client_id" value=""></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="client_secret" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">client_secret<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>클라이언트 Secret값</p>
+                                                                                        </div><input type="text" name="client_secret" placeholder="client_secret" value=""></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="redirect_uri" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">redirect_uri<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>인가코드 발급요청 시 요청했던 Callback URL</p>
+                                                                                        </div><input type="text" name="redirect_uri" placeholder="redirect_uri" value=""></td>
+                                                                                </tr>
+                                                                                <tr data-param-name="refresh_token" data-param-in="query">
+                                                                                    <td class="parameters-col_name">
+                                                                                        <div class="parameter__name required">refresh_token<span>&nbsp;*</span></div>
+                                                                                        <div class="parameter__type"></div>
+                                                                                        <div class="parameter__deprecated"></div>
+                                                                                        <div class="parameter__in">(query)</div>
+                                                                                    </td>
+                                                                                    <td class="parameters-col_description">
+                                                                                        <div class="renderedMarkdown">
+                                                                                            <p>접근토큰 갱신을 위한 토큰</p>
+                                                                                        </div><input type="text" name="refresh_token" placeholder="refresh_token" value=""></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="execute-wrapper">
+                        <button type="submit" class="btn execute opblock-control__btn">접근토큰 발급요청</button>
+                    </div>
                 </div>
-
-            
+            </form>
         </section>        
 
 

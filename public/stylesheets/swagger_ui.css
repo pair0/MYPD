@@ -1,0 +1,215 @@
+.swagger-ui .wrapper {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1460px;
+    padding: 0 20px;
+    width: 100%;
+}
+/* .swagger-ui .border-box, .swagger-ui a, .swagger-ui article, .swagger-ui body, .swagger-ui code, .swagger-ui dd, .swagger-ui div, .swagger-ui dl, .swagger-ui dt, .swagger-ui fieldset, .swagger-ui footer, .swagger-ui form, .swagger-ui h1, .swagger-ui h2, .swagger-ui h3, .swagger-ui h4, .swagger-ui h5, .swagger-ui h6, .swagger-ui header, .swagger-ui html, .swagger-ui input[type=email], .swagger-ui input[type=number], .swagger-ui input[type=password], .swagger-ui input[type=tel], .swagger-ui input[type=text], .swagger-ui input[type=url], .swagger-ui legend, .swagger-ui li, .swagger-ui main, .swagger-ui ol, .swagger-ui p, .swagger-ui pre, .swagger-ui section, .swagger-ui table, .swagger-ui td, .swagger-ui textarea, .swagger-ui th, .swagger-ui tr, .swagger-ui ul {
+    box-sizing: border-box;
+}
+
+.swagger-ui article, .swagger-ui aside, .swagger-ui footer, .swagger-ui header, .swagger-ui nav, .swagger-ui section {
+    display: block;
+} */
+
+/* *, *:before, *:after {
+    box-sizing: inherit;
+} */
+
+.swagger-ui {
+    color: #3b4151;
+    font-family: sans-serif/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */;
+}
+
+.swagger-ui .opblock-tag-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.swagger-ui .no-margin {
+    border: none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+/* -------------------------- */
+.swagger-ui .opblock.opblock-get {
+    background: rgba(97,175,254,.1);
+    border-color: #61affe;
+}
+
+.swagger-ui .opblock {
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 19%);
+    margin: 0 0 15px;
+}
+
+.swagger-ui .no-margin {
+    border: none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.swagger-ui .table-container {
+    padding: 20px;
+}
+
+.swagger-ui table {
+    border-collapse: collapse;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.swagger-ui table thead tr td, .swagger-ui table thead tr th {
+    border-bottom: 1px solid rgba(59,65,81,.2);
+    color: #3b4151;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 12px 0;
+    text-align: left;
+}
+
+.swagger-ui .parameters-col_description {
+    margin-bottom: 2em;
+    width: 70%;
+}
+
+.swagger-ui table tbody tr td:first-of-type {
+    min-width: 6em;
+    padding: 10px 0;
+}
+
+.swagger-ui table tbody tr td {
+    padding: 10px 0 0;
+    vertical-align: top;
+}
+
+.swagger-ui .parameter__name.required {
+    font-weight: 700;
+}
+
+.swagger-ui .parameter__name {
+    color: #3b4151;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    margin-right: 0.75em;
+}
+
+.swagger-ui .parameter__name.required span {
+    color: red;
+}
+
+.swagger-ui .parameter__type {
+    color: #3b4151;
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 0;
+}
+
+.swagger-ui .parameter__deprecated {
+    color: red;
+    font-family: monospace;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.swagger-ui .parameter__extension, .swagger-ui .parameter__in {
+    color: gray;
+    font-family: monospace;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.swagger-ui table tbody tr td {
+    padding: 10px 0 0;
+    vertical-align: top;
+}
+
+.renderedMarkdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swagger-ui .parameters-col_description input {
+    max-width: 340px;
+    width: 100%;
+    display: flex;
+}
+
+.swagger-ui input[type=email], .swagger-ui input[type=file], .swagger-ui input[type=password], .swagger-ui input[type=search], .swagger-ui input[type=text], .swagger-ui textarea {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin: 5px 0;
+    min-width: 100px;
+    padding: 8px 10px;
+}
+
+.swagger-ui .execute-wrapper {
+    padding: 20px;
+    text-align: right;
+}
+
+.swagger-ui .btn.execute {
+    background-color: #4990e2;
+    border-color: #4990e2;
+    color: #fff;
+}
+
+.swagger-ui .execute-wrapper .btn {
+    padding: 8px 40px;
+    width: 100%;
+}
+
+.swagger-ui .btn {
+    background: transparent;
+    border: 2px solid gray;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+    color: #3b4151;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 5px 23px;
+    transition: all .3s;
+}
+
+.swagger-ui button {
+    cursor: pointer;
+}
+
+.swagger-ui [type=reset], .swagger-ui [type=submit], .swagger-ui button, .swagger-ui html [type=button] {
+    -webkit-appearance: button;
+}
+
+.swagger-ui button, .swagger-ui select {
+    text-transform: none;
+}
+
+.swagger-ui button, .swagger-ui input {
+    overflow: visible;
+}
+
+.swagger-ui button, .swagger-ui input, .swagger-ui optgroup, .swagger-ui select, .swagger-ui textarea {
+    font-family: sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.swagger-ui .wrapper {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1460px;
+    padding: 0 100px;
+    width: 100%;
+}

@@ -2,7 +2,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 /* Reset */
- * {outline:0 !important;}
+ /* * {outline:0 !important;} */
 html,body,h1,h2,h3,h4,h5,h6,div,p,blockquote,pre,code,address,ul,ol,li,menu,section,article,aside,
 dl,dt,dd,table,thead,tbody,tfoot,label,caption,form,fieldset,legend,hr,input,button,textarea,object,figure,figcaption {margin:0;padding:0;}
 html, body{width:100%;}

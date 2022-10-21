@@ -12,7 +12,6 @@ router.get('/editcheck', isLogIn, isSNSLogIn, checkTokens, function(req, res, ne
 });
 
 router.post('/editcheck', async function(req, res, next){
-  console.log(req.session.passport.user.id);
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id=?";
   var params = req.session.passport.user.id;
   var result = await mdbConn.dbSelect(sql, params);
