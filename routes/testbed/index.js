@@ -90,9 +90,7 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
 
 router.post("/inte_api_access", isLogIn, checkTokens, individual.authorization_api);
 
-router.post("/inte_api_final", isLogIn, checkTokens, function (req, res, next){
-  res.send("<script>location.href='/testbed/inte_api_final';</" + "script>");
-});
+router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 
 router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
   var sql = "SELECT * FROM server_management WHERE id_idx=?";

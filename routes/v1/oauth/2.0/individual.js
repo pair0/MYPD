@@ -242,3 +242,125 @@ exports.authorization_api = (req, res) => {
         res.status(404).json({rsp_msg : 'org_code is invalid.'})
     })
 }
+
+
+/**
+   * @path {POST} http://localhost:3000/v1/oauth/2.0/token
+   * @description (Authorization code)를 이용하여 접근토큰을 발급
+   */
+ exports.token_api = (req, res) => {
+    // 거래고유번호는 API 요청기관이 넘겨주는 것
+    // iss : 접근 토큰 발급자 (접근토큰을 발급하는 기관의 기관코드)  -> API 종류에 따라 다름
+    // aud : 접근 토큰 수신자 (접근토큰을 발급받는 기관 식별자) -> API 종류에 따라 다름
+    // jti : 접근 토큰 식별자 (발급주체가 토큰을 식별할 수 있는 ID(임의지정))
+    // exp : 접근토큰 만료시간 
+    // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
+    const sql = {
+        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+        'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
+        'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
+        'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND service_client_id = ?'
+    }
+    const info = {
+        'org_code' : req.body.org_code,
+        'client_id' : req.body.client_id,
+        'client_secret' : req.body.client_secret,
+        'authorization_code' : req.body.code,
+        'id_idx' : req.user.id_idx
+    }
+    // refresh_token이 없다면 refreshToken, accessToken 생성
+    if(req.body.refresh_token == ""){
+        var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+        mdbConn.dbSelect(sql['checkInfo'],params)
+        .then((rows) => {
+            var accessExpiresIn = 7776000;
+            var refreshExpiresIn = 31557600;
+            const payload = {
+                'idx' : info['id_idx']
+            };
+            const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
+            const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
+            var params = [accessToken, refreshToken, info['client_id']]
+            mdbConn.dbInsert(sql['updateToken'], params)
+            .then(() => {
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
+                res.status(200).json({ 
+                    token_type: 'Bearer', 
+                    access_token: accessToken,
+                    expires_in: accessExpiresIn,
+                    refresh_token: refreshToken,
+                    refresh_token_expires_in: refreshExpiresIn,
+                    scope: '?'
+                })
+                var code = accessToken;
+                req.session.code = code;
+                res.redirect('/testbed/inte_api_final');
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(404).json({rsp_msg : 'refresh token 생성 실패.'})
+        })
+    }
+    else{
+        var params = [req.body.refresh_token, info['client_id']];
+        mdbConn.dbSelect(sql['checkRefresh_token'], params)
+        .then((rows) => {
+            var refreshToken = getTokenChk(req.body.refresh_token, "refresh")
+            if(refreshToken == "valid" && rows != undefined ){
+                const payload = {
+                    'idx' : info['id_idx']
+                }
+                const newAccessToken = 'Bearer ' + generateAccessToken(payload);
+                var params = [newAccessToken,  info['client_id']]
+                mdbConn.dbInsert(sql['updateAccessToken'], params)
+                .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
+                    res.status(200).json({
+                        "token_type" : 'Bearer',
+                        "access_token" : newAccessToken,
+                        "expires_in" : 3600
+                    })
+                })
+                .catch(() => {
+                    res.status(500).json({rsp_msg : 'access token 생성 실패.'})
+                })
+            }
+            else{
+                var accessExpiresIn = 3600;
+                var refreshExpiresIn = 86400;
+                const payload = {
+                    'idx' : info['id_idx']
+                };
+                const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
+                const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
+                var params = [accessToken, refreshToken, info['client_id']]
+                mdbConn.dbInsert(sql['updateToken'], params)
+                .then(() => {
+                    res.set('x-api-tran-id', req.headers['x-api-tran-id'])
+                    res.status(200).json({ 
+                        token_type: 'Bearer', 
+                        access_token: accessToken,
+                        expires_in: accessExpiresIn,
+                        refresh_token: refreshToken,
+                        refresh_token_expires_in: refreshExpiresIn,
+                        scope: '?'
+                    })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    res.status(500).json({rsp_msg : 'refresh token 생성 실패.'})
+                })
+            }
+        })
+        .catch(() => {
+            console.log(err)
+            console.log(req.body.refresh_token)
+            res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
+        })
+    }
+}
