@@ -26,7 +26,6 @@ exports.specifics = (req, res) => {
     params = [info['org_code'], info['spec_id']]
     getAPI(res,info, params);
 }
-
 /**
    * @path {GET} http://localhost:3000/v1/specification/apis
    * @description 정보제공자가 제공하는 정보제공 API 목록을 회신
