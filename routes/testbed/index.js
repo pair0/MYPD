@@ -1,6 +1,7 @@
 var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
+const individual = require("../v1/oauth/2.0/individual")
 const { isLogIn } = require("../auth/auth");
 const { checkTokens } = require("../../passport/abouttoken");
 
@@ -58,10 +59,9 @@ router.post("/ServerSelect", function (req, res, next){
 });
 
 
-router.get("inte_svc", isLogIn, checkTokens, async function (req, res, next) {
+router.get("inte_svc", isLogIn, checkTokens, function (req, res, next) {
   res.render("inte_svc");
 });
-
 
 router.get("/unit_api", isLogIn, checkTokens, async function (req, res, next) {
   var sql = "SELECT * FROM server_management WHERE id_idx=?";
@@ -71,17 +71,26 @@ router.get("/unit_api", isLogIn, checkTokens, async function (req, res, next) {
   res.render("unit_api");
 });
 
-router.get("/inte_api", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
   res.render("inte_api");
 });
 
-router.get("/inte_api_access", isLogIn, checkTokens, async function (req, res, next) {
-  res.render("inte_api_access");
+router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
+  console.log(req.session.code)
+  if(req.session.code != undefined && req.session.code != null){
+    var code = req.session.code
+    req.session.code = null;
+    console.log(code);
+    res.render("inte_api_access", { CODE: code });
+  } else {
+    res.redirect('/main')
+  }
+  
 });
 
-router.post("/inte_api_access", isLogIn, checkTokens, async function (req, res, next) {
-  res.render("inte_api_access");
-});
+router.post("/inte_api_access", isLogIn, checkTokens, individual.authorization_api);
+
+router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 
 router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
   var sql = "SELECT * FROM server_management WHERE id_idx=?";
@@ -91,20 +100,24 @@ router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, ne
   res.render("inte_api_final");
 });
 
-router.get("/popup", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/popup", isLogIn, checkTokens, function (req, res, next) {
   res.render("popup");
 });
 
-router.post("/moneylist", isLogIn, checkTokens, async function (req, res, next) {
+router.post("/moneylist", isLogIn, checkTokens, function (req, res, next) {
   res.send("<script>alert('인증에 성공하였습니다.');location.href='/testbed/moneylist';</" + "script>");
 });
 
-router.get("/moneylist", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/moneylist", isLogIn, checkTokens, function (req, res, next) {
   res.render("moneylist");
 });
 
-router.get("/popup_api_select", isLogIn, checkTokens, async function (req, res, next) {
+router.get("/popup_api_select", isLogIn, checkTokens, function (req, res, next) {
   res.render("popup_api_select");
+});
+
+router.get("/test1", isLogIn, checkTokens, function(req, res, next){
+  res.render("test1");
 });
 
 router.post("/DataSelect", isLogIn, checkTokens, async function (req, res, next) {
