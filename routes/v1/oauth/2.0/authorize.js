@@ -25,7 +25,7 @@ const individual = require("./individual")
  *        - in: query
  *          name: response_type
  *          required: true
- *          description: 인가코드 반환
+ *          default : "code"
  *        - in: query
  *          name: client_id
  *          required: true

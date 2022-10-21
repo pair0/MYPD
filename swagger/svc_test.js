@@ -7,7 +7,7 @@ const options = {
         info: {
             version: "3.23.0",
             title: "MYPD API TEST",
-            description: "TEST for APT",
+            // description: "TEST for APT",
         },
         servers: [
             {

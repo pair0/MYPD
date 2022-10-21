@@ -47,6 +47,8 @@ exports.authorization = (req, res) => {
                     state: req.query.state,
                     api_tran_id: req.headers['x-api-tran-id']
                 })
+                var code = info['authorization_code']
+                return code
             })
             .catch(() => {
                 console.log("DB Insert Error Check /v1/oauth/2.0/authorize")

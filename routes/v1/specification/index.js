@@ -18,7 +18,12 @@ const specification = require('./specification');
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -26,6 +31,7 @@ const specification = require('./specification');
  *        - in: query
  *          name: search_timestamp
  *          required: true
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -77,7 +83,12 @@ router.get("/lists", specification.lists)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -89,6 +100,7 @@ router.get("/lists", specification.lists)
  *        - in: query
  *          name: search_timestamp
  *          required: false
+ *          allowEmptyValue: true
  *          description: 가장 최근 조회한 시간
  *      responses:
  *        "200":
@@ -189,8 +201,13 @@ router.post("/specifics", specification.specifics);
  *          description: 거래고유번호
  *        - in: header
  *          name: x-api-type
- *          required: false
- *          description: 정기적/비정기적 전송 API 유형
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true
@@ -253,7 +270,12 @@ router.get("/apis", specification.apis)
  *        - in: header
  *          name: x-api-type
  *          required: true
- *          description: 정기적/비정기적 전송 API 유형
+ *          schema:
+ *            type: string
+ *            example: false
+ *            enum: 
+ *              - True 
+ *              - False
  *        - in: query
  *          name: org_code
  *          required: true

@@ -1,4 +1,4 @@
-const {YYYYMMDD, checkAndAPICall, getListAPI, getSpecAPI} = require('../../../controller/controller.js')
+const {YYYYMMDD, checkAndAPICall, getListAPI,getAPI} = require('../../../controller/controller.js')
 
 /**
    * @path {GET} http://localhost:3000/v1/diagnosis/lists
@@ -21,10 +21,11 @@ exports.histories = (req, res) => {
    const info = {
       'org_code' : req.query.org_code,
       'AccessToken' : req.headers.authorization,
-      'spec_id' : req.query.spec_id
+      'spec_id' : req.query.spec_id,
+      'line_no' : req.query.line_no
    }
-   params = [info['org_code'], info['spec_id']] // 줄 번호????
-   getSpecAPI(res,info,params)
+   params = [info['org_code'], info['spec_id'], info['line_no']] // 줄 번호????
+   getAPI(res,info,params,'Spec&Line')
 }
 /**
    * @path {GET} http://localhost:3000/v1/diagnosis/presciptions
@@ -35,7 +36,7 @@ exports.presciptions = (req, res) => {
       'org_code' : req.query.org_code,
       'AccessToken' : req.headers.authorization
    }
-   params = [info['org_code'], "[진료정보제공 API] 처방전교부목록 조회 API"]
+   params = [info['org_code'], "[진료정보제공 API] 처방전교부내역 조회 API"]
    getListAPI(res,info,params)
 }
 /**
@@ -46,10 +47,11 @@ exports.certifications = (req, res) => {
    const info = {
       'org_code' : req.query.org_code,
       'AccessToken' : req.headers.authorization,
-      'spec_id' : req.query.spec_id
+      'spec_id' : req.query.spec_id, //JSON 안 SPEC_ID
+      'pres_certify_no' :  req.query.pres_certify_no // data_id
    }
-   params = [info['org_code'], info['spec_id']] // 처방전교부번호 ?
-   getSpecAPI(res,info,params)
+   params = [info['org_code'], info['spec_id'], info['pres_certify_no'] ] // 처방전교부번호 ?
+   getAPI(res,info,params,'Spec&Line')
 }
 /**
    * @path {POST} http://localhost:3000/v1/diagnosis/patients
@@ -59,10 +61,10 @@ exports.patients = (req, res) => {
    const info = {
       'org_code' : req.query.org_code,
       'AccessToken' : req.headers.authorization,
-      'spec_id' : req.query.patient_discrimination_no
+      'patient_discrimination_no' : req.query.patient_discrimination_no //data_id
    }
    params = [info['org_code'], info['patient_discrimination_no']]
-   getSpecAPI(res,info,params)
+   getAPI(res,info,params,'line')
 }
 /**
    * @path {GET} http://localhost:3000/v1/diagnosis/apis

@@ -197,12 +197,13 @@ router.post('/editdata',(req, res, next)=>
     "data_name": req.body.data_name,
     "enterprise_code" : req.body.org_code,
     "business_right" : req.body.biz_type,
+    "consents" : "false",
     "asset_id" : req.body.assetId,
     "data_api" : req.body.api,
     "data_json" : req.body.testdata,
   };
-  var sql = "INSERT INTO data_test(data_name, enterprise_code, business_right,asset_id,data_api,data_json,id_idx) VALUES(?,?,?,?,?,?,?)";
-  var params = [info['data_name'], info['enterprise_code'], info['business_right'], info['asset_id'], info['data_api'],info['data_json'],info['id']];
+  var sql = "INSERT INTO data_test(data_name, enterprise_code, business_right,consents, asset_id,data_api,data_json,id_idx) VALUES(?,?,?,?,?,?,?,?)";
+  var params = [info['data_name'], info['enterprise_code'], info['business_right'], info['consents'], info['asset_id'], info['data_api'],info['data_json'],info['id']];
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
