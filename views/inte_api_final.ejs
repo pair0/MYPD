@@ -105,9 +105,9 @@
                 <form class="unitTest_box_form">
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
-                        <label for="biz_type">서버 선택</label>
-                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server()" required>
-                            <option>서버 선택</option>
+                        <label for="biz_type">API 서버</label>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server_final()" required>
+                            <option>API 서버</option>
                             <% for(var i=0; i<server_select.length; i++){ %>
                             <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
                             <% } %>
@@ -118,7 +118,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">업권분류</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="b_right" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -126,7 +126,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">orgcode</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="orgcode" required="required" autofocus="autofocus" readonly value="<%= C_FINAL['org_code'] %>">
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -134,7 +134,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Callback URL</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="Callback_URL" required="required" autofocus="autofocus" readonly value="<%= C_FINAL['callback_url'] %>">
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -142,7 +142,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client ID</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" value="asdf" readonly>
+                            <input type="text" class="unitTest_input" name="Client_ID" required="required" autofocus="autofocus" readonly value="<%= C_FINAL['client_id'] %>">
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -150,7 +150,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Client Secret</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="Client_Secret" required="required" autofocus="autofocus" readonly value="<%= C_FINAL['client_secret'] %>">
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -158,7 +158,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">Access token</label>
-                            <input type="text" class="unitTest_input" name="C_ip" required="required" autofocus="autofocus" readonly>
+                            <input type="text" class="unitTest_input" name="Access_token" required="required" autofocus="autofocus" readonly value="<%= C_FINAL['access_token'] %>">
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
