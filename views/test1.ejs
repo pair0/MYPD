@@ -1,165 +1,193 @@
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Swagger UI</title>
-        <link rel="stylesheet" type="text/css" href="../stylesheets/swagger_ui.css">
-        <link
-            rel="icon"
-            type="image/png"
-            href="/swagger-ui-dist/favicon-32x32.png"
-            sizes="32x32"><link
-            rel="icon"
-            type="image/png"
-            href="/swagger-ui-dist/favicon-16x16.png"
-            sizes="16x16">
-        <style>
-            html {
-                box-sizing: border-box;
-                overflow: -moz-scrollbars-vertical;
-                overflow-y: scroll;
-            }
-            *,
-            *:after,
-            *:before {
-                box-sizing: inherit;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
 
-            body {
-                margin: 0;
-                background: #fafafa;
-            }
-        </style>
-    </head>
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
 
-    <body>
-        <div class="swagger-ui">
-            <div class="wrapper">
-                <section class="block col-12 block-desktop col-12-desktop">
-                    <div>
-                        <span>
-                            <div class="opblock-tag-section is-open">
-                                <div class="no-margin">
-                                    <div class="operation-tag-content">
-                                        <span>
-                                            <div
-                                                class="opblock opblock-get is-open"
-                                                id="operations-MydataAuthorization-get_v1_oauth_oauth_api_authorize_api">
-                                                <div class="no-margin">
-                                                    <div class="opblock-body">
-                                                        <div class="opblock-section">
-                                                            <div class="parameters-container">
-                                                                <div class="table-container">
-                                                                    <table class="parameters">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th class="col_header parameters-col_name">Name</th>
-                                                                                <th class="col_header parameters-col_description">Description</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr data-param-name="x-user-ci" data-param-in="header">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">x-user-ci<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(header)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>정보주체 CI</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="x-user-ci" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="x-api-tran-id" data-param-in="header">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">x-api-tran-id<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(header)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>거래고유번호</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="x-api-tran-id" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="org_code" data-param-in="query">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">org_code<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(query)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>기관코드</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="org_code" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="response_type" data-param-in="query">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">response_type<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(query)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>인가코드 반환</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="response_type" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="client_id" data-param-in="query">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">client_id<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(query)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>클라이언트 식별값</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="client_id" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="redirect_uri" data-param-in="query">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">redirect_uri<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(query)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>마이데이터 서비스 URI</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="redirect_uri" value=""></td>
-                                                                            </tr>
-                                                                            <tr data-param-name="state" data-param-in="query">
-                                                                                <td class="parameters-col_name">
-                                                                                    <div class="parameter__name required">state<span>&nbsp;*</span></div>
-                                                                                    <div class="parameter__type"></div>
-                                                                                    <div class="parameter__deprecated"></div>
-                                                                                    <div class="parameter__in">(query)</div>
-                                                                                </td>
-                                                                                <td class="parameters-col_description">
-                                                                                    <div class="renderedMarkdown">
-                                                                                        <p>CSRF 방지 목적의 임의설정 값</p>
-                                                                                    </div><input type="text" class="" title="" placeholder="state" value=""></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </span>
-                    </div>
-                </section>
-                <div class="execute-wrapper">
-                    <button class="btn execute opblock-control__btn">Execute</button>
+
+</head>
+<body class="body_bg">
+    <div class="about_nav">
+        <nav class="navigation">
+            <div class="top">
+                <div class="menu_left">
+                    <h1><a href="/main"><img src = "../images/logo.png" width="230px" height="100%" alt="MYPD" class="logo"></a></h1>
+                    <ul id="main-menu">
+                        <li class="menu_list"><a href="/main#scroll_about">About</a></li>
+                        <% if(isAuthenticated){ %>
+                            <li><div class="menu_list"><a href="">Mypage</a></div>
+                                <ul id="sub-menu">
+                                    <div class="sub_menu_box">
+                                        <li><a href="/mypage/reg_svc_list" aria-label="subemnu"  class="sub_list">테스트 관리</a></li>
+                                        <li><a href="/mypage/editcheck" aria-label="subemnu"  class="sub_list">회원정보 수정</a></li>
+                                    </div>  
+                                </ul>
+                            </li>
+                            <% } %>
+                            <li class="menu_list" style="margin-right: 40px;"><a href="/main#scroll_contact">Contact</a></li>
+                    </ul>
+                </div>
+    
+                <div class="menu">
+                    <% if(isAuthenticated){ %>
+                        <li id="logout_btn"><p><%= currentUser.nickname %>님</p></li>
+                        <li id="logout_btn"><p> | </p></li>
+                        <li id="logout_btn"><a href="/user/logout" style="margin-top: 5px;">로그아웃</a></li>
+    
+                    <% } else { %>
+                        <a class="login_box" href="/user/login" >로그인</a>
+                    <% } %> 
+                    <a class="use_box" href="/testbed" >무료 이용하기</a>   
                 </div>
             </div>
-        </div>
-    </body>
+        </nav>
+    </div>
+
+    <div class="header">
+        <h1>API 서버 통합테스트</h1>
+    </div>
+
+    <main class="main_bg">
+        <aside>
+        </aside>
+        
+        <!-- 왼쪽 사이드 바-->
+        <section style="position:relative">
+            <div class="side_bar2">     
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-solid fa-mobile"></i>&nbsp;&nbsp;&nbsp;마이데이터 서비스 테스트 </button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_svc">ㄴ단위테스트</a>
+                        <a href="../testbed/inte_svc">ㄴ통합테스트</a>
+                        <a href="../testbed/link_svc">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-solid fa-server"></i>&nbsp;&nbsp;API 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_api">ㄴ단위테스트</a>
+                        <a href="../testbed/inte_api">ㄴ통합테스트</a>
+                        <a href="../testbed/link_api">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
+                    <div class="dropdown-submenu">
+                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fas fa-list"></i>&nbsp;&nbsp;테스트 내역 조회</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ마이데이터 서비스 테스트</a>
+                        <a href="#none">ㄴAPI 서버 테스트</a>
+                    </div>
+                </div>
+            </div>    
+
+
+            <!-- 중앙 내용 -->
+            <div class="unitTest_box">
+                <form class="unitTest_box_form">
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                        <label for="biz_type">API 서버</label>
+                        <select class="unitTest_input" name="biz_type" id="biz_type" onchange="making_select_server_final()" required>
+                            <option>API 서버</option>
+                            <% for(var i=0; i<server_select.length; i++){ %>
+                            <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
+                            <% } %>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">업권분류</label>
+                            <input type="text" class="unitTest_input" name="b_right" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">orgcode</label>
+                            <input type="text" class="unitTest_input" name="orgcode" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Callback URL</label>
+                            <input type="text" class="unitTest_input" name="Callback_URL" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Client ID</label>
+                            <input type="text" class="unitTest_input" name="Client_ID" required="required" autofocus="autofocus" readonly>
+                             <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Client Secret</label>
+                            <input type="text" class="unitTest_input" name="Client_Secret" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+
+                    <div class="unitTest_box_input">
+                        <div class="unitTest_edit_input">
+                            <label for="org_code">Access token</label>
+                            <input type="text" class="unitTest_input" name="Access_token" required="required" autofocus="autofocus" readonly>
+                            <span class="errorBox_myPage"></span>
+                        </div>                     
+                    </div>
+                    <div class="mypage_btn">
+                        <button type="button" id="clickpopup" style="cursor:pointer;">테스트 실행</button>
+                    </div>
+                </form>
+            </div>
+            <div style="width: auto; height: auto; color: black;">
+                asdf
+            </div>
+        </section>
+        
+
+
+        <!-- 오른쪽 사이드바 -->
+        <aside></aside>
+
+    </main>
+
+    <script>
+        document.getElementById("clickpopup").onclick = function() {
+            var myWindow = window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+        }
+    </script>
+
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/service_test.js"></script>
+
+</body>
 </html>
