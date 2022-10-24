@@ -6,8 +6,8 @@ const mdbConn = require('../../db_connection/mariaDBConn');
    */
 exports.users = (req, res) => {
     console.log(req.query)
-    var sql = 'UPDATE service_test SET access_token = ?, refresh_token = ? WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ?';
-    var params = [null, null, req.query.token, req.query.client_id, req.query.client_secret];
+    var sql = 'UPDATE service_test SET access_token = ?, refresh_token = ? WHERE service_client_id = ? AND service_client_secret = ?';
+    var params = [null, null, req.query.client_id, req.query.client_secret];
     mdbConn.dbSelect(sql, params)
     .then(() => {
         res.set('x-api-tran-id', req.headers['x-api-tran-id'])

@@ -140,7 +140,7 @@
             <!-- SWAGger UI-->
             <div class="unitTest_box"> 
                 <div class="swag">
-                    <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+                    <iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
                 </div>
             </div>
 
@@ -156,6 +156,13 @@
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
+    <script>
+        jQuery(document).ready(function($){
+            $('#swagger-iframe').on('load',function(){
+                $(this).contents().find('.opblock-summary-control').click()
+            })
+        });
+    </script>
 
 </body>
 </html>

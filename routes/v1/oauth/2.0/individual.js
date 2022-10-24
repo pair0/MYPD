@@ -88,7 +88,7 @@ exports.token = (req, res) => {
     }
     console.log(req.body.refresh_token)
     // refresh_token이 없다면 refreshToken, accessToken 생성
-    var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+    var params = [info['authorization_code'], info['client_id'], info['client_secret']];
     mdbConn.dbSelect(sql['checkInfo'],params)
     .then((rows) => {
         if (rows == undefined) return res.status(404).json({rsp_msg : '인증 실패.'})
@@ -250,7 +250,7 @@ exports.authorization_api = (req, res) => {
     // exp : 접근토큰 만료시간 
     // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
     const sql = {
-        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? ',
         'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
         'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
         'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND service_client_id = ?'
@@ -260,10 +260,9 @@ exports.authorization_api = (req, res) => {
         'client_id' : req.body.client_id,
         'client_secret' : req.body.client_secret,
         'authorization_code' : req.body.code,
-        'id_idx' : req.user.id_idx
     }
     // refresh_token이 없다면 refreshToken, accessToken 생성
-        var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+        var params = [info['authorization_code'], info['client_id'], info['client_secret']];
         mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
             if (rows == undefined) return res.status(404).json({rsp_msg : '인증 실패.'})
@@ -271,7 +270,7 @@ exports.authorization_api = (req, res) => {
                 var accessExpiresIn = 7776000;
                 var refreshExpiresIn = 31557600;
                 const payload = {
-                    'idx' : info['id_idx']
+                    'client_id' : info['client_id']
                 };
                 const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                 const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
@@ -337,7 +336,7 @@ exports.authorization_api = (req, res) => {
                         var accessExpiresIn = 7776000; //90일
                         var refreshExpiresIn = 31557600; // 365일
                         const payload = {
-                            'idx' : info['id_idx']
+                            'client_id' : info['client_id']
                         };
                         const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                         const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)

@@ -6,6 +6,7 @@ const mdbConn = require('../../../db_connection/mariaDBConn')
    * @description 명세서 목록 조회 API
    */
 exports.lists = (req, res) => {
+    console.log(req)
     const info = {
         'org_code' : req.query.org_code,
         'AccessToken' : req.headers.authorization
