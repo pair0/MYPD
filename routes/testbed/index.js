@@ -97,15 +97,22 @@ router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, ne
     var sql = "SELECT * FROM server_management WHERE id_idx=?";
     params = req.user.id_idx;
     var rows = await mdbConn.dbSelectall(sql, params);
-    console.log("asdf", code_final['access_token']);
     res.locals.C_FINAL = code_final;
-    console.log(res.locals.C_FINAL);
     res.locals.server_select = rows;
 
     res.render("inte_api_final");
   } else {
     res.redirect('/main');
   }
+});
+
+router.get("/test1", isLogIn, checkTokens, async function (req, res, next) {
+    var sql = "SELECT * FROM server_management WHERE id_idx=?";
+    params = req.user.id_idx;
+    var rows = await mdbConn.dbSelectall(sql, params);
+    res.locals.server_select = rows;
+
+    res.render("test1");
 });
 
 router.get("/popup", isLogIn, checkTokens, function (req, res, next) {
