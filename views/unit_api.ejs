@@ -90,7 +90,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">ip</label>
-                            <input type="text" class="unitTest_input" name="C_ip" placeholder="https://192.1.1.21:8000" required="required" autofocus="autofocus" readonly>
+                            <input id="callback_url" type="text" class="unitTest_input" name="C_ip" placeholder="https://192.1.1.21:8000" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -108,8 +108,7 @@
 
             <!-- SWAGger UI-->
             <div class="unitTest_box"> 
-                <div class="swag">
-                    <iframe src="http://localhost:3000/svc_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+                <div id="api_swagger" class="swag">
                 </div>
             </div>
 

@@ -90,7 +90,6 @@ router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
   res.render('editmty');
 });
 
-
 router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svc');
 });
@@ -99,9 +98,17 @@ router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svr');
 });
 
+router.get('/reg_data', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_data');
+});
+
 //마이데이터 서비스 테스트 관리
 router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
 router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck);
+
+//테스트 데이터 관리
+router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck);
+router.get('/editdata_no', isLogIn, checkTokens, mdbConn.dataCheck);
 
 //서버 등록 관리
 router.get('/reg_svr_no', isLogIn, checkTokens, mdbConn.svrCheck);
@@ -109,11 +116,7 @@ router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck);
 
 //연동 테스트 관리
 router.get('/editinte', isLogIn, checkTokens, mdbConn.dbCheck_inter);
-router.get('/editinte_no', isLogIn, checkTokens);
-
-//테스트 데이터 관리
-router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck);
-router.get('/editdata_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
+router.get('/editinte_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
 
 //키 발급
 router.get('/key_gen',(req,res,next)=>
@@ -128,12 +131,14 @@ router.get('/key_gen',(req,res,next)=>
 
 router.post('/reg_svc',(req, res, next)=>
 {
-  
+  // callback URL 추가 시 배열에 push 하는 코드 추가 
+  var callback_arr = [];
+  callback_arr.push(req.body.callback)
   const info = {
     "id": req.user.id_idx,
     "svc_name": req.body.svc_name,
     "c_id" : req.body.c_id,
-    "callback" : req.body.callback,
+    "callback" : JSON.stringify(callback_arr),
     "c_secret" : req.body.c_secret,
     "svc_desc" : req.body.svc_desc,
   };
@@ -265,7 +270,7 @@ router.post('/svr_list_del',async function(req,res,next){
   })
 });
 
-//연동 테스트 서버 등록
+//연동 테스트 서버 등록 페이지 이동
 router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var sql = "SELECT * FROM server_management WHERE id_idx=?";
   params = req.user.id_idx;
@@ -275,6 +280,7 @@ router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, nex
   res.render("addinte_server"); 
 });
 
+//연동 테스트 서버 등록 요청
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
   console.log(data);

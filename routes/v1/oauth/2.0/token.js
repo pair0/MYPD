@@ -1,6 +1,5 @@
 const router = require("express").Router()
 const individual = require("./individual")
-
 /**
  * @swagger
  * paths:

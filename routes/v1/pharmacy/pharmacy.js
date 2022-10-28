@@ -1,4 +1,4 @@
-const {YYYYMMDD, checkAndAPICall, getListAPI, getSpecAPI} = require('../../../controller/controller.js')
+const {YYYYMMDD, checkAndAPICall, getListAPI, getAPI} = require('../../../controller/controller.js')
 
 /**
    * @path {GET} http://localhost:3000/v1/pharmacy/lists

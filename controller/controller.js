@@ -114,7 +114,6 @@ function GetAPI(res,info,params,addinfo = 'spec'){
         var sql = "SELECT * FROM data_test WHERE enterprise_code = ? AND json_value(data_json,'$.SPEC_ID') like ? AND data_id = ?"
     mdbConn.dbSelect(sql, params)
     .then((rows) => {
-        console.log(rows)
         response = JSON.parse(rows['data_json'])
         checkAndAPICall(res,info,response);
     })
