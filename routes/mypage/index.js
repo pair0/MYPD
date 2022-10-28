@@ -60,8 +60,8 @@ router.post('/edit', [
     .then((rows) => {
       console.log(rows);
     })
-    .catch((errMsg) => {
-      console.log(errMsg);
+    .catch((err) => {
+      console.log(err);
     });
 
     res.send(
@@ -149,7 +149,7 @@ router.post('/reg_svc',(req, res, next)=>
   .then((rows) => {
     res.redirect('/mypage/reg_svc_list')
   })
-  .catch((errMsg) => {
+  .catch((err) => {
     res.send(
       "<script>alert('저장 실패!!');location.href='/mypage/reg_svc';</" +
       "script>"
@@ -161,21 +161,20 @@ router.post('/reg_svc',(req, res, next)=>
 
 
 //서비스 리스트 가져오기
-router.get('/svc_list',async function(req,res,next){
+router.get('/svc_list', isLogIn, checkTokens, async function(req,res,next){
   var id= req.user.id_idx;
-  var sql = `select * from service_test where id_idx=${id}`;
-  var params = req.session.passport.user.id;
+  var sql = 'select * from service_test where id_idx=?';
+  var params = id;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 });
 
 //서비스 리스트 지우기
-router.post('/svc_list_del',async function(req,res,next){
+router.post('/svc_list_del', isLogIn, checkTokens, async function(req,res,next){
   var id= req.user.id_idx;
-  console.log(req.body);
   var svc_id = req.body.service_id;
-  var sql = `delete from service_test where service_id=${svc_id} and id_idx=${id};`;
-  var params = [];
+  var sql = 'delete from service_test where service_id=? and id_idx=?';
+  var params = [id, svc_id];
   await mdbConn.dbSelect(sql, params)
   .then(() => {
     res.redirect('/mypage/reg_svc');
@@ -184,7 +183,7 @@ router.post('/svc_list_del',async function(req,res,next){
 
 //테스트데이터 등록하기
 
-router.post('/editdata',(req, res, next)=>
+router.post('/editdata', isLogIn, checkTokens, (req, res, next)=>
 {
   
   const info = {
@@ -207,7 +206,7 @@ router.post('/editdata',(req, res, next)=>
 });
 
 //테스트데이터 리스트 가져오기
-router.get('/data_list',async function(req,res,next){
+router.get('/data_list', isLogIn, checkTokens, async function(req,res,next){
   var id= req.user.id_idx;
   var sql = `select * from data_test where id_idx=${id}`;
   var params = req.session.passport.user.id;
@@ -216,7 +215,7 @@ router.get('/data_list',async function(req,res,next){
 });
 
 //테스트데이터 지우기
-router.post('/data_list_del',async function(req,res,next){
+router.post('/data_list_del', isLogIn, checkTokens, async function(req,res,next){
   var id= req.user.id_idx;
   console.log(req.body);
   var data_id = req.body.data_id;
@@ -230,7 +229,7 @@ router.post('/data_list_del',async function(req,res,next){
 
 
 //서버 등록하기
-router.post('/reg_svr',(req, res, next)=>
+router.post('/reg_svr', isLogIn, checkTokens, (req, res, next)=>
 {
   console.log(req.body);
   const info = {
@@ -250,7 +249,7 @@ router.post('/reg_svr',(req, res, next)=>
 });
 
 //서버리스트 가져오기
-router.get('/svr_list',async function(req,res,next){
+router.get('/svr_list', isLogIn, checkTokens, async function(req,res,next){
   var id= req.user.id_idx;
   var sql = `select * from server_management where id_idx=${id}`;
   var params = req.session.passport.user.id;
@@ -259,11 +258,11 @@ router.get('/svr_list',async function(req,res,next){
 });
 
 //테스트데이터 지우기
-router.post('/svr_list_del',async function(req,res,next){
+router.post('/svr_list_del', isLogIn, checkTokens, async function(req,res,next){
   console.log(req.body);
   var data_id = req.body.server_manage_id;
-  var sql = `delete from server_management where server_manage_id=${data_id};`;
-  var params = [];
+  var sql = 'delete from server_management where server_manage_id=?';
+  var params = [data_id];
   await mdbConn.dbSelect(sql, params)
   .then(() => {
     res.redirect('/mypage/editdata_list');
@@ -294,7 +293,7 @@ router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, ne
       .then((rows) => {
         res.send(true);
       })
-      .catch((errMsg) => {
+      .catch((err) => {
         res.send(false);
       });
     }else {

@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="../mypage/editinte">
+                            <a href="#!isv" onclick="fetchPageisv('reg_isv')">
                                 <span class="icon"><i class="fa-solid fa-link"></i></span>
                                 <span class="text">연동 테스트</span>
                             </a>
@@ -84,6 +84,7 @@
         item.addEventListener('click', activeLink));
         var data = [];
 
+        //서버 관리
         function fetchPage(name){
             fetch(name).then(function(response){
                 response.text().then(function(text){
@@ -111,11 +112,12 @@
                                     `
                         table.innerHTML +=row
                     }
-                }
+                } 
             })
             });
         }
 
+        //데이터 관리
         function fetchPagedata(name){
             fetch(name).then(function(response){
                 response.text().then(function(text){
@@ -149,6 +151,8 @@
             })
             });
         }
+
+        //서비스 관리
         function fetchPagesvc(name){
             fetch(name).then(function(response){
                 response.text().then(function(text){
@@ -182,7 +186,37 @@
         }
 
         
-
+        function fetchPageisv(name){
+            fetch(name).then(function(response){
+                response.text().then(function(text){
+                    document.querySelector('content').innerHTML=text;
+                })
+            }).then(res => {
+                $.ajax({
+                url: "/mypage/svc_list",
+                type: "GET",
+                async: true,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    data=svc;
+                    for(var i=0; i< data.length;i++)
+                    {
+                        var table = document.getElementById('mytable')
+                        var row =  `<tr>
+                        <td id="list_name">${data[i].service_name}</td>
+                        <td>${data[i].service_callback_url}</td>
+                        <td>${data[i].service_client_id}</td>
+                        <td>${data[i].service_text}</td>
+                        <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_id})">삭제</a></td>
+                    </tr>
+                    `
+                        table.innerHTML +=row
+                    }
+                }
+            })
+            });
+        }
 
 
         function del_svc(id){
