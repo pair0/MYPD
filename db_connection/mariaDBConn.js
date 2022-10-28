@@ -58,51 +58,64 @@ async function DBSelectAll(sql, params){
     }
 }
 
-function DBCheck (req, res, next){
+async function DBCheck (req, res, next){
     var sql = "SELECT COUNT(*) FROM service_test WHERE id_idx = ?"
     var params = [req.user.id_idx];
 
     DBSelect(sql,params)
     .then((rows) => {
         if(rows['COUNT(*)'] == 0) 
-            res.redirect('/mypage/reg_svc_no');
+            res.render('reg_svc_no');
         else
-            next();
+            res.render('reg_svc_list');
     })
 }
 
-function DBCheck_data (req, res, next){
+async function DBCheck_data (req, res, next){
     var sql = "SELECT COUNT(*) FROM data_test WHERE id_idx = ?"
     var params = [req.user.id_idx];
 
     DBSelect(sql,params)
     .then((rows) => {
         if(rows['COUNT(*)'] == 0) 
-            res.redirect('/mypage/editdata_no');
+            res.render('editdata_no');
         else
-            next();
+            res.render('editdata_list');
     })
 }
 
-function DBCheck_server (req, res, next){
+async function DBCheck_server (req, res, next){
     var sql = "SELECT COUNT(*) FROM server_management WHERE id_idx = ?"
     var params = [req.user.id_idx];
 
     DBSelect(sql,params)
     .then((rows) => {
         if(rows['COUNT(*)'] == 0) 
-            res.redirect('/mypage/reg_svr_no');
+            res.render('reg_svr_no');
         else
-            next();
+            res.render('reg_svr_list');
     })
 }
 
+async function DBCheck_inter (req, res, next){
+    var sql = "SELECT COUNT(*) FROM inter_server WHERE id_idx = ?"
+    var params = [req.user.id_idx];
+
+    DBSelect(sql,params)
+    .then((rows) => {
+        if(rows['COUNT(*)'] == 0) 
+            res.render('editinte_no');
+        else
+            res.render('editinte');
+    })
+}
 
 module.exports = {
     dbInsert: DBInsert,
     dbSelect: DBSelect,
     dbSelectall : DBSelectAll,
     dbCheck : DBCheck,
+    dbCheck_inter : DBCheck_inter,
     dataCheck : DBCheck_data,
     svrCheck : DBCheck_server
 }
