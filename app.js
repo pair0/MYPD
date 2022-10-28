@@ -62,7 +62,7 @@ app.use('/svc_test',  swaggerUi_svc.serveFiles(specs_svc, options1), swaggerUi_s
 
 
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

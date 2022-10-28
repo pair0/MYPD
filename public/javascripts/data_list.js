@@ -1,6 +1,6 @@
 
 var myArray = [];
-
+$(document).ready(function(){
 $.ajax({
     url: "/mypage/data_list",
     type: "GET",
@@ -12,6 +12,7 @@ $.ajax({
         buildtable(myArray);
     }
 })
+});
 
 
 function buildtable(data){

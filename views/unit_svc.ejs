@@ -151,7 +151,7 @@
 
         <!-- 오른쪽 사이드바 -->
         <aside></aside>
-        <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="20%"></div>
+        <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
 
     </main>
 
@@ -159,28 +159,9 @@
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-    $(document).ready(function() {
+    <script src="../javascripts/ScrollUp.js"></script>
 
-        $(window).scroll(function() {
-            // top button controll
-            if ($(this).scrollTop() > 500) {
-                $('#topButton').fadeIn();
-            } else {
-                $('#topButton').fadeOut();
-            }
-        });
-
-        $("#topButtonImg").click(function() {
-            $('html, body').animate({scrollTop:0}, '300');
-        });
-
-    });
-
-    
-    </script>
-
-<script type="text/javascript"> 
+    <script type="text/javascript"> 
     //<![CDATA[
     function calcHeight(){
      //find the height of the internal page

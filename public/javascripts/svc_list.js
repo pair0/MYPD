@@ -1,7 +1,9 @@
 
 var myArray = [];
 
-$.ajax({
+
+$(document).ready(function(){
+    $.ajax({
     url: "/mypage/svc_list",
     type: "GET",
     async: true,
@@ -11,7 +13,9 @@ $.ajax({
         myArray=svc;
         buildtable(myArray);
     }
-})
+    });
+});
+
 
 
 function buildtable(data){
