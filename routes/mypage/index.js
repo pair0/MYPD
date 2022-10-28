@@ -99,6 +99,18 @@ router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svr');
 });
 
+router.get('/dashboard', isLogIn, checkTokens, function(req, res, next) {
+  res.render('dashboard');
+});
+
+router.get('/reg_data', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_data');
+});
+
+router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_svc');
+});
+
 
 router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck, function(req, res, next) {
   res.render('reg_svr_list');

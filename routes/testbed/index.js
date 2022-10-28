@@ -4,7 +4,7 @@ var router = express.Router();
 const individual = require("../v1/oauth/2.0/individual")
 const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
-
+const app = require("../../app");
 /* GET home page. */
 router.get("/", isLogIn, checkTokens, function (req, res, next) {
   res.render("test");
@@ -13,6 +13,8 @@ router.get("/", isLogIn, checkTokens, function (req, res, next) {
 router.get("/tmp", isLogIn, checkTokens, function (req, res, next) {
   res.render("tmp");
 });
+
+
 
 router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
   
@@ -28,9 +30,11 @@ router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
   var rows = await mdbConn.dbSelectall(sql, params);
   res.locals.data_select = rows;
 
-
   res.render("unit_svc");
 });
+
+
+
 
 router.post("/ServiceSelect", function (req, res, next){
   var data = req.body.data;
