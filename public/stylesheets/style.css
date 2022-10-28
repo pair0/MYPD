@@ -873,11 +873,12 @@ border: 0.5px solid #C7C7C7;
 .select_api{
   width:400px; 
   height: 400px; 
-  /* overflow: auto;  */
+  overflow: auto; 
   margin: 20px auto;
 }
 
 .select_button1{
+  cursor:pointer;
   margin: 20px auto;
   height: 50px;
   width: 300px;
@@ -889,7 +890,7 @@ border: 0.5px solid #C7C7C7;
   align-items: center;
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
+  font-weight: 500;
+  font-size: 18px;
   line-height: 28px;
 }
