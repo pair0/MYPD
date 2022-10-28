@@ -90,7 +90,7 @@
                     <div class="unitTest_box_input">
                         <div class="unitTest_edit_input">
                             <label for="org_code">ip</label>
-                            <input type="text" class="unitTest_input" name="C_ip" placeholder="https://192.1.1.21:8000" required="required" autofocus="autofocus" readonly>
+                            <input id="callback_url" type="text" class="unitTest_input" name="C_ip" placeholder="https://192.1.1.21:8000" required="required" autofocus="autofocus" readonly>
                             <span class="errorBox_myPage"></span>
                         </div>                     
                     </div>
@@ -108,8 +108,7 @@
 
             <!-- SWAGger UI-->
             <div class="unitTest_box"> 
-                <div class="swag">
-                    <iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>
+                <div id="api_swagger" class="swag">
                 </div>
             </div>
 
@@ -125,13 +124,6 @@
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
-    <script>
-        jQuery(document).ready(function($){
-            $('#swagger-iframe').on('load',function(){
-                $(this).contents().find('.opblock-summary-control').click()
-            })
-        });
-    </script>
 
 </body>
 </html>

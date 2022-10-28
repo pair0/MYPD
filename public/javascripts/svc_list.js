@@ -18,10 +18,16 @@ function buildtable(data){
 
     for(var i=0; i< data.length;i++)
     {
+        var callback_arr = JSON.parse(data[i].service_callback_url)
+        var callbackurl_set = ""
+        for ( var j = 0; j < callback_arr.length; j++){
+            callbackurl_set += " | " + callback_arr[j]
+        }
+        callbackurl_set += " |"
         var table = document.getElementById('mytable')
         var row = `<tr>
                         <td id="list_name">${data[i].service_name}</td>
-                        <td>${data[i].service_callback_url}</td>
+                        <td>${callbackurl_set}</td>
                         <td>${data[i].service_client_id}</td>
                         <td>${data[i].service_text}</td>
                         <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_id})">삭제</a></td>

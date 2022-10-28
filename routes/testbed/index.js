@@ -58,6 +58,11 @@ router.post("/ServerSelect", function (req, res, next){
   });
 });
 
+router.post("/selectServer", function (req, res, next){
+  var data = req.body.data;
+  req.session.server = data;
+  res.json({url : data});
+});
 
 router.get("inte_svc", isLogIn, checkTokens, function (req, res, next) {
   res.render("inte_svc");

@@ -137,12 +137,14 @@ router.get('/key_gen',(req,res,next)=>
 
 router.post('/reg_svc',(req, res, next)=>
 {
-  
+  // callback URL 추가 시 배열에 push 하는 코드 추가 
+  var callback_arr = [];
+  callback_arr.push(req.body.callback)
   const info = {
     "id": req.user.id_idx,
     "svc_name": req.body.svc_name,
     "c_id" : req.body.c_id,
-    "callback" : req.body.callback,
+    "callback" : JSON.stringify(callback_arr),
     "c_secret" : req.body.c_secret,
     "svc_desc" : req.body.svc_desc,
   };

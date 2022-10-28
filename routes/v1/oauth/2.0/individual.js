@@ -15,6 +15,7 @@ exports.authorization = (req, res) => {
     const info = {
         'org_code' : req.query.org_code,
         'client_id' : req.query.client_id,
+        'callback_url' : req.query.redirect_uri
     }
     const sql = {
         'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
@@ -29,7 +30,9 @@ exports.authorization = (req, res) => {
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
             if(rows == undefined)
-                res.status(404).json({rsp_msg : 'client_id is invalid.' })
+                res.status(404).json({rsp_msg : 'client_id is invalid.' });
+            if(!JSON.parse(rows.service_callback_url).includes(info['callback_url']))
+                res.status(404).json({rsp_msg : 'callback_url is invalid.'});
             info['authorization_code'] = generateuuidv4(10);
             var params_null = [null, info['client_id']];
             // 인가코드 10분 제한 코드 (비동기 동작))
@@ -40,7 +43,7 @@ exports.authorization = (req, res) => {
             var params = [info['authorization_code'], info['client_id']];
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
-                res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                 res.status(200).json({ 
                     ok: true, 
                     code: info['authorization_code'],
@@ -54,8 +57,8 @@ exports.authorization = (req, res) => {
                 console.log("DB Insert Error Check /v1/oauth/2.0/authorize")
             })
         })
-        .catch(() => {
-            res.status(404).json({rsp_msg : 'client_id is invalid.' })
+        .catch((err) => {
+            // res.status(404).json({rsp_msg : 'client_id is invalid.2' })
         })
     })
     .catch(() => {
