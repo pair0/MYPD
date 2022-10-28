@@ -99,30 +99,21 @@ router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_svr');
 });
 
+//마이데이터 서비스 테스트 관리
+router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
+router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck);
 
-router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck, function(req, res, next) {
-  res.render('reg_svr_list');
-});
+//서버 등록 관리
+router.get('/reg_svr_no', isLogIn, checkTokens, mdbConn.svrCheck);
+router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck);
 
+//연동 테스트 관리
+router.get('/editinte', isLogIn, checkTokens, mdbConn.dbCheck_inter);
+router.get('/editinte_no', isLogIn, checkTokens);
 
-router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck, function(req, res, next) {
-  res.render('reg_svc_list');
-});
-
-router.get('/reg_svc_no', isLogIn, checkTokens, function(req, res, next) {
-  res.render('reg_svc_no');
-});
-router.get('/reg_svr_no', isLogIn, checkTokens, function(req, res, next) {
-  res.render('reg_svr_no');
-});
-
-router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck, function(req, res, next) {
-  res.render('editdata_list');
-});
-
-router.get('/editdata_no', isLogIn, checkTokens, function(req, res, next) {
-  res.render('editdata_no');
-});
+//테스트 데이터 관리
+router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck);
+router.get('/editdata_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
 
 //키 발급
 router.get('/key_gen',(req,res,next)=>
@@ -274,4 +265,37 @@ router.post('/svr_list_del',async function(req,res,next){
   })
 });
 
+//연동 테스트 서버 등록
+router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
+  var sql = "SELECT * FROM server_management WHERE id_idx=?";
+  params = req.user.id_idx;
+  var rows = await mdbConn.dbSelectall(sql, params);
+  
+  res.locals.server_select = rows;
+  res.render("addinte_server"); 
+});
+
+router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
+  var data = req.body.NUMBER;
+  console.log(data);
+  var sql = "SELECT * FROM server_management WHERE server_manage_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
+  mdbConn.dbSelect(sql, data)
+  .then((rows) => {
+    if(rows){
+      params = [rows.id_idx, data];
+      var sql = 'INSERT INTO inter_server(id_idx, server_manage_id) VALUES(?,?)';
+      mdbConn.dbInsert(sql, params)
+      .then((rows) => {
+        res.send(true);
+      })
+      .catch((errMsg) => {
+        res.send(false);
+      });
+    }else {
+      res.send(false);
+    }
+  });
+});
+
 module.exports = router;
+

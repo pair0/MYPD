@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="kor">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content=""> 
+
+        <!--CSS -->
+        <link rel="stylesheet" href="../stylesheets/style.css">
+        <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+        <title>mypd testbed</title>
+    </head>
+
+    <body>
+        <div>
+            <div style="text-align : center;">
+                <img src="../images/world.png" alt="" width="50px" height="50px" style="padding-top: 50px; -webkit-filter: opacity(.5) drop-shadow(0 0 0 blue); filter:opacity(.5) drop-shadow(0 0 0 blue)">
+                <p class = "page_title" style="font-size:15px; margin-bottom: 0px">연동테스트 서버를 선택해주세요.</p>
+            </div>
+
+            <div class="select_api" style="height:auto">
+                <select class="select_server" name="biz_type" id="biz_type" required>
+                    <option>서버 선택</option>
+                    <% for(var i=0; i<server_select.length; i++){ %>
+                    <option value=<%=server_select[i].server_manage_id%>><%=server_select[i].server_name%></option>
+                    <% } %>
+                </select>
+                <button class="selectadd_button" onclick="check()">확인</button>
+            </div>
+        </div>
+        <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+            function check(){
+                console.log("확인")
+                $.ajax({
+                    url: "/mypage/addinte_server",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        "NUMBER": $("#biz_type").val()
+                    },
+                    success: function (data) {
+                        if (data == true) {
+                            alert('등록 완료되었습니다.');
+                            window.close();
+                        } else {
+                            result = false;
+                        }
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

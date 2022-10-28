@@ -23,37 +23,30 @@
     <main>
         <div class="main_pic_bg">
             <div class="city_edit"> 
-                <h1>서비스 테스트 관리</h1>
+                <h1>테스트 관리</h1>
                 <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
-
                 <div class="mypage_menu">
                     <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
                     <!-- editdata / editmty 나눠야함 -->
-                    <a href="../mypage/editdata" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
+                    <a href="../mypage/editdata_list" class="mypage_menuBtn" >테스트 데이터 관리</a>
                     <a href="../mypage/reg_svr_list" class="mypage_menuBtn" >서버 등록</a>
-                    <a href="../mypage/editinte" class="mypage_menuBtn">연동 테스트</a>
+                    <a href="../mypage/editinte" class="mypage_menuBtnnow"> 연동 테스트 </a>
                     <div class="mypage_menuBtn"> 테스트 현황 </div>
                 </div>
-
-                <!-- 비밀번호 재확인 -->
                 <div class="mypage_box">
                     <div class="img">
                         <img src="../images/sad.png" alt="" width="80%">
                     </div>
-                    <h1 class="edit_pw_check_txt">등록된 테스트 데이터가 없어요</h1>
-                    <p>테스트 데이터를 등록하고 테스트데이터를 관리하세요</p>
-                    <p>테스트데이터가 없다면 샘플데이터를  사용할 수 있어요</p>
-                    <a class="test_manage_btn" href="/mypage/editdata">테스트데이터 추가하기</a>
-                    <a class="test_manage_btn" style="background-color:gray; margin-top:10px;">샘플데이터 다운받기</a>
-
-                </div>
-
-          </div>
+                    <h1 class="edit_pw_check_txt">연동테스트로 설정된 서버가 없습니다.</h1>
+                    <p>등록하신 서버중 연동테스트를 허용할 서버를 설정해 주세요.</p>
+                    <button class="test_manage_btn" id="addint" style="cursor:pointer;">연동테스트 서버 추가하기</button>
+            </div>
         </div>
     </main>
+    <script>
+        document.getElementById("addint").onclick = function() {
+            var myWindow = window.open("/mypage/addinte_server", "인증 팝업", "width = 400, height = 450, top = 100, left = 200, location = no");
+        }
+    </script>
 </body>
 </html>
-
-<!--
-테스트 데이터가 DB에 존재하지 않는 경우 editdata 페이지 대신 editmty페이지가 나옴
--->
