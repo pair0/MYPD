@@ -259,3 +259,5 @@ GET /mypage/reg_link 404 84 - 0.565 ms
 GET /mypage/reg_svr 304 - - 15.370 ms
 GET /mypage/svr_list 304 - - 14.445 ms
 GET /mypage/dashboard 304 - - 16.558 ms
+GET /user/login 200 2527 - 4.581 ms
+GET /main 200 7377 - 3.500 ms
