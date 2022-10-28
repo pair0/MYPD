@@ -15,14 +15,14 @@ exports.authorization = (req, res) => {
     const info = {
         'org_code' : req.query.org_code,
         'client_id' : req.query.client_id,
-        'id' : req.user.e_customer_id
+        'callback_url' : req.query.redirect_uri
     }
     const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?',
+        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ?',
         'checkClient_id' : 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?',
         'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?',
     }
-    var params = [info['org_code'], info['id']];
+    var params = [info['org_code']];
     mdbConn.dbSelect(sql['checkOrg_code'], params)
     .then((rows) => {
         info['id_idx'] = rows.id_idx
@@ -30,7 +30,9 @@ exports.authorization = (req, res) => {
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
             if(rows == undefined)
-                res.status(404).json({rsp_msg : 'client_id is invalid.' })
+                res.status(404).json({rsp_msg : 'client_id is invalid.' });
+            if(!JSON.parse(rows.service_callback_url).includes(info['callback_url']))
+                res.status(404).json({rsp_msg : 'callback_url is invalid.'});
             info['authorization_code'] = generateuuidv4(10);
             var params_null = [null, info['client_id']];
             // 인가코드 10분 제한 코드 (비동기 동작))
@@ -41,7 +43,7 @@ exports.authorization = (req, res) => {
             var params = [info['authorization_code'], info['client_id']];
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
-                res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
+                res.set('x-api-tran-id', req.headers['x-api-tran-id'])
                 res.status(200).json({ 
                     ok: true, 
                     code: info['authorization_code'],
@@ -55,8 +57,8 @@ exports.authorization = (req, res) => {
                 console.log("DB Insert Error Check /v1/oauth/2.0/authorize")
             })
         })
-        .catch(() => {
-            res.status(404).json({rsp_msg : 'client_id is invalid.' })
+        .catch((err) => {
+            // res.status(404).json({rsp_msg : 'client_id is invalid.2' })
         })
     })
     .catch(() => {
@@ -76,7 +78,7 @@ exports.token = (req, res) => {
     // exp : 접근토큰 만료시간 
     // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
     const sql = {
-        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ?',
         'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
         'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
         'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND service_client_id = ?'
@@ -86,11 +88,10 @@ exports.token = (req, res) => {
         'client_id' : req.body.client_id,
         'client_secret' : req.body.client_secret,
         'authorization_code' : req.body.code,
-        'id_idx' : req.user.id_idx
     }
     console.log(req.body.refresh_token)
     // refresh_token이 없다면 refreshToken, accessToken 생성
-    var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+    var params = [info['authorization_code'], info['client_id'], info['client_secret']];
     mdbConn.dbSelect(sql['checkInfo'],params)
     .then((rows) => {
         if (rows == undefined) return res.status(404).json({rsp_msg : '인증 실패.'})
@@ -98,7 +99,7 @@ exports.token = (req, res) => {
             var accessExpiresIn = 7776000;
             var refreshExpiresIn = 31557600;
             const payload = {
-                'idx' : info['id_idx']
+                'client_id' : info['client_id']
             };
             const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
             const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
@@ -126,7 +127,7 @@ exports.token = (req, res) => {
                 var refreshToken = getTokenChk(req.body.refresh_token, "refresh")
                 if(refreshToken == "valid" && rows != undefined ){
                     const payload = {
-                        'idx' : info['id_idx']
+                        'client_id' : info['client_id']
                     }
                     const newAccessToken = 'Bearer ' + generateAccessToken(payload);
                     var params = [newAccessToken,  info['client_id']]
@@ -147,7 +148,7 @@ exports.token = (req, res) => {
                     var accessExpiresIn = 7776000;
                     var refreshExpiresIn = 31557600;
                     const payload = {
-                        'idx' : info['id_idx']
+                        'client_id' : info['client_id']
                     };
                     const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                     const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
@@ -197,18 +198,16 @@ exports.authorization_api = (req, res) => {
     const info = {
         'org_code' : req.body.org_code,
         'client_id' : req.body.client_id,
-        'id' : req.user.e_customer_id
     }
     const sql = {
-        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? AND e_customer_id = ?',
+        'checkOrg_code' :'SELECT * FROM Customers_Enterprise WHERE enterprise_number = ? ',
         'checkClient_id' : 'SELECT * FROM service_test WHERE service_client_id = ? AND id_idx = ?',
         'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?',
     }
-    var params = [info['org_code'], info['id']];
+    var params = [info['org_code']];
     mdbConn.dbSelect(sql['checkOrg_code'], params)
     .then((rows) => {
-        info['id_idx'] = rows.id_idx
-        var params = [info['client_id'], info['id_idx']];
+        var params = [info['client_id']];
         mdbConn.dbSelect(sql['checkClient_id'], params)
         .then((rows) => {
             if(rows == undefined)
@@ -224,12 +223,6 @@ exports.authorization_api = (req, res) => {
             mdbConn.dbInsert(sql['updateAuthorization_code'],params)            
             .then(() => {
                 res.set('x-api-tran-id', req.headers['x-api-tran-id'])  // 이걸 사용자가 입력하는 것이 맞을까...?
-                // res.status(200).json({ 
-                //     ok: true, 
-                //     code: info['authorization_code'],
-                //     state: req.query.state,
-                //     api_tran_id: req.headers['x-api-tran-id']
-                // })
                 var code = info['authorization_code'];
                 req.session.code = code;
                 res.redirect('/testbed/inte_api_access');
@@ -260,7 +253,7 @@ exports.authorization_api = (req, res) => {
     // exp : 접근토큰 만료시간 
     // scope : 개인정보 제공 범위 -> 얘는 어떻게 지정해줘??
     const sql = {
-        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? AND id_idx = ?',
+        'checkInfo' : 'SELECT * FROM service_test WHERE authorization_code = ? AND service_client_id = ? AND service_client_secret = ? ',
         'updateToken' : "UPDATE service_test SET access_token = ? ,refresh_token = ?  WHERE service_client_id = ?",
         'updateAccessToken' : "UPDATE service_test SET access_token = ? WHERE service_client_id = ?",
         'checkRefresh_token' : 'SELECT * FROM service_test WHERE refresh_token = ? AND service_client_id = ?'
@@ -270,10 +263,9 @@ exports.authorization_api = (req, res) => {
         'client_id' : req.body.client_id,
         'client_secret' : req.body.client_secret,
         'authorization_code' : req.body.code,
-        'id_idx' : req.user.id_idx
     }
     // refresh_token이 없다면 refreshToken, accessToken 생성
-        var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
+        var params = [info['authorization_code'], info['client_id'], info['client_secret']];
         mdbConn.dbSelect(sql['checkInfo'],params)
         .then((rows) => {
             if (rows == undefined) return res.status(404).json({rsp_msg : '인증 실패.'})
@@ -281,7 +273,7 @@ exports.authorization_api = (req, res) => {
                 var accessExpiresIn = 7776000;
                 var refreshExpiresIn = 31557600;
                 const payload = {
-                    'idx' : info['id_idx']
+                    'client_id' : info['client_id']
                 };
                 const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                 const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)
@@ -347,7 +339,7 @@ exports.authorization_api = (req, res) => {
                         var accessExpiresIn = 7776000; //90일
                         var refreshExpiresIn = 31557600; // 365일
                         const payload = {
-                            'idx' : info['id_idx']
+                            'client_id' : info['client_id']
                         };
                         const accessToken = 'Bearer ' + generateAccessToken(payload, accessExpiresIn)
                         const refreshToken = 'Bearer ' + generateRefreshToken(payload,refreshExpiresIn)

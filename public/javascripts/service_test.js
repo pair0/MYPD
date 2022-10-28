@@ -81,3 +81,25 @@ function making_select_data() {
     });
 }
 
+$("#biz_type").on("change", function(req) {
+    $.ajax({
+        url: "/testbed/selectServer",
+        type: "POST",
+        async: true, 
+        data: {
+            "data": $('#callback_url').val()
+        },
+        success: function(data){
+            server = data;
+            $(document).ready(function(){
+                $('#swagger-iframe').remove();
+                if(data['url'] != ''){
+                    $('#api_swagger').append('<iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
+                    $('#swagger-iframe').on('load',function(){
+                        $(this).contents().find('.opblock-summary-control').click()
+                    })
+                }
+            })
+        }
+    });
+});

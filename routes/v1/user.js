@@ -41,7 +41,7 @@ const individual = require("./individual")
  *                    rsp_msg:
  *                      type: string
  *                      example:
- *                          "0123456789abcdef0123456789abcdef01234567"
+ *                          "삭제 완료"
  *        "404":
  *          description: 인가코드가 유효하지 않음
  *          content:
@@ -56,7 +56,7 @@ const individual = require("./individual")
  *                   rsp_msg:
  *                      type: string
  *                      example:
- *                          "fail"
+ *                          "유효하지 않은 토큰입니다."
  */
- router.post('/users', individual.users)
- module.exports = router;
+router.post('/users', individual.users)
+module.exports = router;

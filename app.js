@@ -9,9 +9,9 @@ var session = require('express-session');
 var app = express();
 require('dotenv').config();
 require('./passport');
-const { swaggerUi_api_access, specs_api_access } = require("./swagger/api_test_access")
 const { swaggerUi_api, specs_api } = require("./swagger/api_test")
 const { swaggerUi_svc, specs_svc } = require("./swagger/svc_test")
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -43,18 +43,22 @@ app.use(function(req,res,next){
 });
 
 var options = {
-  customCssUrl : '/stylesheets/swagger_api.css',
-  docExpansion:"none",
+  customCssUrl : '/stylesheets/swagger.css',
+  docExpansion:"full",
   // customJs: '/javascripts/custom.js'
 };
 
-app.use('/api_test', swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
-app.use('/api_test_access', swaggerUi_api_access.serveFiles(specs_api_access, options), swaggerUi_api_access.setup(specs_api_access, options));
+app.use('/api_test', function(req,res,next) {
+  specs_api.servers = []; 
+  specs_api.servers.push({url:req.session.server})
+  req.swaggerDoc = specs_api
+  next();
+},swaggerUi_api.serveFiles(specs_api, options), swaggerUi_api.setup(specs_api, options));
 
 var options1 = {
   customCssUrl : '/stylesheets/swagger.css',
 };
-app.use('/svc_test', swaggerUi_svc.serveFiles(specs_svc, options1), swaggerUi_svc.setup(specs_svc,options1));
+app.use('/svc_test',  swaggerUi_svc.serveFiles(specs_svc, options1), swaggerUi_svc.setup(specs_svc,options1));
 
 
 
