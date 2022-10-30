@@ -44,9 +44,10 @@
                     success: function (data) {
                         if (data == true) {
                             alert('등록 완료되었습니다.');
+                            opener.parent.location.reload();
                             window.close();
                         } else {
-                            result = false;
+                            alert(data);
                         }
                     }
                 })

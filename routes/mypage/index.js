@@ -3,7 +3,7 @@ const mdbConn = require('../../db_connection/mariaDBConn')
 var router = express.Router();
 const {body} = require('express-validator');
 const bcrypt = require('bcrypt');
-const { isLogIn, isSNSLogIn,validatorErrorChecker}= require('../../controller/login')
+const { myLogIn,isLogIn, isSNSLogIn,validatorErrorChecker}= require('../../controller/login')
 const { checkTokens, generateuuidv4 } = require("../../passport/abouttoken");
 
 /* GET home page. */
@@ -90,21 +90,36 @@ router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
   res.render('editmty');
 });
 
-router.get('/reg_svc', isLogIn, checkTokens, function(req, res, next) {
+router.get('/reg_svc',myLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svr', isLogIn, checkTokens, function(req, res, next) {
+router.get('/reg_svr',myLogIn, function(req, res, next) {
   res.render('reg_svr');
 });
 
-router.get('/reg_data', isLogIn, checkTokens, function(req, res, next) {
+router.get('/reg_data',myLogIn, function(req, res, next) {
   res.render('reg_data');
 });
 
 router.get('/reg_isv', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_isv');
 });
+
+
+router.get('/add_svr',myLogIn, function(req, res, next) {
+  res.render('add_svr');
+});
+
+router.get('/add_svc',myLogIn, function(req, res, next) {
+  res.render('add_svc');
+});
+
+
+router.get('/add_data',myLogIn, function(req, res, next) {
+  res.render('add_data');
+});
+
 
 //마이데이터 서비스 테스트 관리
 router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
@@ -151,11 +166,11 @@ router.post('/reg_svc',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    res.redirect('/mypage/reg_svc_list')
+    res.redirect('/mypage/editdata_list#!reg_svc')
   })
   .catch((err) => {
     res.send(
-      "<script>alert('저장 실패!!');location.href='/mypage/reg_svc';</" +
+      "<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_list';</" +
       "script>"
     );
   });
@@ -165,12 +180,17 @@ router.post('/reg_svc',(req, res, next)=>
 
 
 //서비스 리스트 가져오기
-router.get('/svc_list', async function(req,res,next){
+router.get('/svc_list',async function(req,res,next){
+  try{
   var id= req.user.id_idx;
   var sql = 'select * from service_test where id_idx=?';
   var params = id;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
+  }
+  catch{
+    console.log("login error svc_list");
+  }
 });
 
 //서비스 리스트 지우기
@@ -211,10 +231,15 @@ router.post('/editdata',(req, res, next)=>
 
 //테스트데이터 리스트 가져오기
 router.get('/data_list',async function(req,res,next){
-  var sql = 'select * from data_test where id_idx=?';
-  var params = req.user.id_idx;
-  var result = await mdbConn.dbSelectall(sql, params);
-  res.json(result);
+  try{
+    var sql = 'select * from data_test where id_idx=?';
+    var params = req.user.id_idx;
+    var result = await mdbConn.dbSelectall(sql, params);
+    res.json(result);
+  }
+  catch(e){
+    console.log("data_list login error");
+  }
 });
 
 //테스트데이터 지우기
@@ -253,10 +278,15 @@ router.post('/reg_svr',(req, res, next)=>
 
 //서버리스트 가져오기
 router.get('/svr_list',async function(req,res,next){
-  var sql = 'select * from server_management where id_idx=?';
-  var params = req.user.id_idx;
-  var result = await mdbConn.dbSelectall(sql, params);
-  res.json(result);
+  try{
+    var sql = 'select * from server_management where id_idx=?';
+    var params = req.user.id_idx;
+    var result = await mdbConn.dbSelectall(sql, params);
+    res.json(result);
+  }
+  catch{
+    console.log("svr list login error");
+  }
 });
 
 //테스트데이터 지우기
@@ -267,7 +297,7 @@ router.post('/svr_list_del',async function(req,res,next){
   var params = [data_id];
   await mdbConn.dbSelect(sql, params)
   .then(() => {
-    res.redirect('/mypage/editdata_list');
+    res.redirect('/mypage/editdata_list#!reg_data');
   })
 });
 
@@ -293,23 +323,43 @@ router.get('/isv_list', async function(req,res,next){
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
   console.log(data);
-  var sql = "SELECT * FROM server_management WHERE server_manage_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
+  var sql = "SELECT * FROM server_management WHERE server_manage_id=?"; 
   mdbConn.dbSelect(sql, data)
   .then((rows) => {
     if(rows){
-      params = [rows.id_idx, data];
-      var sql = 'INSERT INTO inter_server(id_idx, server_manage_id, request_count) VALUES(?,?,0)';
-      mdbConn.dbInsert(sql, params)
+      var id_idx = rows.id_idx
+      var sql = "SELECT * FROM inter_server WHERE server_manage_id=?"
+      mdbConn.dbSelect(sql, data)
       .then((rows) => {
-        res.send(true);
+        if(rows){
+          res.send("이미 등록되어 있는 서버입니다.")
+        }
+        else{
+          params = [id_idx, data];
+          var sql = 'INSERT INTO inter_server(id_idx, server_manage_id, request_count) VALUES(?,?,0)';
+          mdbConn.dbInsert(sql, params)
+          .then((rows) => {
+            res.send(true);
+          })
+          .catch((err) => {
+            res.send("다시 시도해 주세요.");
+          }); 
+        }
       })
       .catch((err) => {
-        res.send(false);
+        res.send("다시 시도해 주세요.");
       });
     }else {
-      res.send(false);
+      res.send("다시 시도해 주세요.");
     }
+  })
+  .catch((err) => {
+    res.send("다시 시도해 주세요.");
   });
+});
+
+router.get('/isv_detail',myLogIn, function(req, res, next) {
+  res.render('isv_detail');
 });
 
 module.exports = router;

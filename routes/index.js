@@ -11,11 +11,6 @@ const v1 = require("./v1");
 const morgan = require('morgan');
 const fs = require('fs');
 
-
-router.use(morgan('tiny',{
-    stream: fs.createWriteStream('./access.log', { flags: 'a' }) 
-}));
-
 router.use('/main', main);
 router.use('/user', user);
 router.use('/testbed', testbed);

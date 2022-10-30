@@ -1072,6 +1072,7 @@ div .use_box:hover{
 }
 
 .test_manage_btn{
+    cursor:pointer;
     font-weight: 700;
     font-size: 15px;
     background-color: #007aff;
