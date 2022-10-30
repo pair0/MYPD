@@ -66,6 +66,71 @@ router.post("/selectServer", function (req, res, next) {
   res.json({ url: data });
 });
 
+router.post("/unitLogging", function (req, res, next){
+  const data = {
+    type : req.body.type,
+    curl: req.body.curl.split(/ |curl|\\|\n|'/ ).filter((elemet) => elemet !== ''),
+    resCode: req.body.resCode,
+    resBody: req.body.resBody.split(/ |\n/ ).filter((elemet) => elemet !== '').join(""),
+    resHeaders: req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
+  }
+  let curl = {
+    httpMethod : data['curl'][1],
+    reqUrl : data['curl'][2],
+  }
+  var reqHeaders = {};
+  var reqBody = {};
+  var key = '';
+  var val = '';
+  var hord = '-H';
+  for(var i=3; i < data['curl'].length; i++){
+    if (data['curl'][i] == '-H' ){
+      if(key == '' || val == '')
+        continue;
+      if(hord == '-H')
+        reqHeaders[key] = val;
+      else
+        reqBody[key] = val;
+      key = '';
+      val = '';
+      hord = '-H';
+    }
+    else if(data['curl'][i] == '-d' ){
+      if(key == '' || val == '')
+        continue;
+      if(hord == '-H')
+        reqHeaders[key] = val;
+      else
+        reqBody[key] = val;
+      key = '';
+      val = '';
+      hord = '-d';
+    }
+    else if(i+1 == data['curl'].length){
+      val = data['curl'][i];
+      if(hord == '-H')
+        reqHeaders[key] = val;
+      else
+        reqBody[key] = val;
+    }
+    else{
+      if(key == '')
+        key = data['curl'][i].split(':')[0];
+      else
+        val = data['curl'][i];
+    }
+  }
+  if(Object.keys(reqHeaders) != 0){
+    data['reqHeaders'] = reqHeaders;
+  }
+  if(Object.keys(reqBody) != 0){
+    data['reqBody'] = reqBody;
+  }
+  delete data['curl']
+  console.log(data);
+  res.send(data);
+});
+
 router.get("inte_svc", isLogIn, checkTokens, function (req, res, next) {
   res.render("inte_svc");
 });

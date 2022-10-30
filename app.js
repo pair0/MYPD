@@ -2,7 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 const routes = require('./routes');
 var passport = require('passport');
 var session = require('express-session');
@@ -11,7 +10,6 @@ require('dotenv').config();
 require('./passport');
 const { swaggerUi_api, specs_api } = require("./swagger/api_test")
 const { swaggerUi_svc, specs_svc } = require("./swagger/svc_test")
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

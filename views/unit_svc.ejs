@@ -141,7 +141,7 @@
             <!-- SWAGger UI-->
             <div class="unitTest_box"> 
                 <div class="swag">
-                    <iframe src="http://localhost:3000/svc_test" id="the_iframe" onload="calcHeight();" name="WrittenPublic"  frameborder="0"  style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">로드 중…</iframe>
+                    <iframe id="swagger-iframe" src="http://localhost:3000/svc_test"  onload="calcHeight();" name="WrittenPublic"  frameborder="0"  style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">로드 중…</iframe>
                 </div>
             </div>
 
@@ -167,15 +167,15 @@
      //find the height of the internal page
     
      var the_height=
-     document.getElementById('the_iframe').contentWindow.
+     document.getElementById('swagger-iframe').contentWindow.
      document.body.scrollHeight;
     
      //change the height of the iframe
-     document.getElementById('the_iframe').height=
+     document.getElementById('swagger-iframe').height=
      the_height;
     
-    //  document.getElementById('the_iframe').scrolling = "no";
-    //  document.getElementById('the_iframe').style.overflow = "hidden";
+    //  document.getElementById('swagger-iframe').scrolling = "no";
+    //  document.getElementById('swagger-iframe').style.overflow = "hidden";
     }
     //
     </script>

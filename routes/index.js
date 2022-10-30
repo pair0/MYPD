@@ -9,8 +9,6 @@ const aboutapi = require("./aboutapi");
 const auth = require("./auth");
 const mypage = require("./mypage");
 const v1 = require("./v1");
-const morgan = require("morgan");
-const fs = require("fs");
 
 router.use("/main", main);
 router.use("/user", user);
