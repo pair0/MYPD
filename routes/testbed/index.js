@@ -74,10 +74,9 @@ router.post("/unitLogging", function (req, res, next){
     resBody: req.body.resBody.split(/ |\n/ ).filter((elemet) => elemet !== '').join(""),
     resHeaders: req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
   }
-  let curl = {
-    httpMethod : data['curl'][1],
-    reqUrl : data['curl'][2],
-  }
+
+  data['httpMethod'] = data['curl'][1]
+  data['reqUrl'] = data['curl'][2]
   var reqHeaders = {};
   var reqBody = {};
   var key = '';
