@@ -21,5 +21,10 @@ module.exports = {
             return res.redirect('/user/join');
         }
         next();
-    }
+    },
+    myLogIn : function (req,res, next) {
+        req.session.return = req.originalUrl;
+        if(res.locals.isAuthenticated == true) next();
+        else res.redirect('/user/loginerror')
+    },
 }

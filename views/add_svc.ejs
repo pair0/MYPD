@@ -1,0 +1,57 @@
+<div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
+    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svc" onsubmit="return event_click()">
+        <div class="mypage_box_input2" >
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section>
+                    <div class="mypage_edit_input">
+                        <label for="svc_name">서비스명</label>
+                        <input type="text" name="svc_name" class="mypage_input2" required>
+                    </div>
+                    <div class="mypage_edit_input">
+                        <label for="c_id">Client ID</label>
+                        <div class="email" style="position:relative"> 
+                            <input  class="mypage_input2" type="text" id="c_id" name="c_id" required="required" readonly>
+                            <button onclick="key_gen()" class="emailcheckBtn key" type="button" style="position:absolute; margin-left:15px;">key 발급</button>
+                        </div>
+                    </div>
+                </div>
+            </div>                            
+        </div>
+        
+        <div class="mypage_box_input2">
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section>
+                    <div class="mypage_edit_input">
+                        <label for="callback">Callback URL</label>
+                        <input type="text" name="callback" class="mypage_input2" placeholder="ex) http://www.mypd.com" required>
+                    </div>
+                    <div class="mypage_edit_input">
+                        <label for="c_secret">Client Secret</label>
+                        <input  class="mypage_input2" type="text" name="c_secret" required="required" autofocus="autofocus" readonly required>
+                    </div>
+                </div>
+            </div>                            
+        </div>
+
+        <div class="mypage_box_input2">
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section style="margin-top:7px;">
+                <div>
+                    <label for="pwcheck" >서비스 설명</label>
+                    <textarea  name="svc_desc" style="margin-top:10px;" class="input_size_con" cols="100" row="200"></textarea>
+                </div>
+                </div>
+            </div>                            
+        </div>    
+        
+
+        <div class="mypage_btn">
+            <button type="button" onclick=history.go(-1) style="margin-right:15px; background-color:gray">취소하기</button>
+            <button type="submit" style="cursor:pointer;">저장하기</button>
+        </div>
+
+    
+
+    </form>
+</div>  
+<script src="../javascripts/key.js"></script>
