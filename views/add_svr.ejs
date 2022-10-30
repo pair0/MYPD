@@ -1,0 +1,54 @@
+<div class="mypage_box" style="padding-bottom:50px; min-width:870px;">
+    <form class="mypage_box_form" method="POST" style="margin-top:50px" action="/mypage/reg_svr">
+        <div class="mypage_box_input2" >
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section>
+                    <div class="mypage_edit_input">
+                        <label for="svr_name">서버명</label>
+                        <input type="text" name="svr_name" class="mypage_input2" required>
+                    </div>
+                    <div class="mypage_edit_input">
+                        <label for="ip">IP</label>
+                        <input type="text" name="ip" class="mypage_input2" required>
+                    </div>
+                </div>
+            </div>                            
+        </div>
+        
+        <div class="mypage_box_input2">
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section>
+                    <div class="mypage_edit_input">
+                        <label for="biz_type">API 업권</label>
+                        <select class="mypage_input2" name="biz_type" required="required">
+                            <option value="">업권을 선택해주세요.</option>
+                            <option value="의료">의료 업권</option>
+                            <option value="금융">금융 업권</option>
+                            <option value="전자상거래">전자상거래 업권</option>
+                        </select>
+                    </div>
+                </div>
+            </div>                            
+        </div>
+
+        <div class="mypage_box_input2">
+            <div class="mypage_box_input_id">
+                <div class = mypage_edit_section style="margin-top:7px;">
+                <div>
+                    <label for="svr_desc" >서버 설명</label>
+                    <textarea  name="svr_desc" style="margin-top:10px;" class="input_size_con" cols="100" row="200"></textarea>
+                </div>
+                </div>
+            </div>                            
+        </div>    
+        
+
+        <div class="mypage_btn">
+            <button style="margin-right:15px; background-color:gray">취소하기</button>
+            <button type="submit" style="cursor:pointer;">저장하기</button>
+        </div>
+
+    
+
+    </form>
+</div>  

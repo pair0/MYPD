@@ -93,7 +93,7 @@ async function DBCheck_server (req, res, next){
         if(rows['COUNT(*)'] == 0) 
             res.render('reg_svr_no');
         else
-            res.render('reg_svr_list');
+            res.redirect('/mypage/editdata_list#!reg_svr');
     })
 }
 
