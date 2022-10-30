@@ -102,6 +102,10 @@ router.get('/reg_data', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_data');
 });
 
+router.get('/reg_isv', isLogIn, checkTokens, function(req, res, next) {
+  res.render('reg_isv');
+});
+
 //마이데이터 서비스 테스트 관리
 router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
 router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck);
@@ -161,7 +165,7 @@ router.post('/reg_svc',(req, res, next)=>
 
 
 //서비스 리스트 가져오기
-router.get('/svc_list', isLogIn, checkTokens, async function(req,res,next){
+router.get('/svc_list', async function(req,res,next){
   var id= req.user.id_idx;
   var sql = 'select * from service_test where id_idx=?';
   var params = id;
@@ -170,7 +174,7 @@ router.get('/svc_list', isLogIn, checkTokens, async function(req,res,next){
 });
 
 //서비스 리스트 지우기
-router.post('/svc_list_del', isLogIn, checkTokens, async function(req,res,next){
+router.post('/svc_list_del',async function(req,res,next){
   var id= req.user.id_idx;
   var svc_id = req.body.service_id;
   var sql = 'delete from service_test where service_id=? and id_idx=?';
@@ -183,7 +187,7 @@ router.post('/svc_list_del', isLogIn, checkTokens, async function(req,res,next){
 
 //테스트데이터 등록하기
 
-router.post('/editdata', isLogIn, checkTokens, (req, res, next)=>
+router.post('/editdata',(req, res, next)=>
 {
   
   const info = {
@@ -206,21 +210,20 @@ router.post('/editdata', isLogIn, checkTokens, (req, res, next)=>
 });
 
 //테스트데이터 리스트 가져오기
-router.get('/data_list', isLogIn, checkTokens, async function(req,res,next){
-  var id= req.user.id_idx;
-  var sql = `select * from data_test where id_idx=${id}`;
-  var params = req.session.passport.user.id;
+router.get('/data_list',async function(req,res,next){
+  var sql = 'select * from data_test where id_idx=?';
+  var params = req.user.id_idx;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 });
 
 //테스트데이터 지우기
-router.post('/data_list_del', isLogIn, checkTokens, async function(req,res,next){
+router.post('/data_list_del',async function(req,res,next){
   var id= req.user.id_idx;
   console.log(req.body);
   var data_id = req.body.data_id;
-  var sql = `delete from data_test where data_id=${data_id} and id_idx=${id};`;
-  var params = [];
+  var sql = 'delete from data_test where data_id=? and id_idx=?';
+  var params = [id, data_id];
   await mdbConn.dbSelect(sql, params)
   .then(() => {
     res.redirect('/mypage/editdata_list');
@@ -229,7 +232,7 @@ router.post('/data_list_del', isLogIn, checkTokens, async function(req,res,next)
 
 
 //서버 등록하기
-router.post('/reg_svr', isLogIn, checkTokens, (req, res, next)=>
+router.post('/reg_svr',(req, res, next)=>
 {
   console.log(req.body);
   const info = {
@@ -249,16 +252,15 @@ router.post('/reg_svr', isLogIn, checkTokens, (req, res, next)=>
 });
 
 //서버리스트 가져오기
-router.get('/svr_list', isLogIn, checkTokens, async function(req,res,next){
-  var id= req.user.id_idx;
-  var sql = `select * from server_management where id_idx=${id}`;
-  var params = req.session.passport.user.id;
+router.get('/svr_list',async function(req,res,next){
+  var sql = 'select * from server_management where id_idx=?';
+  var params = req.user.id_idx;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 });
 
 //테스트데이터 지우기
-router.post('/svr_list_del', isLogIn, checkTokens, async function(req,res,next){
+router.post('/svr_list_del',async function(req,res,next){
   console.log(req.body);
   var data_id = req.body.server_manage_id;
   var sql = 'delete from server_management where server_manage_id=?';
@@ -279,6 +281,14 @@ router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, nex
   res.render("addinte_server"); 
 });
 
+//연동서버리스트 가져오기
+router.get('/isv_list', async function(req,res,next){
+  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
+  var params = req.user.id_idx;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
 //연동 테스트 서버 등록 요청
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
@@ -288,7 +298,7 @@ router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, ne
   .then((rows) => {
     if(rows){
       params = [rows.id_idx, data];
-      var sql = 'INSERT INTO inter_server(id_idx, server_manage_id) VALUES(?,?)';
+      var sql = 'INSERT INTO inter_server(id_idx, server_manage_id, request_count) VALUES(?,?,0)';
       mdbConn.dbInsert(sql, params)
       .then((rows) => {
         res.send(true);

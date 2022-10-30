@@ -185,7 +185,7 @@
             });
         }
 
-        
+        //연동서버 관리
         function fetchPageisv(name){
             fetch(name).then(function(response){
                 response.text().then(function(text){
@@ -193,7 +193,7 @@
                 })
             }).then(res => {
                 $.ajax({
-                url: "/mypage/svc_list",
+                url: "/mypage/isv_list",
                 type: "GET",
                 async: true,
                 data: {},
@@ -204,11 +204,11 @@
                     {
                         var table = document.getElementById('mytable')
                         var row =  `<tr>
-                        <td id="list_name">${data[i].service_name}</td>
-                        <td>${data[i].service_callback_url}</td>
-                        <td>${data[i].service_client_id}</td>
-                        <td>${data[i].service_text}</td>
-                        <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_id})">삭제</a></td>
+                        <td id="list_name">${data[i].server_name}</td>
+                        <td>${data[i].server_ip}</td>
+                        <td>${data[i].business_right}</td>
+                        <td>${data[i].request_count}</td>
+                        <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].interserver_id})">취소</a></td>
                     </tr>
                     `
                         table.innerHTML +=row
