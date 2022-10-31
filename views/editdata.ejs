@@ -9,8 +9,6 @@
     <!-- js -->
     <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
-
     
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -21,26 +19,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
     <link rel="stylesheet" type="text/css" href="../stylesheets/json-viewer.css">
 </head>
-<body>
-    <div class="about_nav">
-        <nav class="navigation">
-            <%- include ("./header") %>
-        </nav>
-    </div>
-    <main>
-        <div class="main_pic_bg">
-            <div class="city_edit"> 
-                <h1>테스트 관리</h1>
-                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
 
-                <div class="mypage_menu">
-                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
-                    <!-- editdata / editmty 나눠야함 -->
-                    <a href="../mypage/editdata_list" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
-                    <a href="../mypage/reg_svr_list" class="mypage_menuBtn" >서버 등록</a>
-                    <a href="../mypage/editinte" class="mypage_menuBtn">연동 테스트</a>
-                    <div class="mypage_menuBtn"> 테스트 현황 </div>
-                </div>
+    <main>
+
+            <div class="city_edit"> 
 
                 <div class="mypage_box" style="padding-bottom:70px; min-width:870px;">
                     <form class="mypage_box_form" style="margin-top:50px"  method="POST" onsubmit="return checkdata()" action="/mypage/editdata">
@@ -133,10 +115,10 @@
                     </form>
                 </div>  
             </div>
-        </div>
+
     </main>
     <!-- json 바꿔주기 -->
     <script type="text/javascript" src="../javascripts/data_add.js"></script>
 
-</body>
+
 </html>

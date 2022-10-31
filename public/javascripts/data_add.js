@@ -3,6 +3,8 @@
 var jsonObj = {};
 // var firstval = "예시 데이터 입니다";
 var jsonViewer = new JSONViewer();
+const el = document.querySelector("#json");
+console.log(el)
 document.querySelector("#json").appendChild(jsonViewer.getContainer());
 
 var textarea = document.querySelector("textarea");
@@ -56,7 +58,7 @@ function checkdata(){
     
 }
 
-async function changeAPI(val){
+function changeAPI(val){
     var target = document.getElementById("api");
     var medical = [
         "[의료명세서 API] 명세서 내역 조회 API",
