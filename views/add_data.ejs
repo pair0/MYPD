@@ -1,94 +1,140 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    <!-- js -->
     <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <script src="https://kit.fontawesome.com/0cfcf927e8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/json-viewer.css">
 </head>
-<div class="mypage_box" style="padding-bottom:70px; min-width:870px;">
-    <form class="mypage_box_form" style="margin-top:50px"  method="POST" onsubmit="return checkdata()" action="/mypage/editdata">
-      <div class="mypage_box_input2">
-        <div class="mypage_box_input_id">
-            <div class = mypage_edit_section>
-                <div class="mypage_edit_input">
-                    <label for="data_name">데이터 이름</label>
-                    <input type="text" id="data_name" name="data_name"  required="required" autofocus="autofocus">
-                    <span class="errorBox_myPage"></span>
-                </div>
-
-                <div class="mypage_edit_input">
-                    <label for="org_code">기관코드</label>
-                    <input type="text" id="org_code" name="org_code" value=<%=user_number%> required="required" autofocus="autofocus" readonly>
-                    <span class="errorBox_myPage"></span>
-                </div>
-            </div>
-        </div>                            
-      </div>
-        
-      <div class="mypage_box_input2">
-          <div class="mypage_box_input_id">
-              <div class = mypage_edit_section>
-                  <div class="mypage_edit_input">
-                    <label for="biz_type">업권</label>
-                    <select class="mypage_input2" name="biz_type" onchange="changeAPI(this)" required="required">
-                        <option value="">업권을 선택해주세요.</option>
-                        <option value="의료">의료 업권</option>
-                        <option value="금융">금융 업권</option>
-                        <option value="전자상거래">전자상거래 업권</option>
-                    </select>
-                  </div>
-
-                  <div class="mypage_edit_input">
-                    <label for="api">API</label>
-                    <select class="mypage_input2" name="api" id="api" required="required">
-                      <option value="">업권을 먼저 선택해주세요.</option>
-                    </select>
-                  </div>
-                  
-              </div>
-          </div>                            
-      </div>
-
-      
-      
-    <div class="mypage_box_input2">
-        <div class="mypage_box_input_id">
-            <div class = mypage_edit_section>
-                <div class="mypage_edit_input">
-                    <label for="assetId">자산식별번호</label>
-                    <input type="text" name="assetId" id="assetId" placeholder="   ex) 계좌번호, 카드번호" required="required" autofocus="autofocus" >
-                    <span class="errorBox_myPage"></span>
-                </div>
-                <div class="mypage_edit_input">
-                    <label></label>
-                </div>
-            </div>
-        </div>                            
-    </div>    
-        
-    <div class="mypage_box_input2">
-        <div class="mypage_box_input_id">
-            <div class = mypage_edit_section>
-                <div class="mypage_edit_input" style="width:100%">
-                    <label id="test" for="data" class="test_reg" style="CURSOR: hand" onclick="if(plain.style.display=='none') {plain.style.display='';test.innerHTML='<i class=&quot;fa-solid fa-square-minus &quot;></i>&nbsp&nbsp데이터 등록'} else {plain.style.display='none';test.innerHTML='<i class=&quot;fa-solid fa-square-plus &quot;></i>&nbsp&nbsp데이터 등록'}"><i class="fa-solid fa-square-plus"></i>&nbsp&nbsp데이터 등록 </label>
-                        <div id="plain" style="display: none;">
-                            <textarea id="testdata" name="testdata" class="input_size_con2"  placeholder="JSON형식의 테스트 데이터를 이곳에 입력하세요."></textarea>
-                                <div class="json_btn">
-                                    <button type="button" class="load-json json_out">JSON형식으로 보기</button>
-                                </div>
-                                <h2>결과:</h2>
-                                <div id="json"></div>
-                        </div>
-                    <span class="errorBox_myPage"></span>
-                </div>
-            </div>
-        </div>                            
-    </div>    
-
-
-    <div class="mypage_box_input2">
-        <div class = dataEdit_section>
-        <div class="mypage_btn"><button type="button" onclick="location.href='../mypage/editdata_list'" style="background-color: #888888; cursor:pointer;">취소하기</button></div>
-        <div class="mypage_btn" style="margin-left: 20px;"><button style="cursor:pointer">저장하기</button></div>
-        </div>                      
+<body>
+    <div class="about_nav">
+        <nav class="navigation">
+            <%- include ("./header") %>
+        </nav>
     </div>
+    <main>
+        <div class="main_pic_bg">
+            <div class="city_edit"> 
+                <h1>테스트 관리</h1>
+                <p>여러분의 서비스와 테스트데이터를 등록하세요.</p>
 
-    </form>
-</div>  
+                <div class="mypage_menu">
+                    <a href="../mypage/reg_svc_list" class="mypage_menuBtn"> 마이데이터 서비스 테스트 관리 </a>
+                    <!-- editdata / editmty 나눠야함 -->
+                    <a href="../mypage/editdata_list" class="mypage_menuBtnnow" >테스트 데이터 관리</a>
+                    <a href="../mypage/reg_svr_list" class="mypage_menuBtn" >서버 등록</a>
+                    <a href="../mypage/editinte" class="mypage_menuBtn">연동 테스트</a>
+                    <div class="mypage_menuBtn"> 테스트 현황 </div>
+                </div>
+
+                <div class="mypage_box" style="padding-bottom:70px; min-width:870px;">
+                    <form class="mypage_box_form" style="margin-top:50px"  method="POST" onsubmit="return checkdata()" action="/mypage/editdata">
+                      <div class="mypage_box_input2">
+                        <div class="mypage_box_input_id">
+                            <div class = mypage_edit_section>
+                                <div class="mypage_edit_input">
+                                    <label for="data_name">데이터 이름</label>
+                                    <input type="text" id="data_name" name="data_name"  required="required" autofocus="autofocus">
+                                    <span class="errorBox_myPage"></span>
+                                </div>
+
+                                <div class="mypage_edit_input">
+                                    <label for="org_code">기관코드</label>
+                                    <input type="text" id="org_code" name="org_code" value=<%=user_number%> required="required" autofocus="autofocus" readonly>
+                                    <span class="errorBox_myPage"></span>
+                                </div>
+                            </div>
+                        </div>                            
+                      </div>
+                        
+                      <div class="mypage_box_input2">
+                          <div class="mypage_box_input_id">
+                              <div class = mypage_edit_section>
+                                  <div class="mypage_edit_input">
+                                    <label for="biz_type">업권</label>
+                                    <select class="mypage_input2" name="biz_type" onchange="changeAPI(this)" required="required">
+                                        <option value="">업권을 선택해주세요.</option>
+                                        <option value="의료">의료 업권</option>
+                                        <option value="금융">금융 업권</option>
+                                        <option value="전자상거래">전자상거래 업권</option>
+                                    </select>
+                                  </div>
+
+                                  <div class="mypage_edit_input">
+                                    <label for="api">API</label>
+                                    <select class="mypage_input2" name="api" id="api" required="required">
+                                      <option value="">업권을 먼저 선택해주세요.</option>
+                                    </select>
+                                  </div>
+                                  
+                              </div>
+                          </div>                            
+                      </div>
+
+                      
+                      
+                    <div class="mypage_box_input2">
+                        <div class="mypage_box_input_id">
+                            <div class = mypage_edit_section>
+                                <div class="mypage_edit_input">
+                                    <label for="assetId">자산식별번호</label>
+                                    <input type="text" name="assetId" id="assetId" placeholder="   ex) 계좌번호, 카드번호" required="required" autofocus="autofocus" >
+                                    <span class="errorBox_myPage"></span>
+                                </div>
+                                <div class="mypage_edit_input">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>    
+                        
+                    <div class="mypage_box_input2">
+                        <div class="mypage_box_input_id">
+                            <div class = mypage_edit_section>
+                                <div class="mypage_edit_input" style="width:100%">
+                                    <label id="test" for="data" class="test_reg" style="CURSOR: hand" onclick="if(plain.style.display=='none') {plain.style.display='';test.innerHTML='<i class=&quot;fa-solid fa-square-minus &quot;></i>&nbsp&nbsp데이터 등록'} else {plain.style.display='none';test.innerHTML='<i class=&quot;fa-solid fa-square-plus &quot;></i>&nbsp&nbsp데이터 등록'}"><i class="fa-solid fa-square-plus"></i>&nbsp&nbsp데이터 등록 </label>
+                                        <div id="plain" style="display: none;">
+                                            <textarea id="testdata" name="testdata" class="input_size_con2"  placeholder="JSON형식의 테스트 데이터를 이곳에 입력하세요."></textarea>
+                                                <div class="json_btn">
+                                                    <button type="button" class="load-json json_out">JSON형식으로 보기</button>
+                                                </div>
+                                                <h2>결과:</h2>
+                                                <div id="json"></div>
+                                        </div>
+                                    <span class="errorBox_myPage"></span>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>    
+
+
+                    <div class="mypage_box_input2">
+                        <div class = dataEdit_section>
+                        <div class="mypage_btn"><button type="button" onclick="location.href='../mypage/editdata_list'" style="background-color: #888888; cursor:pointer;">취소하기</button></div>
+                        <div class="mypage_btn" style="margin-left: 20px;"><button style="cursor:pointer">저장하기</button></div>
+                        </div>                      
+                    </div>
+
+                    </form>
+                </div>  
+            </div>
+        </div>
+    </main>
+    <!-- json 바꿔주기 -->
+    <script type="text/javascript" src="../javascripts/data_add.js"></script>
+
+</body>
+</html>

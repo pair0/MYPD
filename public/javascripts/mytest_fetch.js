@@ -151,7 +151,7 @@
                 }
             })
             }).catch(()=>{
-                console.log("error");
+                console.log("table insert error");
             });
         }
         
@@ -190,6 +190,12 @@ function fetchPage(name){
     });
 
 }
+
+
+
+
+
+
 //서버 추가 취소하기
 function fetchPage_addsvr_cancel(name){
     fetch(name).then(function(response){
