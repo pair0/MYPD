@@ -25,7 +25,7 @@ body{
     background-color: #007aff;
 }
 
-.main_pic_bg > .city_edit{
+/* .main_pic_bg > .city_edit{
     position: absolute;
     width: 100%;
     min-height: 100%;
@@ -36,7 +36,7 @@ body{
     flex-direction:column;
     align-items: center;
     overflow: hidden;
-}
+} */
 
 .main_pic_bg > .city_edit{
     position: absolute;
@@ -354,6 +354,29 @@ div .use_box:hover{
 .main_pic_bg{
     background-color: #007aff;
     height:500px;
+}
+#mytable {
+    background: white;
+    border-radius: 1rem;
+}
+#dashtitle {
+    text-align: center;
+    justify-content: center;
+    
+    /* border-collapse:collapse; */
+    /* border: 1px solid black !important; */
+}
+#mytable_name{
+    padding-right: 13px;
+    text-align: center;
+    border-radius: 1rem;
+}
+.dashtable > tr > td{
+    border-collapse: separate;
+}
+.main_pic_bg{
+    background-color: #007aff;
+    height:130px;
     display:flex;
     z-index:-2;
     overflow: hidden;
@@ -1794,6 +1817,10 @@ section{
 .my_navigation ul li:nth-child(4).active ~ .indicator
 {
     transform: translateX(calc(219px));
+}
+.my_navigation ul li:nth-child(5).active ~ .indicator
+{
+    transform: translateX(calc(438px));
 }
 .my_navigation ul li:nth-child(5).active ~ .indicator
 {

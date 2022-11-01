@@ -4,7 +4,7 @@ var router = express.Router();
 const individual = require("../v1/oauth/2.0/individual");
 const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
-const app = require("../../app");
+const {YYYYMMDD} = require("../../controller/controller");
 /* GET home page. */
 router.get("/", isLogIn, checkTokens, function (req, res, next) {
   res.render("test");
@@ -65,45 +65,23 @@ router.post("/selectServer", function (req, res, next) {
   req.session.server = data;
   res.json({ url: data });
 });
-
-router.post("/unitLogging", function (req, res, next){
-  const data = {
-    type : req.body.type,
-    curl: req.body.curl.split(/ |curl|\\|\n|'/ ).filter((elemet) => elemet !== ''),
-    resCode: req.body.resCode,
-    resBody: req.body.resBody.split(/ |\n/ ).filter((elemet) => elemet !== '').join(""),
-    resHeaders: req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
-  }
-
-  data['httpMethod'] = data['curl'][1]
-  data['reqUrl'] = data['curl'][2]
+function curlStringProcessing(data){
   var reqHeaders = {};
   var reqBody = {};
   var key = '';
   var val = '';
   var hord = '-H';
   for(var i=3; i < data['curl'].length; i++){
-    if (data['curl'][i] == '-H' ){
+    if (data['curl'][i] == '-H' || data['curl'][i] == '-d' ){
       if(key == '' || val == '')
         continue;
       if(hord == '-H')
         reqHeaders[key] = val;
       else
         reqBody[key] = val;
-      key = '';
-      val = '';
-      hord = '-H';
-    }
-    else if(data['curl'][i] == '-d' ){
-      if(key == '' || val == '')
-        continue;
-      if(hord == '-H')
-        reqHeaders[key] = val;
-      else
-        reqBody[key] = val;
-      key = '';
-      val = '';
-      hord = '-d';
+        key = val = '';
+
+      hord = data['curl'][i] ;
     }
     else if(i+1 == data['curl'].length){
       val = data['curl'][i];
@@ -119,15 +97,35 @@ router.post("/unitLogging", function (req, res, next){
         val = data['curl'][i];
     }
   }
-  if(Object.keys(reqHeaders) != 0){
     data['reqHeaders'] = reqHeaders;
-  }
-  if(Object.keys(reqBody) != 0){
     data['reqBody'] = reqBody;
+}
+router.post("/unitLogging", function (req, res, next){
+  console.log(req.body.resBody)
+  const data = {
+    type : req.body.type,
+    timestamp : YYYYMMDD(new Date().getTime(),"ORDER"),
+    curl: req.body.curl.split(/ |curl|\\|\n|'/ ).filter((elemet) => elemet !== ''),
+    resCode: req.body.resCode,
+    resBody: req.body.resBody.split(/\n/ ).filter((elemet) => elemet !== '').join("<br>"),
+    resHeaders: req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
   }
+  data['httpMethod'] = data['curl'][1]
+  data['reqUrl'] = data['curl'][2]
+  curlStringProcessing(data)
   delete data['curl']
-  console.log(data);
-  res.send(data);
+  // console.log(data)
+  // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
+  var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
+  var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
+  mdbConn.dbInsert(sql, params)
+  .then((rows) => {
+    console.log(rows);
+    res.send(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 
 router.get("inte_svc", isLogIn, checkTokens, function (req, res, next) {

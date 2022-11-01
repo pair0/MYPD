@@ -4063,6 +4063,9 @@ textarea.form-control-lg {
   align-items: center;
   justify-content: space-between;
 }
+.mypage_box{
+  padding-top: 100px !important;
+}
 .navbar-brand {
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
@@ -11704,4 +11707,14 @@ body {
   width: 20px !important;
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
+}
+
+.dashboard{
+  width:60%;
+  border-radius:30px;
+  margin: 0px auto;
+  display:flex;
+  flex-direction: column;
+  min-width: 607px;
+  margin-top:20px;
 }

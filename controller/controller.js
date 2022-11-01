@@ -19,6 +19,8 @@ function yyyymmdd(timestamp , option = "FULL") {
     if(option == "FULL")
         // ie: 201302180835  
         time = yyyy + mm + dd + h + min
+    else if(option == "ORDER")
+        time = yyyy + '.' + mm + '.' + dd + ' ' + h + ':' + min
     else
         time = yyyy + mm + dd
     return time;

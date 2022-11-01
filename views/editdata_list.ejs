@@ -56,7 +56,8 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="../mypage/dashboard">
+                            <a href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
+                            <!-- <a href="../mypage/dashboard"> -->
                                 <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
                                 <span class="text">테스트현황</span>
                             </a>
@@ -74,8 +75,9 @@
 
     </main>
     <!-- my_nav바 움직이는거 -->
-    <script  src="../javascripts/mytest_fetch.js"></script>
-    <script  src="../javascripts/key.js"></script>
+
+    <script src="../javascripts/mytest_fetch.js"></script>
+    <script src="../javascripts/key.js"></script>
     <script>
         // const { Result } = require("express-validator");
 
@@ -188,6 +190,11 @@
             }
 
         }
+        else if(location.hash.substr(2)=="dashboard")
+        {
+            fetchPageDashBoard('dashboard');
+        }
     </script>
+     <!-- <script type="text/javascript" src="../javascripts/data_add.js"></script> -->
 </body>
 </html>
