@@ -28,19 +28,17 @@ var setJSON = function() {
 
 // load default value
 // setJSON();
-
-var loadJsonBtn = document.querySelector("button.load-json");
 var collapseBtn = document.querySelector("button.collapse");
 var maxlvlBtn = document.querySelector("button.maxlvl");
 
-loadJsonBtn.addEventListener("click", function() {
+function loadJsonBtn() {
     var res = setJSON();
     if (res===false)
     {
         return false;
     }
     jsonViewer.showJSON(jsonObj);
-});
+}
 
 
 function checkdata(){
