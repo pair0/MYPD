@@ -154,8 +154,135 @@
                 console.log("table insert error");
             });
         }
-        
+        async function buillogdtable(data, id){
+            $('td').remove('.dataTables-empty')
+            var id_name = id + '_name'
+            for(var i=0; i< data.length;i++)
+            {
+                var table = document.getElementById(id)
+                if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
+                    var row = `<tr>
+                                    <td id=${id_name}>${data[i].timestamp}</td>
+                                    <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
+                                    <td id=${id_name}>${data[i].reqUrl}</td>
+                                    <td id=${id_name}>${""}</td>
+                                    <td id=${id_name}>${""}</td>
+                                    <td id=${id_name}>${data[i].resBody}</td>
+                                </tr>
+                                `
+                }
+                else if(data[i].reqHeaders == null || data[i].reqHeaders == "{}"){
+                    var row = `<tr>
+                                    <td id=${id_name}>${data[i].timestamp}</td>
+                                    <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
+                                    <td id=${id_name}>${data[i].reqUrl}</td>
+                                    <td id=${id_name}>${""}</td>
+                                    <td id=${id_name}>${data[i].reqBody}</td>
+                                    <td id=${id_name}>${data[i].resBody}</td>
+                                </tr>
+                                `
+                }
+                else if (data[i].reqBody == null || data[i].reqBody == "{}"){
+                    var row = `<tr>
+                                    <td id=${id_name}>${data[i].timestamp}</td>
+                                    <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
+                                    <td id=${id_name}>${data[i].reqUrl}</td>
+                                    <td id=${id_name}>${data[i].reqHeaders}</td>
+                                    <td id=${id_name}>${""}</td>
+                                    <td id=${id_name}>${data[i].resBody}</td>
+                                </tr>
+                                `
+                }
 
+                table.innerHTML +=row
+            }
+        }
+        async function buildList(data, id){
+            var id_name = id + '_name'
+            for(var i=0; i< data.length;i++)
+            {
+                if(id == 'server')
+                    info =  data[i].server_name
+                else if(id == 'service')
+                    info =  data[i].service_name
+                else if(id == 'data')
+                    info = data[i].data_name
+                var table = document.getElementById(id)
+                var row = `<tr>
+                                <td id=${id_name}>${i+1}${'|'}</td>
+                                <td id=${id_name}>${info}</td>
+                            </tr>
+                            `
+                table.innerHTML +=row
+            }
+        }
+
+        function fetchPageDashBoard(name){
+            fetch(name).then(function(response){
+                response.text().then(function(text){
+                    document.querySelector('content').innerHTML=text;
+                })
+            }).then(res => {
+                $.ajax({
+                url: "/mypage/dashboradServerList",
+                type: "GET",
+                async: true,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    buildList(svc,'server')
+                }
+            })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/dashboradServiceList",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        buildList(svc,'service')
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/dashboraddataList",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        buildList(svc,'data')
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/dashboardlog",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        buillogdtable(svc, 'mytable')
+                    }
+                })
+            })
+            .catch(()=>{
+                console.log("error");
+            });
+        
+        }
+        // async function fetchPageServiceList(name){
+        //     fetch(name).then(function(response){
+        //         response.text().then(function(text){
+        //             document.querySelector('content').innerHTML=text;
+        //         })
+        //     }).then(res => {
+
+        //     }).catch(()=>{
+        //         console.log("error");
+        //     });
+        // }
 
 
         function del_svc(id){
