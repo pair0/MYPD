@@ -139,7 +139,7 @@
                     {
                         var table = document.getElementById('mytable')
                         var row =  `<tr>
-                        <td id="list_name" onclick="fetchPage('isv_detail', )">${data[i].server_name}</td>
+                        <td id="list_name" onclick="fetchPage('isv_detail?id=${data[i].server_manage_id}')">${data[i].server_name}</td>
                         <td>${data[i].server_ip}</td>
                         <td>${data[i].business_right}</td>
                         <td>${data[i].request_count}</td>
@@ -151,7 +151,7 @@
                 }
             })
             }).catch(()=>{
-                console.log("error");
+                console.log("table insert error");
             });
         }
         

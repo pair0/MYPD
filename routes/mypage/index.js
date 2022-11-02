@@ -313,7 +313,7 @@ router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, nex
 
 //연동서버리스트 가져오기
 router.get('/isv_list', async function(req,res,next){
-  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
+  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_manage_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
   var params = req.user.id_idx;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
@@ -358,7 +358,12 @@ router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, ne
   });
 });
 
-router.get('/isv_detail',myLogIn, function(req, res, next) {
+router.get('/isv_detail',myLogIn, async function(req, res, next) {
+  params = req.query.id;
+  var sql = 'SELECT * FROM server_management WHERE server_manage_id=?';
+  var raw = await mdbConn.dbSelect(sql, params);
+
+  res.locals.row = raw;
   res.render('isv_detail');
 });
 
