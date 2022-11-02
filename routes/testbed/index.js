@@ -101,7 +101,6 @@ function curlStringProcessing(data){
     data['reqBody'] = reqBody;
 }
 router.post("/unitLogging", function (req, res, next){
-  console.log(req.body.resBody)
   const data = {
     type : req.body.type,
     timestamp : YYYYMMDD(new Date().getTime(),"ORDER"),
@@ -114,7 +113,6 @@ router.post("/unitLogging", function (req, res, next){
   data['reqUrl'] = data['curl'][2]
   curlStringProcessing(data)
   delete data['curl']
-  // console.log(data)
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
   var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
   var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
