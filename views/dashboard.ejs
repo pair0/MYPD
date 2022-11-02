@@ -4,34 +4,50 @@
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
     
 </head>
-<body style="background: #ececec">
+<div class="mypage_title">
+    <div class="reg_svc_list_title">
+        테스트 현황
+    </div>
+</div>
 <div class = "dashboard">
     <div class="row" >
         <div class="col-xl-3 col-md-6" >
             <div class="card bg-temp text-white mb-4">
-                <div class="card-body"  style="min-height:150px;">등록된 서비스
-                    <table id="service"> </table>
+                <h3 class = "dashlistTilte" >등록 서비스</h3>
+                <div class="card-body card-body2"  >
+                <table class="data_table data_table2"> 
+                    <tbody id="service" class="dashtable">
+                    </tbody>
+                </table>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6" >
             <div class="card bg-temp text-white mb-4" >
-                <div class="card-body"  style="min-height:150px">등록된 서버
-                    <table id="server"> </table>
+                <h3 class = "dashlistTilte" >등록 서버</h3>
+                <div class="card-body card-body2">
+                    <table class="data_table data_table2">
+                        <tbody id="server" class="dashtable">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-temp text-white mb-4">
-                <div class="card-body" style="min-height:150px">Test Data
-                    <table id="data"> </table>
+                <h3 class = "dashlistTilte" >Test Data</h3>
+                <div class="card-body card-body2" >
+                    <table class="data_table data_table2"> 
+                        <tbody id="data" class="dashtable">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-temp text-white mb-4">
-                <div class="card-body"  style="min-height:150px">TEST
-                    <table id="test"> </table>
+            <div class="card bg-temp text-white mb-4" >
+                <h3 class = "dashlistTilte" >Test</h3>
+                <div class="card-body card-body2" id="count">
                 </div>
             </div>
         </div>
@@ -40,11 +56,12 @@
                 <i class="fas fa-table me-1"></i>
                 Log Info
             </div> -->
-            <div style="background: rgb(239,242,248); border-radius: 1rem; box-shadow: 5px 2px 20px 2px rgb(5 72 88 / 7%);">
+            <div style=" border-radius: 1rem; box-shadow: 5px 2px 20px 2px rgb(5 72 88 / 7%);">
                 <div class="table_box" style="overflow-x : auto; white-space : nowrap">
                     <table class="data_table" style="display: inline-block; border-spacing: 5px 15px;">
                         <thead>
                             <tr>
+                                <th id= "dashtitle">테스트 유형</th>
                                 <th id= "dashtitle">시간</th>
                                 <th id= "dashtitle">method/상태 Code</th>
                                 <th id= "dashtitle">URL</th>

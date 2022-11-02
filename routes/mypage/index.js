@@ -341,5 +341,33 @@ router.get('/dashboraddataList', (req,res)=> {
 router.get('/dashboardlog',(req,res) => {
   getList(req,res,'select * from log;');
 });
+router.get('/countServiceUnitLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서비스 <br> 단위테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countserverUnitLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서버 <br> 단위테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countServiceInteLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서비스 <br> 통합테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countServerInteLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서버 <br> 통합테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
 module.exports = router;
 

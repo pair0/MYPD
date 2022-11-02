@@ -355,9 +355,36 @@ div .use_box:hover{
     background-color: #007aff;
     height:500px;
 }
-#mytable {
+#mytable, .dashtable{
     background: white;
     border-radius: 1rem;
+}
+.dashlistTilte{
+    font-size: 17px;
+    font-weight:700;
+    text-align: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.dashlist{
+    font-size: 17px;
+    font-weight:700;
+    text-align: center;
+    justify-content: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.card-body2{
+    min-height:150px !important;
+    max-height:150px !important; 
+    overflow:auto !important;
+    text-align: center !important; 
+    justify-content: center !important;
+    padding: 0px !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+
 }
 #dashtitle {
     text-align: center;
@@ -366,13 +393,28 @@ div .use_box:hover{
     /* border-collapse:collapse; */
     /* border: 1px solid black !important; */
 }
-#mytable_name{
+#mytable_name {
     padding-right: 13px;
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 5px 2px 20px 2px rgb(5 72 88 / 7%);;
+}
+#service_name, #server_name, #data_name {
     text-align: center;
     border-radius: 1rem;
 }
 .dashtable > tr > td{
     border-collapse: separate;
+}
+.data_table2{
+    border-spacing: 5px 5px !important;
+    justify-content: center;
+    margin: 0 auto;
+}
+#mytable_name_res{
+    padding-right: 13px;
+    border-radius: 1rem;
+
 }
 .main_pic_bg{
     background-color: #007aff;

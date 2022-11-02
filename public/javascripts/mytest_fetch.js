@@ -161,35 +161,38 @@
             {
                 var table = document.getElementById(id)
                 if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
-                    var row = `<tr>
-                                    <td id=${id_name}>${data[i].timestamp}</td>
+                    var row = `<tr id="log_tr">
+                                    <td id=${id_name}>${data[i].type}</td>
+                                    <td id=${id_name}>${data[i].timestamp.substr(0,10)}<br>${data[i].timestamp.substr(11)}</td>
                                     <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
                                     <td id=${id_name}>${data[i].reqUrl}</td>
                                     <td id=${id_name}>${""}</td>
                                     <td id=${id_name}>${""}</td>
-                                    <td id=${id_name}>${data[i].resBody}</td>
+                                    <td id=${id_name+'_res'}>${data[i].resBody}</td>
                                 </tr>
                                 `
                 }
                 else if(data[i].reqHeaders == null || data[i].reqHeaders == "{}"){
-                    var row = `<tr>
-                                    <td id=${id_name}>${data[i].timestamp}</td>
+                    var row = `<tr id="log_tr">
+                                    <td id=${id_name}>${data[i].type}</td>
+                                    <td id=${id_name}>${data[i].timestamp.substr(0,10)}<br>${data[i].timestamp.substr(11)}</td>
                                     <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
                                     <td id=${id_name}>${data[i].reqUrl}</td>
                                     <td id=${id_name}>${""}</td>
                                     <td id=${id_name}>${data[i].reqBody}</td>
-                                    <td id=${id_name}>${data[i].resBody}</td>
+                                    <td id=${id_name+'_res'}>${data[i].resBody}</td>
                                 </tr>
                                 `
                 }
                 else if (data[i].reqBody == null || data[i].reqBody == "{}"){
-                    var row = `<tr>
-                                    <td id=${id_name}>${data[i].timestamp}</td>
+                    var row = `<tr id="log_tr">
+                                    <td id=${id_name}>${data[i].type}</td>
+                                    <td id=${id_name}>${data[i].timestamp.substr(0,10)}<br>${data[i].timestamp.substr(11)}</td>
                                     <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
                                     <td id=${id_name}>${data[i].reqUrl}</td>
                                     <td id=${id_name}>${data[i].reqHeaders}</td>
                                     <td id=${id_name}>${""}</td>
-                                    <td id=${id_name}>${data[i].resBody}</td>
+                                    <td id=${id_name+'_res'}>${data[i].resBody}</td>
                                 </tr>
                                 `
                 }
@@ -209,7 +212,6 @@
                     info = data[i].data_name
                 var table = document.getElementById(id)
                 var row = `<tr>
-                                <td id=${id_name}>${i+1}${'|'}</td>
                                 <td id=${id_name}>${info}</td>
                             </tr>
                             `
@@ -264,6 +266,58 @@
                     dataType:"json",
                     success: function (svc) {
                         buillogdtable(svc, 'mytable')
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/countServiceUnitLog",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        var table = document.getElementById('count')
+                        var row = `<h3 class = "dashlist" >서비스 단위 테스트 : ${svc['count(*)']}</h3>`
+                        table.innerHTML +=row
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/countServiceInteLog",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        var table = document.getElementById('count')
+                        var row = `<h3 class = "dashlist" >서비스 통합 테스트 : ${svc['count(*)']}</h3>`
+                        table.innerHTML +=row
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/countserverUnitLog",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        var table = document.getElementById('count')
+                        var row = `<h3 class = "dashlist" >서버 단위 테스트 : ${svc['count(*)']}</h3>`
+                        table.innerHTML +=row
+                    }
+                })
+            }).then(() => {
+                $.ajax({
+                    url: "/mypage/countServerInteLog",
+                    type: "GET",
+                    async: true,
+                    data: {},
+                    dataType:"json",
+                    success: function (svc) {
+                        var table = document.getElementById('count')
+                        var row = `<h3 class = "dashlist" >서버 통합 테스트 : ${svc['count(*)']}</h3>`
+                        table.innerHTML +=row
                     }
                 })
             })

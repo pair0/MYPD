@@ -143,7 +143,7 @@ $("#biz_type").on("change", function() {
                 $('#swagger-iframe').remove();
                 if(data['url'] != ''){
                     $('#api_swagger').append('<iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
-                    swaggerlog("server_unit")
+                    swaggerlog("서버 <br> 단위테스트")
                 }
             })
         }
@@ -151,7 +151,7 @@ $("#biz_type").on("change", function() {
 });
 // 서비스 단위테스트 로깅 
 $(document).ready(function(){
-    swaggerlog("service_unit")
+    swaggerlog("서비스 <br> 단위테스트")
 })
 // 사이드바 스크롤 시 내려오도록
 $(window).on("scroll", function() {
