@@ -401,7 +401,7 @@ div .use_box:hover{
 }
 #service_name, #server_name, #data_name {
     text-align: center;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
 }
 .dashtable > tr > td{
     border-collapse: separate;
