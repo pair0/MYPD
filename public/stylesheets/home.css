@@ -363,6 +363,7 @@ div .use_box:hover{
     font-size: 17px;
     font-weight:700;
     text-align: center;
+    margin: 0 auto;
     justify-content: center;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -1867,4 +1868,69 @@ section{
 .my_navigation ul li:nth-child(5).active ~ .indicator
 {
     transform: translateX(calc(438px));
+}
+.pie-chart1 {
+    display:inline-block;
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    transition: 0.3s;
+    margin: 0 auto;
+}
+span.center{
+    background: #fff;
+    display : block;
+    position: absolute;
+    top:50%; left:50%;
+    width:70px; height:70px;
+    border-radius: 50%;
+    text-align:center; 
+    line-height: 100px;
+    font-size:30px;
+    transform: translate(-50%, -50%);
+}
+#colex1{
+    font-size: 5px; 
+    font-weight: 700;
+    color: #8b22ff;
+    left:75%;
+    padding-top : 7px;
+    padding-right: 3px;
+    white-space: nowrap;
+}
+#colex2{
+    font-size: 5px;
+    font-weight: 700;
+    color: #0000FF;
+    padding-bottom : 7px;
+    padding-top : 7px;
+    left:75%;
+    white-space: nowrap;   
+}
+#colex3{
+    font-size: 5px; 
+    font-weight: 700;
+    padding-top : 7px;
+    padding-right: 3px;
+    color: #ffd400;
+    left:75%;
+    white-space: nowrap;   
+}
+#colex4{
+    font-size: 5px; 
+    font-weight: 700;
+    padding-top : 7px;
+    padding-bottom : 7px;
+    color: #008000;
+    left:75%;
+    white-space: nowrap;   
+}
+#chart{
+    width : 33% !important;
+}
+#line{
+    width : 67% !important;
 }
