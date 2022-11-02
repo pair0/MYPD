@@ -99,7 +99,37 @@ function log(origin, type) {
     })
 }
 
+// 로깅을 위한 swagger 접근
+function swaggerlog(type) {
+    $('#swagger-iframe').off('on').on('load',function(){
+        let origin = $(this)
+        $(this).contents().find('.opblock-summary-control').off('click').on('click',function(){
+            origin.contents().find('body').find('.operation-tag-content').off('DOMNodeInserted').on('DOMNodeInserted','.no-margin',function(){
+                origin = $(this)
+                $(this).find('.try-out').off('click').on('click',function(){
+                    setTimeout(function(){
+                        origin.find('.execute-wrapper').off('click').on('click',function(){
+                            if(origin.find('div').hasClass('curl-command') == true){
+                                origin = origin.find('.responses-inner')
+                                log(origin,type)
+                            }
+                            else{
+                                origin.find('.responses-inner').off('DOMNodeInserted').on('DOMNodeInserted','div',
+                                function(){
+                                    log($(this),type)
+                                });
+                            }
+                        });
+                    },1)
+                })
+            })
+        })
+    })
+}
+// 서버 단위테스트 로깅 
 $("#biz_type").on("change", function() {
+    if(window.location.href == "http://localhost:3000/testbed/unit_svc")
+        return
     $.ajax({
         url: "/testbed/selectServer",
         type: "POST",
@@ -113,59 +143,18 @@ $("#biz_type").on("change", function() {
                 $('#swagger-iframe').remove();
                 if(data['url'] != ''){
                     $('#api_swagger').append('<iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
-                    $('#swagger-iframe').off('on').on('load',function(){
-                        let origin = $(this)
-                        $(this).contents().find('.opblock-summary-control').off('click').on('click',function(){
-                            origin.contents().find('body').find('.operation-tag-content').on('DOMNodeInserted','.no-margin',function(){
-                                origin = $(this)
-                                $(this).find('.try-out').off('click').on('click',function(){
-                                    setTimeout(function(){
-                                        origin.find('.execute-wrapper').off('click').on('click',function(){
-                                            if(origin.find('div').hasClass('curl-command') == true){
-                                                origin = origin.find('.responses-inner')
-                                                log(origin,"server")
-                                            }
-                                            else{
-                                                origin.find('.responses-inner').on('DOMNodeInserted','div',
-                                                function(){
-                                                    log($(this),"server")
-                                                });
-                                            }
-                                        });
-                                    },1)
-                                })
-                            })
-                        })
-                    })
+                    swaggerlog("서버 <br> 단위테스트")
                 }
             })
         }
     })
 });
-
+// 서비스 단위테스트 로깅 
 $(document).ready(function(){
-        $('#swagger-iframe').off('on').on('load',function(){
-            let origin = $(this)
-            $(this).contents().find('.opblock-summary-control').off('click').on('click',function(){
-                origin.contents().find('body').find('.operation-tag-content').on('DOMNodeInserted','.no-margin',function(){
-                    origin = $(this)
-                    $(this).find('.try-out').off('click').on('click',function(){
-                        setTimeout(function(){
-                            origin.find('.execute-wrapper').off('click').on('click',function(){
-                                if(origin.find('div').hasClass('curl-command') == true){
-                                    origin = origin.find('.responses-inner')
-                                    log(origin,"service")
-                                }
-                                else{
-                                    origin.find('.responses-inner').on('DOMNodeInserted','div',
-                                    function(){
-                                        log($(this),"service")
-                                    });
-                                }
-                            });
-                        },1)
-                    })
-                })
-            })
-        })
+    swaggerlog("서비스 <br> 단위테스트")
 })
+// 사이드바 스크롤 시 내려오도록
+$(window).on("scroll", function() {
+    var position = $(window).scrollTop() + 20; // 현재 스크롤바의 위치값을 반환합니다.
+    $(".side_bar2").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
+});

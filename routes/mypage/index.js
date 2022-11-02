@@ -15,7 +15,6 @@ router.post('/editcheck', async function(req, res, next){
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id=?";
   var params = req.session.passport.user.id;
   var result = await mdbConn.dbSelect(sql, params);
-  console.log(result);
   bcrypt.compare(req.body.pw_Check, result.e_customer_pw, (err, same) => {
     if(!same){
       res.send(`<script>alert('패스워드가 맞지 않습니다.');location.replace("/mypage/editcheck")</script>`);
@@ -83,7 +82,6 @@ router.get('/editdata', isLogIn, checkTokens, function(req, res, next) {
       next();
     } 
   });
- 
 });
 
 router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
@@ -115,11 +113,14 @@ router.get('/add_svc',myLogIn, function(req, res, next) {
   res.render('add_svc');
 });
 
-
 router.get('/add_data',myLogIn, function(req, res, next) {
   res.render('add_data');
 });
 
+// 데시보드
+router.get('/dashboard', myLogIn, function(req, res, next) {
+  res.render('dashboard');
+});
 
 //마이데이터 서비스 테스트 관리
 router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
@@ -136,6 +137,7 @@ router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck);
 //연동 테스트 관리
 router.get('/editinte', isLogIn, checkTokens, mdbConn.dbCheck_inter);
 router.get('/editinte_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
+
 
 //키 발급
 router.get('/key_gen',(req,res,next)=>
@@ -178,19 +180,21 @@ router.post('/reg_svc',(req, res, next)=>
 
 // 서비스등록 끝
 
-
-//서비스 리스트 가져오기
-router.get('/svc_list',async function(req,res,next){
+//리스트 가져오기
+async function getList(req, res, sql){
   try{
-  var id= req.user.id_idx;
-  var sql = 'select * from service_test where id_idx=?';
-  var params = id;
-  var result = await mdbConn.dbSelectall(sql, params);
-  res.json(result);
-  }
-  catch{
-    console.log("login error svc_list");
-  }
+    var params = req.user.id_idx;
+    var result = await mdbConn.dbSelectall(sql, params);
+    res.json(result);
+    }
+    catch{
+      console.log("login error svc_list");
+    }
+}
+//서비스 리스트 가져오기
+
+router.get('/svc_list',(req,res) => {
+  getList(req,res,'select * from service_test where id_idx=?');
 });
 
 //서비스 리스트 지우기
@@ -206,10 +210,8 @@ router.post('/svc_list_del',async function(req,res,next){
 });
 
 //테스트데이터 등록하기
-
 router.post('/editdata',(req, res, next)=>
 {
-  
   const info = {
     "id": req.user.id_idx,
     "data_name": req.body.data_name,
@@ -230,16 +232,8 @@ router.post('/editdata',(req, res, next)=>
 });
 
 //테스트데이터 리스트 가져오기
-router.get('/data_list',async function(req,res,next){
-  try{
-    var sql = 'select * from data_test where id_idx=?';
-    var params = req.user.id_idx;
-    var result = await mdbConn.dbSelectall(sql, params);
-    res.json(result);
-  }
-  catch(e){
-    console.log("data_list login error");
-  }
+router.get('/data_list',(req,res) => {
+  getList(req,res,'select * from data_test where id_idx=?')
 });
 
 //테스트데이터 지우기
@@ -254,7 +248,6 @@ router.post('/data_list_del',async function(req,res,next){
     res.redirect('/mypage/editdata_list');
   })
 });
-
 
 //서버 등록하기
 router.post('/reg_svr',(req, res, next)=>
@@ -277,16 +270,8 @@ router.post('/reg_svr',(req, res, next)=>
 });
 
 //서버리스트 가져오기
-router.get('/svr_list',async function(req,res,next){
-  try{
-    var sql = 'select * from server_management where id_idx=?';
-    var params = req.user.id_idx;
-    var result = await mdbConn.dbSelectall(sql, params);
-    res.json(result);
-  }
-  catch{
-    console.log("svr list login error");
-  }
+router.get('/svr_list',(req,res)=> {
+  getList(req,res,'select * from server_management where id_idx=?');
 });
 
 //테스트데이터 지우기
@@ -358,14 +343,78 @@ router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, ne
   });
 });
 
-router.get('/isv_detail',myLogIn, async function(req, res, next) {
+//연동 테스트 서버 디테일
+router.get('/isv_detail', isLogIn, checkTokens, async function(req, res, next) {
   params = req.query.id;
-  var sql = 'SELECT * FROM server_management WHERE server_manage_id=?';
+  var sql = 'SELECT server_management.*, inter_server.request_count, inter_server.interserver_id FROM inter_server JOIN server_management ON inter_server.server_manage_id = server_management.server_manage_id WHERE inter_server.interserver_id = ?';
   var raw = await mdbConn.dbSelect(sql, params);
-
+  var sql = 'SELECT  service_test.*, inter_server.request_count FROM inter_server RIGHT JOIN service_request ON inter_server.interserver_id=? JOIN service_test ON service_request.service_id = service_test.service_id';
+  var row = await mdbConn.dbSelectall(sql, params);
   res.locals.row = raw;
+  res.locals.raw = row;
   res.render('isv_detail');
 });
 
+//연동 테스트 연동 승인
+router.post('/approve', isLogIn, checkTokens, async function(req, res, next){
+  params = [req.body.id, req.body.sid];
+  console.log(params);
+  var sql = 'INSERT INTO service_approve (service_id, interserver_id) VALUES (?, ?)';
+  var raw = await mdbConn.dbInsert(sql, params);
+  if(raw == 'sucess'){
+    var sql = 'delete from service_request where service_id = ? AND interserver_id = ?';
+    mdbConn.dbInsert(sql, params)
+    .then(() => {
+      res.send(true);
+    })
+    .catch(() => {
+      res.send(false);
+    }); 
+  } else res.send(0);
+  
+});
+
+
+// 대시보드 내용 추가
+router.get('/dashboradServiceList',(req,res)=> {
+  getList(req,res,'select * from service_test where id_idx=?');
+});
+router.get('/dashboradServerList', (req,res)=> {
+  getList(req,res,'select * from server_management where id_idx=?');
+});
+router.get('/dashboraddataList', (req,res)=> {
+  getList(req,res,'select * from data_test where id_idx=?')
+});
+router.get('/dashboardlog',(req,res) => {
+  getList(req,res,'select * from log;');
+});
+router.get('/countServiceUnitLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서비스 <br> 단위테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countserverUnitLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서버 <br> 단위테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countServiceInteLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서비스 <br> 통합테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
+router.get('/countServerInteLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서버 <br> 통합테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  result['count(*)'] =result['count(*)'].toString();
+  res.json(result);
+});
 module.exports = router;
 
