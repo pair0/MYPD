@@ -341,33 +341,44 @@ router.get('/dashboraddataList', (req,res)=> {
 router.get('/dashboardlog',(req,res) => {
   getList(req,res,'select * from log;');
 });
+
 router.get('/countServiceUnitLog',async (req,res) => {
   var sql = 'select count(*) from log where type = ?;'
   var params = "서비스 <br> 단위테스트";
   var result = await mdbConn.dbSelect(sql, params);
-  result['count(*)'] =result['count(*)'].toString();
-  res.json(result);
+  var data = {}
+  data['service_unit'] = result['count(*)'].toString();
+  res.json(data);
 });
-router.get('/countserverUnitLog',async (req,res) => {
-  var sql = 'select count(*) from log where type = ?;'
-  var params = "서버 <br> 단위테스트";
-  var result = await mdbConn.dbSelect(sql, params);
-  result['count(*)'] =result['count(*)'].toString();
-  res.json(result);
-});
-router.get('/countServiceInteLog',async (req,res) => {
+router.post('/countServiceInteLog',async (req,res) => {
   var sql = 'select count(*) from log where type = ?;'
   var params = "서비스 <br> 통합테스트";
   var result = await mdbConn.dbSelect(sql, params);
-  result['count(*)'] =result['count(*)'].toString();
-  res.json(result);
+  var data = {}
+  data['service_inte'] =result['count(*)'].toString();
+  data['service_unit'] = req.body['service_unit']
+  res.json(data);
 });
-router.get('/countServerInteLog',async (req,res) => {
+router.post('/countserverUnitLog',async (req,res) => {
+  var sql = 'select count(*) from log where type = ?;'
+  var params = "서버 <br> 단위테스트";
+  var result = await mdbConn.dbSelect(sql, params);
+  var data = {}
+  data['server_unit'] =result['count(*)'].toString();
+  data['service_unit'] = req.body['service_unit']
+  data['service_inte'] = req.body['service_inte']
+  res.json(data);
+});
+router.post('/countServerInteLog',async (req,res) => {
   var sql = 'select count(*) from log where type = ?;'
   var params = "서버 <br> 통합테스트";
   var result = await mdbConn.dbSelect(sql, params);
-  result['count(*)'] =result['count(*)'].toString();
-  res.json(result);
+  var data = {}
+  data['server_inte'] =result['count(*)'].toString();  
+  data['service_unit'] = req.body['service_unit']
+  data['service_inte'] = req.body['service_inte']
+  data['server_unit'] = req.body['server_unit']
+  res.json(data);
 });
 module.exports = router;
 

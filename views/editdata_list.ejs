@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
+                            <a id="dashboard" href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
                             <!-- <a href="../mypage/dashboard"> -->
                                 <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
                                 <span class="text">테스트현황</span>
@@ -188,11 +188,6 @@
                 opt.innerHTML =res[x];
                 target.appendChild(opt);
             }
-
-        }
-        else if(location.hash.substr(2)=="dashboard")
-        {
-            fetchPageDashBoard('dashboard');
         }
     </script>
      <!-- <script type="text/javascript" src="../javascripts/data_add.js"></script> -->
