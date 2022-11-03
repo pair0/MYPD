@@ -218,26 +218,6 @@ async function buildList(data, id){
         table.innerHTML +=row
     }
 }
-function color1(i, data){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
-function color2(i, data){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% "+data[0]+"%, #0000FF "+data[0]+"% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
-function color3(i, data){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% "+data[0]+"%, #0000FF "+data[0]+"% "+(data[0]+data[1])+"%, #ffd400 "+(data[0]+data[1])+"% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
-function color4(i, data){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% "+data[0]+"%, #0000FF "+data[0]+"% "+(data[0]+data[1])+"%, #ffd400 "+(data[0]+data[1])+"% "+(data[0]+data[1]+data[2])+"%, #008000 "+(data[0]+data[1]+data[2])+"% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
 function fetchPageDashBoard(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -323,51 +303,97 @@ function fetchPageDashBoard(name){
                                     },
                                     dataType:"json",
                                     success: function (svc) {
-                                        var total = Number(svc['service_unit']) + Number(svc['service_inte']) + Number(svc['server_unit']) + Number(svc['server_inte'])
-                                        var data = [
-                                            Number(svc['service_unit'])/total * 100, //보리
-                                            Number(svc['service_inte'])/total * 100 , // 파랑
-                                            Number(svc['server_unit'])/total * 100, // 노랑
-                                            Number(svc['server_inte'])/total * 100 // 노랑
-                                        ]
-                                        $(window).ready(function(svc){
-                                            var i=1;
-                                            var func1 = setInterval(function(){
-                                                if(i<data[0]){
-                                                    color1(i,data);
-                                                    i++
-                                                } else if(i < data[0] + data[1]){
-                                                    color2(i,data);
-                                                    i++;
-                                                } else if(i <  data[0] + data[1] + data[2] ){
-                                                    color3(i,data);
-                                                    i++;
-                                                } else if (i < data[0] + data[1] + data[2] + data[3] +1){
-                                                    color4(i,data);
-                                                    i++;
-                                                } else {
-                                                    clearInterval(func1);
+                                        var myCircle = echarts.init(document.getElementById('circle')); // echarts init 메소드로 id=chart인 DIV에 차트 초기화
+                                        option = {
+                                            tooltip: {
+                                                trigger: 'item'
+                                            },
+                                            legend : {
+                                                top : 5,
+                                                type : 'scroll'
+                                            },
+                                            series: [
+                                                {
+                                                    name: 'Test 유형',
+                                                    type: 'pie',
+                                                    radius: ['40%', '70%'],
+                                                    avoidLabelOverlap: false,
+                                                    itemStyle: {
+                                                        borderRadius: 10,
+                                                        borderColor: '#fff',
+                                                        borderWidth: 0
+                                                    },
+                                                    label: {
+                                                        show: false,
+                                                        position: 'center'
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: true,
+                                                            fontSize: '15',
+                                                            fontWeight: 'bold'
+                                                        }
+                                                    },
+                                                    labelLine: {
+                                                        show: false
+                                                    },
+                                                    data: [
+                                                        { value: svc['service_unit'], name: '서비스 단위테스트' },
+                                                        { value: svc['service_inte'], name: '서비스 통합테스트' },
+                                                        { value: svc['server_unit'], name: '서버 단위테스트' },
+                                                        { value: svc['server_inte'], name: '서버 통합테스트' },
+                                                    ]
                                                 }
-                                            },10);
-                                        });
-                                        var table = document.getElementById('col')
-                                        var row = `<div style = "display : flex">
-                                                        <div>
-                                                            <ul>
-                                                                <li id="colex1">서비스단위테스트 : ${svc['service_unit']}</li>
-                                                                <li id="colex2">서비스통합테스트 : ${svc['service_inte']}</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div>
-                                                            <ul>
-                                                                <li id="colex3">서버단위테스트 : ${svc['server_unit']}</li>
-                                                                <li id="colex4">서버통합테스트 : ${svc['server_inte']}</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-
-                                                    `
-                                        table.innerHTML +=row
+                                            ]
+                                        };
+                                        myCircle.setOption(option); // 차트 디스플레이
+                                    }
+                                })
+                                $.ajax({
+                                    url: "/mypage/countDatePerTry",
+                                    type: "get",
+                                    async: true,
+                                    data: {
+                                    },
+                                    dataType:"json",
+                                    success: function (svc) {
+                                        var date = {};
+                                        for(var i = 0; i < svc.length; i++){
+                                            if(!(svc[i].timestamp.substr(5,5) in date)){
+                                                date[svc[i].timestamp.substr(5,5)] = 1;
+                                            }
+                                            else{
+                                                date[svc[i].timestamp.substr(5,5)]++;
+                                            }
+                                        }
+                                        var myChart = echarts.init(document.getElementById('canvas'),null,{
+                                            height : "205px",
+                                        }); // echarts init 메소드로 id=chart인 DIV에 차트 초기화
+                                        option = {
+                                            xAxis: {
+                                                type: 'category',
+                                                boundaryGap: false,
+                                                data: Object.keys(date)
+                                            },
+                                            yAxis: {
+                                                type: 'value'
+                                            },
+                                            emphasis: {
+                                                label: {
+                                                    show: true,
+                                                    fontSize: '15',
+                                                    fontWeight: 'bold'
+                                                }
+                                            },
+                                            series: [
+                                                {
+                                                    data: Object.values(date),
+                                                    type: 'line',
+                                                    areaStyle: {}
+                                                }
+                                            ]
+                                        };
+                                        myChart.setOption(option); // 차트 디스플레이
                                     }
                                 })
                             }

@@ -380,5 +380,11 @@ router.post('/countServerInteLog',async (req,res) => {
   data['server_unit'] = req.body['server_unit']
   res.json(data);
 });
+router.get('/countDatePerTry', async (req, res) => {
+  var sql = 'select * from log'
+  var params = [];
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+})
 module.exports = router;
 

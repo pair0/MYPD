@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="../stylesheets/dashboard.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+    <script src="/path/to/cdn/jquery.min.js"></script>
 </head>
 <div class="mypage_title">
     <div class="reg_svc_list_title">
@@ -13,23 +14,13 @@
         <div class="col-xl-3 col-md-6" id ="chart">
             <div class="card bg-temp text-white mb-4" ">
                 <h3 class = "dashlistTilte" >Test 비율</h3>
-                <div style="display: flex;">
-                    <div style="margin: 0 auto">
-                        <div class="pie-chart1">
-                            <span class="center"></span>
-                        </div>
-                        <div id="col">
-                        </div>
-                    </div>
-                </div>
+                <div id="circle" style="min-height: 205px;"></div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6" id ="line">
             <div class="card bg-temp text-white mb-4" >
                 <h3 class = "dashlistTilte" >날짜별 시도</h3>
-                <h1 style="min-height: 205px; margin: 0 auto; padding-top: 50px;">그래프 들어갈 곳</h1>
-                <!-- <canvas id="linechart" style="max-height: 205px;"> </canvas> -->
-                <!-- <canvas id="canvas" style="max-height: 205px;"></canvas> -->
+                <div id="canvas" style="min-height: 205px;"></div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6" >
