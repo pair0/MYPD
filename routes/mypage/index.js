@@ -100,6 +100,11 @@ router.get('/reg_data',myLogIn, function(req, res, next) {
   res.render('reg_data');
 });
 
+// 데시보드
+router.get('/dashboard', myLogIn, function(req, res, next) {
+  res.render('dashboard');
+});
+
 router.get('/reg_isv', isLogIn, checkTokens, function(req, res, next) {
   res.render('reg_isv');
 });
@@ -117,10 +122,6 @@ router.get('/add_data',myLogIn, function(req, res, next) {
   res.render('add_data');
 });
 
-// 데시보드
-router.get('/dashboard', myLogIn, function(req, res, next) {
-  res.render('dashboard');
-});
 
 //마이데이터 서비스 테스트 관리
 router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);

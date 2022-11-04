@@ -89,8 +89,8 @@ function log(origin, type) {
         data: {
             "type" : type,
             "curl" : origin.find('.language-bash').text(),
-            "resCode" : origin.find('.response > .response-col_status').text(),
-            "resBody" : origin.find('.language-json').text(),
+            "resCode" : origin.find('.response > .response-col_status').eq(0).text(),
+            "resBody" : origin.find('.language-json').eq(0).text(),
             "resHeaders" : origin.find('.headerline').text()
         },
         success : function(data){

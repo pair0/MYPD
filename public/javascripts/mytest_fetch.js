@@ -157,7 +157,7 @@ function fetchPageisv(name){
 async function buillogdtable(data, id){
     $('td').remove('.dataTables-empty')
     var id_name = id + '_name'
-    for(var i=0; i< data.length;i++)
+    for(var i=data.length-1; i >= 0;i--)
     {
         var table = document.getElementById(id)
         if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
@@ -317,7 +317,7 @@ function fetchPageDashBoard(name){
                                                     name: 'Test 유형',
                                                     type: 'pie',
                                                     radius: ['40%', '70%'],
-                                                    avoidLabelOverlap: false,
+                                                    avoidLabelOverlap: true,
                                                     itemStyle: {
                                                         borderRadius: 10,
                                                         borderColor: '#fff',
@@ -347,6 +347,12 @@ function fetchPageDashBoard(name){
                                             ]
                                         };
                                         myCircle.setOption(option); // 차트 디스플레이
+                                        $(function(){
+                                            $(window).on('resize',function(){
+                                                myCircle.resize();
+
+                                            })
+                                        })
                                     }
                                 })
                                 $.ajax({
@@ -359,12 +365,10 @@ function fetchPageDashBoard(name){
                                     success: function (svc) {
                                         var date = {};
                                         for(var i = 0; i < svc.length; i++){
-                                            if(!(svc[i].timestamp.substr(5,5) in date)){
+                                            if(!(svc[i].timestamp.substr(5,5) in date))
                                                 date[svc[i].timestamp.substr(5,5)] = 1;
-                                            }
-                                            else{
+                                            else
                                                 date[svc[i].timestamp.substr(5,5)]++;
-                                            }
                                         }
                                         var myChart = echarts.init(document.getElementById('canvas'),null,{
                                             height : "205px",
@@ -381,7 +385,7 @@ function fetchPageDashBoard(name){
                                             emphasis: {
                                                 label: {
                                                     show: true,
-                                                    fontSize: '15',
+                                                    fontSize: '30',
                                                     fontWeight: 'bold'
                                                 }
                                             },
@@ -389,11 +393,23 @@ function fetchPageDashBoard(name){
                                                 {
                                                     data: Object.values(date),
                                                     type: 'line',
-                                                    areaStyle: {}
+                                                    areaStyle: {
+                                                        color : '#0770FF',
+                                                        fontWeight : 1000,
+                                                        fontsize : 1000,
+                                                    },
+                                                    // lineStyle: {
+                                                    //     width : 10
+                                                    // }
                                                 }
                                             ]
                                         };
                                         myChart.setOption(option); // 차트 디스플레이
+                                        $(function(){
+                                            $(window).on('resize',function(){
+                                                myChart.resize();
+                                            })
+                                        })
                                     }
                                 })
                             }

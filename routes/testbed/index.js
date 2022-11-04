@@ -114,6 +114,7 @@ router.post("/unitLogging", function (req, res, next){
   curlStringProcessing(data)
   delete data['curl']
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
+  console.log(data)
   var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
   var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
