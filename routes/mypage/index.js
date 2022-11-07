@@ -96,14 +96,24 @@ router.get('/reg_svr',myLogIn, function(req, res, next) {
   res.render('reg_svr');
 });
 
-router.get('/reg_data',myLogIn, function(req, res, next) {
+router.get('/reg_data', myLogIn, function(req, res, next) {
   res.render('reg_data');
 });
 
-router.get('/reg_isv', isLogIn, checkTokens, function(req, res, next) {
+//연동 서버 테스트
+router.get('/reg_isv', myLogIn, function(req, res, next) {
   res.render('reg_isv');
 });
 
+//연동 서비스 테스트
+router.get('/reg_isc', myLogIn, function(req, res, next) {
+  res.render('reg_isc');
+});
+
+//연동 서비스 테스트 서버 검색 결과
+router.get('/reg_server_select', myLogIn, function(req, res, next) {
+  res.render('reg_server_select');
+});
 
 router.get('/add_svr',myLogIn, function(req, res, next) {
   res.render('add_svr');
@@ -371,7 +381,42 @@ router.post('/approve', isLogIn, checkTokens, async function(req, res, next){
       res.send(false);
     }); 
   } else res.send(0);
-  
+});
+
+//연동 서비스 테스트 추가
+router.get('/addinte_service_1', isLogIn, checkTokens, async function(req, res, next){
+  res.render('addinte_service_1')
+});
+
+//연동 서비스 테스트 추가
+router.post('/addinte_service_2', isLogIn, checkTokens, async function(req, res, next){
+  console.log(req.body.find_server);
+  res.render('addinte_service_2')
+});
+
+//연동 서비스 리스트 가져오기
+router.get('/isc_list', async function(req,res,next){
+  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_manage_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
+  var params = req.user.id_idx;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//연동 서비스 테스트 서버 검색
+router.post('/select_server', function(req, res, next){
+  console.log(req.body.select_type);
+  console.log(req.body.find_server);
+  var sql = 'select * from server_management where business_right=? AND id_idx=?'
+  var params = [req.body.select_type, req.body.find_server];
+  mdbConn.dbSelectall(sql, params)
+  .then((result) => {
+    if (result[0] != undefined) {
+      console.log("asdf");
+      res.send(result);
+    } else res.send(false);
+  }).catch((err) => {
+    res.send(false);
+  })
 });
 
 

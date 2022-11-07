@@ -174,6 +174,40 @@
             })
         }
 
+        //연동서비스 관리
+        function fetchPageisc(name){
+            fetch(name).then(function(response){
+                response.text().then(function(text){
+                    document.querySelector('content').innerHTML=text;
+                })
+            }).then(res => {
+                $.ajax({
+                url: "/mypage/isc_list",
+                type: "GET",
+                async: true,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    data=svc;
+                    for(var i=0; i< data.length;i++)
+                    {
+                        var table = document.getElementById('mytable')
+                        var row =  `<tr>
+                        <td id="list_name" onclick="fetchPage('isv_detail?id=${data[i].interserver_id}')">${data[i].server_name}</td>
+                        <td>${data[i].server_ip}</td>
+                        <td>${data[i].business_right}</td>
+                        <td>${data[i].request_count}</td>
+                        <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].interserver_id})">취소</a></td>
+                        </tr>`
+                        table.innerHTML +=row
+                    }
+                }
+            })
+            }).catch(()=>{
+                console.log("table insert error");
+            });
+        }
+
         async function buillogdtable(data, id){
             $('td').remove('.dataTables-empty')
             var id_name = id + '_name'
@@ -402,6 +436,42 @@ function fetchPage_addsvr_cancel(name){
         console.log("error");
     });
 
+}
+
+//연동 서비스 테스트 서버 검색
+function select_server(){
+    fetch("reg_server_select").then(function(response){
+        response.text().then(function(text){
+            document.querySelector('content_select').innerHTML=text;
+        })
+    }).then(res => {
+    $.ajax({
+        url: "/mypage/select_server",
+        type: "POST",
+        async: false,
+        data: {
+            find_server : $("#find_server").val(),
+            select_type : $("#select_type").val()
+        },
+        success: function (svc) {
+            if(svc){
+                    var table = document.getElementById('mytable')
+                    var row =  `<tr>
+                    <td>${svc.server_name}</td>
+                    <td>${svc.business_right}</td>
+                    <td>${svc.server_explain}</td>
+                    </tr>`
+                    console.log(table);
+                    table.innerHTML +=row
+                
+            } else{
+                console.log(svc);
+            }
+        }
+    })
+    }).catch((err) => {
+        console.log(err);
+    });
 }
 
 //서버 추가하기
