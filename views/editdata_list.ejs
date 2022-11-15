@@ -9,7 +9,9 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
 
+    <script src="../javascripts/graphiq.min.js"></script>
 
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -62,7 +64,7 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
+                            <a id="dashboard" href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
                             <!-- <a href="../mypage/dashboard"> -->
                                 <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
                                 <span class="text">테스트현황</span>
@@ -91,7 +93,6 @@
         var jsonObj = {};
         
         function setJSON() {
-            
             // var firstval = "예시 데이터 입니다";
             jsonViewer = new JSONViewer();
             const el = document.querySelector("#json");

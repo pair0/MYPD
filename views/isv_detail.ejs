@@ -38,8 +38,8 @@
           <td>
             <div style="display: flex;">
                 <p6 style="width: 70%;"><%=raw[i].id_idx%></p6>
-                <button onclick="nobtn('<%=raw[i].service_id%>', '<%=row.interserver_id%>')" style="cursor: pointer; background-color: rgba(73, 73, 235, 1); width: 15%; padding: 2px; margin-right: 5px; color: white;">연동반려</button>
-                <button onclick="okbtn('<%=raw[i].service_id%>', '<%=row.interserver_id%>')" style="cursor: pointer; background-color: rgb(51, 51, 53); width: 15%; padding: 2px; color: white;">연동승인</button>
+                <button onclick="isv_nobtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgba(73, 73, 235, 1); width: 15%; padding: 2px; margin-right: 5px; color: white;">연동반려</button>
+                <button onclick="isv_okbtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgb(51, 51, 53); width: 15%; padding: 2px; color: white;">연동승인</button>
             </div>
         </td>
           
