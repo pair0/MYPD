@@ -13,15 +13,15 @@ list.forEach((item) =>
 item.addEventListener('click', activeLink));
 var data = [];
 
-//페이지 이동
-function fetchPagesvr(name){
+//서비스 등록
+function fetchPagesvc(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;
         })
     }).then(res => {
         $.ajax({
-        url: "/mypage/svr_list",
+        url: "/mypage/svc_list",
         type: "GET",
         async: true,
         data: {},
@@ -31,24 +31,24 @@ function fetchPagesvr(name){
             for(var i=0; i< data.length;i++)
             {
                 var table = document.getElementById('mytable')
-                var row = `<tr>
-                                <td id="list_name">${data[i].server_name}</td>
-                                <td>${data[i].server_ip}</td>
-                                <td>${data[i].business_right}</td>
-                                <td>${data[i].server_explain}</td>
-                                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].server_manage_id})">삭제</a></td>
-                            </tr>
-                            `
+                var row =  `<tr>
+                <td id="list_name">${data[i].service_name}</td>
+                <td>${data[i].service_callback_url}</td>
+                <td>${data[i].service_client_id}</td>
+                <td>${data[i].service_text}</td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
+            </tr>
+            `
                 table.innerHTML +=row
             }
         }
     })
-    }).catch(()=>{
+    }) .catch(()=>{
         console.log("error");
     });
-
 }
 
+//데이터 등록
 function fetchPagedata(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -73,7 +73,7 @@ function fetchPagedata(name){
                 <td>${data[i].data_api}</td>
                 <td>${data[i].asset_id}</td>
                 <td class="svc_dlt_box"><a class="svc_dlt" onclick="">편집</a></td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].data_id})">삭제</a></td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(2, ${data[i].data_id})">삭제</a></td>
             </tr>
             `
                 table.innerHTML +=row
@@ -86,14 +86,15 @@ function fetchPagedata(name){
     })
 }
 
-function fetchPagesvc(name){
+//서버 등록
+function fetchPagesvr(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;
         })
     }).then(res => {
         $.ajax({
-        url: "/mypage/svc_list",
+        url: "/mypage/svr_list",
         type: "GET",
         async: true,
         data: {},
@@ -103,19 +104,19 @@ function fetchPagesvc(name){
             for(var i=0; i< data.length;i++)
             {
                 var table = document.getElementById('mytable')
-                var row =  `<tr>
-                <td id="list_name">${data[i].service_name}</td>
-                <td>${data[i].service_callback_url}</td>
-                <td>${data[i].service_client_id}</td>
-                <td>${data[i].service_text}</td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_id})">삭제</a></td>
-            </tr>
-            `
+                var row = `<tr>
+                                <td id="list_name">${data[i].server_name}</td>
+                                <td>${data[i].server_ip}</td>
+                                <td>${data[i].business_right}</td>
+                                <td>${data[i].server_explain}</td>
+                                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(3, ${data[i].server_manage_id})">삭제</a></td>
+                            </tr>
+                            `
                 table.innerHTML +=row
             }
         }
     })
-    }) .catch(()=>{
+    }).catch(()=>{
         console.log("error");
     });
 }
@@ -143,7 +144,7 @@ function fetchPageisv(name){
                 <td>${data[i].server_ip}</td>
                 <td>${data[i].business_right}</td>
                 <td>${data[i].request_count}</td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].interserver_id})">취소</a></td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(4, ${data[i].interserver_id})">취소</a></td>
             </tr>
             `
                 table.innerHTML +=row
@@ -216,7 +217,7 @@ function fetchPageisc(name){
                     <td>${data[i].server_ip}</td>
                     <td>${data[i].business_right}</td>
                     <td>${data[i].service_name}</td>
-                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_approve_id})">취소</a></td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(5, ${data[i].service_approve_id})">취소</a></td>
                 </tr>
                 `
                     table.innerHTML +=row
@@ -240,7 +241,7 @@ function fetchPageisc(name){
                     <td>${data[i].server_ip}</td>
                     <td>${data[i].business_right}</td>
                     <td>${data[i].service_name}</td>
-                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_approve_id})">취소</a></td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(6, ${data[i].service_request_id})">취소</a></td>
                 </tr>
                 `
                     table.innerHTML +=row
@@ -264,7 +265,7 @@ function fetchPageisc(name){
                     <td>${data[i].server_ip}</td>
                     <td>${data[i].business_right}</td>
                     <td>${data[i].service_name}</td>
-                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_approve_id})">확인</a></td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(7, ${data[i].service_reject_id})">확인</a></td>
                 </tr>
                 `
                     table.innerHTML +=row
@@ -549,20 +550,26 @@ function fetchPageDashBoard(name){
     });
 }
 
-function del_svc(id){
-    if(!confirm('삭제하시겠습니까?')){
+//삭제하기
+function del(number, id){
+    if(number <= 3 && !confirm('삭제하시겠습니까?')){
+        return false;
+    }
+    if(number > 3 && number <7 && !confirm('연동을 취소하시겟습니까?')){
         return false;
     }
     $.ajax({
-        url: "/mypage/svr_list_del",
+        url: "/mypage/list_del",
         type: "POST",
         async: false,
         data: {
-            "server_manage_id" : id
+            "number" : number,
+            "id" : id
         },
         success: function(result){
-                alert("삭제되었습니다.");
-                location.reload();
+            if(number > 0 && number <= 3) alert("삭제되었습니다.");
+            else if(number > 3 && number <7) alert("연동 취소되었습니다.");
+            location.reload();
         }
     });
 
