@@ -1,0 +1,46 @@
+<div class="mypage_title" style="border-bottom: 3px solid #2f17c8; margin-bottom: 20px;">
+    <div class="reg_svc_list_title" style="font-size: 15; color: #2f17c8; padding: 30px 0 1px;">
+        기업 정보
+    </div>
+</div>
+
+<div style="width: 650px; margin: 0 auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
+    <div style="display: flex; height: 180px; margin: 5px; border: #2f17c8;">
+        <div style="width: 40%; border: #2f17c8; margin: 10px;">
+            <section id="select_1" style="height: 100%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;">  </section>
+        </div>
+        
+        <div style="width: 60%; border: #2f17c8; margin: 10px;">
+            <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 19px;">금융기관</div>
+                <p style="margin : 8px auto; font-size: 30px;">FSI 금융기관</p>
+            <p style="font-size: 18px;">경기도 판교동...</p4>  
+        </div>
+    </div>
+</div>
+
+<div class="mypage_title" style="border-bottom: 3px solid #2f17c8; margin-bottom: 20px;">
+    <div class="reg_svc_list_title" style="font-size: 15; color: #2f17c8; padding: 30px 0 1px;">
+        연동 서버 정보
+    </div>
+</div>
+<div class="table_box_detail">
+    <table class="data_table_detail">
+        <tr>
+          <th>서버명</th>
+          <td>
+            <div style="display: flex;">
+                <p6 style="width: 85%;"><%=raw.server_name%></p6>
+                <button onclick="fetchPage('isc_approve?id=<%=raw.server_manage_id%>')" style="cursor: pointer; background-color: rgb(51, 51, 53); width: 15%; padding: 2px; color: white;">연동요청</button>
+            </div>
+        </td>
+        </tr>
+        <tr>
+          <th>API 업권</th>
+          <td><%=raw.business_right%></td>
+        </tr>
+        <tr>
+          <th>서버 설명</th>
+          <td><%=raw.server_explain%></td>
+        </tr>
+    </table>
+</div>

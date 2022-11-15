@@ -1,0 +1,62 @@
+
+<div class="mypage_title" style="border-bottom: 3px solid #2f17c8;">
+    <div class="reg_svc_list_title" style="font-size: 15; padding: 30px 0 1px;">
+        연동 서버 정보
+    </div>
+</div>
+<div class="table_box_detail">
+    <table class="data_table_detail">
+        <tr>
+          <th>서버명</th>
+          <td><%=row.server_name%></td>
+        </tr>
+        <tr>
+          <th>IP</th>
+          <td><%=row.server_ip%></td>
+        </tr>
+        <tr>
+          <th>업권</th>
+          <td><%=row.business_right%></td>
+        </tr>
+        <tr>
+          <th>서버 설명</th>
+          <td><%=row.server_explain%></td>
+        </tr>
+    </table>
+</div>
+
+<% for(var i=0; i < raw.length; i+=1){ %>
+<div class="mypage_title" style="border-bottom: 3px solid #2f17c8;">
+    <div class="reg_svc_list_title" style="font-size: 15; padding: 30px 0 1px;">
+        연동 기업 정보 <%=i+1%>
+    </div>
+</div>
+<div class="table_box_detail">
+    <table class="data_table_detail">
+        <tr>
+          <th>기업명</th>
+          <td>
+            <div style="display: flex;">
+                <p6 style="width: 70%;"><%=raw[i].id_idx%></p6>
+                <button onclick="isv_nobtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgba(73, 73, 235, 1); width: 15%; padding: 2px; margin-right: 5px; color: white;">연동반려</button>
+                <button onclick="isv_okbtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgb(51, 51, 53); width: 15%; padding: 2px; color: white;">연동승인</button>
+            </div>
+        </td>
+          
+          
+        </tr>
+        <tr>
+          <th>서비스명</th>
+          <td><%=raw[i].service_name%></td>
+        </tr>
+        <tr>
+          <th>CallBack URL</th>
+          <td><%=raw[i].service_callback_url%></td>
+        </tr>
+        <tr>
+          <th>Client ID</th>
+          <td><%=raw[i].service_client_id %></td>
+        </tr>
+    </table>
+</div>
+<%} %>

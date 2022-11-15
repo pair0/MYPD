@@ -1,0 +1,66 @@
+<div class="table_box">
+    <div class="mypage_title">
+        <div class="reg_svc_list_title">
+            승인된 연동테스트 서버
+        </div>
+    </div>
+    <table class="data_table">
+        <thead>
+            <tr>
+                <th style="width:300px">서버명</th>
+                <th>IP</th>
+                <th style="width:120px">API업권</th>
+                <th style="width:200px">연동 서비스명</th>
+                <th style="width:80px">연동 취소</th>
+            </tr>
+        </thead>
+        <tbody id="mytable">
+                
+        </tbody>
+    </table>
+</div>
+<a class="test_manage_btn" onclick="fetchPage('addinte_service_1')">연동 신청</a>
+
+<div class="table_box" id="request">
+    <div class="mypage_title">
+        <div class="reg_svc_list_title">
+            요청중인 연동테스트 서버
+        </div>
+    </div>
+    <table class="data_table">
+        <thead>
+            <tr>
+                <th style="width:300px">서버명</th>
+                <th>IP</th>
+                <th style="width:120px">API업권</th>
+                <th style="width:200px">연동 서비스명</th>
+                <th style="width:80px">연동 취소</th>
+            </tr>
+        </thead>
+        <tbody id="mytable_request">
+                
+        </tbody>
+    </table>
+</div>
+
+<div class="table_box" id="reject">
+    <div class="mypage_title">
+        <div class="reg_svc_list_title">
+            반려된 연동테스트 서버
+        </div>
+    </div>
+    <table class="data_table">
+        <thead>
+            <tr>
+                <th style="width:300px">서버명</th>
+                <th>IP</th>
+                <th style="width:120px">API업권</th>
+                <th style="width:200px">연동 서비스명</th>
+                <th style="width:80px">확인</th>
+            </tr>   
+        </thead>
+        <tbody id="mytable_reject">
+                
+        </tbody>
+    </table>
+</div>

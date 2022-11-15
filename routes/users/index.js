@@ -20,13 +20,6 @@ router.get("/login", isNotLogIn, (req, res, next) => {
   res.render("login");
 });
 
-
-
-router.get("/loginerror", isNotLogIn, (req, res, next) => {
-  res.render("loginerror");
-});
-
-
 /* 로그인시 accessToken 발급 및 DB에 refresh Token update, 세션 생성 */
 router.post("/login", async function (req, res) { //로그인 신청
   // 로그인 후 이전페이지로 돌아기 위한 코드
