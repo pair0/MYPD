@@ -284,16 +284,24 @@ router.get('/svr_list',(req,res)=> {
   getList(req,res,'select * from server_management where id_idx=?');
 });
 
-//테스트데이터 지우기
-router.post('/svr_list_del',async function(req,res,next){
-  console.log(req.body);
-  var data_id = req.body.server_manage_id;
-  var sql = 'delete from server_management where server_manage_id=?';
+//마이페이지 지우기 지우기
+router.post('/list_del',async function(req,res,next){
+  var number = req.body.number;
+  var data_id = req.body.id;
+  if (number == 1) var sql = 'delete from service_test where service_id=?';
+  else if(number == 2) var sql = 'delete from data_test where data_id=?';
+  else if(number == 3) var sql = 'delete from server_management where server_manage_id=?';
+  else if(number == 4) var sql = 'delete from inter_server where interserver_id=?';
+  else if(number == 5) var sql = 'delete from service_apprpve where service_approve_id=?';
+  else if(number == 6) var sql = 'delete from service_request where service_request_id=?';
+  else if(number == 7) var sql = 'delete from service_reject where service_reject_id=?';
   var params = [data_id];
   await mdbConn.dbSelect(sql, params)
   .then(() => {
-    res.redirect('/mypage/editdata_list#!reg_data');
-  })
+    res.send(number);
+  }).catch((err) => {
+    res.send(0);
+  });
 });
 
 //연동 테스트 서버 등록 페이지 이동
@@ -505,7 +513,7 @@ router.post('/isc_approve', isLogIn, checkTokens, function(req, res, next){
     params = req.body.serverI;
     mdbConn.dbInsert(sql, params)
     .then(() => {
-      res.redirect("/mypage/editdata_list#!isc")
+      res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!isc")</script>`);
     }).catch((err) => {
       res.send(`<script>alert('잘못된 요청입니다.');location.replace("/main")</script>`);
     });
