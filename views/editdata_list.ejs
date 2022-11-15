@@ -9,7 +9,9 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
 
+    <script src="../javascripts/graphiq.min.js"></script>
 
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
@@ -56,7 +58,8 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="../mypage/dashboard">
+                            <a id="dashboard" href="#!dashboard" onclick="fetchPageDashBoard('dashboard')">
+                            <!-- <a href="../mypage/dashboard"> -->
                                 <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
                                 <span class="text">테스트현황</span>
                             </a>
@@ -74,8 +77,9 @@
 
     </main>
     <!-- my_nav바 움직이는거 -->
-    <script  src="../javascripts/mytest_fetch.js"></script>
-    <script  src="../javascripts/key.js"></script>
+
+    <script src="../javascripts/mytest_fetch.js"></script>
+    <script src="../javascripts/key.js"></script>
     <script>
         // const { Result } = require("express-validator");
 
@@ -186,8 +190,8 @@
                 opt.innerHTML =res[x];
                 target.appendChild(opt);
             }
-
         }
     </script>
+     <!-- <script type="text/javascript" src="../javascripts/data_add.js"></script> -->
 </body>
 </html>

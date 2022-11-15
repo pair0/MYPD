@@ -110,10 +110,12 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 h1, .h1 {
   font-size: calc(1.375rem + 1.5vw);
+  font-weight: bold;
 }
 @media (min-width: 1200px) {
   h1, .h1 {
     font-size: 2.5rem;
+    font-weight: bold;
   }
 }
 
@@ -1587,7 +1589,7 @@ progress {
 
   .col-xl-3 {
     flex: 0 0 auto;
-    width: 25%;
+    width: 33%;
   }
 
   .col-xl-4 {
@@ -4062,6 +4064,9 @@ textarea.form-control-lg {
   flex-wrap: inherit;
   align-items: center;
   justify-content: space-between;
+}
+.mypage_box{
+  padding-top: 100px !important;
 }
 .navbar-brand {
   padding-top: 0.3125rem;
@@ -11704,4 +11709,14 @@ body {
   width: 20px !important;
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
+}
+
+.dashboard{
+  width:85%;
+  border-radius:30px;
+  margin: 0px auto;
+  display:flex;
+  flex-direction: column;
+  min-width: 607px;
+  margin-top:20px;
 }
