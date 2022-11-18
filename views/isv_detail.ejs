@@ -1,8 +1,9 @@
 
-<div class="mypage_title" style="border-bottom: 3px solid #2f17c8;">
+<div class="mypage_title" style="display:fles; justify-content: space-between; border-bottom: 3px solid #2f17c8;">
     <div class="reg_svc_list_title" style="font-size: 15; padding: 30px 0 1px;">
         연동 서버 정보
     </div>
+    <button onclick="inter_service_index()" id="index" style=" cursor: pointer;  background-color: rgb(51, 51, 53); width: 120px; margin: 40px 0 5px; padding: 2px; color: white;" value=<%=row.server_manage_id%>>연동된 서비스 보기</button>
 </div>
 <div class="table_box_detail">
     <table class="data_table_detail">
@@ -37,7 +38,7 @@
           <th>기업명</th>
           <td>
             <div style="display: flex;">
-                <p6 style="width: 70%;"><%=raw[i].id_idx%></p6>
+                <p6 style="width: 70%;"><%=raw[i].e_name%></p6>
                 <button onclick="isv_nobtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgba(73, 73, 235, 1); width: 15%; padding: 2px; margin-right: 5px; color: white;">연동반려</button>
                 <button onclick="isv_okbtn('<%=row.server_manage_id%>', '<%=raw[i].service_id%>')" style="cursor: pointer; background-color: rgb(51, 51, 53); width: 15%; padding: 2px; color: white;">연동승인</button>
             </div>

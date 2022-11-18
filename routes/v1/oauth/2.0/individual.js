@@ -230,7 +230,7 @@ exports.authorization_api = (req, res) => {
                 //     state: req.query.state,
                 //     api_tran_id: req.headers['x-api-tran-id']
                 // })
-                var code = info['authorization_code'];
+                var code = [info['authorization_code'], info['org_code'], info['client_id']];
                 req.session.code = code;
                 res.redirect('/testbed/inte_api_access');
             })
