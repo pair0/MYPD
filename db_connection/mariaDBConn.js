@@ -29,14 +29,11 @@ async function DBSelect(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
-        // console.log(rows[0])
-    }
-    catch(err){
-        return err;
-    }
-    finally{
         if (conn) conn.end();
         return rows[0];
+    }
+    catch(err){
+        return false;
     }
 }
 
@@ -49,7 +46,7 @@ async function DBSelectAll(sql, params){
         return rows;
     }
     catch(err){
-        return err;
+        return false;
     }
 }
 

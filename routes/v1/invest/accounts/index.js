@@ -29,7 +29,7 @@ router.get('/basic', function(req,res,next){
                                 qs:{
                                     org_code:req.query.org_code,
                                     response_type:req.query.response_type,
-                                    client_id:req.query.client_id,
+                                    client_id:"78660ab0ed76562b510e9f15f9c6978",
                                     redirect_uri:req.query.redirect_uri,
                                     state:req.query.state
                                 }

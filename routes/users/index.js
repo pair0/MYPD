@@ -139,6 +139,7 @@ router.post('/join', [
   // .custom() : 내가 원하는 기능을 지정하기 위한 함수
   // https://github.com/validatorjs/validator.js 참고
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
+  body('e_name').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('회사명을 확인해주세요.').bail(),
   body('nickname').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({ min: 8, max: 16 }).isAlphanumeric('en-US', { ignore: '~!@#$%^&*()_+|<>?:{}]/;' }).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
@@ -154,6 +155,8 @@ router.post('/join', [
   // 위에서 패스워드 검증이 끝났다면 DB에 회원 정보 등록
   const info = {
     "number": req.body.number,
+    "e_name": req.body.e_name,
+    "e_address": req.body.e_address,
     "nickname": req.body.nickname,
     "id": req.body.id,
     "email": req.body.f_email + "@" + req.body.s_email
@@ -163,8 +166,8 @@ router.post('/join', [
     if (err) return next(err)
     info['pw'] = hash;
 
-    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, nickname, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?,?)';
-    var params = [info['number'], info['nickname'], info['id'], info['pw'], info['email']];
+    var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, e_name, e_address, nickname, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?,?,?,?)';
+    var params = [info['number'], info['e_name'], info['e_address'], info['nickname'], info['id'], info['pw'], info['email']];
 
     mdbConn.dbInsert(sql, params)
       .then((rows) => {
