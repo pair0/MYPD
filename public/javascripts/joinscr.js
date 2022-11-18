@@ -46,6 +46,7 @@ function number_check() {
                         contentType: "application/json",
                         accept: "application/json",
                         success: function(result2) {
+                            console.log(result2);
                             console.log(result2.data[0]['b_stt']);
                             $.ajax({
                                 url: "/user/number_check",

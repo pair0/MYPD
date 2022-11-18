@@ -13,15 +13,15 @@ list.forEach((item) =>
 item.addEventListener('click', activeLink));
 var data = [];
 
-//페이지 이동
-function fetchPagesvr(name){
+//서비스 등록
+function fetchPagesvc(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;
         })
     }).then(res => {
         $.ajax({
-        url: "/mypage/svr_list",
+        url: "/mypage/svc_list",
         type: "GET",
         async: true,
         data: {},
@@ -31,24 +31,24 @@ function fetchPagesvr(name){
             for(var i=0; i< data.length;i++)
             {
                 var table = document.getElementById('mytable')
-                var row = `<tr>
-                                <td id="list_name">${data[i].server_name}</td>
-                                <td>${data[i].server_ip}</td>
-                                <td>${data[i].business_right}</td>
-                                <td>${data[i].server_explain}</td>
-                                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].server_manage_id})">삭제</a></td>
-                            </tr>
-                            `
+                var row =  `<tr>
+                <td id="list_name">${data[i].service_name}</td>
+                <td>${data[i].service_callback_url}</td>
+                <td>${data[i].service_client_id}</td>
+                <td>${data[i].service_text}</td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
+            </tr>
+            `
                 table.innerHTML +=row
             }
         }
     })
-    }).catch(()=>{
+    }) .catch(()=>{
         console.log("error");
     });
-
 }
 
+//데이터 등록
 function fetchPagedata(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -73,7 +73,7 @@ function fetchPagedata(name){
                 <td>${data[i].data_api}</td>
                 <td>${data[i].asset_id}</td>
                 <td class="svc_dlt_box"><a class="svc_dlt" onclick="">편집</a></td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].data_id})">삭제</a></td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(2, ${data[i].data_id})">삭제</a></td>
             </tr>
             `
                 table.innerHTML +=row
@@ -86,14 +86,15 @@ function fetchPagedata(name){
     })
 }
 
-function fetchPagesvc(name){
+//서버 등록
+function fetchPagesvr(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;
         })
     }).then(res => {
         $.ajax({
-        url: "/mypage/svc_list",
+        url: "/mypage/svr_list",
         type: "GET",
         async: true,
         data: {},
@@ -103,24 +104,24 @@ function fetchPagesvc(name){
             for(var i=0; i< data.length;i++)
             {
                 var table = document.getElementById('mytable')
-                var row =  `<tr>
-                <td id="list_name">${data[i].service_name}</td>
-                <td>${data[i].service_callback_url}</td>
-                <td>${data[i].service_client_id}</td>
-                <td>${data[i].service_text}</td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].service_id})">삭제</a></td>
-            </tr>
-            `
+                var row = `<tr>
+                                <td id="list_name">${data[i].server_name}</td>
+                                <td>${data[i].server_ip}</td>
+                                <td>${data[i].business_right}</td>
+                                <td>${data[i].server_explain}</td>
+                                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(3, ${data[i].server_manage_id})">삭제</a></td>
+                            </tr>
+                            `
                 table.innerHTML +=row
             }
         }
     })
-    }) .catch(()=>{
+    }).catch(()=>{
         console.log("error");
     });
 }
 
-        //연동서버 관리
+//연동서버 관리
 function fetchPageisv(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -139,11 +140,11 @@ function fetchPageisv(name){
             {
                 var table = document.getElementById('mytable')
                 var row =  `<tr>
-                <td id="list_name" onclick="click()">${data[i].server_name}</td>
+                <td id="list_name" onclick="fetchPage('isv_detail?id=${data[i].interserver_id}')">${data[i].server_name}</td>
                 <td>${data[i].server_ip}</td>
                 <td>${data[i].business_right}</td>
                 <td>${data[i].request_count}</td>
-                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del_svc(${data[i].interserver_id})">취소</a></td>
+                <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(4, ${data[i].interserver_id})">취소</a></td>
             </tr>
             `
                 table.innerHTML +=row
@@ -154,10 +155,133 @@ function fetchPageisv(name){
         console.log("table insert error");
     });
 }
+
+//연동서버 관리_연동승인
+function isv_okbtn(server_id, service_id){
+    $.ajax({
+        url: "/mypage/approve",
+        type: "POST",
+        async: false,
+        data: {
+            id : server_id,
+            sid : service_id
+        },
+        success: function (reslut) {
+            if(reslut) {
+                alert("연동승인이 완료되었습니다.");
+                window.location.reload();
+            }else alert("잘못된 요청입니다.");
+        }
+    })
+}
+
+//연동서버 관리_연동반려
+function isv_nobtn(server_id, service_id){
+    $.ajax({
+        url: "/mypage/reject",
+        type: "POST",
+        async: false,
+        data: {
+            id : server_id,
+            sid : service_id
+        },
+        success: function (reslut) {
+            if(reslut) {
+                alert("연동 반려 되었습니다.");
+                window.location.reload();
+            }else alert("잘못된 요청입니다.");
+        }
+    })
+}
+
+//연동서비스 관리
+function fetchPageisc(name){
+    fetch(name).then(function(response){
+        response.text().then(function(text){
+            document.querySelector('content').innerHTML=text;
+        })
+    }).then(res => {
+        $.ajax({
+            url: "/mypage/isc_list",
+            type: "GET",
+            async: true,
+            data: {},
+            dataType:"json",
+            success: function (svc) {
+                data=svc;
+                for(var i=0; i< data.length;i++)
+                {
+                    var table = document.getElementById('mytable')
+                    var row =  `<tr>
+                    <td id="list_name" onclick="click()">${data[i].server_name}</td>
+                    <td>${data[i].server_ip}</td>
+                    <td>${data[i].business_right}</td>
+                    <td>${data[i].service_name}</td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(5, ${data[i].service_approve_id})">취소</a></td>
+                </tr>
+                `
+                    table.innerHTML +=row
+                }
+            }
+        })
+        $.ajax({
+            url: "/mypage/isc_list_request",
+            type: "GET",
+            async: true,
+            data: {},
+            dataType:"json",
+            success: function (svc) {
+                data=svc;
+                if(data.length == 0) document.getElementById('request').style.display = "none";
+                for(var i=0; i< data.length;i++)
+                {
+                    var table = document.getElementById('mytable_request')
+                    var row =  `<tr>
+                    <td id="list_name" onclick="click()">${data[i].server_name}</td>
+                    <td>${data[i].server_ip}</td>
+                    <td>${data[i].business_right}</td>
+                    <td>${data[i].service_name}</td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(6, ${data[i].service_request_id})">취소</a></td>
+                </tr>
+                `
+                    table.innerHTML +=row
+                }
+            }
+        })
+        $.ajax({
+            url: "/mypage/isc_list_reject",
+            type: "GET",
+            async: true,
+            data: {},
+            dataType:"json",
+            success: function (svc) {
+                data=svc;
+                if(data.length == 0) document.getElementById('reject').style.display = "none";
+                for(var i=0; i< data.length;i++)
+                {
+                    var table = document.getElementById('mytable_reject')
+                    var row =  `<tr>
+                    <td id="list_name" onclick="click()">${data[i].server_name}</td>
+                    <td>${data[i].server_ip}</td>
+                    <td>${data[i].business_right}</td>
+                    <td>${data[i].service_name}</td>
+                    <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(7, ${data[i].service_reject_id})">확인</a></td>
+                </tr>
+                `
+                    table.innerHTML +=row
+                }
+            }
+        })
+
+    }).catch(()=>{
+        console.log("table insert error");
+    });
+}
+
 async function buillogdtable(data, id){
     $('td').remove('.dataTables-empty')
     var id_name = id + '_name'
-    for(var i=data.length-1; i >= 0;i--)
+    for(var i=0; i< data.length;i++)
     {
         var table = document.getElementById(id)
         if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
@@ -195,11 +319,12 @@ async function buillogdtable(data, id){
                             <td id=${id_name+'_res'}>${data[i].resBody}</td>
                         </tr>
                         `
-        }
+                }
 
         table.innerHTML +=row
     }
 }
+
 async function buildList(data, id){
     var id_name = id + '_name'
     for(var i=0; i< data.length;i++)
@@ -218,6 +343,7 @@ async function buildList(data, id){
         table.innerHTML +=row
     }
 }
+
 function fetchPageDashBoard(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -422,22 +548,30 @@ function fetchPageDashBoard(name){
     .catch(()=>{
         console.log("error");
     });
-
 }
-function del_svc(id){
-    if(!confirm('삭제하시겠습니까?')){
+
+//삭제하기
+function del(number, id){
+    if(number <= 3 && !confirm('삭제하시겠습니까?')){
+        return false;
+    }
+    if(number > 3 && number <7 && !confirm('연동을 취소하시겟습니까?')){
         return false;
     }
     $.ajax({
-        url: "/mypage/svr_list_del",
+        url: "/mypage/list_del",
         type: "POST",
         async: false,
         data: {
-            "server_manage_id" : id
+            "number" : number,
+            "id" : id
         },
         success: function(result){
-                alert("삭제되었습니다.");
-                location.reload();
+            if(result > 0 && result <= 3) alert("삭제되었습니다.");
+            else if(result > 3 && result <7) alert("연동 취소되었습니다.");
+            else if(result == 7) alert("확인되었습니다.");
+            else alert(result);
+            location.reload();
         }
     });
 
@@ -453,6 +587,7 @@ function fetchPage(name){
     });
 
 }
+
 //서버 추가 취소하기
 function fetchPage_addsvr_cancel(name){
     fetch(name).then(function(response){
@@ -465,5 +600,73 @@ function fetchPage_addsvr_cancel(name){
 
 }
 
-//서버 추가하기
-//서비스 추가하기
+//연동 서비스 테스트 서버 검색
+function select_server(){
+    $.ajax({
+        url: "/mypage/select_server",
+        type: "POST",
+        async: true,
+        data: {
+            find_server : $("#find_server").val(),
+            select_type : $("#select_type").val()
+        },
+        success: function (svc) {
+            if(svc){
+                fetch("reg_server_select").then(async function(response){
+                    await response.text().then(function(text){
+                        document.querySelector('content_select').innerHTML=text;
+                    })
+                }).then(res => {
+                    for(var i=0; i<svc.length; i++){
+                        var table = document.getElementById('select')
+                        var row = 
+                        `
+                        <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
+                            <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
+                                <div style="width: 40%; border: #2f17c8; margin: 10px;">
+                                    <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
+                                    <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
+                                </div>
+
+                                <div style="width: 60%; border: #2f17c8; margin: 10px;">
+                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">금융기관</div>
+                                    <p style="margin : 8px auto">FSI 금융기관</p>
+                                    <p6>경기도 판교동...</p6>
+                                    <div>
+                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                    </div>      
+                                </div>
+                            </div>
+                        </div>
+                        `
+                        //var button = document.getElementById('select_button');
+                        //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
+                        table.innerHTML +=row
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }else{
+                console.log(svc);
+            }
+        }
+    });
+}
+
+//연동서버 관리_연동요청
+function isc_okbtn(server_id){
+    $.ajax({
+        url: "/mypage/isc_request",
+        type: "POST",
+        async: false,
+        data: {
+            sid : server_id
+        },
+        success: function (reslut) {
+            if(reslut) {
+                alert("연동승인이 완료되었습니다.");
+                window.location.reload();
+            }else alert("error");
+        }
+    })
+}

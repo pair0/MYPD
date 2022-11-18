@@ -1138,6 +1138,7 @@ div .use_box:hover{
 }
 
 .test_manage_btn{
+    cursor:pointer;
     font-weight: 700;
     font-size: 15px;
     background-color: #007aff;
@@ -1149,6 +1150,23 @@ div .use_box:hover{
     text-align: center;
     padding:3px 10px 0 10px;
     width:200px;
+}
+
+.mypage_edit_section .input_size_con {
+  width: 100%;
+  height: 130px;
+  font-size: 16px;
+  color: #373737;
+  border-radius: 10px;
+  transition: all 0.5s;
+  vertical-align: middle;
+  background: rgba(217, 217, 217, 0.1);
+  border: 1px solid #c6c6c6;
+  overflow: auto;
+  white-space: pre-wrap !important;
+  vertical-align: top;
+  padding: 10px 10px;
+  resize: none;
 }
 
 
@@ -1539,6 +1557,40 @@ section{
     border-spacing: 0px 15px;
 }
 
+.table_box_detail{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+}
+.data_table_detail {
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: 0.25rem;
+    width:85%;
+    align-items: center;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+}
+
+.data_table_detail th{
+    border: 1px solid #444444;
+    background-color: rgba(54, 54, 55, 0.3);
+    padding:10px;
+    text-align: left;
+    font-size:12px;
+    width: 20%;
+}
+.data_table_detail td{
+    border: 1px solid #444444;
+    padding:10px;
+    text-align: left;
+    font-size:12px;
+    width: 80%;
+}
+
 .mypage_title{
     display:flex;
     width:85%;
@@ -1551,6 +1603,20 @@ section{
 }
 
 #mytable tr{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px;
+    margin-bottom:10px;
+    border-radius:3px;
+    font-size:13px;
+}
+
+#mytable_request tr{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px;
+    margin-bottom:10px;
+    border-radius:3px;
+    font-size:13px;
+}
+
+#mytable_reject tr{
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px;
     margin-bottom:10px;
     border-radius:3px;
@@ -1844,30 +1910,29 @@ section{
 
 .my_navigation ul li:nth-child(1).active ~ .indicator
 {
-    transform: translateX(calc(-441px));
+    transform: translateX(calc(-458px));
 }
-
 
 .my_navigation ul li:nth-child(2).active ~ .indicator
 {
-    transform: translateX(calc(-221px));
+    transform: translateX(calc(-275px));
 }
 
 .my_navigation ul li:nth-child(3).active ~ .indicator
 {
-    transform: translateX(calc(-1px));
+    transform: translateX(calc(-90px));
 }
 .my_navigation ul li:nth-child(4).active ~ .indicator
 {
-    transform: translateX(calc(219px));
+    transform: translateX(calc(90px));
 }
 .my_navigation ul li:nth-child(5).active ~ .indicator
 {
-    transform: translateX(calc(438px));
+    transform: translateX(calc(275px));
 }
-.my_navigation ul li:nth-child(5).active ~ .indicator
+.my_navigation ul li:nth-child(6).active ~ .indicator
 {
-    transform: translateX(calc(438px));
+    transform: translateX(calc(458px));
 }
 .pie-chart1 {
     display:inline-block;

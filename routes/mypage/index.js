@@ -57,16 +57,12 @@ router.post('/edit', [
 
     mdbConn.dbInsert(sql, params)
     .then((rows) => {
-      console.log(rows);
+      if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+      else res.send("<script>alert('회원 정보 수정이 완료되었습니다.!!');location.href='/main';</" + "script>");
     })
     .catch((err) => {
-      console.log(err);
+      res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
     });
-
-    res.send(
-      "<script>alert('회원 정보 수정이 완료되었습니다.!! ');location.href='/main';</" +
-      "script>"
-    );
   })
 });
 
@@ -96,7 +92,7 @@ router.get('/reg_svr',myLogIn, function(req, res, next) {
   res.render('reg_svr');
 });
 
-router.get('/reg_data',myLogIn, function(req, res, next) {
+router.get('/reg_data', myLogIn, function(req, res, next) {
   res.render('reg_data');
 });
 
@@ -105,10 +101,19 @@ router.get('/dashboard', myLogIn, function(req, res, next) {
   res.render('dashboard');
 });
 
-router.get('/reg_isv', isLogIn, checkTokens, function(req, res, next) {
+router.get('/reg_isv', myLogIn, function(req, res, next) {
   res.render('reg_isv');
 });
 
+//연동 서비스 테스트
+router.get('/reg_isc', myLogIn, function(req, res, next) {
+  res.render('reg_isc');
+});
+
+//연동 서비스 테스트 서버 검색 결과
+router.get('/reg_server_select', myLogIn, function(req, res, next) {
+  res.render('reg_server_select');
+});
 
 router.get('/add_svr',myLogIn, function(req, res, next) {
   res.render('add_svr');
@@ -169,13 +174,11 @@ router.post('/reg_svc',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    res.redirect('/mypage/editdata_list#!reg_svc')
+    if (!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_list';</" + "script>");
+    else res.redirect('/mypage/editdata_list#!reg_svc');
   })
   .catch((err) => {
-    res.send(
-      "<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_list';</" +
-      "script>"
-    );
+    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_list';</" + "script>");
   });
 });
 
@@ -192,14 +195,14 @@ async function getList(req, res, sql){
       console.log("login error svc_list");
     }
 }
-//서비스 리스트 가져오기
 
+//서비스 리스트 가져오기
 router.get('/svc_list',(req,res) => {
   getList(req,res,'select * from service_test where id_idx=?');
 });
 
 //서비스 리스트 지우기
-router.post('/svc_list_del',async function(req,res,next){
+router.post('/svc_list_del', async function(req,res,next){
   var id= req.user.id_idx;
   var svc_id = req.body.service_id;
   var sql = 'delete from service_test where service_id=? and id_idx=?';
@@ -228,8 +231,11 @@ router.post('/editdata',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    res.redirect('/mypage/editdata_list');
-  })
+    if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
+    else res.redirect('/mypage/editdata_list');
+  }).catch((err) => {
+    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
+  });
 });
 
 //테스트데이터 리스트 가져오기
@@ -266,8 +272,11 @@ router.post('/reg_svr',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    res.redirect('/mypage/reg_svr_list');
-  })
+    if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
+    else  res.redirect('/mypage/reg_svr_list');
+  }).catch((err) => {
+    res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
+  });
 });
 
 //서버리스트 가져오기
@@ -275,20 +284,29 @@ router.get('/svr_list',(req,res)=> {
   getList(req,res,'select * from server_management where id_idx=?');
 });
 
-//테스트데이터 지우기
-router.post('/svr_list_del',async function(req,res,next){
-  console.log(req.body);
-  var data_id = req.body.server_manage_id;
-  var sql = 'delete from server_management where server_manage_id=?';
+//마이페이지 지우기 지우기
+router.post('/list_del',async function(req,res,next){
+  var number = req.body.number;
+  var data_id = req.body.id;
+  if (number == 1) var sql = 'delete from service_test where service_id=?';
+  else if(number == 2) var sql = 'delete from data_test where data_id=?';
+  else if(number == 3) var sql = 'delete from server_management where server_manage_id=?';
+  else if(number == 4) var sql = 'delete from inter_server where interserver_id=?';
+  else if(number == 5) var sql = 'delete from service_apprpve where service_approve_id=?';
+  else if(number == 6) var sql = 'delete from service_request where service_request_id=?';
+  else if(number == 7) var sql = 'delete from service_reject where service_reject_id=?';
   var params = [data_id];
-  await mdbConn.dbSelect(sql, params)
-  .then(() => {
-    res.redirect('/mypage/editdata_list#!reg_data');
-  })
+  await mdbConn.dbInsert(sql, params)
+  .then((rows) => {
+    if (!rows) res.send("연동테스트 서버에 등록된 서버 해제 후 다시 진행해 주세요.");
+    else res.send(number);
+  }).catch((err) => {
+    res.send("잘못된 접근입니다.");
+  });
 });
 
 //연동 테스트 서버 등록 페이지 이동
-router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
+router.get("/addinte_server", myLogIn, async function(req, res, next){
   var sql = "SELECT * FROM server_management WHERE id_idx=?";
   params = req.user.id_idx;
   var rows = await mdbConn.dbSelectall(sql, params);
@@ -298,8 +316,8 @@ router.get("/addinte_server", isLogIn, checkTokens, async function(req, res, nex
 });
 
 //연동서버리스트 가져오기
-router.get('/isv_list', async function(req,res,next){
-  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
+router.get('/isv_list', myLogIn, async function(req,res,next){
+  var sql = 'select inter_server.request_count, inter_server.interserver_id, server_management.server_manage_id, server_management.server_name, server_management.server_ip, server_management.business_right from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.id_idx=?';
   var params = req.user.id_idx;
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
@@ -309,22 +327,212 @@ router.get('/isv_list', async function(req,res,next){
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
   console.log(data);
-  var sql = "SELECT * FROM server_management WHERE server_manage_id=?";  //선택된 서비스의 클라이언트 id와 secret을 가져오기 위한 쿼리
+  var sql = "SELECT * FROM server_management WHERE server_manage_id=?"; 
   mdbConn.dbSelect(sql, data)
   .then((rows) => {
     if(rows){
-      params = [rows.id_idx, data];
-      var sql = 'INSERT INTO inter_server(id_idx, server_manage_id, request_count) VALUES(?,?,0)';
-      mdbConn.dbInsert(sql, params)
+      var id_idx = rows.id_idx
+      var sql = "SELECT * FROM inter_server WHERE server_manage_id=?"
+      mdbConn.dbSelect(sql, data)
       .then((rows) => {
-        res.send(true);
+        if(rows){
+          res.send("이미 등록되어 있는 서버입니다.")
+        }
+        else{
+          params = [id_idx, data];
+          var sql = 'INSERT INTO inter_server(id_idx, server_manage_id, request_count) VALUES(?,?,0)';
+          mdbConn.dbInsert(sql, params)
+          .then((rows) => {
+            if (!rows) res.send("잘못된 접근입니다.");
+            else res.send(true);
+          })
+          .catch((err) => {
+            res.send("잘못된 접근입니다.");
+          }); 
+        }
       })
       .catch((err) => {
-        res.send(false);
+        res.send("잘못된 접근입니다.");
       });
     }else {
-      res.send(false);
+      res.send("잘못된 접근입니다.");
     }
+  })
+  .catch((err) => {
+    res.send("잘못된 접근입니다.");
+  });
+});
+
+//연동 테스트 서버 디테일
+router.get('/isv_detail', myLogIn, async function(req, res, next) {
+  var sql = 'SELECT server_management.*, inter_server.interserver_id FROM inter_server JOIN server_management ON inter_server.server_manage_id = server_management.server_manage_id WHERE inter_server.interserver_id = ?';
+  var params = req.query.id;
+  var raw = await mdbConn.dbSelect(sql, params);
+  var sql = 'select s.* from inter_server i, service_test s, service_request r where i.interserver_id = ? AND i.server_manage_id = r.server_manage_id AND r.service_id = s.service_id';
+  var row = await mdbConn.dbSelectall(sql, params);
+  res.locals.row = raw;
+  res.locals.raw = row;
+  res.render('isv_detail');
+});
+
+//연동 서버 테스트 연동 승인
+router.post('/approve', isLogIn, checkTokens, async function(req, res, next){
+  var sql = 'INSERT INTO service_approve (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
+  params = [req.user.id_idx, req.body.id, req.body.sid];
+  var raw = await mdbConn.dbInsert(sql, params);
+  if(raw){
+    sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
+    mdbConn.dbInsert(sql, params)
+    .then((rows) => {
+      if(!rows) res.send(false);
+      else {
+        sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
+        params = req.body.id;
+        mdbConn.dbInsert(sql, params)
+        .then(() => {
+          if(!rows) res.send(false);
+          else res.send(true);
+        }).catch((err) => {
+          res.send(false);
+        });
+      }
+    })
+    .catch(() => {
+      res.send(false);
+    }); 
+  } else res.send(false);
+});
+
+//연동 서버 테스트 연동 반려
+router.post('/reject', isLogIn, checkTokens, async function(req, res, next){
+  var sql = 'INSERT INTO service_reject (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
+  params = [req.user.id_idx, req.body.id, req.body.sid];
+  var raw = await mdbConn.dbInsert(sql, params);
+  if(raw){
+    sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
+    mdbConn.dbInsert(sql, params)
+    .then((rows) => {
+      if(!rows) res.send(false);
+      else {
+        sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
+        params = req.body.id;
+        mdbConn.dbInsert(sql, params)
+        .then(() => {
+          if(!rows) res.send(false);
+          else res.send(true);
+        }).catch((err) => {
+          res.send(false);
+        });
+      }
+    })
+    .catch(() => {
+      res.send(false);
+    }); 
+  } else res.send(false);
+});
+
+//연동 서비스 테스트 추가
+router.get('/addinte_service_1', myLogIn, async function(req, res, next){
+  res.render('addinte_service_1')
+});
+
+//연동 서비스 테스트 추가
+router.post('/addinte_service_2', myLogIn, async function(req, res, next){
+  res.render('addinte_service_2')
+});
+
+//연동 서비스 리스트 가져오기
+router.get('/isc_list', myLogIn, async function(req,res,next){
+  var sql = 'select m.*, a.service_approve_id, t.service_name from service_approve a, server_management m, service_test t where a.id_idx = ? AND a.server_manage_id = m.server_manage_id AND t.service_id = a.service_id'
+  var params = req.user.id_idx;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//연동 서비스 request 리스트 가져오기
+router.get('/isc_list_request', myLogIn, async function(req,res,next){
+  var sql = 'select m.*, a.service_request_id, t.service_name from service_request a, server_management m, service_test t where a.id_idx = ? AND a.server_manage_id = m.server_manage_id AND t.service_id = a.service_id'
+  var params = req.user.id_idx;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//연동 서비스 reject 리스트 가져오기
+router.get('/isc_list_reject', myLogIn, async function(req,res,next){
+  var sql = 'select m.*, a.service_reject_id, t.service_name from service_reject a, server_management m, service_test t where a.id_idx = ? AND a.server_manage_id = m.server_manage_id AND t.service_id = a.service_id'
+  var params = req.user.id_idx;
+  var result = await mdbConn.dbSelectall(sql, params);
+  res.json(result);
+});
+
+//연동 서비스 테스트 서버 검색
+router.post('/select_server', myLogIn, function(req, res, next){
+  var sql = 'select inter_server.interserver_id, inter_server.server_manage_id, server_management.server_name, server_management.server_ip, server_management.business_right, server_management.server_explain from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where server_management.business_right=? AND server_management.id_idx=?'
+  var params = [req.body.select_type, req.body.find_server];
+  mdbConn.dbSelectall(sql, params)
+  .then((result) => {
+    if (result[0] != undefined) {
+      res.send(result);
+    } else res.send(false);
+  }).catch((err) => {
+    res.send(false);
+  })
+});
+
+//연동 서비스 테스트 서버 검색 디테일
+router.get('/isc_detail', myLogIn, function(req, res, next) {
+  var sql = 'select * from server_management where server_manage_id=?'
+  var params = req.query.id;
+  mdbConn.dbSelect(sql, params)
+  .then((row) => {
+    res.locals.raw = row;
+    res.render('isc_detail');
+  }).catch((err) => {
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+  });
+});
+
+//연동 서버 테스트 연동 요청
+router.get('/isc_approve', myLogIn, function(req, res, next){
+  var sql = 'select inter_server.interserver_id, inter_server.server_manage_id, server_management.server_name, server_management.server_ip, server_management.business_right, server_management.server_explain from inter_server join server_management on inter_server.server_manage_id = server_management.server_manage_id where inter_server.server_manage_id=?'
+  var params = req.query.id;
+  mdbConn.dbSelect(sql, params)
+  .then((row) => {
+    sql = 'select * from service_test where id_idx=?';
+    params = req.user.id_idx;
+    mdbConn.dbSelectall(sql, params)
+    .then((raw) => {
+      res.locals.raw = row;
+      res.locals.row = raw;
+      res.render('isc_approve');
+    }).catch((err) => {
+      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    });
+  }).catch((err) => {
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+  });
+});
+
+//연동 서버 테스트 연동 요청 - DB 추가
+router.post('/isc_approve', isLogIn, checkTokens, function(req, res, next){
+  var sql = 'INSERT INTO service_request(id_idx, server_manage_id, service_id, service_text) values (?,?,?,?)'
+  var params = [req.user.id_idx, req.body.serverI, req.body.serviceI, req.body.serviceT];
+  mdbConn.dbInsert(sql, params)
+  .then((row) => {
+    if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    else {
+      sql = 'UPDATE inter_server SET request_count=request_count+1 WHERE server_manage_id = ?'
+      params = req.body.serverI;
+      mdbConn.dbInsert(sql, params)
+      .then(() => {
+        if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+        else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!isc")</script>`);
+      }).catch((err) => {
+        res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      });
+    }
+  }).catch((err) => {
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
   });
 });
 
