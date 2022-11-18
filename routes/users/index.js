@@ -56,30 +56,34 @@ router.post("/login", async function (req, res) { //로그인 신청
         var sql = "UPDATE Customers_Enterprise SET refresh_token = ?  WHERE e_customer_id = ?"; //회원 DB에 refresh 토큰 저장
         var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params) // DB에 refresh Token Update
-          .then(() => {
-            // Session 정보 생성
-            req.session.joinUser = {
-              nickname: result.nickname,
-              snsID: result.snsID,
-              refreshToken: 'Bearer ' + refreshToken
-            };
-            // Session 저장 및 passport 모듈 내장함수인 logIn 사용해 로그인 완료 후 main 페이지로 redirect
-            req.session.save(() => {
-              return req.logIn(info, (error) => {
-                if (error) {
-                  return console.error(error);
-                }
-                res.redirect(returnUrl);
+          .then((rows) => { 
+            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            else {
+              // Session 정보 생성
+              req.session.joinUser = {
+                nickname: result.nickname,
+                snsID: result.snsID,
+                refreshToken: 'Bearer ' + refreshToken
+              };
+              // Session 저장 및 passport 모듈 내장함수인 logIn 사용해 로그인 완료 후 main 페이지로 redirect
+              req.session.save(() => {
+                return req.logIn(info, (error) => {
+                  if (error) {
+                    return console.error(error);
+                  }
+                  res.redirect(returnUrl);
+                });
               });
-            });
+            }
           })
           .catch((errMsg) => {
-            console.log(errMsg);
+            res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
           });
       }
     })
   }
-})
+});
+
 /* 로그아웃 router */
 router.get('/logout', async function (req, res) {
   var session = req.session;
@@ -164,16 +168,13 @@ router.post('/join', [
 
     mdbConn.dbInsert(sql, params)
       .then((rows) => {
-        console.log(rows);
+        if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+        else res.send("<script>alert('회원가입이 완료되었습니다.!! ');location.href='/user/login';</" + "script>");
       })
       .catch((errMsg) => {
-        console.log(errMsg);
+        res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
       });
 
-    res.send(
-      "<script>alert('회원가입이 완료되었습니다.!! ');location.href='/user/login';</" +
-      "script>"
-    );
   })
 
 });
@@ -470,17 +471,15 @@ router.post("/findPwPer", isNotLogIn, function (req, res, next) { //pw 초기화
 
         mdbConn.dbInsert(sql, params)
           .then((rows) => {
-            console.log(rows);
-            res.clearCookie('rows');
+            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            else {
+              res.send("<script>alert('비밀번호가 정상적으로 변경되었습니다.');location.href='/user/login';</" + "script>");
+              res.clearCookie('rows');
+            }
           })
           .catch((errMsg) => {
-            console.log(errMsg);
+            res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
           });
-
-        res.send(
-          "<script>alert('비밀번호가 정상적으로 변경되었습니다.');location.href='/user/login';</" +
-          "script>"
-        );
       })
     } else {
       res.send("<script>alert('비정상적인 접근입니다.');location.href='/main';</" + "script>");
@@ -489,4 +488,9 @@ router.post("/findPwPer", isNotLogIn, function (req, res, next) { //pw 초기화
     res.send("<script>alert('세션이 만료되었습니다.');location.href='/main';</" + "script>");
   }
 });
+
+router.get("/loginerror", isNotLogIn, (req, res, next) => {
+  res.render("loginerror");
+});
+
 module.exports = router;

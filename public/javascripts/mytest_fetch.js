@@ -170,7 +170,7 @@ function isv_okbtn(server_id, service_id){
             if(reslut) {
                 alert("연동승인이 완료되었습니다.");
                 window.location.reload();
-            }else alert("error");
+            }else alert("잘못된 요청입니다.");
         }
     })
 }
@@ -189,7 +189,7 @@ function isv_nobtn(server_id, service_id){
             if(reslut) {
                 alert("연동 반려 되었습니다.");
                 window.location.reload();
-            }else alert("error");
+            }else alert("잘못된 요청입니다.");
         }
     })
 }
@@ -567,8 +567,10 @@ function del(number, id){
             "id" : id
         },
         success: function(result){
-            if(number > 0 && number <= 3) alert("삭제되었습니다.");
-            else if(number > 3 && number <7) alert("연동 취소되었습니다.");
+            if(result > 0 && result <= 3) alert("삭제되었습니다.");
+            else if(result > 3 && result <7) alert("연동 취소되었습니다.");
+            else if(result == 7) alert("확인되었습니다.");
+            else alert(result);
             location.reload();
         }
     });
@@ -615,11 +617,32 @@ function select_server(){
                         document.querySelector('content_select').innerHTML=text;
                     })
                 }).then(res => {
-                        var table = document.getElementById('select_2');
-                        table.innerText = svc[0].business_right + " 업권";
-                        $("#select_button").attr("onclick", "fetchPage('isc_detail?id="+svc[0].server_manage_id+"')")
+                    for(var i=0; i<svc.length; i++){
+                        var table = document.getElementById('select')
+                        var row = 
+                        `
+                        <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
+                            <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
+                                <div style="width: 40%; border: #2f17c8; margin: 10px;">
+                                    <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
+                                    <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
+                                </div>
+
+                                <div style="width: 60%; border: #2f17c8; margin: 10px;">
+                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">금융기관</div>
+                                    <p style="margin : 8px auto">FSI 금융기관</p>
+                                    <p6>경기도 판교동...</p6>
+                                    <div>
+                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                    </div>      
+                                </div>
+                            </div>
+                        </div>
+                        `
                         //var button = document.getElementById('select_button');
                         //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
+                        table.innerHTML +=row
+                    }
                 }).catch((err) => {
                     console.log(err);
                 });

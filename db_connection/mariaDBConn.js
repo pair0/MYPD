@@ -14,14 +14,12 @@ async function DBInsert(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
+        if (conn) conn.end();
+        return true;
     }
     catch(err){
         console.log(err)
-        return err;
-    }
-    finally{
-        if (conn) conn.end();
-        return "sucess";
+        return false;
     }
 }
 
@@ -47,14 +45,11 @@ async function DBSelectAll(sql, params){
     try{
         conn = await con.getConnection();
         rows = await conn.query(sql, params);
-    }
-    catch(err){
-        console.log(err)
-        throw err;
-    }
-    finally{
         if (conn) conn.end();
         return rows;
+    }
+    catch(err){
+        return err;
     }
 }
 
