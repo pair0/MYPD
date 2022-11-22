@@ -120,7 +120,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>기관코드</p>
-                                                                                        </div><input type="text" name="org_code" placeholder="org_code" value=""></td>
+                                                                                        </div><input type="text" name="org_code" placeholder="org_code" readonly value="<%=CODE[1]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="grant_type" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -144,7 +144,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>인가코드</p>
-                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE %>"></td>
+                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE[0] %>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="client_id" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -156,7 +156,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>클라이언트 식별값</p>
-                                                                                        </div><input type="text" name="client_id" placeholder="client_id" value=""></td>
+                                                                                        </div><input type="text" name="client_id" placeholder="client_id" readonly value="<%=CODE[2]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="client_secret" data-param-in="query">
                                                                                     <td class="parameters-col_name">

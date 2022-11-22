@@ -158,3 +158,43 @@ $(window).on("scroll", function() {
     var position = $(window).scrollTop() + 20; // 현재 스크롤바의 위치값을 반환합니다.
     $(".side_bar2").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
 });
+
+document.getElementById("clickresult").onclick = function() {
+    var sDevice = $("input[name=sDevice]").val();
+    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+    var json ={
+        "org_code": "0000000000",
+        "account_num": "0000000000001", "seqno": "100",
+        "currency_code": "PHF",
+        "from_dtime": "20210118040845",
+        "to_dtime": "20210218040845",
+        "next_page": "0", "limit": "5"
+    }
+    document.getElementById("code").textContent = JSON.parse(json)
+}
+document.getElementById("clickresponse").onclick = function() {
+    document.getElementById("response").style.display = 'block';
+}
+function clickresult2() {
+    document.getElementById("result").style.display = 'none';
+    document.getElementById("response").style.display = 'none';
+    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+}
+
+// $.ajax({
+            //     url:"/testbed/server_test_value1",
+            //     type: "POST",
+            //     async: false,
+            //     data: {
+            //         b_right:$("#b_right"),
+            //         orgcode:$("#orgcode"),
+            //         Callback_URL:$("#Callback_URL"),
+            //         Client_ID:$("#Client_ID"),
+            //         Client_Secret:$("#Client_Secret"),
+            //         Access_token:$("#Access_token")
+            //     },
+            //     success: function(rows){
+            //         console.log(rows);
+            //     }
+            // });
+        

@@ -630,11 +630,11 @@ function select_server(){
                                 </div>
 
                                 <div style="width: 60%; border: #2f17c8; margin: 10px;">
-                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">금융기관</div>
-                                    <p style="margin : 8px auto">FSI 금융기관</p>
-                                    <p6>경기도 판교동...</p6>
+                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
+                                    <p style="margin : 8px auto">${svc[i].e_name}</p>
+                                    <p6>${svc[i].e_address}</p6>
                                     <div>
-                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
                                     </div>      
                                 </div>
                             </div>
@@ -670,4 +670,9 @@ function isc_okbtn(server_id){
             }else alert("error");
         }
     })
+}
+
+//연동된 서비스 목록 보기
+function inter_service_index(){
+    window.open(`/mypage/inter_service_index?id=${$('#index').val()}`, "server_index", "width = 800, height = 500, top = 100, left = 200, location = no");
 }

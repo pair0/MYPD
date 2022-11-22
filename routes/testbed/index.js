@@ -147,6 +147,7 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
   if (req.session.code != undefined && req.session.code != null) {
     var code = req.session.code;
     req.session.code = null;
+    console.log(code[1])
     res.locals.CODE = code;
     res.render("inte_api_access");
   } else {
@@ -154,12 +155,7 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
   }
 });
 
-router.post(
-  "/inte_api_access",
-  isLogIn,
-  checkTokens,
-  individual.authorization_api
-);
+router.post("/inte_api_access", isLogIn,checkTokens,individual.authorization_api);
 
 router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 
@@ -238,5 +234,11 @@ router.post(
     });
   }
 );
+
+//통합 서버 테스트 첫번째
+router.post("/server_test_value1", function(req, res, next){
+  var result = req.body;
+  res.send(result)
+});
 
 module.exports = router;
