@@ -127,7 +127,7 @@ router.post("/unitLogging", function (req, res, next){
   });
 });
 
-router.get("inte_svc", isLogIn, checkTokens, function (req, res, next) {
+router.get("/inte_svc", isLogIn, checkTokens, function (req, res, next) {
   res.render("inte_svc");
 });
 
