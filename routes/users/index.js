@@ -139,13 +139,16 @@ router.post('/join', [
   // .custom() : 내가 원하는 기능을 지정하기 위한 함수
   // https://github.com/validatorjs/validator.js 참고
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
-  body('e_name').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('회사명을 확인해주세요.').bail(),
+  body('e_name').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).withMessage('회사명을 확인해주세요.').bail(),
   body('nickname').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({ min: 8, max: 16 }).isAlphanumeric('en-US', { ignore: '~!@#$%^&*()_+|<>?:{}]/;' }).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value, { req, res, path }) => {
     if (value !== req.body.pw) {
-      res.redirect('/user/join')
+      console.log(value)
+      console.log(req.body.pw)
+      res.send("<script>alert('비밀번호 확인이 맞지 않습니다. ');location.href='/user/join';</" + "script>");
+      //res.redirect('/user/join')
     } else {
       return value;
     }
@@ -168,7 +171,7 @@ router.post('/join', [
 
     var sql = 'INSERT INTO Customers_Enterprise(enterprise_number, e_name, e_address, nickname, e_customer_id, e_customer_pw, e_customer_email) VALUES(?,?,?,?,?,?,?)';
     var params = [info['number'], info['e_name'], info['e_address'], info['nickname'], info['id'], info['pw'], info['email']];
-
+    
     mdbConn.dbInsert(sql, params)
       .then((rows) => {
         if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
@@ -232,7 +235,7 @@ router.post("/check_overlap", function (req, res, next) { //ID 중복 체크
     const nickname = req.body.NICKNAME;
     var sql = "SELECT nickname FROM Customers_Enterprise WHERE nickname=?";
     var params = nickname;
-    if (req.session.joinUser.nickname == req.body.NICKNAME) return res.send(false);
+    //if (req.session.joinUser.nickname == req.body.NICKNAME) return res.send(false);
   }
 
   mdbConn.dbSelect(sql, params)

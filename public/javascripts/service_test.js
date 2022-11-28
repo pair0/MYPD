@@ -126,6 +126,7 @@ function swaggerlog(type) {
         })
     })
 }
+
 // 서버 단위테스트 로깅 
 $("#biz_type").on("change", function() {
     if(window.location.href == "http://localhost:3000/testbed/unit_svc")
@@ -159,42 +160,100 @@ $(window).on("scroll", function() {
     $(".side_bar2").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
 });
 
+
 document.getElementById("clickresult").onclick = function() {
-    var sDevice = $("input[name=sDevice]").val();
     window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
-    var json ={
-        "org_code": "0000000000",
-        "account_num": "0000000000001", "seqno": "100",
-        "currency_code": "PHF",
-        "from_dtime": "20210118040845",
-        "to_dtime": "20210218040845",
-        "next_page": "0", "limit": "5"
-    }
-    document.getElementById("code").textContent = JSON.parse(json)
 }
-document.getElementById("clickresponse").onclick = function() {
-    document.getElementById("response").style.display = 'block';
+
+function check1(){
+    fetch('inte_api_final_request').then(function(response){
+        response.text().then(function(text){
+            opener.document.getElementById('request').innerHTML=text;
+            opener.document.getElementById("clickresult").style.display = 'none';
+            opener.document.getElementById("result").style.display = 'block';
+            $.ajax({
+                url: "/testbed/inte_api_final_request",
+                type: "POST",
+                async: false,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    //var table = opener.document.getElementById('code123')
+                    //for(var i=0; i< rowjosn.length; i++){
+//                     var row = `{
+//         <span style="color: rgb(32, 187, 230);">"x-api-tran-id"</span><span style="color: rgb(32, 187, 230);"> : </span><span style="color: rgb(162, 252, 162);">"<span><input value="입력해주세요." style="background-color: rgb(51, 51, 51); color: rgb(162, 252, 162); outline: none; border: none;"><span style="color: rgb(162, 252, 162);">",<span>
+//         <span style="color: rgb(32, 187, 230);">"x-api-type"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"false"'>
+//         <span style="color: rgb(32, 187, 230);">"org_code"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"${opener.$('#orgcode').val()}"'>
+//         <span style="color: rgb(32, 187, 230);">"search_timestamp"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"0"'>
+//         <span style="color: rgb(32, 187, 230);">"access_token"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"${opener.$('#Access_token').val()}"'>
+// }`
+                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "입력해주세요"\n}` //${opener.$('#Access_token').val()}
+                    //}
+                    var jsonViewer = new JSONViewer();
+                    var jsonObj = {};
+                    opener.document.querySelector("#code123").appendChild(jsonViewer.getContainer());
+                    alert(row);
+                    //table.innerHTML +=row
+                    try {
+                        jsonObj = JSON.parse(row);
+                        
+                        console.log(jsonObj);
+                        if(!row.includes("{") || !row.includes("}"))
+                        {
+                            throw Error("not json");
+                        }
+                    }
+                    catch (err) {
+                        alert("데이터가 json문법에 맞지 않습니다.");
+                        return false;
+                    }
+                    jsonViewer.showJSON(jsonObj);
+                }
+            })
+            window.close();
+        })
+    })
 }
+
+function clickresponse() {
+    fetch('inte_api_final_response').then(function(response){
+        response.text().then(function(text){
+            document.getElementById('response').innerHTML=text;
+            document.getElementById("response").style.display = 'block';
+        })
+    }).then(res => {
+        // $.ajax({
+        //     url: "/testbed/inte_api_final_request",
+        //     type: "GET",
+        //     async: true,
+        //     data: {},
+        //     dataType:"json",
+        //     success: function (svc) {
+        //         // data=svc;
+        //         // for(var i=0; i< data.length;i++)
+        //         // {
+        //         //     var table = opener.document.getElementById('mytable')
+        //         //     var row =  `<tr>
+        //         //     <td id="list_name">${data[i].service_name}</td>
+        //         //     <td>${data[i].service_callback_url}</td>
+        //         //     <td>${data[i].service_client_id}</td>
+        //         //     <td>${data[i].service_text}</td>
+        //         //     <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
+        //         // </tr>
+        //         // `
+        //         //     table.innerHTML +=row
+        //         // }
+        //     }
+        // })
+        //opener.document.getElementById("result").style.display = 'block';
+        //opener.document.getElementById("clickresult").style.display = 'none';
+    }).catch((err) => {
+        alert(err);
+    });
+}
+
 function clickresult2() {
     document.getElementById("result").style.display = 'none';
     document.getElementById("response").style.display = 'none';
     window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
-
-// $.ajax({
-            //     url:"/testbed/server_test_value1",
-            //     type: "POST",
-            //     async: false,
-            //     data: {
-            //         b_right:$("#b_right"),
-            //         orgcode:$("#orgcode"),
-            //         Callback_URL:$("#Callback_URL"),
-            //         Client_ID:$("#Client_ID"),
-            //         Client_Secret:$("#Client_Secret"),
-            //         Access_token:$("#Access_token")
-            //     },
-            //     success: function(rows){
-            //         console.log(rows);
-            //     }
-            // });
-        

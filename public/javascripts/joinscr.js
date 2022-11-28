@@ -306,7 +306,6 @@ function checkAll() {
             if (data==true) {
                 result = true;
             } else {
-                alert(data);
                 result = false;
             }
         }

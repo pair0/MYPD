@@ -236,9 +236,19 @@ router.post(
 );
 
 //통합 서버 테스트 첫번째
-router.post("/server_test_value1", function(req, res, next){
-  var result = req.body;
-  res.send(result)
+router.get("/inte_api_final_request", function(req, res, next){
+  res.render("inte_api_final_request")
 });
+
+//통합 서버 테스트 첫번째
+router.post("/inte_api_final_request", function(req, res, next){
+  res.send(true)
+});
+
+//통합 서버 테스트 두번째
+router.get("/inte_api_final_response", function(req, res, next){
+  res.render("inte_api_final_response")
+});
+
 
 module.exports = router;
