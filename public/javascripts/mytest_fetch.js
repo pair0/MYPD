@@ -518,8 +518,9 @@ function fetchPageDashBoard(name){
                                                 {
                                                     data: Object.values(date),
                                                     type: 'line',
+                                                    smooth:true,
                                                     areaStyle: {
-                                                        color : '#0770FF',
+                                                        color : '#E0EBFF',
                                                         fontWeight : 1000,
                                                         fontsize : 1000,
                                                     },

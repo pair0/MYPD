@@ -1999,3 +1999,73 @@ span.center{
 #line{
     width : 67% !important;
 }
+.explain_wrapper{
+    width : 100%;
+    margin-left: 30px;
+
+}
+.title_box {
+    width :50%;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+    margin :  15px 0 0 15px;
+    position: relative;
+    z-index: 2;
+
+}
+.explain_title {
+    font-size : 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+.explain_box{
+    position: relative; 
+    top: -20px;
+    z-index: 1;
+    width : 85%;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+    margin-left :  15px;
+}
+.circle_box {
+    display: flex;
+}
+
+.circleNum {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding-bottom: 3px;
+    font-size: 2em;
+    color: white;
+    border: none;
+    background-color: #00D7FF;
+}
+.main_explain{
+    font-size: 1.3em !important;
+    text-align: left;
+}
+pre > code {
+    line-height: 1.5;
+    font-size: 14px;
+}
+pre {
+    /* background: #282c34 !important; */
+    border-radius: 10px;
+}
+code {
+    line-height: normal;
+    background: rgba(135,131,120,0.15) !important;
+    color: #EB5757;
+    border-radius: 3px;
+    font-size: 85%;
+    padding: 0.2em 0.4em;
+}
