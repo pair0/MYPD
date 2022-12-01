@@ -1,8 +1,6 @@
 // 메뉴 바 
 const list = document.querySelectorAll('.list');
 
-
-
 function activeLink()
 {
         list.forEach((item) =>

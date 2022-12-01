@@ -165,6 +165,24 @@ document.getElementById("clickresult").onclick = function() {
     window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
 
+function setJSON(row) {
+    var jsonObj = {};
+    console.log(row)
+    // textarea value to JSON object
+    try {
+        jsonObj = JSON.parse(row);
+        
+        if(!row.includes("{") || !row.includes("}"))
+        {
+            throw Error("not json");
+        }
+        return jsonObj
+    }catch (err) {
+        alert("데이터가 json문법에 맞지 않습니다.");
+        return false;
+    }
+};
+
 function check1(){
     fetch('inte_api_final_request').then(function(response){
         response.text().then(function(text){
@@ -178,36 +196,16 @@ function check1(){
                 data: {},
                 dataType:"json",
                 success: function (svc) {
-                    //var table = opener.document.getElementById('code123')
-                    //for(var i=0; i< rowjosn.length; i++){
-//                     var row = `{
-//         <span style="color: rgb(32, 187, 230);">"x-api-tran-id"</span><span style="color: rgb(32, 187, 230);"> : </span><span style="color: rgb(162, 252, 162);">"<span><input value="입력해주세요." style="background-color: rgb(51, 51, 51); color: rgb(162, 252, 162); outline: none; border: none;"><span style="color: rgb(162, 252, 162);">",<span>
-//         <span style="color: rgb(32, 187, 230);">"x-api-type"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"false"'>
-//         <span style="color: rgb(32, 187, 230);">"org_code"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"${opener.$('#orgcode').val()}"'>
-//         <span style="color: rgb(32, 187, 230);">"search_timestamp"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"0"'>
-//         <span style="color: rgb(32, 187, 230);">"access_token"</span><span style="color: rgb(32, 187, 230);"> : </span><input style="background-color: black; color: rgb(162, 252, 162);" value='"${opener.$('#Access_token').val()}"'>
-// }`
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "입력해주세요"\n}` //${opener.$('#Access_token').val()}
-                    //}
+                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "${opener.$('#Access_token').val()}"\n}` //${opener.$('#Access_token').val()}
                     var jsonViewer = new JSONViewer();
-                    var jsonObj = {};
-                    opener.document.querySelector("#code123").appendChild(jsonViewer.getContainer());
-                    alert(row);
-                    //table.innerHTML +=row
-                    try {
-                        jsonObj = JSON.parse(row);
-                        
-                        console.log(jsonObj);
-                        if(!row.includes("{") || !row.includes("}"))
-                        {
-                            throw Error("not json");
-                        }
-                    }
-                    catch (err) {
-                        alert("데이터가 json문법에 맞지 않습니다.");
+                    //opener.$("#code123").html(jsonViewer.getContainer());
+                    opener.$("#code123").html(row);
+                    var res = setJSON(row);
+                    if (res===false)
+                    {
                         return false;
                     }
-                    jsonViewer.showJSON(jsonObj);
+                    jsonViewer.showJSON(res);
                 }
             })
             window.close();
@@ -220,37 +218,28 @@ function clickresponse() {
         response.text().then(function(text){
             document.getElementById('response').innerHTML=text;
             document.getElementById("response").style.display = 'block';
-        })
-    }).then(res => {
-        // $.ajax({
-        //     url: "/testbed/inte_api_final_request",
-        //     type: "GET",
-        //     async: true,
-        //     data: {},
-        //     dataType:"json",
-        //     success: function (svc) {
-        //         // data=svc;
-        //         // for(var i=0; i< data.length;i++)
-        //         // {
-        //         //     var table = opener.document.getElementById('mytable')
-        //         //     var row =  `<tr>
-        //         //     <td id="list_name">${data[i].service_name}</td>
-        //         //     <td>${data[i].service_callback_url}</td>
-        //         //     <td>${data[i].service_client_id}</td>
-        //         //     <td>${data[i].service_text}</td>
-        //         //     <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
-        //         // </tr>
-        //         // `
-        //         //     table.innerHTML +=row
-        //         // }
-        //     }
-        // })
-        //opener.document.getElementById("result").style.display = 'block';
-        //opener.document.getElementById("clickresult").style.display = 'none';
-    }).catch((err) => {
-        alert(err);
-    });
+            $.ajax({
+                url: "/testbed/inte_api_final_request",
+                type: "POST",
+                async: false,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+                    var jsonViewer = new JSONViewer();
+                    $("#coderesponse").html(jsonViewer.getContainer());
+                    var res = setJSON(row);
+                    if (res===false)
+                    {
+                        return false;
+                    }
+                    jsonViewer.showJSON(res);
+                }
+            })
+        })   
+    })
 }
+
 
 function clickresult2() {
     document.getElementById("result").style.display = 'none';
