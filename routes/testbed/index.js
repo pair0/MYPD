@@ -250,5 +250,9 @@ router.get("/inte_api_final_response", function(req, res, next){
   res.render("inte_api_final_response")
 });
 
+router.get("/inte_test", function(req, res, next){
+  res.render("inte_api_final_response")
+});
+
 
 module.exports = router;
