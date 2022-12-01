@@ -144,7 +144,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>인가코드</p>
-                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE[0] %>"></td>
+                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE[0]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="client_id" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -225,6 +225,13 @@
 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
-
+    <script>
+        function parentWindowRedirect(val) {
+            top.opener.location.href=val; // 자식창에서 부모창 redirect
+            self.close();   // 자식창 자신이 닫는 코드
+        }
+        var url = window.location.href // 자식창 URL
+        parentWindowRedirect(url)
+    </script>
 </body>
 </html>
