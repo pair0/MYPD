@@ -139,7 +139,7 @@ router.post('/join', [
   // .custom() : 내가 원하는 기능을 지정하기 위한 함수
   // https://github.com/validatorjs/validator.js 참고
   body('number').notEmpty().bail().trim().withMessage('사업자 번호를 확인해주세요.').bail(),
-  body('e_name').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('회사명을 확인해주세요.').bail(),
+  body('e_name').notEmpty().bail().trim().isLength({max: 20 }).withMessage('회사명을 확인해주세요.').bail(),
   body('nickname').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('닉네임을 확인해주세요.').bail(),
   body('id').notEmpty().bail().trim().isLength({ min: 5, max: 20 }).isAlphanumeric('en-US', { ignore: '_-' }).withMessage('id를 확인해주세요.').bail(),
   body('pw').notEmpty().bail().trim().isLength({ min: 8, max: 16 }).isAlphanumeric('en-US', { ignore: '~!@#$%^&*()_+|<>?:{}]/;' }).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
