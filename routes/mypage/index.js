@@ -84,11 +84,11 @@ router.get('/editmty', isLogIn, checkTokens, function(req, res, next) {
   res.render('editmty');
 });
 
-router.get('/reg_svc',myLogIn, function(req, res, next) {
+router.get('/reg_svc', myLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svr',myLogIn, function(req, res, next) {
+router.get('/reg_svr', myLogIn, function(req, res, next) {
   res.render('reg_svr');
 });
 

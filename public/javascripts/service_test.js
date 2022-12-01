@@ -126,6 +126,7 @@ function swaggerlog(type) {
         })
     })
 }
+
 // 서버 단위테스트 로깅 
 $("#biz_type").on("change", function() {
     if(window.location.href == "http://localhost:3000/testbed/unit_svc")
@@ -159,42 +160,89 @@ $(window).on("scroll", function() {
     $(".side_bar2").stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
 });
 
+
 document.getElementById("clickresult").onclick = function() {
-    var sDevice = $("input[name=sDevice]").val();
     window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
-    var json ={
-        "org_code": "0000000000",
-        "account_num": "0000000000001", "seqno": "100",
-        "currency_code": "PHF",
-        "from_dtime": "20210118040845",
-        "to_dtime": "20210218040845",
-        "next_page": "0", "limit": "5"
+}
+
+function setJSON(row) {
+    var jsonObj = {};
+    console.log(row)
+    // textarea value to JSON object
+    try {
+        jsonObj = JSON.parse(row);
+        
+        if(!row.includes("{") || !row.includes("}"))
+        {
+            throw Error("not json");
+        }
+        return jsonObj
+    }catch (err) {
+        alert("데이터가 json문법에 맞지 않습니다.");
+        return false;
     }
-    document.getElementById("code").textContent = JSON.parse(json)
+};
+
+function check1(){
+    fetch('inte_api_final_request').then(function(response){
+        response.text().then(function(text){
+            opener.document.getElementById('request').innerHTML=text;
+            opener.document.getElementById("clickresult").style.display = 'none';
+            opener.document.getElementById("result").style.display = 'block';
+            $.ajax({
+                url: "/testbed/inte_api_final_request",
+                type: "POST",
+                async: false,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "${opener.$('#Access_token').val()}"\n}` //${opener.$('#Access_token').val()}
+                    var jsonViewer = new JSONViewer();
+                    //opener.$("#code123").html(jsonViewer.getContainer());
+                    opener.$("#code123").html(row);
+                    var res = setJSON(row);
+                    if (res===false)
+                    {
+                        return false;
+                    }
+                    jsonViewer.showJSON(res);
+                }
+            })
+            window.close();
+        })
+    })
 }
-document.getElementById("clickresponse").onclick = function() {
-    document.getElementById("response").style.display = 'block';
+
+function clickresponse() {
+    fetch('inte_api_final_response').then(function(response){
+        response.text().then(function(text){
+            document.getElementById('response').innerHTML=text;
+            document.getElementById("response").style.display = 'block';
+            $.ajax({
+                url: "/testbed/inte_api_final_request",
+                type: "POST",
+                async: false,
+                data: {},
+                dataType:"json",
+                success: function (svc) {
+                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+                    var jsonViewer = new JSONViewer();
+                    $("#coderesponse").html(jsonViewer.getContainer());
+                    var res = setJSON(row);
+                    if (res===false)
+                    {
+                        return false;
+                    }
+                    jsonViewer.showJSON(res);
+                }
+            })
+        })   
+    })
 }
+
+
 function clickresult2() {
     document.getElementById("result").style.display = 'none';
     document.getElementById("response").style.display = 'none';
     window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
-
-// $.ajax({
-            //     url:"/testbed/server_test_value1",
-            //     type: "POST",
-            //     async: false,
-            //     data: {
-            //         b_right:$("#b_right"),
-            //         orgcode:$("#orgcode"),
-            //         Callback_URL:$("#Callback_URL"),
-            //         Client_ID:$("#Client_ID"),
-            //         Client_Secret:$("#Client_Secret"),
-            //         Access_token:$("#Access_token")
-            //     },
-            //     success: function(rows){
-            //         console.log(rows);
-            //     }
-            // });
-        

@@ -1,16 +1,13 @@
 // 메뉴 바 
 const list = document.querySelectorAll('.list');
 
-
-
 function activeLink()
 {
         list.forEach((item) =>
         item.classList.remove('active'));
         this.classList.add('active');
 }
-list.forEach((item) =>
-item.addEventListener('click', activeLink));
+list.forEach((item) => item.addEventListener('click', activeLink));
 var data = [];
 
 //서비스 등록
@@ -578,6 +575,7 @@ function del(number, id){
     });
 
 }
+
 //서비스 추가하기
 function fetchPage(name){
     fetch(name).then(function(response){

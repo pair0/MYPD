@@ -59,7 +59,7 @@ async function DBCheck (req, res, next){
         if(rows['COUNT(*)'] == 0) 
             res.render('reg_svc_no');
         else
-            res.render('reg_svc_list');
+            res.render('editdata_list');
     })
 }
 
