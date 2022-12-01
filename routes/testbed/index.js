@@ -115,6 +115,15 @@ router.post("/unitLogging", function (req, res, next){
   delete data['curl']
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
   console.log(data)
+  if (data['resCode'] == ' Undocumented '){
+    data['resCode'] = "Fail"
+    data['resBody'] = `
+        Possible Resons <br>
+      - CORS <br>
+      - Network Failure <br>
+      - URL scheme must be \"http\" or \"https\" for CORS request <br>
+    `
+  }
   var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
   var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
