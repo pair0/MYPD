@@ -153,18 +153,28 @@ router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
 });
 
 router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
-  if (req.session.code != undefined && req.session.code != null) {
+  if ((req.session.code != undefined && req.session.code != null) || req.query.code != null) {
     var code = req.session.code;
-    req.session.code = null;
-    console.log(code[1])
-    res.locals.CODE = code;
+    var code_f = [req.query.code, code[0], code[1]];
+    console.log(code_f);
+    res.locals.CODE = code_f;
     res.render("inte_api_access");
   } else {
     res.redirect("/main");
   }
 });
 
-router.post("/inte_api_access", isLogIn,checkTokens,individual.authorization_api);
+router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) { //individual.authorization_api
+  try{
+    var code = [req.body.org_code, req.body.client_id];
+    req.session.code = code;
+    res.send(true);
+  }
+  catch(err){
+    res.send(false);
+  }
+});
+
 
 router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 
