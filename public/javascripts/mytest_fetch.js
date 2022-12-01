@@ -47,6 +47,7 @@ function fetchPagesvc(name){
 
 //데이터 등록
 function fetchPagedata(name){
+
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;

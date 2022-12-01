@@ -12,13 +12,12 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../stylesheets/home.css">
     <link rel="stylesheet" href="../stylesheets/default.css">
-    <link rel="stylesheet" href="../stylesheets/prism.css">
+    <link rel="stylesheet" href="../stylesheets/codeblock.css">
     <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
-    <!-- <link rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/an-old-hope.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script> -->
-
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body class="body_bg">
     <div class="about_nav">
@@ -28,8 +27,8 @@
     </div>
 
     <div class="header">
-        <h1>단위테스트 페이지(API 서버) (수정필요)</h1>
-        <p>마이데이터 서비스 단위테스트 (수정필요)</p>
+        <h1>단위테스트 페이지(API 서버)</h1>
+        <p>마이데이터 서비스 단위테스트</p>
     </div>
 
     <main class="main_bg">
@@ -77,9 +76,9 @@
 
 
             <!-- 중앙 내용 -->
-            <div class="unitTest_box" style="width: 80%;">
+            <div class="unitTest_box" style="width: 60%;">
                 <div class="explain_wrapper">
-                    <div class="title_box" style="width: 40%;">
+                    <div class="title_box" style="width: 32%; min-width: 21rem;">
                         <div class="circle_box">
                             <div class="circleNum">01</div>
                             <h3 class="explain_title">테스트할 서비스에서 인증 요청</h3>
@@ -89,14 +88,40 @@
                         <div class="main_explain" style="padding: 30px 0 0 30px;">
                             <span>http://localhost:3030/oauth 로 인증요청을 해주세요</span><br>
                             <span>- 인가코드 발급요청 규격에 따른 요청 메시지 전송</span>
-                                <code-tab>
-                                    &lt;h1&gt; I'm a heading&lt;/h1&gt;
-                                </code-tab>
-                        </div>
+                            <pre >
+                                <code class="hljs">
+        function fetchAPI () {
+            let params = {
+                "grant_type": "authorization_code",
+                "response_type": "code",
+                "orgCode" : "1111",
+                "client_id": "2cbec071fb07f27bca342c31ebd44fe",
+                "redirect_uri": "http://localhost:3030/client/app",
+                "username": "username",
+                "password": "password"
+            };
+            const query = Object.keys(params)
+                            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                            .join('&');
+            const url = "http://localhost:3030/oauth/?" + query;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                    'X-FSI-UTCT-TYPE' : 'TGC00002'
+                },
+            }).then((response) =>{
+                    console.log(response);
+                    var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+                    window.open(response.url,"엿",options);
+            })
+        }
+                            </code></pre>
                     </div>
                 </div>
+                </div>
                 <div class="explain_wrapper">
-                    <div class="title_box" style="width: 18%;">
+                    <div class="title_box" style="width: 10%; min-width: 10rem;">
                         <div class="circle_box">
                             <div class="circleNum" style="background-color: #3CA0FF;">02</div>
                             <h3 class="explain_title">인증절차</h3>
@@ -105,11 +130,12 @@
                     <div class="explain_box">
                         <div class="main_explain" style="padding: 30px 0 0 30px;">
                             <span>테스트베드의 인증화면과 개인신용정보 전송 요구 화면을 통해 정보주체와 자산목록(Scope)을 선택 하시면 인가 코드가 발급 됩니다.</span>
+                            <img src="../images/authenFlow.png" id ="authenFlow">
                         </div>
                     </div>
                 </div>
                 <div class="explain_wrapper">
-                    <div class="title_box" style="width: 23%;">
+                    <div class="title_box" style="width: 30%; min-width: 10rem;">
                         <div class="circle_box">
                             <div class="circleNum" style="background-color: #1478FF;">03</div>
                             <h3 class="explain_title">접근토큰 발급</h3>
@@ -118,24 +144,62 @@
                     <div class="explain_box">
                         <div class="main_explain" style="padding: 30px 0 0 30px;">
                             <span>인증 요청된 서비스로 접근 토큰이 발급 됩니다.</span>
+                            <pre >
+                                <code class="hljs">
+        let code
+        let token 
+        let tokenType
+        let refreshToken
+        const secret = 'MYSECRET' 
+        const id = 'myClientId' 
+        const orgCode = '1111'
+        ;(function(){ 
+            const urlParams = new URLSearchParams(window.location.search) 
+            code = urlParams.get('code')
+            document.getElementById('code').innerText = code
+        }())
+        function onClick() {
+            fetch('/oauth/token', {
+            method: 'POST',
+            body: `code=${code}&orgCode=${orgCode}&client_secret=${secret}&client_id=${id}&grant_type=authorization_code`,
+            headers: {
+                "accept": "application/json",
+                'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
+                "X-FSI-SVC-DATA-KEY": "N",
+                "X-FSI-UTCT-TYPE": "TGC00002"
+            },})
+            .then(res => res.json())
+            .then(res => {
+                console.log('Credentials', res)
+                token = res.access_token
+                tokenType = res.token_type
+                refreshToken = res.refresh_token
+                document.getElementById('token').innerText = token
+                document.getElementById('refresh_token').innerText = refreshToken
+            })
+        }
+                            </code></pre>
                         </div>
                     </div>
                 </div>
                 <div class="explain_wrapper">
-                    <div class="title_box" style="width: 23%;">
+                    <div class="title_box" style="width: 30%;">
                         <div class="circle_box">
                             <div class="circleNum" style="background-color: #0000FF;">04</div>
                             <h3 class="explain_title">개별 API 호출</h3>
                         </div>
                     </div>
                     <div class="explain_box">
-                        <div class="main_explain" style="padding: 30px 0 0 30px;">
+                        <div class="main_explain" style="padding: 30px 0 0 30px; min-height: 80px; display : flex;">
                             개별 API를 호출하여 테스트하실 수 있습니다.
                         </div>
                     </div>
                 </div>
             </div>  
-            <!-- <button onclick="fetchAPI()">asdasasdasdasdasdd</button> -->
+            <div>
+                <button onclick="fetchAPI()">asdasasdasdasdasdd</button>
+
+            </div>
 
             <!-- SWAGger UI-->
         </section>        
@@ -143,7 +207,6 @@
         <aside></aside>
 
     </main>
-
     <script>
         function fetchAPI () {
             let params = {
@@ -175,8 +238,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
-    <script src="../javascripts/prism.js"></script>
-    <script src="../javascripts/code-block.js"></script>
+    <script src="../javascripts/codeblock.js"></script>
 
 </body>
 </html>
