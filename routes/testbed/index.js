@@ -115,6 +115,15 @@ router.post("/unitLogging", function (req, res, next){
   delete data['curl']
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
   console.log(data)
+  if (data['resCode'] == ' Undocumented '){
+    data['resCode'] = "Fail"
+    data['resBody'] = `
+        Possible Resons <br>
+      - CORS <br>
+      - Network Failure <br>
+      - URL scheme must be \"http\" or \"https\" for CORS request <br>
+    `
+  }
   var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
   var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
@@ -144,18 +153,28 @@ router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
 });
 
 router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
-  if (req.session.code != undefined && req.session.code != null) {
+  if ((req.session.code != undefined && req.session.code != null) || req.query.code != null) {
     var code = req.session.code;
-    req.session.code = null;
-    console.log(code[1])
-    res.locals.CODE = code;
+    var code_f = [req.query.code, code[0], code[1]];
+    console.log(code_f);
+    res.locals.CODE = code_f;
     res.render("inte_api_access");
   } else {
     res.redirect("/main");
   }
 });
 
-router.post("/inte_api_access", isLogIn,checkTokens,individual.authorization_api);
+router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) { //individual.authorization_api
+  try{
+    var code = [req.body.org_code, req.body.client_id];
+    req.session.code = code;
+    res.send(true);
+  }
+  catch(err){
+    res.send(false);
+  }
+});
+
 
 router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 

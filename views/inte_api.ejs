@@ -200,7 +200,7 @@
                     </div>
                     <div class="execute-wrapper">
                         <button type="submit" id="nextclick" style="display: none;"></button>
-                        <button type="button" class="btn execute opblock-control__btn" id="popupclick">인증 요청</button>
+                        <button onclick="fetchAPI()" type="button" class="btn execute opblock-control__btn" id="popupclick">인증 요청</button>
                     </div>
                 </div>
             </form>
@@ -214,8 +214,49 @@
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
     <script>
-        document.getElementById("popupclick").onclick = function() {
-            var myWindow = window.open("/testbed/popup", "인증 팝업", "width = 400, height = 500, top = 100, left = 200, location = no");
+        // document.getElementById("popupclick").onclick = function() {
+        //     var myWindow = window.open("/testbed/popup", "인증 팝업", "width = 400, height = 500, top = 100, left = 200, location = no");
+        // }
+        function fetchAPI () {
+            $.ajax({
+                url: "/testbed/inte_api_access",
+                type: "POST",
+                async: false,
+                data: {
+                    //"x-user-ci" : $('input[name=x-user-ci]').val(),
+                    //"x-api-tran-id" : $('input[name=x-api-tran-id]').val(),
+                    "org_code" : $('input[name=org_code]').val(),
+                    //"response_type" : $('input[name=response_type]').val(),
+                    "client_id" : $('input[name=client_id]').val()
+                    //"redirect_uri" : $('input[name=redirect_uri]').val(),
+                    //me=state]').val()
+                },
+                success : function(data){
+                    let params = {
+                        "grant_type": "authorization_code",
+                        "response_type": "code",
+                        "orgCode" : "1111",
+                        "client_id": "2cbec071fb07f27bca342c31ebd44fe",
+                        "redirect_uri": "http://localhost:3000/testbed/inte_api_access",
+                        "username": "username",
+                        "password": "password"
+                    };
+                    const query = Object.keys(params)
+                                    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                                    .join('&');
+                    const url = "http://localhost:3030/oauth/?" + query;
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
+                            'X-FSI-UTCT-TYPE' : 'TGC00002'
+                        },
+                    }).then((response) =>{
+                            var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+                            var child = window.open(response.url,"엿",options);
+                    }) 
+                }
+            })
         }
     </script>
 
