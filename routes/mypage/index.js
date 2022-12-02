@@ -185,9 +185,8 @@ router.post('/reg_svc',(req, res, next)=>
 // 서비스등록 끝
 
 //리스트 가져오기
-async function getList(req, res, sql){
+async function getList(req, res, sql, params){
   try{
-    var params = req.user.id_idx;
     var result = await mdbConn.dbSelectall(sql, params);
     res.json(result);
     }
@@ -198,7 +197,7 @@ async function getList(req, res, sql){
 
 //서비스 리스트 가져오기
 router.get('/svc_list',(req,res) => {
-  getList(req,res,'select * from service_test where id_idx=?');
+  getList(req,res,'select * from service_test where id_idx=?',[req.user.id_idx]);
 });
 
 //서비스 리스트 지우기
@@ -240,7 +239,7 @@ router.post('/editdata',(req, res, next)=>
 
 //테스트데이터 리스트 가져오기
 router.get('/data_list',(req,res) => {
-  getList(req,res,'select * from data_test where id_idx=?')
+  getList(req,res,'select * from data_test where id_idx=?',[req.user.id_idx])
 });
 
 //테스트데이터 지우기
@@ -281,7 +280,7 @@ router.post('/reg_svr',(req, res, next)=>
 
 //서버리스트 가져오기
 router.get('/svr_list',(req,res)=> {
-  getList(req,res,'select * from server_management where id_idx=?');
+  getList(req,res,'select * from server_management where id_idx=?',[req.user.id_idx]);
 });
 
 //마이페이지 지우기 지우기
@@ -563,32 +562,37 @@ router.post('/isc_approve', isLogIn, checkTokens, async function(req, res, next)
   
 });
 
-
 // 대시보드 내용 추가
 router.get('/dashboradServiceList',(req,res)=> {
-  getList(req,res,'select * from service_test where id_idx=?');
+  // getList(req,res,'select * from service_test where id_idx=? AND user= ?;', [req.user.id_idx , req.session.joinUser['nickname']]);
+  getList(req,res,'select * from service_test where id_idx=?;', [req.user.id_idx]);
+
 });
 router.get('/dashboradServerList', (req,res)=> {
-  getList(req,res,'select * from server_management where id_idx=?');
+  getList(req,res,'select * from server_management where id_idx=?',[req.user.id_idx ]);
+  // getList(req,res,'select * from server_management where id_idx=? AND user= ?;',[req.user.id_idx , req.session.joinUser['nickname']]);
+
 });
 router.get('/dashboraddataList', (req,res)=> {
-  getList(req,res,'select * from data_test where id_idx=?')
+  getList(req,res,'select * from data_test where id_idx=?', [req.user.id_idx ])
+  // getList(req,res,'select * from data_test where id_idx=? AND user = ?', [req.user.id_idx , req.session.joinUser['nickname']])
+  
 });
 router.get('/dashboardlog',(req,res) => {
-  getList(req,res,'select * from log;');
+  getList(req,res,'select * from log WHERE user= ?;', [req.session.joinUser['nickname']]);
 });
 
 router.get('/countServiceUnitLog',async (req,res) => {
-  var sql = 'select count(*) from log where type = ?;'
-  var params = "서비스 <br> 단위테스트";
+  var sql = 'select count(*) from log where type = ? AND user= ?;'
+  var params = ["서비스 <br> 단위테스트", req.session.joinUser['nickname']];
   var result = await mdbConn.dbSelect(sql, params);
   var data = {}
   data['service_unit'] = result['count(*)'].toString();
   res.json(data);
 });
 router.post('/countServiceInteLog',async (req,res) => {
-  var sql = 'select count(*) from log where type = ?;'
-  var params = "서비스 <br> 통합테스트";
+  var sql = 'select count(*) from log where type = ? AND user= ?;'
+  var params = ["서비스 <br> 통합테스트", req.session.joinUser['nickname']];
   var result = await mdbConn.dbSelect(sql, params);
   var data = {}
   data['service_inte'] =result['count(*)'].toString();
@@ -596,8 +600,8 @@ router.post('/countServiceInteLog',async (req,res) => {
   res.json(data);
 });
 router.post('/countserverUnitLog',async (req,res) => {
-  var sql = 'select count(*) from log where type = ?;'
-  var params = "서버 <br> 단위테스트";
+  var sql = 'select count(*) from log where type = ? AND user= ?;'
+  var params = ["서버 <br> 단위테스트", req.session.joinUser['nickname']];
   var result = await mdbConn.dbSelect(sql, params);
   var data = {}
   data['server_unit'] =result['count(*)'].toString();
@@ -606,8 +610,8 @@ router.post('/countserverUnitLog',async (req,res) => {
   res.json(data);
 });
 router.post('/countServerInteLog',async (req,res) => {
-  var sql = 'select count(*) from log where type = ?;'
-  var params = "서버 <br> 통합테스트";
+  var sql = 'select count(*) from log where type = ? AND user= ?;'
+  var params = ["서버 <br> 통합테스트", req.session.joinUser['nickname']];
   var result = await mdbConn.dbSelect(sql, params);
   var data = {}
   data['server_inte'] =result['count(*)'].toString();  
@@ -617,8 +621,8 @@ router.post('/countServerInteLog',async (req,res) => {
   res.json(data);
 });
 router.get('/countDatePerTry', async (req, res) => {
-  var sql = 'select * from log'
-  var params = [];
+  var sql = 'select * from log WHERE user = ?'
+  var params = [req.session.joinUser['nickname']];
   var result = await mdbConn.dbSelectall(sql, params);
   res.json(result);
 })
