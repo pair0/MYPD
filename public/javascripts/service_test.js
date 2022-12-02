@@ -94,7 +94,6 @@ function log(origin, type) {
             "resHeaders" : origin.find('.headerline').text()
         },
         success : function(data){
-            console.log(data);
         }
     })
 }
