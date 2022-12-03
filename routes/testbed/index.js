@@ -236,10 +236,7 @@ router.get("/test1", isLogIn, checkTokens, function (req, res, next) {
   res.render("test1");
 });
 
-router.post(
-  "/DataSelect",
-  isLogIn,
-  checkTokens,
+router.post("/DataSelect", isLogIn, checkTokens,
   async function (req, res, next) {
     var data = req.body.data;
     var sql = "SELECT * FROM data_test WHERE data_id=?";
