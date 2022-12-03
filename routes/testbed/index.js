@@ -114,7 +114,7 @@ router.post("/unitLogging", function (req, res, next){
   curlStringProcessing(data)
   delete data['curl']
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
-  console.log(data)
+  // console.log(data)
   if (data['resCode'] == ' Undocumented '){
     data['resCode'] = "Fail"
     data['resBody'] = `
@@ -124,11 +124,11 @@ router.post("/unitLogging", function (req, res, next){
       - URL scheme must be \"http\" or \"https\" for CORS request <br>
     `
   }
-  var sql = 'INSERT INTO log(type, timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?)';
-  var params = [data['type'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
+  var sql = 'INSERT INTO log(type, user,timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?,?)';
+  var params = [data['type'], req.session.joinUser['nickname'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    console.log(rows);
+    // console.log(rows);
     res.send(data);
   })
   .catch((err) => {
@@ -176,14 +176,24 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
 });
 
 
-router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
+// router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
+router.post("/inte_api_final", isLogIn, checkTokens, function(req,res){
+  const code = {"code": req.body.code,
+                "orgCode": req.body.orgCode,
+                "id": req.body.id,
+                "secret": req.body.secret,
+                "callbackUrl" : req.body.redirect_uri
+              }
 
-router.get(
-  "/inte_api_final",
-  isLogIn,
-  checkTokens,
-  async function (req, res, next) {
-    if (req.session.code_final != undefined && req.session.code_final != null) {
+  req.session.code_final = code
+  res.send(true);
+});
+
+
+router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
+  console.log(req.query.token);
+  console.log(req.session.code_final);
+    if (req.session.code_final != undefined && req.session.code_final != null && req.query.token != undefined) {
       var code_final = req.session.code_final;
       req.session.code_final = null;
       var sql = "SELECT * FROM server_management WHERE id_idx=?";
@@ -191,11 +201,13 @@ router.get(
       var rows = await mdbConn.dbSelectall(sql, params);
       res.locals.C_FINAL = code_final;
       res.locals.server_select = rows;
-
+      res.locals.token = req.query.token
+      console.log(code_final);
       res.render("inte_api_final");
     } else {
       res.redirect("/main");
     }
+
   }
 );
 

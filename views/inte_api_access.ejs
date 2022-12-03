@@ -73,7 +73,8 @@
 
             <!-- 중앙 내용 -->
             <!-- SWAGger UI-->
-            <form class="swagger-ui" method="POST" action="/testbed/inte_api_final">
+            <form class="swagger-ui">
+            <!-- <form class="swagger-ui" method="POST" action="/testbed/inte_api_final"> -->
                 <div class="wrapper">
                     <div class="block col-12 block-desktop col-12-desktop">
                         <div>
@@ -210,7 +211,7 @@
                         </div>
                     </div>
                     <div class="execute-wrapper">
-                        <button type="submit" class="btn execute opblock-control__btn">접근토큰 발급요청</button>
+                        <button type="button" class="btn execute opblock-control__btn" onclick="access_api()">접근토큰 발급요청</button>
                     </div>
                 </div>
             </form>
@@ -221,8 +222,6 @@
         <aside></aside>
 
     </main>
-
-
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
     <script>
@@ -232,6 +231,42 @@
         }
         var url = window.location.href // 자식창 URL
         parentWindowRedirect(url)
+
+        function access_api() {
+            $.ajax({
+                url: "/testbed/inte_api_final",
+                type: "POST",
+                async: false, 
+                data: {
+                    "code" : $('input[name=code]').val(),
+                    "orgCode" : $('input[name=org_code]').val(),
+                    "id" : $('input[name=client_id]').val(),
+                    "secret" : $('input[name=client_secret]').val(),
+                    "redirect_uri" : $('input[name=redirect_uri]').val(),
+
+                },
+                success: function(res){
+                    fetch('http://localhost:3030/oauth/token', {
+                    method: 'POST',
+                    body: `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`,
+                    headers: {
+                        "accept": "application/json",
+                        'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
+                        "X-FSI-SVC-DATA-KEY": "N",
+                        "X-FSI-UTCT-TYPE": "TGC00002"
+                    },})
+                    .then(res => res.json())
+                    .then(res => {
+                        result = {"token" : res.access_token, "tokenType" : res.token_type, "refreshToken" : res.refresh_token} 
+                        console.log('Credentials', result["token"])
+
+                        location.href = "/testbed/inte_api_final?token="+result["token"]+"tokenType="+result["tokenType"]+"refreshToken="+result["refreshToken"]
+                        // document.getElementById('token').innerText = token
+                        // document.getElementById('refresh_token').innerText = refreshToken
+                    })
+                }
+            })
+        }
     </script>
 </body>
 </html>
