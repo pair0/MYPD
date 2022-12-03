@@ -227,19 +227,19 @@
                     //"x-api-tran-id" : $('input[name=x-api-tran-id]').val(),
                     "org_code" : $('input[name=org_code]').val(),
                     //"response_type" : $('input[name=response_type]').val(),
-                    "client_id" : $('input[name=client_id]').val()
-                    //"redirect_uri" : $('input[name=redirect_uri]').val(),
+                    "client_id" : $('input[name=client_id]').val(),
+                    "redirect_uri" : $('input[name=redirect_uri]').val()
                     //me=state]').val()
                 },
                 success : function(data){
                     let params = {
                         "grant_type": "authorization_code",
                         "response_type": "code",
-                        "orgCode" : "1111",
-                        "client_id": "2cbec071fb07f27bca342c31ebd44fe",
-                        "redirect_uri": "http://localhost:3000/testbed/inte_api_access",
-                        "username": "username",
-                        "password": "password"
+                        "orgCode" : data["org_code"],
+                        "client_id": data["client_id"],
+                        "redirect_uri": data["redirect_uri"],
+                        // "username": "username",
+                        // "password": "password"
                     };
                     const query = Object.keys(params)
                                     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
