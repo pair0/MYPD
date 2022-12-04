@@ -192,14 +192,17 @@ function check1(){
                 url: "/testbed/inte_api_final_request",
                 type: "POST",
                 async: false,
-                data: {},
-                dataType:"json",
+                data: {
+                    "select" : $(".select_button1").val(),
+                    "orgcode": opener.$('#orgcode').val(),
+                    "Access_token": opener.$('#Access_token').val()
+                },
+                //dataType:"json",
                 success: function (svc) {
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "${opener.$('#Access_token').val()}"\n}` //${opener.$('#Access_token').val()}
+                    console.log(svc)
                     var jsonViewer = new JSONViewer();
-                    //opener.$("#code123").html(jsonViewer.getContainer());
-                    opener.$("#code123").html(row);
-                    var res = setJSON(row);
+                    opener.$("#code123").html(svc);
+                    var res = setJSON(svc);
                     if (res===false)
                     {
                         return false;
@@ -217,14 +220,20 @@ function clickresponse() {
         response.text().then(function(text){
             document.getElementById('response').innerHTML=text;
             document.getElementById("response").style.display = 'block';
+            console.log($("#code123").val())
             $.ajax({
-                url: "/testbed/inte_api_final_request",
-                type: "POST",
+                url: "/v1/diagnosis/lists",
+                type: "GET",
                 async: false,
-                data: {},
+                headers: {
+                    "authorization" : $("#Access_token").val()
+                },
+                data: {
+                    "request_json_data" : $("#code123").val(),
+                    "org_code" : $("#orgcode").val()
+                },
                 dataType:"json",
                 success: function (svc) {
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
                     var jsonViewer = new JSONViewer();
                     $("#coderesponse").html(jsonViewer.getContainer());
                     var res = setJSON(row);

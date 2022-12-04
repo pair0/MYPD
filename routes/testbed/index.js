@@ -1,7 +1,7 @@
 var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
-const individual = require("../v1/oauth/2.0/individual");
+const diagnosis = require("../v1/diagnosis/diagnosis");
 const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
 const {YYYYMMDD} = require("../../controller/controller");
@@ -270,12 +270,18 @@ router.get("/inte_api_final_request", function(req, res, next){
 
 //통합 서버 테스트 첫번째
 router.post("/inte_api_final_request", function(req, res, next){
-  res.send(true)
+  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  res.send(row)
 });
 
 //통합 서버 테스트 두번째
 router.get("/inte_api_final_response", function(req, res, next){
   res.render("inte_api_final_response")
+});
+
+router.get("/inte_api_final_response", /*diagnosis.lists,*/ function(req, res, next){
+  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+  send(row)
 });
 
 router.get("/inte_test", function(req, res, next){
