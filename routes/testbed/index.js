@@ -166,9 +166,12 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
 
 router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) { //individual.authorization_api
   try{
-    var code = [req.body.org_code, req.body.client_id];
-    req.session.code = code;
-    res.send(true);
+    var code = {
+      "org_code" : req.body.org_code, 
+      "client_id" : req.body.client_id, 
+      "redirect_uri" : req.body.redirect_uri};
+    // req.session.code = code;
+    res.send(code);
   }
   catch(err){
     res.send(false);
@@ -178,6 +181,7 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
 
 // router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 router.post("/inte_api_final", isLogIn, checkTokens, function(req,res){
+  console.log(req.body)
   const code = {"code": req.body.code,
                 "orgCode": req.body.orgCode,
                 "id": req.body.id,
@@ -202,7 +206,6 @@ router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, ne
       res.locals.C_FINAL = code_final;
       res.locals.server_select = rows;
       res.locals.token = req.query.token
-      console.log(code_final);
       res.render("inte_api_final");
     } else {
       res.redirect("/main");

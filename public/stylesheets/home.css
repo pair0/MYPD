@@ -18,7 +18,7 @@ body{
 .city {
     position: absolute;
     width: 100%;
-    height: 1369px;
+    height: 1002px;
     top: -2px;
     background: url(../images/city.png) center no-repeat;
     background-size: cover;
