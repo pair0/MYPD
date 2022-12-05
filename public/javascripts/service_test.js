@@ -234,6 +234,7 @@ function clickresponse() {
                 },
                 dataType:"json",
                 success: function (svc) {
+                    row = JSON.stringify(svc)
                     var jsonViewer = new JSONViewer();
                     $("#coderesponse").html(jsonViewer.getContainer());
                     var res = setJSON(row);
