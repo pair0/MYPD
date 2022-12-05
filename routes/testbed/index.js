@@ -155,7 +155,7 @@ router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
 router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
   if ((req.session.code != undefined && req.session.code != null) || req.query.code != null) {
     var code = req.session.code;
-    var code_f = [req.query.code, code[0], code[1]];
+    var code_f = [req.query.code, code["org_code"], code["client_id"]];
     console.log(code_f);
     res.locals.CODE = code_f;
     res.render("inte_api_access");
@@ -170,7 +170,7 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
       "org_code" : req.body.org_code, 
       "client_id" : req.body.client_id, 
       "redirect_uri" : req.body.redirect_uri};
-    // req.session.code = code;
+    req.session.code = code;
     res.send(code);
   }
   catch(err){
