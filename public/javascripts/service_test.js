@@ -234,8 +234,7 @@ function clickresponse() {
                 },
                 dataType:"json",
                 success: function (svc) {
-                    console.log("안녕",svc)
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+                    row = JSON.stringify(svc)
                     var jsonViewer = new JSONViewer();
                     $("#coderesponse").html(jsonViewer.getContainer());
                     var res = setJSON(row);

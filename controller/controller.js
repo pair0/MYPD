@@ -46,7 +46,6 @@ function checkAndAPICall(res, info, responseAlpa){
     }
     const key = Object.keys(info);
     var params = [info['org_code']];
-    console.log(info[key[1]])
     if(info[key[1]].slice(0,7) != "Bearer "){
         info[key[1]] = "Bearer "+info[key[1]]
     }
@@ -54,7 +53,6 @@ function checkAndAPICall(res, info, responseAlpa){
     .then(() => {
         var params = [info[key[1]]];
         var query = sql[key_value[key[1]]];
-        console.log("param =", params, "query = ", query)
         var isValid = "valid";
         if (key[1] == 'AccessToken'){
             console.log("Fuck you 병욱",info['AccessToken'])
@@ -64,7 +62,6 @@ function checkAndAPICall(res, info, responseAlpa){
         mdbConn.dbSelect(query, params)
         .then((rows) => {
             if(isValid == "valid" && rows != undefined){
-                console.log("여기로 오냐??")
                 response['rsp_code'] = "00"
                 response['rsp_msg'] = "success"
                 Object.assign(response, responseAlpa)
