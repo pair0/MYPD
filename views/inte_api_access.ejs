@@ -243,12 +243,17 @@
                     "id" : $('input[name=client_id]').val(),
                     "secret" : $('input[name=client_secret]').val(),
                     "redirect_uri" : $('input[name=redirect_uri]').val(),
-
                 },
                 success: function(res){
+                    if ($('input[name=refresh_token]').val() != ''){
+                        body_query =  `refresh_token=${$('input[name=refresh_token]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=refresh_token`
+                    }
+                    else{
+                        body_query = `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`
+                    }
                     fetch('http://localhost:3030/oauth/token', {
                     method: 'POST',
-                    body: `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`,
+                    body: body_query,
                     headers: {
                         "accept": "application/json",
                         'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
