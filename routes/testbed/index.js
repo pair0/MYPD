@@ -1,7 +1,7 @@
 var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
-const individual = require("../v1/oauth/2.0/individual");
+const diagnosis = require("../v1/diagnosis/diagnosis");
 const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
 const {YYYYMMDD} = require("../../controller/controller");
@@ -155,7 +155,7 @@ router.get("/inte_api", isLogIn, checkTokens, function (req, res, next) {
 router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
   if ((req.session.code != undefined && req.session.code != null) || req.query.code != null) {
     var code = req.session.code;
-    var code_f = [req.query.code, code[0], code[1]];
+    var code_f = [req.query.code, code["org_code"], code["client_id"]];
     console.log(code_f);
     res.locals.CODE = code_f;
     res.render("inte_api_access");
@@ -170,7 +170,7 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
       "org_code" : req.body.org_code, 
       "client_id" : req.body.client_id, 
       "redirect_uri" : req.body.redirect_uri};
-    // req.session.code = code;
+    req.session.code = code;
     res.send(code);
   }
   catch(err){
@@ -251,10 +251,7 @@ router.get("/test1", isLogIn, checkTokens, function (req, res, next) {
   res.render("test1");
 });
 
-router.post(
-  "/DataSelect",
-  isLogIn,
-  checkTokens,
+router.post("/DataSelect", isLogIn, checkTokens,
   async function (req, res, next) {
     var data = req.body.data;
     var sql = "SELECT * FROM data_test WHERE data_id=?";
@@ -276,11 +273,21 @@ router.get("/inte_api_final_request", function(req, res, next){
 
 //통합 서버 테스트 첫번째
 router.post("/inte_api_final_request", function(req, res, next){
-  res.send(true)
+  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  res.send(row)
 });
 
 //통합 서버 테스트 두번째
 router.get("/inte_api_final_response", function(req, res, next){
+  res.render("inte_api_final_response")
+});
+
+router.get("/inte_api_final_response", /*diagnosis.lists,*/ function(req, res, next){
+  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+  send(row)
+});
+
+router.get("/inte_test", function(req, res, next){
   res.render("inte_api_final_response")
 });
 
