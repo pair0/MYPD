@@ -170,7 +170,7 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
       "org_code" : req.body.org_code, 
       "client_id" : req.body.client_id, 
       "redirect_uri" : req.body.redirect_uri};
-    // req.session.code = code;
+    req.session.code = code;
     res.send(code);
   }
   catch(err){

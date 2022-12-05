@@ -5,7 +5,6 @@ const mdbConn = require('../../db_connection/mariaDBConn');
    * @description 접근토큰 및 리프레시토큰 폐기
    */
 exports.users = (req, res) => {
-    console.log(req.query)
     var sql = 'UPDATE service_test SET access_token = ?, refresh_token = ? WHERE service_client_id = ? AND service_client_secret = ?';
     var params = [null, null, req.query.client_id, req.query.client_secret];
     mdbConn.dbSelect(sql, params)

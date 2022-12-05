@@ -6,7 +6,6 @@ const { generateAccessToken, generateRefreshToken, checkTokens } = require('../.
 const { isLogIn, isNotLogIn , validatorErrorChecker} = require('../../controller/login')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
-const { render } = require('ejs');
 require("dotenv").config();
 
 // 나중에 지울 친구!!
