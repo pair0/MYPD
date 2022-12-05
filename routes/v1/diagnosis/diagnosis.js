@@ -5,9 +5,10 @@ const {YYYYMMDD, checkAndAPICall, getListAPI,getAPI} = require('../../../control
    * @description 진료내역 목록 조회 API
    */
 exports.lists = (req, res) => {
+   console.log(req.query.org_code,", ", req.headers.authorization)
    const info = {
       'org_code' : req.query.org_code,
-      // 'api_tran_id': req.headers['x-api-tran-id'],
+      //'api_tran_id': req.headers['x-api-tran-id'],
       'AccessToken' : req.headers.authorization
    }
    params = [info['org_code'], '[진료정보제공 API] 진료내역 조회 API']
