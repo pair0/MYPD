@@ -123,27 +123,9 @@ router.get('/add_svc',myLogIn, function(req, res, next) {
   res.render('add_svc');
 });
 
-router.get('/add_data',myLogIn, function(req, res, next) {
-  res.render('add_data');
+router.get('/editdata_list', isLogIn, checkTokens, function(req, res, next){
+  res.render('editdata_list');
 });
-
-
-//마이데이터 서비스 테스트 관리
-router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
-router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck);
-
-//테스트 데이터 관리
-router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck);
-router.get('/editdata_no', isLogIn, checkTokens, mdbConn.dataCheck);
-
-//서버 등록 관리
-router.get('/reg_svr_no', isLogIn, checkTokens, mdbConn.svrCheck);
-router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck);
-
-//연동 테스트 관리
-router.get('/editinte', isLogIn, checkTokens, mdbConn.dbCheck_inter);
-router.get('/editinte_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
-
 
 //키 발급
 router.get('/key_gen',(req,res,next)=>
@@ -230,10 +212,10 @@ router.post('/editdata',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
-    else res.redirect('/mypage/editdata_list');
+    if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_data';</" + "script>");
+    else res.redirect('/mypage/editdata_list#!reg_data');
   }).catch((err) => {
-    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
+    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_data';</" + "script>");
   });
 });
 
@@ -271,10 +253,10 @@ router.post('/reg_svr',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
-    else  res.redirect('/mypage/reg_svr_list');
+    if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
+    else  res.redirect('/mypage/editdata_list#!reg_svrt');
   }).catch((err) => {
-    res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
+    res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
   });
 });
 
@@ -448,11 +430,6 @@ router.get('/inter_service_index', function(req, res, next){
 //연동 서비스 테스트 추가
 router.get('/addinte_service_1', myLogIn, async function(req, res, next){
   res.render('addinte_service_1')
-});
-
-//연동 서비스 테스트 추가
-router.post('/addinte_service_2', myLogIn, async function(req, res, next){
-  res.render('addinte_service_2')
 });
 
 //연동 서비스 리스트 가져오기

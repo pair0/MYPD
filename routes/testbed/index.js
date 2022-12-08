@@ -10,10 +10,6 @@ router.get("/", isLogIn, checkTokens, function (req, res, next) {
   res.render("test");
 });
 
-router.get("/tmp", isLogIn, checkTokens, function (req, res, next) {
-  res.render("tmp");
-});
-
 router.get("/unit_svc", isLogIn, checkTokens, async function (req, res, next) {
   // service idx
   var sql = "SELECT * FROM service_test WHERE id_idx=?";
@@ -214,19 +210,6 @@ router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, ne
   }
 );
 
-router.get("/test1", isLogIn, checkTokens, async function (req, res, next) {
-  var sql = "SELECT * FROM server_management WHERE id_idx=?";
-  params = req.user.id_idx;
-  var rows = await mdbConn.dbSelectall(sql, params);
-  res.locals.server_select = rows;
-
-  res.render("test1");
-});
-
-router.get("/popup", isLogIn, checkTokens, function (req, res, next) {
-  res.render("popup");
-});
-
 router.post("/moneylist", isLogIn, checkTokens, function (req, res, next) {
   res.send(
     "<script>alert('인증에 성공하였습니다.');location.href='/testbed/moneylist';</" +
@@ -247,9 +230,6 @@ router.get(
   }
 );
 
-router.get("/test1", isLogIn, checkTokens, function (req, res, next) {
-  res.render("test1");
-});
 
 router.post("/DataSelect", isLogIn, checkTokens,
   async function (req, res, next) {
