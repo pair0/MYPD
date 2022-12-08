@@ -8,11 +8,6 @@ const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
 require("dotenv").config();
 
-// 나중에 지울 친구!!
-router.get("/admin", isLogIn, checkTokens, (req, res) => {
-  res.render("admin");
-});
-
 /* Login */
 /* 로그인, 로그인 되지 않은 상태에서만 접근 가능하도록 하기 위햐 isNotLogin 함수 정의 후 사용 (auth 폴더 안 auth.js 파일 참고)  */
 router.get("/login", isNotLogIn, (req, res, next) => {
