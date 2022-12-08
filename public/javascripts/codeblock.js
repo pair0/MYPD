@@ -27,7 +27,7 @@ $(document).ready(function(){
     // const codes = codeBlock.innerHTML.split('\n');
     const processedCodes = codes.reduce((prevCodes, curCode) => prevCodes + 
   `<div class="line">${curCode}</div>`, '');
-    const ExplainText = `<h3 id="clickhere">Click here!!!</h3>`
+    const ExplainText = `<h3 id="clickhere${cnt}">Click here!!!</h3>`
     const copyButton = `<button type="button" class="copy-btn" 
   data-code="${encodeURI(codeBlock.textContent)}" 
   onclick="copyBlockCode(this)">${COPY_BUTTON_TEXT_BEFORE}</button>`;
@@ -45,15 +45,15 @@ $(document).ready(function(){
     codeBlock.innerHTML = codeHeader + codeBody;
     cnt +=1
   }
-  
+
 })
 $(function (){
-  $(".code-header0").click(function (){
+  $("#clickhere0").click(function (){
       $(".code-body0").toggle();
   });
 });
 $(function (){
-  $(".code-header1").click(function (){
+  $("#clickhere1").click(function (){
       $(".code-body1").toggle();
   });
 });
