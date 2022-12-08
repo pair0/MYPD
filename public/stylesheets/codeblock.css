@@ -103,10 +103,11 @@ pre::after {
 
 }
 
-#clickhere{
+#clickhere0, #clickhere1{
   color: #fff;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
   padding-left: 5rem;
+  cursor: pointer;
 }
