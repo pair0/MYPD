@@ -161,7 +161,7 @@ $(window).on("scroll", function() {
 
 
 document.getElementById("clickresult").onclick = function() {
-    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+    window.open("/testbed/popup_api_select?id="+$('#b_right').val(), "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
 
 function setJSON(row) {

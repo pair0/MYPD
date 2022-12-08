@@ -238,14 +238,9 @@ router.get("/moneylist", isLogIn, checkTokens, function (req, res, next) {
   res.render("moneylist");
 });
 
-router.get(
-  "/popup_api_select",
-  isLogIn,
-  checkTokens,
-  function (req, res, next) {
-    res.render("popup_api_select");
-  }
-);
+router.get("/popup_api_select", isLogIn,checkTokens, function (req, res, next) {
+  res.render("popup_api_select", {select : req.query.id});
+});
 
 router.get("/test1", isLogIn, checkTokens, function (req, res, next) {
   res.render("test1");
@@ -273,7 +268,13 @@ router.get("/inte_api_final_request", function(req, res, next){
 
 //통합 서버 테스트 첫번째
 router.post("/inte_api_final_request", function(req, res, next){
-  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  select = req.body.select
+  if(select == "진료내역 목록 조회"){
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "진료내역 조회") {
+
+  } else if(select == "")
+
   res.send(row)
 });
 
