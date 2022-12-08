@@ -12,17 +12,23 @@
 body{
     height:100%;
     background-color: #007aff;
-}   
+}
+html {
+    scroll-behavior:smooth;
+}
 
 
 .city {
     position: absolute;
     width: 100%;
-    height: 1002px;
+    /* height: 1228px; */
+    height: 80rem;
     top: -2px;
     background: url(../images/city.png) center no-repeat;
     background-size: cover;
     background-color: #007aff;
+    z-index: 0;
+
 }
 
 /* .main_pic_bg > .city_edit{
@@ -440,11 +446,11 @@ div .use_box:hover{
 .about_page{
     display:flex;
     background-color: #007aff;
-    height:1200px;
+    /* height:1200px; */
+    height:80rem;
     flex-direction: column;
     align-items: center;
-    margin-top:773px;
-    
+    margin-top:1000px;
 }
 
 
@@ -452,6 +458,7 @@ div .use_box:hover{
     width:70%;
     display:flex;
     justify-content: space-between;
+    z-index: 1;
 }
 
 .about_first{
