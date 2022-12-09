@@ -25,7 +25,7 @@ router.get('/basic', function(req,res,next){
                         if (!rows) res.status(400).json({rsp_msg : "해당 API 서버와 연동이 되지 않았습니다."})
                         else {
                             const options = {
-                                uri: "http://180.226.164.206:62514/v1/oauth/2.0/authorize",
+                                uri: "http://mypd.kr:62514/v1/oauth/2.0/authorize",
                                 qs:{
                                     org_code:req.query.org_code,
                                     response_type:req.query.response_type,
