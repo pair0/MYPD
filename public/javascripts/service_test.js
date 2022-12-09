@@ -128,7 +128,7 @@ function swaggerlog(type) {
 
 // 서버 단위테스트 로깅 
 $("#biz_type").on("change", function() {
-    if(window.location.href == "http://localhost:3000/testbed/unit_svc")
+    if(window.location.href == "http://mypd.kr/testbed/unit_svc")
         return
     $.ajax({
         url: "/testbed/selectServer",
@@ -142,7 +142,7 @@ $("#biz_type").on("change", function() {
             $(document).ready(function(){
                 $('#swagger-iframe').remove();
                 if(data['url'] != ''){
-                    $('#api_swagger').append('<iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
+                    $('#api_swagger').append('<iframe id="swagger-iframe" src="http://mypd.kr/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
                     swaggerlog("서버 <br> 단위테스트")
                 }
             })

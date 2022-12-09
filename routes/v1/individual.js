@@ -1,7 +1,7 @@
 const mdbConn = require('../../db_connection/mariaDBConn');
 
 /**
-   * @path {POST} http://localhost:3000/v1/users
+   * @path {POST} http://mypd.kr/v1/users
    * @description 접근토큰 및 리프레시토큰 폐기
    */
 exports.users = (req, res) => {
