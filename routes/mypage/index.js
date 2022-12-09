@@ -182,18 +182,6 @@ router.get('/svc_list',(req,res) => {
   getList(req,res,'select * from service_test where id_idx=?',[req.user.id_idx]);
 });
 
-//서비스 리스트 지우기
-router.post('/svc_list_del', async function(req,res,next){
-  var id= req.user.id_idx;
-  var svc_id = req.body.service_id;
-  var sql = 'delete from service_test where service_id=? and id_idx=?';
-  var params = [id, svc_id];
-  await mdbConn.dbSelect(sql, params)
-  .then(() => {
-    res.redirect('/mypage/reg_svc');
-  })
-});
-
 //테스트데이터 등록하기
 router.post('/editdata',(req, res, next)=>
 {
@@ -224,19 +212,6 @@ router.get('/data_list',(req,res) => {
   getList(req,res,'select * from data_test where id_idx=?',[req.user.id_idx])
 });
 
-//테스트데이터 지우기
-router.post('/data_list_del',async function(req,res,next){
-  var id= req.user.id_idx;
-  console.log(req.body);
-  var data_id = req.body.data_id;
-  var sql = 'delete from data_test where data_id=? and id_idx=?';
-  var params = [id, data_id];
-  await mdbConn.dbSelect(sql, params)
-  .then(() => {
-    res.redirect('/mypage/editdata_list');
-  })
-});
-
 //서버 등록하기
 router.post('/reg_svr',(req, res, next)=>
 {
@@ -254,7 +229,7 @@ router.post('/reg_svr',(req, res, next)=>
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
     if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
-    else  res.redirect('/mypage/editdata_list#!reg_svrt');
+    else  res.redirect('/mypage/editdata_list#!reg_svr');
   }).catch((err) => {
     res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
   });
@@ -526,7 +501,7 @@ router.post('/isc_approve', isLogIn, checkTokens, async function(req, res, next)
         mdbConn.dbInsert(sql, params)
         .then(() => {
           if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
-          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.href("/mypage/editdata_list#!isc")</script>`);
+          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!reg_isc")</script>`);
         }).catch((err) => {
           res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
         });
