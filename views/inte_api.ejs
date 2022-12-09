@@ -244,7 +244,7 @@
                     const query = Object.keys(params)
                                     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
                                     .join('&');
-                    const url = "http://mypd.kr/oauth/?" + query;
+                    const url = "http://mypd.kr:3030/oauth/?" + query;
                     fetch(url, {
                         method: 'GET',
                         headers: {

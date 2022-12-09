@@ -251,7 +251,7 @@
                     else{
                         body_query = `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`
                     }
-                    fetch('http://mypd.kr/oauth/token', {
+                    fetch('http://mypd.kr:3030/oauth/token', {
                     method: 'POST',
                     body: body_query,
                     headers: {

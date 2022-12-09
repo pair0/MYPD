@@ -86,7 +86,7 @@
                     </div>
                     <div class="explain_box">
                         <div class="main_explain" style="padding: 30px 0 0 30px;">
-                            <span>http://mypd.kr/oauth 로 인증요청을 해주세요</span><br>
+                            <span>http://mypd.kr:3030/oauth 로 인증요청을 해주세요</span><br>
                             <span>- 인가코드 발급요청 규격에 따른 요청 메시지 전송</span>
                             <pre >
                                 <code class="hljs">
@@ -103,7 +103,7 @@
             const query = Object.keys(params)
                             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
                             .join('&');
-            const url = "http://mypd.kr/oauth/?" + query;
+            const url = "http://mypd.kr:3030/oauth/?" + query;
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -207,34 +207,6 @@
         <aside></aside>
 
     </main>
-    <script>
-        function fetchAPI () {
-            let params = {
-                "grant_type": "authorization_code",
-                "response_type": "code",
-                "orgCode" : "1111",
-                "client_id": "2cbec071fb07f27bca342c31ebd44fe",
-                "redirect_uri": "http://mypd.kr/client/app",
-                "username": "username",
-                "password": "password"
-            };
-            const query = Object.keys(params)
-                            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-                            .join('&');
-            const url = "http://mypd.kr/oauth/?" + query;
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
-                    'X-FSI-UTCT-TYPE' : 'TGC00002'
-                },
-            }).then((response) =>{
-                    console.log(response);
-                    var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
-                    window.open(response.url,"엿",options);
-            })
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
