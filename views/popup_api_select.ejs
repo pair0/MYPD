@@ -21,12 +21,18 @@
             </div>
             
             <div class="select_api">
-                <button class="select_button1" value="진료내역 목록 조회" onclick="check1()">진료내역 목록 조회</button>
-                <button class="select_button1" value="진료내역 조회" onclick="check1()">진료내역 조회</button>
-                <button class="select_button1" value="처방전교부목록 조회" onclick="check1()">처방전교부목록 조회</button>
-                <button class="select_button1" value="전송요구내역 조회" onclick="check1()">전송요구내역 조회</button>
-                <button class="select_button1" style="background-color: blue;">의료기관약제내역목록 조회</button>
-                <button class="select_button1" style="background-color: blue;">의료기관약제내역 조회</button>
+                <% if(select == "의료"){ %>
+                    <button class="select_button1" value="명세서 내역 목록 조회" onclick="check1()">명세서 내역 목록 조회</button>
+                    <button class="select_button1" value="명세서 내역 조회" onclick="check1()">명세서 내역 조회</button>
+                    <button class="select_button1" value="전송요구내역 조회" onclick="check1()">전송요구내역 조회</button>
+                    <button class="select_button1" value="명세서 일반내역 조회" onclick="check1()">명세서 일반내역 조회</button>
+                    <button class="select_button1" value="진료내역 목록 조회" style="background-color: rgb(111, 111, 230);" onclick="check1()">진료내역 목록 조회</button>
+                    <button class="select_button1" value="진료내역 조회" style="background-color: rgb(111, 111, 230);" onclick="check1()">진료내역 조회</button>
+                    <button class="select_button1" value="처방전교부목록 조회" style="background-color: rgb(111, 111, 230);" onclick="check1()">처방전교부목록 조회</button>
+                    <button class="select_button1" value="전송요구내역 조회" style="background-color: rgb(111, 111, 230);" onclick="check1()">전송요구내역 조회</button>
+                    <button class="select_button1" value="의료기관약제내역목록 조회" onclick="check1()" style="background-color: blue;">의료기관약제내역목록 조회</button>
+                    <button class="select_button1" value="의료기관약제내역 조회" onclick="check1()" style="background-color: blue;">의료기관약제내역 조회</button>
+                <% } %>
             </div>
         </div>
     </body>

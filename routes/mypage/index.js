@@ -57,11 +57,11 @@ router.post('/edit', [
 
     mdbConn.dbInsert(sql, params)
     .then((rows) => {
-      if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
-      else res.send("<script>alert('회원 정보 수정이 완료되었습니다.!!');location.href='/main';</" + "script>");
+      if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
+      else res.send("<script>alert('회원 정보 수정이 완료되었습니다.!!');location.href='/';</" + "script>");
     })
     .catch((err) => {
-      res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+      res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
     });
   })
 });
@@ -421,7 +421,9 @@ router.get('/inter_service_index', function(req, res, next){
     if(row != false){
       res.locals.row = row;
       res.render('inter_service_index')
-    } else res.render('error')
+    } else {
+      res.render('inter_service_index_no')
+    }
   }).catch((err) => {
     res.render('error')
   })
@@ -479,7 +481,7 @@ router.get('/isc_detail', myLogIn, function(req, res, next) {
     res.locals.raw = row;
     res.render('isc_detail');
   }).catch((err) => {
-    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
   });
 });
 
@@ -497,10 +499,10 @@ router.get('/isc_approve', myLogIn, function(req, res, next){
       res.locals.row = raw;
       res.render('isc_approve');
     }).catch((err) => {
-      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
     });
   }).catch((err) => {
-    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
   });
 });
 
@@ -517,24 +519,24 @@ router.post('/isc_approve', isLogIn, checkTokens, async function(req, res, next)
     var params = [req.user.id_idx, req.body.serverI, req.body.serviceI, req.body.serviceT];
     mdbConn.dbInsert(sql, params)
     .then((row) => {
-      if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
       else {
         sql = 'UPDATE inter_server SET request_count=request_count+1 WHERE server_manage_id = ?'
         params = req.body.serverI;
         mdbConn.dbInsert(sql, params)
         .then(() => {
-          if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
-          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!isc")</script>`);
+          if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
+          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.href("/mypage/editdata_list#!isc")</script>`);
         }).catch((err) => {
-          res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+          res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
         });
       }
     }).catch((err) => {
-      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
     });
   }
   else{
-    res.send(`<script>alert('이미 연동 신청한 서버입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('이미 연동 신청한 서버입니다.');location.replace("/")</script>`);
   }
   
 });

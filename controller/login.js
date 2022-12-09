@@ -8,7 +8,7 @@ module.exports = {
     },
     isNotLogIn : function (req,res, next) {
         if(res.locals.isAuthenticated == false) next();
-        else res.redirect('/main')
+        else res.redirect('/')
     },
     isSNSLogIn : (req,res,next) => {
         if(req.session.joinUser.snsID != null) res.redirect('/mypage/edit');
