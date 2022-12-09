@@ -10,6 +10,36 @@ function activeLink()
 list.forEach((item) => item.addEventListener('click', activeLink));
 var data = [];
 
+if(location.hash.substring(2)=="reg_svc"){
+    fetchPagesvc('reg_svc');
+    list[0].click();
+}
+else if(location.hash.substring(2)=="reg_data")
+{
+    fetchPagedata('reg_data');
+    list[1].click();
+}
+else if(location.hash.substring(2)=="reg_svr")
+{
+    fetchPagesvr('reg_svr');
+    list[2].click();
+}
+else if(location.hash.substring(2)=="reg_isv")
+{
+    fetchPageisv('reg_isv');
+    list[3].click();
+}
+else if(location.hash.substring(2)=="reg_isc")
+{
+    fetchPageisc('reg_isc');
+    list[4].click();
+}
+else if(location.hash.substring(2)=="dashboard")
+{
+    fetchPageDashBoard('dashboard');
+    list[5].click();
+}
+
 //서비스 등록
 function fetchPagesvc(name){
     fetch(name).then(function(response){
