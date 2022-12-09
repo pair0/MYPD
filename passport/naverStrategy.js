@@ -12,7 +12,7 @@ module.exports = () => {
         callbackURL: '/auth/naver/callback',
         },
         async (accessToken, refreshToken, profile, done) => {
-            // console.log('naver profile : ', profile);
+            console.log('naver profile : ', profile);
             try{
                 let info = {
                 "enterprise_number" : "NULL",

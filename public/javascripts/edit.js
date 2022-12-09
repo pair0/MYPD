@@ -14,7 +14,6 @@ NICKNAME.addEventListener("focusout", checkNickname);
 
 function checkNickname() {
     var nickPattern = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
-    console.log(NICKNAME.value);
     if (NICKNAME.value == "") {
         error[0].innerHTML = "필수 정보입니다.";
         error[0].style.color = "red";

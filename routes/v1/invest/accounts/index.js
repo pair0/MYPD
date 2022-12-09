@@ -25,7 +25,7 @@ router.get('/basic', function(req,res,next){
                         if (!rows) res.status(400).json({rsp_msg : "해당 API 서버와 연동이 되지 않았습니다."})
                         else {
                             const options = {
-                                uri: "http://180.226.164.206:62514/v1/oauth/2.0/authorize",
+                                uri: "http://192.168.219.104:62514/v1/oauth/2.0/authorize",
                                 qs:{
                                     org_code:req.query.org_code,
                                     response_type:req.query.response_type,
@@ -36,6 +36,9 @@ router.get('/basic', function(req,res,next){
                               };
                               request(options,function(err,response,body){
                                 res.status(200).json(JSON.parse(body))
+                                if(err != null){
+                                    res.status(404).json({rsp_msg : "잘못된 접근입니다."})
+                                }
                               })
                         }
                     }).catch((err) => {

@@ -1,17 +1,47 @@
 // 메뉴 바 
 const list = document.querySelectorAll('.list');
 
-
-
 function activeLink()
 {
         list.forEach((item) =>
         item.classList.remove('active'));
         this.classList.add('active');
 }
-list.forEach((item) =>
-item.addEventListener('click', activeLink));
+list.forEach((item) => item.addEventListener('click', activeLink));
 var data = [];
+
+if(location.hash.substring(2)=="reg_svc"){
+    fetchPagesvc('reg_svc');
+    list[0].click();
+}
+else if(location.hash.substring(2)=="reg_data")
+{
+    fetchPagedata('reg_data');
+    list[1].click();
+}
+else if(location.hash.substring(2)=="reg_svr")
+{
+    fetchPagesvr('reg_svr');
+    list[2].click();
+}
+else if(location.hash.substring(2)=="reg_isv")
+{
+    fetchPageisv('reg_isv');
+    list[3].click();
+}
+else if(location.hash.substring(2)=="reg_isc")
+{
+    fetchPageisc('reg_isc');
+    list[4].click();
+}
+else if(location.hash.substring(2)=="dashboard")
+{
+    fetchPageDashBoard('dashboard');
+    list[5].click();
+}
+
+
+
 
 //서비스 등록
 function fetchPagesvc(name){
@@ -50,6 +80,7 @@ function fetchPagesvc(name){
 
 //데이터 등록
 function fetchPagedata(name){
+
     fetch(name).then(function(response){
         response.text().then(function(text){
             document.querySelector('content').innerHTML=text;
@@ -519,8 +550,9 @@ function fetchPageDashBoard(name){
                                                 {
                                                     data: Object.values(date),
                                                     type: 'line',
+                                                    smooth:true,
                                                     areaStyle: {
-                                                        color : '#0770FF',
+                                                        color : '#E0EBFF',
                                                         fontWeight : 1000,
                                                         fontsize : 1000,
                                                     },
@@ -576,6 +608,7 @@ function del(number, id){
     });
 
 }
+
 //서비스 추가하기
 function fetchPage(name){
     fetch(name).then(function(response){
@@ -629,11 +662,11 @@ function select_server(){
                                 </div>
 
                                 <div style="width: 60%; border: #2f17c8; margin: 10px;">
-                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">금융기관</div>
-                                    <p style="margin : 8px auto">FSI 금융기관</p>
-                                    <p6>경기도 판교동...</p6>
+                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
+                                    <p style="margin : 8px auto">${svc[i].e_name}</p>
+                                    <p6>${svc[i].e_address}</p6>
                                     <div>
-                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
                                     </div>      
                                 </div>
                             </div>
@@ -669,4 +702,9 @@ function isc_okbtn(server_id){
             }else alert("error");
         }
     })
+}
+
+//연동된 서비스 목록 보기
+function inter_service_index(){
+    window.open(`/mypage/inter_service_index?id=${$('#index').val()}`, "server_index", "width = 800, height = 500, top = 100, left = 200, location = no");
 }

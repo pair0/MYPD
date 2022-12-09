@@ -172,7 +172,7 @@ input::placeholder {
   padding-top: 15px;
 }
 
-.inputJBox #id, #number, #nickname{
+.inputJBox #id, #number, #nickname, #e_name, #e_address{
   width: 350px;
   height: 30px;
   border: none;
@@ -357,7 +357,6 @@ a{
   min-height: 1000px;
   background: url(../images/login_bg_169.png) center no-repeat;
   background-size: cover;
-  overflow: hidden;
 }
 
 /*아이디/비밀번호 찾기 페이지 제목*/

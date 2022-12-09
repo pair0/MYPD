@@ -57,8 +57,8 @@
                 <div class="dropdown">
                     <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata_list#!reg_data">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/editdata_list#!reg_svc">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
@@ -73,7 +73,8 @@
 
             <!-- 중앙 내용 -->
             <!-- SWAGger UI-->
-            <form class="swagger-ui" method="POST" action="/testbed/inte_api_final">
+            <form class="swagger-ui">
+            <!-- <form class="swagger-ui" method="POST" action="/testbed/inte_api_final"> -->
                 <div class="wrapper">
                     <div class="block col-12 block-desktop col-12-desktop">
                         <div>
@@ -120,7 +121,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>기관코드</p>
-                                                                                        </div><input type="text" name="org_code" placeholder="org_code" value=""></td>
+                                                                                        </div><input type="text" name="org_code" placeholder="org_code" readonly value="<%=CODE[1]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="grant_type" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -144,7 +145,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>인가코드</p>
-                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE %>"></td>
+                                                                                        </div><input type="text" name="code" placeholder="code" readonly value="<%=CODE[0]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="client_id" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -156,7 +157,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>클라이언트 식별값</p>
-                                                                                        </div><input type="text" name="client_id" placeholder="client_id" value=""></td>
+                                                                                        </div><input type="text" name="client_id" placeholder="client_id" readonly value="<%=CODE[2]%>"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="client_secret" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -210,7 +211,7 @@
                         </div>
                     </div>
                     <div class="execute-wrapper">
-                        <button type="submit" class="btn execute opblock-control__btn">접근토큰 발급요청</button>
+                        <button type="button" class="btn execute opblock-control__btn" onclick="access_api()">접근토큰 발급요청</button>
                     </div>
                 </div>
             </form>
@@ -221,10 +222,56 @@
         <aside></aside>
 
     </main>
-
-
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../javascripts/service_test.js"></script>
+    <script>
+        function parentWindowRedirect(val) {
+            top.opener.location.href=val; // 자식창에서 부모창 redirect
+            self.close();   // 자식창 자신이 닫는 코드
+        }
+        var url = window.location.href // 자식창 URL
+        parentWindowRedirect(url)
 
+        function access_api() {
+            $.ajax({
+                url: "/testbed/inte_api_final",
+                type: "POST",
+                async: false, 
+                data: {
+                    "code" : $('input[name=code]').val(),
+                    "orgCode" : $('input[name=org_code]').val(),
+                    "id" : $('input[name=client_id]').val(),
+                    "secret" : $('input[name=client_secret]').val(),
+                    "redirect_uri" : $('input[name=redirect_uri]').val(),
+                },
+                success: function(res){
+                    if ($('input[name=refresh_token]').val() != ''){
+                        body_query =  `refresh_token=${$('input[name=refresh_token]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=refresh_token`
+                    }
+                    else{
+                        body_query = `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`
+                    }
+                    fetch('http://mypd.kr:3030/oauth/token', {
+                    method: 'POST',
+                    body: body_query,
+                    headers: {
+                        "accept": "application/json",
+                        'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
+                        "X-FSI-SVC-DATA-KEY": "N",
+                        "X-FSI-UTCT-TYPE": "TGC00002"
+                    },})
+                    .then(res => res.json())
+                    .then(res => {
+                        result = {"token" : res.access_token, "tokenType" : res.token_type, "refreshToken" : res.refresh_token} 
+                        console.log('Credentials', result["token"])
+
+                        location.href = "/testbed/inte_api_final?token="+result["token"]+"&&tokenType="+result["tokenType"]+"&&refreshToken="+result["refreshToken"]
+                        // document.getElementById('token').innerText = token
+                        // document.getElementById('refresh_token').innerText = refreshToken
+                    })
+                }
+            })
+        }
+    </script>
 </body>
 </html>

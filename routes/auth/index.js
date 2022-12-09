@@ -28,7 +28,7 @@ router.get('/kakao/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          res.redirect(`/main`);    
+          res.redirect(`/`);    
         });
       });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 호출 별도로 진행
@@ -60,7 +60,7 @@ router.get('/kakao/logout', async (req,res)=>{
         console.log(err)
     else {
       res.clearCookie('connect.sid');
-      res.redirect('/main');
+      res.redirect('/');
     }
   });
 })
@@ -87,7 +87,7 @@ router.get('/naver/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          res.redirect(`/main`);    
+          res.redirect(`/`);    
         });
       });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 호출 별도로 진행
@@ -116,7 +116,7 @@ router.get('/google/callback', (req, res, next) => {
           if (error) {
             return console.error(error);
           }
-          res.redirect(`/main`);    
+          res.redirect(`/`);    
         });
       });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 호출 별도로 진행

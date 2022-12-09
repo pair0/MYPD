@@ -3,7 +3,7 @@ const mdbConn = require('../../../../db_connection/mariaDBConn');
 const { json } = require("express");
 
 /**
-   * @path {GET} http://localhost:3000/v1/oauth/2.0/authorize
+   * @path {GET} http://mypd.kr/v1/oauth/2.0/authorize
    * @description 인가코드 발급 요청
    */
 exports.authorization = (req, res) => {
@@ -65,7 +65,7 @@ exports.authorization = (req, res) => {
 }
 
 /**
-   * @path {POST} http://localhost:3000/v1/oauth/2.0/token
+   * @path {POST} http://mypd.kr/v1/oauth/2.0/token
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
 exports.token = (req, res) => {
@@ -184,7 +184,7 @@ exports.token = (req, res) => {
 }
 
 /**
-   * @path {POST} http://localhost:3000/v1/oauth/oauth_api/authorize_api
+   * @path {POST} http://mypd.kr/v1/oauth/oauth_api/authorize_api
    * @description 인가코드 발급 요청
 */
 exports.authorization_api = (req, res) => {
@@ -230,7 +230,7 @@ exports.authorization_api = (req, res) => {
                 //     state: req.query.state,
                 //     api_tran_id: req.headers['x-api-tran-id']
                 // })
-                var code = info['authorization_code'];
+                var code = [info['authorization_code'], info['org_code'], info['client_id']];
                 req.session.code = code;
                 res.redirect('/testbed/inte_api_access');
             })
@@ -249,7 +249,7 @@ exports.authorization_api = (req, res) => {
 
 
 /**
-   * @path {POST} http://localhost:3000/v1/oauth/2.0/token
+   * @path {POST} http://mypd.kr/v1/oauth/2.0/token
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
  exports.token_api = (req, res) => {

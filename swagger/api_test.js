@@ -12,7 +12,7 @@ const options = {
             //     url: "http://localhost:3000",
             // },
             // {
-            //     url: "http://180.226.164.206:62516",
+            //     url: "http://180.226.164.206:62514",
             // },
         ],
         components: {

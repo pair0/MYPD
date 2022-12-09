@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYPD 마이데이터의 첫걸음</title>
+
+    <script src="https://kit.fontawesome.com/0cfcf927e8.js" crossorigin="anonymous"></script>
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/default.css">
+    <link rel="stylesheet" href="../stylesheets/codeblock.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logo-fabicon.png">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/an-old-hope.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body class="body_bg">
+    <div class="about_nav">
+        <nav class="navigation">
+            <%- include ("./header") %>
+        </nav>
+    </div>
+
+    <div class="header">
+        <h1>단위테스트 페이지(API 서버)</h1>
+        <p>마이데이터 서비스 단위테스트</p>
+    </div>
+
+    <main class="main_bg">
+        <aside>
+        </aside>
+        
+        <!-- 왼쪽 사이드 바-->
+        <section style="position:relative">
+            <div class="side_bar2">     
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-solid fa-mobile"></i>&nbsp;&nbsp;&nbsp;마이데이터 서비스 테스트 </button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_svc">ㄴ단위테스트</a>
+                        <a href="../testbed/inte_svc">ㄴ통합테스트</a>
+                        <a href="../testbed/link_svc">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-solid fa-server"></i>&nbsp;&nbsp;API 서비스 테스트</button>
+                    <div class="dropdown-submenu">
+                        <a href="../testbed/unit_api">ㄴ단위테스트</a>
+                        <a href="../testbed/inte_api">ㄴ통합테스트</a>
+                        <a href="../testbed/link_api">ㄴ연동테스트</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
+                    <div class="dropdown-submenu">
+                        <a href="../mypage/editdata_list#!reg_data">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/editdata_list#!reg_svc">ㄴ테스트 서비스 관리</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fas fa-list"></i>&nbsp;&nbsp;테스트 내역 조회</button>
+                    <div class="dropdown-submenu">
+                        <a href="#none">ㄴ마이데이터 서비스 테스트</a>
+                        <a href="#none">ㄴAPI 서버 테스트</a>
+                    </div>
+                </div>
+            </div>    
+
+
+            <!-- 중앙 내용 -->
+            <div class="unitTest_box" style="width: 60%;">
+                <div class="explain_wrapper">
+                    <div class="title_box" style="width: 32%; min-width: 21rem;">
+                        <div class="circle_box">
+                            <div class="circleNum">01</div>
+                            <h3 class="explain_title">테스트할 서비스에서 인증 요청</h3>
+                        </div>
+                    </div>
+                    <div class="explain_box">
+                        <div class="main_explain" style="padding: 30px 0 0 30px;">
+                            <span>http://mypd.kr:3030/oauth 로 인증요청을 해주세요</span><br>
+                            <span>- 인가코드 발급요청 규격에 따른 요청 메시지 전송</span>
+                            <pre >
+                                <code class="hljs">
+        function fetchAPI () {
+            let params = {
+                "grant_type": "authorization_code",
+                "response_type": "code",
+                "orgCode" : "1111",
+                "client_id": "2cbec071fb07f27bca342c31ebd44fe",
+                "redirect_uri": "http://mypd.kr/client/app",
+                "username": "username",
+                "password": "password"
+            };
+            const query = Object.keys(params)
+                            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                            .join('&');
+            const url = "http://mypd.kr:3030/oauth/?" + query;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                    'X-FSI-UTCT-TYPE' : 'TGC00002'
+                },
+            }).then((response) =>{
+                    console.log(response);
+                    var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+                    window.open(response.url,"AuthLogin",options);
+            })
+        }
+                            </code></pre>
+                    </div>
+                </div>
+                </div>
+                <div class="explain_wrapper">
+                    <div class="title_box" style="width: 10%; min-width: 10rem;">
+                        <div class="circle_box">
+                            <div class="circleNum" style="background-color: #3CA0FF;">02</div>
+                            <h3 class="explain_title">인증절차</h3>
+                        </div>
+                    </div>
+                    <div class="explain_box">
+                        <div class="main_explain" style="padding: 30px 0 0 30px;">
+                            <span>테스트베드의 인증화면과 개인신용정보 전송 요구 화면을 통해 정보주체와 자산목록(Scope)을 선택 하시면 인가 코드가 발급 됩니다.</span>
+                            <img src="../images/authenFlow.png" id ="authenFlow">
+                        </div>
+                    </div>
+                </div>
+                <div class="explain_wrapper">
+                    <div class="title_box" style="width: 30%; min-width: 10rem;">
+                        <div class="circle_box">
+                            <div class="circleNum" style="background-color: #1478FF;">03</div>
+                            <h3 class="explain_title">접근토큰 발급</h3>
+                        </div>
+                    </div>
+                    <div class="explain_box">
+                        <div class="main_explain" style="padding: 30px 0 0 30px;">
+                            <span>인증 요청된 서비스로 접근 토큰이 발급 됩니다.</span>
+                            <pre >
+                                <code class="hljs">
+        let code
+        let token 
+        let tokenType
+        let refreshToken
+        const secret = 'MYSECRET' 
+        const id = 'myClientId' 
+        const orgCode = '1111'
+        ;(function(){ 
+            const urlParams = new URLSearchParams(window.location.search) 
+            code = urlParams.get('code')
+            document.getElementById('code').innerText = code
+        }())
+        function onClick() {
+            fetch('/oauth/token', {
+            method: 'POST',
+            body: `code=${code}&orgCode=${orgCode}&client_secret=${secret}&client_id=${id}&grant_type=authorization_code`,
+            headers: {
+                "accept": "application/json",
+                'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
+                "X-FSI-SVC-DATA-KEY": "N",
+                "X-FSI-UTCT-TYPE": "TGC00002"
+            },})
+            .then(res => res.json())
+            .then(res => {
+                console.log('Credentials', res)
+                token = res.access_token
+                tokenType = res.token_type
+                refreshToken = res.refresh_token
+                document.getElementById('token').innerText = token
+                document.getElementById('refresh_token').innerText = refreshToken
+            })
+        }
+                            </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="explain_wrapper">
+                    <div class="title_box" style="width: 30%;">
+                        <div class="circle_box">
+                            <div class="circleNum" style="background-color: #0000FF;">04</div>
+                            <h3 class="explain_title">개별 API 호출</h3>
+                        </div>
+                    </div>
+                    <div class="explain_box">
+                        <div class="main_explain" style="padding: 30px 0 0 30px; min-height: 80px; display : flex;">
+                            개별 API를 호출하여 테스트하실 수 있습니다.
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div>
+                <button onclick="fetchAPI()">asdasasdasdasdasdd</button>
+
+            </div>
+
+            <!-- SWAGger UI-->
+        </section>        
+        <!-- 오른쪽 사이드바 -->
+        <aside></aside>
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../javascripts/service_test.js"></script>
+    <script src="../javascripts/codeblock.js"></script>
+
+</body>
+</html>
+

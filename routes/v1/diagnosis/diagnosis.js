@@ -1,20 +1,21 @@
 const {YYYYMMDD, checkAndAPICall, getListAPI,getAPI} = require('../../../controller/controller.js')
 
 /**
-   * @path {GET} http://localhost:3000/v1/diagnosis/lists
+   * @path {GET} http://mypd.kr/v1/diagnosis/lists
    * @description 진료내역 목록 조회 API
    */
 exports.lists = (req, res) => {
+   console.log(req.query.org_code,", ", req.headers.authorization)
    const info = {
       'org_code' : req.query.org_code,
-      // 'api_tran_id': req.headers['x-api-tran-id'],
+      //'api_tran_id': req.headers['x-api-tran-id'],
       'AccessToken' : req.headers.authorization
    }
    params = [info['org_code'], '[진료정보제공 API] 진료내역 조회 API']
    getListAPI(res,info,params)
 }
 /**
-   * @path {POST} http://localhost:3000/v1/diagnosis/histories
+   * @path {POST} http://mypd.kr/v1/diagnosis/histories
    * @description 진료내역 조회 API
    */
 exports.histories = (req, res) => {
@@ -28,7 +29,7 @@ exports.histories = (req, res) => {
    getAPI(res,info,params,'Spec&Line')
 }
 /**
-   * @path {GET} http://localhost:3000/v1/diagnosis/presciptions
+   * @path {GET} http://mypd.kr/v1/diagnosis/presciptions
    * @description 처방전교부목록 조회 API
    */
 exports.presciptions = (req, res) => {
@@ -40,7 +41,7 @@ exports.presciptions = (req, res) => {
    getListAPI(res,info,params)
 }
 /**
-   * @path {POST} http://localhost:3000/v1/diagnosis/certifications
+   * @path {POST} http://mypd.kr/v1/diagnosis/certifications
    * @description 처방전교부내역 조회 API
    */
 exports.certifications = (req, res) => {
@@ -54,7 +55,7 @@ exports.certifications = (req, res) => {
    getAPI(res,info,params,'Spec&Line')
 }
 /**
-   * @path {POST} http://localhost:3000/v1/diagnosis/patients
+   * @path {POST} http://mypd.kr/v1/diagnosis/patients
    * @description 수진자상병내역 조회 API
    */
 exports.patients = (req, res) => {
@@ -67,7 +68,7 @@ exports.patients = (req, res) => {
    getAPI(res,info,params,'line')
 }
 /**
-   * @path {GET} http://localhost:3000/v1/diagnosis/apis
+   * @path {GET} http://mypd.kr/v1/diagnosis/apis
    * @description API 목록 조회
    */
 exports.apis = (req, res) => {
@@ -97,7 +98,7 @@ exports.apis = (req, res) => {
    })
 }
 /**
-   * @path {GET} http://localhost:3000/v1/diagnosis/consents
+   * @path {GET} http://mypd.kr/v1/diagnosis/consents
    * @description API 목록 조회
    */
 exports.consents = (req, res) => {

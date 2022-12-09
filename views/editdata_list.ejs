@@ -52,13 +52,13 @@
                             </a>
                         </li>
                         <li class="list">
-                            <a href="#!isv" onclick="fetchPageisv('reg_isv')">
+                            <a href="#!reg_isv" onclick="fetchPageisv('reg_isv')">
                                 <span class="icon"><i class="fa-solid fa-link"></i></span>
                                 <span class="text">연동 서버 테스트</span>
                             </a>
                         </li>
                         <li class="list">
-                            <a href="#!isc" onclick="fetchPageisc('reg_isc')">
+                            <a href="#!reg_isc" onclick="fetchPageisc('reg_isc')">
                                 <span class="icon"><i class="fa-solid fa-link"></i></span>
                                 <span class="text">연동 서비스 테스트</span>
                             </a>
@@ -73,7 +73,6 @@
                         <div class="indicator"></div>
                     </ul>
                 </div>
-
                 <content>
     
                 </content>     
@@ -95,8 +94,6 @@
         function setJSON() {
             // var firstval = "예시 데이터 입니다";
             jsonViewer = new JSONViewer();
-            const el = document.querySelector("#json");
-            console.log(el)
             document.querySelector("#json").appendChild(jsonViewer.getContainer());
 
             var textarea = document.querySelector("textarea");
@@ -197,11 +194,8 @@
             }
 
         } 
-        if(location.hash.substr(2)=="dashboard")
-        {
-            fetchPageDashBoard('dashboard');
-        }
+
+
     </script>
-     <!-- <script type="text/javascript" src="../javascripts/data_add.js"></script> -->
 </body>
 </html>
