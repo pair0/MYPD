@@ -86,7 +86,7 @@
                     </div>
                     <div class="explain_box">
                         <div class="main_explain" style="padding: 30px 0 0 30px;">
-                            <span>http://localhost:3030/oauth 로 인증요청을 해주세요</span><br>
+                            <span>http://mypd.kr/oauth 로 인증요청을 해주세요</span><br>
                             <span>- 인가코드 발급요청 규격에 따른 요청 메시지 전송</span>
                             <pre >
                                 <code class="hljs">
@@ -96,14 +96,14 @@
                 "response_type": "code",
                 "orgCode" : "1111",
                 "client_id": "2cbec071fb07f27bca342c31ebd44fe",
-                "redirect_uri": "http://localhost:3030/client/app",
+                "redirect_uri": "http://mypd.kr/client/app",
                 "username": "username",
                 "password": "password"
             };
             const query = Object.keys(params)
                             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
                             .join('&');
-            const url = "http://localhost:3030/oauth/?" + query;
+            const url = "http://mypd.kr/oauth/?" + query;
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -214,14 +214,14 @@
                 "response_type": "code",
                 "orgCode" : "1111",
                 "client_id": "2cbec071fb07f27bca342c31ebd44fe",
-                "redirect_uri": "http://localhost:3030/client/app",
+                "redirect_uri": "http://mypd.kr/client/app",
                 "username": "username",
                 "password": "password"
             };
             const query = Object.keys(params)
                             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
                             .join('&');
-            const url = "http://localhost:3030/oauth/?" + query;
+            const url = "http://mypd.kr/oauth/?" + query;
             fetch(url, {
                 method: 'GET',
                 headers: {
