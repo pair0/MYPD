@@ -250,29 +250,39 @@ router.get("/inte_api_final_request", function(req, res, next){
 
 //통합 서버 테스트 첫번째
 router.post("/inte_api_final_request", function(req, res, next){
-  select = req.body.select
+  var select = req.body.select
+  var method;
   console.log(select)
   if(select == "명세서 내역 목록 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[GET]"
   } else if(select == "명세서 내역 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[POST]"
   } else if(select == "전송요구내역 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[GET]"
   } else if(select == "진료내역 목록 조회"){
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[GET]"
   } else if(select == "진료내역 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "line_no": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요",\n    "line_no": "입력해주세요",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[POST]"
   } else if(select == "처방전교부목록 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[GET]"
   } else if(select == "처방전교부내역 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "pres_certify_no": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요",\n    "pres_certify_no": "입력해주세요",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[POST]"
   } else if(select == "의료기관약제내역목록 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[GET]"
   } else if(select == "의료기관약제내역 조회") {
-    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+    method = "[POST]"
   } 
   req.session.select = select;
-  res.send(row)
+  res.send({"row" : row, "api" : method+" "+select})
 });
 
 //통합 서버 테스트 두번째
