@@ -2,6 +2,8 @@ var express = require("express");
 var mdbConn = require("../../db_connection/mariaDBConn");
 var router = express.Router();
 const diagnosis = require("../v1/diagnosis/diagnosis");
+const pharmacy = require("../v1/pharmacy/pharmacy");
+const specification = require("../v1/specification/specification");
 const { isLogIn } = require("../../controller/login");
 const { checkTokens } = require("../../passport/abouttoken");
 const {YYYYMMDD} = require("../../controller/controller");
@@ -249,12 +251,27 @@ router.get("/inte_api_final_request", function(req, res, next){
 //통합 서버 테스트 첫번째
 router.post("/inte_api_final_request", function(req, res, next){
   select = req.body.select
-  if(select == "진료내역 목록 조회"){
+  console.log(select)
+  if(select == "명세서 내역 목록 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "명세서 내역 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "전송요구내역 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "진료내역 목록 조회"){
     var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
   } else if(select == "진료내역 조회") {
-
-  } else if(select == "")
-
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "line_no": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "처방전교부목록 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "처방전교부내역 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "pres_certify_no": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "의료기관약제내역목록 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } else if(select == "의료기관약제내역 조회") {
+    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "spec_id": "입력해주세요.",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
+  } 
+  req.session.select = select;
   res.send(row)
 });
 
@@ -263,9 +280,28 @@ router.get("/inte_api_final_response", function(req, res, next){
   res.render("inte_api_final_response")
 });
 
-router.get("/inte_api_final_response", /*diagnosis.lists,*/ function(req, res, next){
-  var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
-  send(row)
+router.get("/api_response", function(req, res, next){
+  select = req.session.select
+  req.session.select = null
+  if(select == "명세서 내역 목록 조회") {
+    specification.lists(req, res)
+  } else if(select == "명세서 내역 조회") {
+    specification.specifics(req, res)
+  } else if(select == "전송요구내역 조회") {
+    specification.consents(req, res)
+  } else if(select == "진료내역 목록 조회"){
+    diagnosis.lists(req, res)
+  } else if(select == "진료내역 조회") {
+    diagnosis.histories(req, res)
+  } else if(select == "처방전교부목록 조회") {
+    diagnosis.presciptions(req, res)
+  } else if(select == "처방전교부내역 조회") {
+    diagnosis.certifications(req, res)
+  } else if(select == "의료기관약제내역목록 조회") {
+    pharmacy.lists(req, res)
+  } else if(select == "의료기관약제내역 조회") {
+    pharmacy.histories(req, res)
+  }
 });
 
 router.get("/inte_test", function(req, res, next){

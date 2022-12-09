@@ -55,7 +55,6 @@ function checkAndAPICall(res, info, responseAlpa){
         var query = sql[key_value[key[1]]];
         var isValid = "valid";
         if (key[1] == 'AccessToken'){
-            console.log("Fuck you 병욱",info['AccessToken'])
             isValid = getTokenChk(info['AccessToken'],'access')
             response['rsp_msg'] = "unauthorized_token"
         }
@@ -68,7 +67,6 @@ function checkAndAPICall(res, info, responseAlpa){
                 res.status(200).json(response)
             }
             else{
-                console.log("여기로 오냐1111??", "row=", rows, "isvaild", isValid)
                 response['rsp_code'] = "01"
                 res.status(403).json(response)
             }
@@ -93,7 +91,6 @@ function GetListAPI(res,info,params,) {
     const sql = 'SELECT * FROM data_test WHERE enterprise_code = ? AND data_api = ?'
     mdbConn.dbSelectall(sql, params)
     .then((rows) => {
-        console.log("여기로 와야하오", rows)
         response['spec_cnt'] = rows.length;
         for(var i = 0; i < response['spec_cnt']; i++){
             if(params[1] == '[진료정보제공 API] 진료내역 조회 API' || params[1] == '[진료정보제공 API] 처방전교부내역 조회 API'){
