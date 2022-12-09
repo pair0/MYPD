@@ -127,6 +127,7 @@ router.get('/editdata_list', isLogIn, checkTokens, function(req, res, next){
   res.render('editdata_list');
 });
 
+
 //키 발급
 router.get('/key_gen',(req,res,next)=>
 {

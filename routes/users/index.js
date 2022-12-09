@@ -21,6 +21,9 @@ router.post("/login", async function (req, res) { //로그인 신청
     var returnUrl = '/';
   else
     var returnUrl = req.session.return;
+  if (returnUrl == "/mypage/editdata_list") 
+    returnUrl = "/mypage/editdata_list#!reg_svc"
+    
   // 로그인 Start
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id = ? ;"
   var params = [req.body.id.toString()];

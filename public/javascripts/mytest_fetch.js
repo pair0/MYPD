@@ -40,6 +40,9 @@ else if(location.hash.substring(2)=="dashboard")
     list[5].click();
 }
 
+
+
+
 //서비스 등록
 function fetchPagesvc(name){
     fetch(name).then(function(response){

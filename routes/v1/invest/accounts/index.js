@@ -36,6 +36,9 @@ router.get('/basic', function(req,res,next){
                               };
                               request(options,function(err,response,body){
                                 res.status(200).json(JSON.parse(body))
+                                if(err != null){
+                                    res.status(404).json({rsp_msg : "잘못된 접근입니다."})
+                                }
                               })
                         }
                     }).catch((err) => {
