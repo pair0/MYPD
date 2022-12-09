@@ -182,7 +182,7 @@ function setJSON(row) {
     }
 };
 
-function check1(){
+function check1(arg0){
     fetch('inte_api_final_request').then(function(response){
         response.text().then(function(text){
             opener.document.getElementById('request').innerHTML=text;
@@ -193,7 +193,7 @@ function check1(){
                 type: "POST",
                 async: false,
                 data: {
-                    "select" : $(".select_button1").val(),
+                    "select" : $(arg0).val(),
                     "orgcode": opener.$('#orgcode').val(),
                     "Access_token": opener.$('#Access_token').val()
                 },
@@ -220,17 +220,19 @@ function clickresponse() {
         response.text().then(function(text){
             document.getElementById('response').innerHTML=text;
             document.getElementById("response").style.display = 'block';
-            console.log($("#code123").val())
+            api_req = JSON.parse($("#code123").val())
             $.ajax({
-                url: "/v1/diagnosis/lists",
+                url: "/testbed/api_response", //"/v1/diagnosis/lists",
                 type: "GET",
                 async: false,
                 headers: {
-                    "authorization" : $("#Access_token").val()
+                    "authorization" : api_req.access_token
                 },
                 data: {
-                    "request_json_data" : $("#code123").val(),
-                    "org_code" : $("#orgcode").val()
+                    "org_code" : api_req.org_code,
+                    "spec_id" : api_req.spec_id,
+                    "line_no" : api_req.line_no,
+                    "pres_certify_no" : api_req.pres_certify_no
                 },
                 dataType:"json",
                 success: function (svc) {
@@ -253,5 +255,5 @@ function clickresponse() {
 function clickresult2() {
     document.getElementById("result").style.display = 'none';
     document.getElementById("response").style.display = 'none';
-    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+    window.open("/testbed/popup_api_select?id="+$('#b_right').val(), "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
