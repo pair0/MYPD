@@ -197,12 +197,12 @@ function check1(arg0){
                     "orgcode": opener.$('#orgcode').val(),
                     "Access_token": opener.$('#Access_token').val()
                 },
-                //dataType:"json",
+                dataType:"json",
                 success: function (svc) {
-                    console.log(svc)
+                    opener.$("#header_api").text(svc["api"]);
                     var jsonViewer = new JSONViewer();
-                    opener.$("#code123").html(svc);
-                    var res = setJSON(svc);
+                    opener.$("#code123").html(svc["row"]);
+                    var res = setJSON(svc["row"]);
                     if (res===false)
                     {
                         return false;
@@ -236,6 +236,7 @@ function clickresponse() {
                 },
                 dataType:"json",
                 success: function (svc) {
+                    $("#header_api_res").text($("#header_api").text())
                     row = JSON.stringify(svc)
                     var jsonViewer = new JSONViewer();
                     $("#coderesponse").html(jsonViewer.getContainer());
