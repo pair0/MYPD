@@ -156,7 +156,7 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
     res.locals.CODE = code_f;
     res.render("inte_api_access");
   } else {
-    res.redirect("/main");
+    res.redirect("/");
   }
 });
 
@@ -204,7 +204,7 @@ router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, ne
       res.locals.token = req.query.token
       res.render("inte_api_final");
     } else {
-      res.redirect("/main");
+      res.redirect("/");
     }
 
   }
