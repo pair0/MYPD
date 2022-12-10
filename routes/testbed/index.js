@@ -122,6 +122,7 @@ router.post("/unitLogging", function (req, res, next){
       - URL scheme must be \"http\" or \"https\" for CORS request <br>
     `
   }
+  console.log(data['resCode'])
   var sql = 'INSERT INTO log(type, user,timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?,?)';
   var params = [data['type'], req.session.joinUser['nickname'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
