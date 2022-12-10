@@ -6,7 +6,9 @@
 
 var app = require('../app');
 var debug = require('debug')('mypd:server');
-var http = require('http');
+// var http = require('http');
+var http = require('https');
+const fs = require('fs');
 /**
  * Get port from environment and store in Express.
  */
@@ -17,8 +19,13 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+ const options = {
+	key: fs.readFileSync('./keys/server.key'),
+  cert: fs.readFileSync('./keys/mypd.kr-crt.pem'),
+  ca : fs.readFileSync('./keys/mypd.kr-chain.pem'),
+};
+var server = http.createServer(options,app);
+// var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
