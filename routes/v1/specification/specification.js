@@ -2,11 +2,10 @@ const {YYYYMMDD, checkAndAPICall, getListAPI, getAPI} = require('../../../contro
 const mdbConn = require('../../../db_connection/mariaDBConn')
 
 /**
-   * @path {GET} http://mypd.kr/v1/specification/lists
+   * @path {GET} https://mypd.kr/v1/specification/lists
    * @description 명세서 목록 조회 API
    */
 exports.lists = (req, res) => {
-    console.log(req)
     const info = {
         'org_code' : req.query.org_code,
         'AccessToken' : req.headers.authorization
@@ -15,7 +14,7 @@ exports.lists = (req, res) => {
     getListAPI(res,info,params)
 }
 /**
-   * @path {POST} http://mypd.kr/v1/specification/specifics
+   * @path {POST} https://mypd.kr/v1/specification/specifics
    * @description 명세서 목록 조회 API
    */
 exports.specifics = (req, res) => {
@@ -28,7 +27,7 @@ exports.specifics = (req, res) => {
     getAPI(res,info, params);
 }
 /**
-   * @path {GET} http://mypd.kr/v1/specification/apis
+   * @path {GET} https://mypd.kr/v1/specification/apis
    * @description 정보제공자가 제공하는 정보제공 API 목록을 회신
    */
 exports.apis = (req, res) => {
@@ -61,7 +60,7 @@ exports.apis = (req, res) => {
     })
 }
 /**
-   * @path {GET} http://mypd.kr/v1/specification/consents
+   * @path {GET} https://mypd.kr/v1/specification/consents
    * @description 정보주체가 특정한 전송요구 내역 조회
    */
 exports.consents = (req, res) => {
