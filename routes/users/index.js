@@ -86,7 +86,7 @@ router.get('/logout', async function (req, res) {
   var session = req.session;
   try {
     // kakao 로그인은 로그아웃 방식이 따로 존재하기 때문에 세션 정보의 snsID가 kakao일 경우 auth폴더 안에 index.js에 정의해놓은 kakao logut 라우터 실행
-    if (session.joinUser.snsID === 'kakao') {
+    if (session.joinUser.snsID != undefined && session.joinUser.snsID === 'kakao') {
       return res.redirect('/auth/kakao/logout')
     }
     // kakao 외의 로그인 일 경우 세션을 지우고 passport모듈 내장 함수인 logout 기능을 이용, 그리고 마지막에 세션 쿠키를 지워주면서 완전히 로그아웃
@@ -142,8 +142,6 @@ router.post('/join', [
   body('pw').notEmpty().bail().trim().isLength({ min: 8, max: 16 }).isAlphanumeric('en-US', { ignore: '~!@#$%^&*()_+|<>?:{}]/;' }).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value, { req, res, path }) => {
     if (value !== req.body.pw) {
-      console.log(value)
-      console.log(req.body.pw)
       res.send("<script>alert('비밀번호 확인이 맞지 않습니다. ');location.href='/user/join';</" + "script>");
       //res.redirect('/user/join')
     } else {
@@ -184,7 +182,6 @@ router.post('/join', [
 
 router.post("/number_check", function (req, res, next) {
   const USE = req.body.use;
-  console.log(req.body.use);
   if (USE == "폐업자") {
     res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
   } else if (USE == "") {

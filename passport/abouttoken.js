@@ -42,7 +42,6 @@ function getTokenChk(token, value) {
         } else {
             secret = process.env.REFRESH_TOKEN_SECRET
         }
-        // console.log("안녕",TOKEN)
         const tokenVal =  jwt.verify(TOKEN, secret);
         return "valid";
     } catch (err) {

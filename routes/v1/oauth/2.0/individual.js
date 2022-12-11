@@ -3,7 +3,7 @@ const mdbConn = require('../../../../db_connection/mariaDBConn');
 const { json } = require("express");
 
 /**
-   * @path {GET} http://mypd.kr/v1/oauth/2.0/authorize
+   * @path {GET} https://mypd.kr/v1/oauth/2.0/authorize
    * @description 인가코드 발급 요청
    */
 exports.authorization = (req, res) => {
@@ -65,7 +65,7 @@ exports.authorization = (req, res) => {
 }
 
 /**
-   * @path {POST} http://mypd.kr/v1/oauth/2.0/token
+   * @path {POST} https://mypd.kr/v1/oauth/2.0/token
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
 exports.token = (req, res) => {
@@ -88,7 +88,6 @@ exports.token = (req, res) => {
         'authorization_code' : req.body.code,
         'id_idx' : req.user.id_idx
     }
-    console.log(req.body.refresh_token)
     // refresh_token이 없다면 refreshToken, accessToken 생성
     var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
     mdbConn.dbSelect(sql['checkInfo'],params)
@@ -171,7 +170,6 @@ exports.token = (req, res) => {
             })
             .catch(() => {
                 console.log(err)
-                console.log(req.body.refresh_token)
                 res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
             })
         }
@@ -184,11 +182,10 @@ exports.token = (req, res) => {
 }
 
 /**
-   * @path {POST} http://mypd.kr/v1/oauth/oauth_api/authorize_api
+   * @path {POST} https://mypd.kr/v1/oauth/oauth_api/authorize_api
    * @description 인가코드 발급 요청
 */
 exports.authorization_api = (req, res) => {
-    console.log(req.body);
     //org_code == 사업자등록번호
     //org_code, client_id
     //ci를 검증하라 하지만 ci에 대한 정보 없음.....
@@ -249,7 +246,7 @@ exports.authorization_api = (req, res) => {
 
 
 /**
-   * @path {POST} http://mypd.kr/v1/oauth/2.0/token
+   * @path {POST} https://mypd.kr/v1/oauth/2.0/token
    * @description (Authorization code)를 이용하여 접근토큰을 발급
    */
  exports.token_api = (req, res) => {
@@ -379,7 +376,6 @@ exports.authorization_api = (req, res) => {
                 })
                 .catch(() => {
                     console.log(err)
-                    console.log(req.body.refresh_token)
                     res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
                 })
             }

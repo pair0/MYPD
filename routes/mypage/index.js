@@ -88,13 +88,9 @@ router.get('/reg_svc', myLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svr', myLogIn, function(req, res, next) {
-  res.render('reg_svr');
-});
+router.get('/reg_svr', myLogIn, mdbConn.DBCheck_server);
 
-router.get('/reg_data', myLogIn, function(req, res, next) {
-  res.render('reg_data');
-});
+router.get('/reg_data', myLogIn, mdbConn.DBCheck_data);
 
 // 데시보드
 router.get('/dashboard', myLogIn, function(req, res, next) {
@@ -199,7 +195,7 @@ router.post('/editdata',(req, res, next)=>
   var sql = "INSERT INTO data_test(data_name, enterprise_code, business_right,consents, asset_id,data_api,data_json,id_idx) VALUES(?,?,?,?,?,?,?,?)";
   var params = [info['data_name'], info['enterprise_code'], info['business_right'], info['consents'], info['asset_id'], info['data_api'],info['data_json'],info['id']];
 
-  mdbConn.dbInsert(sql, params)
+  mdbConn.dbInsert(sql, params) 
   .then((rows) => {
     if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_data';</" + "script>");
     else res.redirect('/mypage/editdata_list#!reg_data');
@@ -216,7 +212,6 @@ router.get('/data_list',(req,res) => {
 //서버 등록하기
 router.post('/reg_svr',(req, res, next)=>
 {
-  console.log(req.body);
   const info = {
     "id": req.user.id_idx,
     "ip": req.body.ip,
@@ -283,7 +278,6 @@ router.get('/isv_list', myLogIn, async function(req,res,next){
 //연동 테스트 서버 등록 요청
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
-  console.log(data);
   var sql = "SELECT * FROM server_management WHERE server_manage_id=?"; 
   mdbConn.dbSelect(sql, data)
   .then((rows) => {

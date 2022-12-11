@@ -9,7 +9,6 @@ module.exports = () => {
         clientID: process.env.KAKAO_ID,
         callbackURL: '/auth/kakao/callback',     // 위에서 설정한 Redirect URI
     }, (accessToken, refreshToken, profile, done) => {
-    // console.log('kakao profile', profile);
     try{
         let info = {
         "enterprise_number" : "NULL",

@@ -72,7 +72,6 @@ router.get('/naver/callback', (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // console.log(info)
       req.session.joinUser = {
         enterprise_num : info['enterprise_number'],
         id : info['e_customer_id'],
