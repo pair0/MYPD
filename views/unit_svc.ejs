@@ -148,7 +148,10 @@
             <div style="height: 20px;"></div>
         </section>        
 
-
+        <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../javascripts/ClickToMove.js"></script>
+        <script src="../javascripts/ScrollUp.js"></script>
         <!-- 오른쪽 사이드바 -->
         <aside></aside>
         <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
@@ -165,17 +168,13 @@
     //<![CDATA[
     function calcHeight(){
      //find the height of the internal page
-    
-     var the_height=
-     document.getElementById('swagger-iframe').contentWindow.
-     document.body.scrollHeight;
-    
-     //change the height of the iframe
-     document.getElementById('swagger-iframe').height=
-     the_height;
-    
-    //  document.getElementById('swagger-iframe').scrolling = "no";
-    //  document.getElementById('swagger-iframe').style.overflow = "hidden";
+        var the_height=
+        document.getElementById('swagger-iframe').contentWindow.
+        document.body.scrollHeight;
+        
+        //change the height of the iframe
+        document.getElementById('swagger-iframe').height=
+        the_height;
     }
     //
     </script>
