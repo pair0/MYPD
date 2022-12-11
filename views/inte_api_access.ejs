@@ -263,7 +263,6 @@
                     .then(res => res.json())
                     .then(res => {
                         result = {"token" : res.access_token, "tokenType" : res.token_type, "refreshToken" : res.refresh_token} 
-                        console.log('Credentials', result["token"])
 
                         location.href = "/testbed/inte_api_final?token="+result["token"]+"&&tokenType="+result["tokenType"]+"&&refreshToken="+result["refreshToken"]
                         // document.getElementById('token').innerText = token

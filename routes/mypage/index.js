@@ -278,7 +278,6 @@ router.get('/isv_list', myLogIn, async function(req,res,next){
 //연동 테스트 서버 등록 요청
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
-  console.log(data);
   var sql = "SELECT * FROM server_management WHERE server_manage_id=?"; 
   mdbConn.dbSelect(sql, data)
   .then((rows) => {

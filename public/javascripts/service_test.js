@@ -166,7 +166,6 @@ document.getElementById("clickresult").onclick = function() {
 
 function setJSON(row) {
     var jsonObj = {};
-    console.log(row)
     // textarea value to JSON object
     try {
         jsonObj = JSON.parse(row);

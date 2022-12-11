@@ -100,9 +100,7 @@
             // textarea value to JSON object
             try {
                 var value = textarea.value;
-                console.log(value);
                 jsonObj = JSON.parse(value);
-                console.log(jsonObj);
                 if(!textarea.value.includes("{") || !textarea.value.includes("}"))
                 {
                     throw Error("not json");

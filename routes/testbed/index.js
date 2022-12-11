@@ -112,7 +112,6 @@ router.post("/unitLogging", function (req, res, next){
   curlStringProcessing(data)
   delete data['curl']
   // 위쪽 Object는 혹시 모를 추가 정보 때문에 그대로 나둠
-  // console.log(data)
   if (data['resCode'] == ' Undocumented '){
     data['resCode'] = "Fail"
     data['resBody'] = `
@@ -122,12 +121,10 @@ router.post("/unitLogging", function (req, res, next){
       - URL scheme must be \"http\" or \"https\" for CORS request <br>
     `
   }
-  console.log(data['resCode'])
   var sql = 'INSERT INTO log(type, user,timestamp,reqUrl, reqHeaders, reqBody, resCode,resBody,httpMethod) VALUES(?,?,?,?,?,?,?,?,?)';
   var params = [data['type'], req.session.joinUser['nickname'], data['timestamp'], data['reqUrl'],data['reqHeaders'], data['reqBody'], data['resCode'],data['resBody'], data['httpMethod']];
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    // console.log(rows);
     res.send(data);
   })
   .catch((err) => {
@@ -155,7 +152,6 @@ router.get("/inte_api_access", isLogIn, checkTokens, function (req, res, next) {
   if ((req.session.code != undefined && req.session.code != null) || req.query.code != null) {
     var code = req.session.code;
     var code_f = [req.query.code, code["org_code"], code["client_id"]];
-    console.log(code_f);
     res.locals.CODE = code_f;
     res.render("inte_api_access");
   } else {
@@ -180,7 +176,6 @@ router.post("/inte_api_access", isLogIn, checkTokens, function (req, res, next) 
 
 // router.post("/inte_api_final", isLogIn, checkTokens, individual.token_api);
 router.post("/inte_api_final", isLogIn, checkTokens, function(req,res){
-  console.log(req.body)
   const code = {"code": req.body.code,
                 "orgCode": req.body.orgCode,
                 "id": req.body.id,
@@ -194,8 +189,6 @@ router.post("/inte_api_final", isLogIn, checkTokens, function(req,res){
 
 
 router.get("/inte_api_final", isLogIn, checkTokens, async function (req, res, next) {
-  console.log(req.query.token);
-  console.log(req.session.code_final);
     if (req.session.code_final != undefined && req.session.code_final != null && req.query.token != undefined) {
       var code_final = req.session.code_final;
       req.session.code_final = null;
@@ -253,7 +246,6 @@ router.get("/inte_api_final_request", function(req, res, next){
 router.post("/inte_api_final_request", function(req, res, next){
   var select = req.body.select
   var method;
-  console.log(select)
   if(select == "명세서 내역 목록 조회") {
     var row = `{\n    "x-api-tran-id": "입력해주세요",\n    "x-api-type": "false",\n    "org_code": "${req.body.orgcode}",\n    "search_timestamp": "0",\n    "access_token": "${req.body.Access_token}"\n}` //${opener.$('#Access_token').val()}
     method = "[GET]"

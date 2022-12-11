@@ -88,7 +88,6 @@ exports.token = (req, res) => {
         'authorization_code' : req.body.code,
         'id_idx' : req.user.id_idx
     }
-    console.log(req.body.refresh_token)
     // refresh_token이 없다면 refreshToken, accessToken 생성
     var params = [info['authorization_code'], info['client_id'], info['client_secret'], info['id_idx']];
     mdbConn.dbSelect(sql['checkInfo'],params)
@@ -171,7 +170,6 @@ exports.token = (req, res) => {
             })
             .catch(() => {
                 console.log(err)
-                console.log(req.body.refresh_token)
                 res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
             })
         }
@@ -188,7 +186,6 @@ exports.token = (req, res) => {
    * @description 인가코드 발급 요청
 */
 exports.authorization_api = (req, res) => {
-    console.log(req.body);
     //org_code == 사업자등록번호
     //org_code, client_id
     //ci를 검증하라 하지만 ci에 대한 정보 없음.....
@@ -379,7 +376,6 @@ exports.authorization_api = (req, res) => {
                 })
                 .catch(() => {
                     console.log(err)
-                    console.log(req.body.refresh_token)
                     res.status(500).json({rsp_msg : 'refresh token 갱신 실패.'})
                 })
             }

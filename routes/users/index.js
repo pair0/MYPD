@@ -182,7 +182,6 @@ router.post('/join', [
 
 router.post("/number_check", function (req, res, next) {
   const USE = req.body.use;
-  console.log(req.body.use);
   if (USE == "폐업자") {
     res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
   } else if (USE == "") {
