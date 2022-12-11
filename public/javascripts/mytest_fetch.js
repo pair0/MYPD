@@ -44,6 +44,7 @@ else if(location.hash.substring(2)=="dashboard")
 
 
 //서비스 등록
+// 나중에 67번 라인 Callback URL 여러개 등록 가능하도록 변경
 function fetchPagesvc(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -63,7 +64,7 @@ function fetchPagesvc(name){
                 var table = document.getElementById('mytable')
                 var row =  `<tr>
                 <td id="list_name">${data[i].service_name}</td>
-                <td>${data[i].service_callback_url}</td>
+                <td>${data[i].service_callback_url.split('"')[1]}</td>
                 <td>${data[i].service_client_id}</td>
                 <td>${data[i].service_text}</td>
                 <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
