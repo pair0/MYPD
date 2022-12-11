@@ -9,6 +9,7 @@ var emailS = document.querySelector('#semail');
 var emailCheck = document.querySelector('#cmail');
 var input = document.querySelector('.huji .input');
 var error = document.querySelectorAll('.error_next_box');
+var checkMail;
 
 /*이벤트 핸들러 연결*/
 ID.addEventListener("focusout", checkId);
@@ -250,33 +251,61 @@ function sendMail() {
     }
 }
 
-function checkMail() {
-    if (emailF.value == "" || emailS.value == "") {
-        alert('이메일을 입력하여 주세요!');
-        checkMail = false;
-    } else if (emailCheck.value == "") {
-        alert('인증번호를 입력하여 주세요!');
-        checkMail =  false;
-    }  else {
-        $.ajax({
-            url: "/user/mail_check",
-            type: "POST",
-            async: false,
-            data: {
-                "mail_check": emailCheck.value
-            },
-            success: function (data) {
-                if (data == "true") {
-                    checkMail = true;
-                    alert('인증이 완료되었습니다.');
-                } else {
-                    checkMail = false;
-                    alert(data);
+$(document).ready(function () {
+    $("#checkMail").click(function () {
+        if (emailF.value == "" || emailS.value == "") {
+            alert('이메일을 입력하여 주세요!');
+            checkMail = false;
+        } else if (emailCheck.value == "") {
+            alert('인증번호를 입력하여 주세요!');
+            checkMail =  false;
+        }  else {
+            $.ajax({
+                url: "/user/mail_check",
+                type: "POST",
+                async: false,
+                data: {
+                    "mail_check": emailCheck.value
+                },
+                success: function (data) {
+                    if (data == "true") {
+                        checkMail = true;
+                        alert('인증이 완료되었습니다.');
+                    } else {
+                        checkMail = false;
+                        alert(data);
+                    }
                 }
-            }
-        })
-    }
-}
+            })
+        }
+    })
+})
+// function checkMail() {
+//     if (emailF.value == "" || emailS.value == "") {
+//         alert('이메일을 입력하여 주세요!');
+//         checkMail = false;
+//     } else if (emailCheck.value == "") {
+//         alert('인증번호를 입력하여 주세요!');
+//         checkMail =  false;
+//     }  else {
+//         $.ajax({
+//             url: "/user/mail_check",
+//             type: "POST",
+//             async: false,
+//             data: {
+//                 "mail_check": emailCheck.value
+//             },
+//             success: function (data) {
+//                 if (data == "true") {
+//                     checkMail = true;
+//                     alert('인증이 완료되었습니다.');
+//                 } else {
+//                     alert(data);
+//                 }
+//             }
+//         })
+//     }
+// }
 
 function checkBox(){
     if ($("#check1").is(":checked") == true && $("#check2").is(":checked") == true) {
@@ -294,6 +323,7 @@ function checkAll() {
         async: false,
         data: {
             "Number_check" : number_check,
+            "checkNICKNAME": checkNickname,
             "checkID": checkId,
             "checkPW": checkPw,
             "comparePW": comparePw,
@@ -305,9 +335,11 @@ function checkAll() {
                 result = true;
             } else {
                 result = false;
+                alert(data)
             }
         }
     })
+    console.log("결과: ", result)
     return result;
 }
 

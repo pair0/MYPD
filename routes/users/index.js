@@ -23,7 +23,7 @@ router.post("/login", async function (req, res) { //로그인 신청
     var returnUrl = req.session.return;
   if (returnUrl == "/mypage/editdata_list") 
     returnUrl = "/mypage/editdata_list#!reg_svc"
-    
+
   // 로그인 Start
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id = ? ;"
   var params = [req.body.id.toString()];
@@ -280,7 +280,13 @@ router.post("/mail_check", function mail_check(req, res, next) { //인증번호 
 
 router.post("/check_all", function (req, res, next) { //회원가입 검증
   const { Number_check, checkNICKNAME, checkID, checkPW, comparePW, checkMAIL, checkBOX } = req.body;
-
+  console.log(Number_check)
+  console.log(checkNICKNAME)
+  console.log(checkID)
+  console.log(checkPW)
+  console.log(comparePW)
+  console.log(checkMAIL)
+  console.log(checkBOX)
   if (checkID != undefined) {
     if (Number_check == "false") {
       res.send("사업자번호를 다시 확인하여 주세요.")
@@ -289,6 +295,7 @@ router.post("/check_all", function (req, res, next) { //회원가입 검증
     } else if (checkID == "false") {
       res.send("아이디를 다시 확인하여 주세요.");
     } else if (checkPW == "false") {
+      console.log("여기 여기")
       res.send("비밀번호를 다시 확인하여 주세요.");
     } else if (comparePW == "false") {
       res.send("비밀번호 확인을 다시 확인하여 주세요.");
