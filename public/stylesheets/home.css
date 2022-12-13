@@ -31,19 +31,6 @@ html {
 
 }
 
-/* .main_pic_bg > .city_edit{
-    position: absolute;
-    width: 100%;
-    min-height: 100%;
-    top: -2px;
-    background: url(../images/city.png) center no-repeat;
-    background-size: cover;
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-    overflow: hidden;
-} */
-
 .main_pic_bg > .city_edit{
     position: absolute;
     width: 100%;
