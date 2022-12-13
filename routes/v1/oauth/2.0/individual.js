@@ -23,6 +23,7 @@ exports.authorization = (req, res) => {
         'updateAuthorization_code' : 'UPDATE service_test SET authorization_code = ?  WHERE service_client_id = ?',
     }
     var params = [info['org_code'], info['id']];
+    
     mdbConn.dbSelect(sql['checkOrg_code'], params)
     .then((rows) => {
         info['id_idx'] = rows.id_idx
@@ -46,7 +47,8 @@ exports.authorization = (req, res) => {
                     ok: true, 
                     code: info['authorization_code'],
                     state: req.query.state,
-                    api_tran_id: req.headers['x-api-tran-id']
+                    api_tran_id: req.headers['x-api-tran-id'],
+                    test: "asdf"
                 })
                 var code = info['authorization_code']
                 return code
