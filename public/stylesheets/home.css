@@ -260,6 +260,28 @@ div .login_box:hover{
 }
 
 div .use_box{
+    background-color: #0059ff;
+    border: 1px solid  #0059ff;
+    width:170px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    font-weight: 600;
+    font-size:15px;
+    display:flex;
+    border-radius: 5px;
+}
+
+
+div .use_box:hover{
+    background-color: #0246c6;
+    border: 1px solid  #0059ff;
+
+}
+
+
+div .use_box{
     background-color: #0059ff00;
     border: 1px solid  #0059ff;
     width:120px;
@@ -1076,7 +1098,6 @@ div .use_box:hover{
     color:white;
     border-radius: 5px;
 }
-
 
 #logout_btn{
     margin-right: 10px !important;

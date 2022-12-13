@@ -11,8 +11,6 @@
     <script type="text/javascript" src="../javascripts/json-viewer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
 
-    <script src="../javascripts/graphiq.min.js"></script>
-
     <!-- SWIPER -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
     <script src="https://kit.fontawesome.com/0cfcf927e8.js" crossorigin="anonymous"></script>
@@ -24,7 +22,7 @@
 <body>
     <div class="about_nav">
         <nav class="navigation">
-            <%- include ("./header") %>
+            <%- include ("./header2") %>
         </nav>
     </div>
     <main>
@@ -100,9 +98,7 @@
             // textarea value to JSON object
             try {
                 var value = textarea.value;
-                console.log(value);
                 jsonObj = JSON.parse(value);
-                console.log(jsonObj);
                 if(!textarea.value.includes("{") || !textarea.value.includes("}"))
                 {
                     throw Error("not json");

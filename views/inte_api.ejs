@@ -25,7 +25,8 @@
     </div>
 
     <div class="header">
-        <h1>통합테스트 - 인증요청</h1>
+        <h1>마이데이터 API 서버 테스트</h1>
+        <p>통합테스트 - 인증요청</p>
     </div>
 
     <main class="main_bg">
@@ -169,7 +170,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>마이데이터 서비스 URI</p>
-                                                                                        </div><input type="text" name="redirect_uri" placeholder="redirect_uri" readonly value="http://localhost:3000/testbed/inte_api_access" ></td>
+                                                                                        </div><input type="text" name="redirect_uri" placeholder="redirect_uri" readonly value="https://localhost:3000/testbed/inte_api_access" ></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="state" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -244,7 +245,7 @@
                     const query = Object.keys(params)
                                     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
                                     .join('&');
-                    const url = "http://mypd.kr:3030/oauth/?" + query;
+                    const url = "https://mypd.kr:3030/oauth/?" + query;
                     fetch(url, {
                         method: 'GET',
                         headers: {

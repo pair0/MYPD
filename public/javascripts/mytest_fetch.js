@@ -644,44 +644,40 @@ function select_server(){
             select_type : $("#select_type").val()
         },
         success: function (svc) {
-            if(svc){
-                fetch("reg_server_select").then(async function(response){
-                    await response.text().then(function(text){
-                        document.querySelector('content_select').innerHTML=text;
-                    })
-                }).then(res => {
-                    for(var i=0; i<svc.length; i++){
-                        var table = document.getElementById('select')
-                        var row = 
-                        `
-                        <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
-                            <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
-                                <div style="width: 40%; border: #2f17c8; margin: 10px;">
-                                    <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
-                                    <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
-                                </div>
+            fetch("reg_server_select").then(async function(response){
+                await response.text().then(function(text){
+                    document.querySelector('content_select').innerHTML=text;
+                })
+            }).then(res => {
+                for(var i=0; i<svc.length; i++){
+                    var table = document.getElementById('select')
+                    var row = 
+                    `
+                    <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
+                        <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
+                            <div style="width: 40%; border: #2f17c8; margin: 10px;">
+                                <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
+                                <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
+                            </div>
 
-                                <div style="width: 60%; border: #2f17c8; margin: 10px;">
-                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
-                                    <p style="margin : 8px auto">${svc[i].e_name}</p>
-                                    <p6>${svc[i].e_address}</p6>
-                                    <div>
-                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
-                                    </div>      
-                                </div>
+                            <div style="width: 60%; border: #2f17c8; margin: 10px;">
+                                <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
+                                <p style="margin : 8px auto">${svc[i].e_name}</p>
+                                <p6>${svc[i].e_address}</p6>
+                                <div>
+                                    <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                </div>      
                             </div>
                         </div>
-                        `
-                        //var button = document.getElementById('select_button');
-                        //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
-                        table.innerHTML +=row
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }else{
-                console.log(svc);
-            }
+                    </div>
+                    `
+                    //var button = document.getElementById('select_button');
+                    //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
+                    table.innerHTML +=row
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     });
 }
