@@ -280,7 +280,6 @@ router.post("/mail_check", function mail_check(req, res, next) { //인증번호 
 
 router.post("/check_all", function (req, res, next) { //회원가입 검증
   const { Number_check, checkNICKNAME, checkID, checkPW, comparePW, checkMAIL, checkBOX } = req.body;
-
   if (checkID != undefined) {
     if (Number_check == "false") {
       res.send("사업자번호를 다시 확인하여 주세요.")
@@ -492,47 +491,5 @@ router.post("/findPwPer", isNotLogIn, function (req, res, next) { //pw 초기화
 router.get("/loginerror", isNotLogIn, (req, res, next) => {
   res.render("loginerror");
 });
-
-router.get("/addinfo", isLogIn, (req, res, next) => {
-  res.render("addinfo");
-});
-
-router.post('/addinfo', (req, res) => {
-  // 위에서 패스워드 검증이 끝났다면 DB에 회원 정보 등록
-  const info = {
-    "number": req.body.number,
-    "e_name": req.body.e_name,
-    "e_address": req.body.e_address,
-    "id_idx" : req.user.id_idx
-  };
-
-    var sql = 'UPDATE Customers_Enterprise SET enterprise_number = ?, e_name =? , e_address =?  WHERE id_idx = ?';
-    var params = [info['number'], info['e_name'], info['e_address'], info['id_idx']];
-    
-    mdbConn.dbInsert(sql, params)
-      .then((rows) => {
-        if (!rows) res.send("<script>alert('잘못된 접근입니다.');window.reload();</" + "script>");
-        else res.send("<script>alert('기업 정보 추가가 완료되었습니다.!! ');window.close()</" + "script>");
-      })
-      .catch((errMsg) => {
-        res.send("<script>alert('잘못된 접근입니다.');window.reload();</" + "script>");
-      });
-});
-
-router.post('/checkInfo',(req, res) => {
-  if(req.user.enterprise_number == "NULL"){
-    res.send(false)
-  }
-  else next()
-})
-router.post("/check_num", function (req, res, next) { //회원가입 검증
-  const { Number_check} = req.body;
-    if (Number_check == "false") {
-      res.send("사업자번호를 다시 확인하여 주세요.")
-    } else {
-      res.send(true);
-    }
-});
-
 
 module.exports = router;

@@ -365,13 +365,35 @@ async function buildList(data, id){
             info =  data[i].server_name
         else if(id == 'service')
             info =  data[i].service_name
-        else if(id == 'data')
+        else if(id == 'data'){
             info = data[i].data_name
+            info_detail = {
+                "enterprise_code" : data[i].enterprise_code,
+                "business_right": data[i].business_right,
+                "data_api": data[i].data_api,
+                "data" : data[i].data_json
+            }
+        }
         var table = document.getElementById(id)
-        var row = `<tr>
+        if (id == 'data'){
+                var row = `<tr>
+                            <td id=${id_name} style="cursor:pointer">${info}
+                                    <span class="spnTooltip tooltip-right">
+                                    <p>기관 코드 : ${info_detail["enterprise_code"]}</p>
+                                    <p>업종 : ${info_detail['business_right']}</p>
+                                    <p>업종 : ${info_detail['business_right']}</p>
+                                    <p>API : ${info_detail['data_api']}</p>
+                                    <p>data : <pre style="text-align: left">${info_detail['data']}</pre></p>
+                                    </span>
+                            </td>
+                        </tr>`
+        }
+        else{
+            var row = `<tr>
                         <td id=${id_name}>${info}</td>
-                    </tr>
-                    `
+                    </tr>`
+        }
+
         table.innerHTML +=row
     }
 }
