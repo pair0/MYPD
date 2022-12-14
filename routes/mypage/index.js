@@ -363,30 +363,35 @@ router.post('/approve', isLogIn, checkTokens, async function(req, res, next){
 
 //연동 서버 테스트 연동 반려
 router.post('/reject', isLogIn, checkTokens, async function(req, res, next){
-  var sql = 'INSERT INTO service_reject (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
-  params = [req.user.id_idx, req.body.id, req.body.sid];
-  var raw = await mdbConn.dbInsert(sql, params);
-  if(raw){
-    sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
-    mdbConn.dbInsert(sql, params)
-    .then((rows) => {
-      if(!rows) res.send(false);
-      else {
-        sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
-        params = req.body.id;
-        mdbConn.dbInsert(sql, params)
-        .then(() => {
-          if(!rows) res.send(false);
-          else res.send(true);
-        }).catch((err) => {
-          res.send(false);
-        });
-      }
-    })
-    .catch(() => {
-      res.send(false);
-    }); 
-  } else res.send(false);
+  var sql = 'SELECT id_idx from service_request where service_id = ?'
+  params = req.body.sid;
+  var raws = await mdbConn.dbSelect(sql, params);
+  if(raws){
+    var sql = 'INSERT INTO service_reject (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
+    params = [raws.id_idx, req.body.id, req.body.sid];
+    var raw = await mdbConn.dbInsert(sql, params);
+    if(raw){
+      sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
+      mdbConn.dbInsert(sql, params)
+      .then((rows) => {
+        if(!rows) res.send(false);
+        else {
+          sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
+          params = req.body.id;
+          mdbConn.dbInsert(sql, params)
+          .then(() => {
+            if(!rows) res.send(false);
+            else res.send(true);
+          }).catch((err) => {
+            res.send(false);
+          });
+        }
+      })
+      .catch(() => {
+        res.send(false);
+      }); 
+    } else res.send(false);
+  }
 });
 
 ////연동된 서비스 목록 보기
