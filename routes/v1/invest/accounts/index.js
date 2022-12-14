@@ -25,7 +25,7 @@ router.get('/basic', function(req,res,next){
                         if (!rows) res.status(400).json({rsp_msg : "해당 API 서버와 연동이 되지 않았습니다."})
                         else {
                             const options = {
-                                uri: "https://localhost:3000/v1/oauth/2.0/authorize",
+                                uri: path+"/v1/oauth/2.0/authorize",
                                 qs:{
                                     org_code:req.query.org_code,
                                     response_type:req.query.response_type,
