@@ -400,6 +400,7 @@ div .use_box:hover{
     padding: 0px !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    overflow-x: hidden !important;
 
 }
 #dashtitle {
@@ -418,6 +419,7 @@ div .use_box:hover{
 #service_name, #server_name, #data_name {
     text-align: center;
     border-radius: 0.5rem;
+    box-shadow: 5px 2px 20px 2px rgb(5 72 88 / 7%);;
 }
 .dashtable > tr > td{
     border-collapse: separate;
@@ -430,7 +432,7 @@ div .use_box:hover{
 #mytable_name_res{
     padding-right: 13px;
     border-radius: 1rem;
-
+    position: relative;
 }
 .main_pic_bg{
     background-color: #007aff;
@@ -2076,4 +2078,56 @@ span.center{
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 5rem;
+}
+
+/* .tooltip-right::after {
+    content: "";
+    position: absolute;
+    top: 11%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+} */
+
+tr .spnTooltip {
+    z-index:10;
+    display:none;
+    padding:14px 20px;
+    margin-top:-13px; 
+    margin-left:28px;
+    width:300px;
+    line-height:16px;
+}
+tr:hover .spnTooltip{
+    display:inline; 
+    position:absolute; 
+    color:#111;
+    border-color: #555;
+    border-radius: 6px;
+    border:1px solid #555; background:#fff;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+}
+tr > #mytable_name_res .spnTooltip2 {
+    display:none;
+    padding:14px 20px;
+    margin-top: -50px;
+    margin-left:-400px;
+    width:300px;
+    line-height:16px;
+}
+tr > #mytable_name_res:hover .spnTooltip2{
+    display:inline !important; 
+    position:absolute; 
+    z-index: 1000;
+    color:#000;
+    border-color: #373737;
+    border-radius: 6px;
+    border:1px solid #555; background:#fff;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+}
+.spnTooltip > p{
+    font-size : 3px !important;
+    text-align: left;
 }

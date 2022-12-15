@@ -181,6 +181,7 @@ router.post('/join', [
 });
 
 router.post("/number_check", function (req, res, next) {
+  const USE = req.body.use;
   if (USE == "폐업자") {
     res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
   } else if (USE == "") {
@@ -279,7 +280,6 @@ router.post("/mail_check", function mail_check(req, res, next) { //인증번호 
 
 router.post("/check_all", function (req, res, next) { //회원가입 검증
   const { Number_check, checkNICKNAME, checkID, checkPW, comparePW, checkMAIL, checkBOX } = req.body;
-
   if (checkID != undefined) {
     if (Number_check == "false") {
       res.send("사업자번호를 다시 확인하여 주세요.")
@@ -507,7 +507,7 @@ router.post('/addinfo', (req, res) => {
 
     var sql = 'UPDATE Customers_Enterprise SET enterprise_number = ?, e_name =? , e_address =?  WHERE id_idx = ?';
     var params = [info['number'], info['e_name'], info['e_address'], info['id_idx']];
-    
+
     mdbConn.dbInsert(sql, params)
       .then((rows) => {
         if (!rows) res.send("<script>alert('잘못된 접근입니다.');window.reload();</" + "script>");
