@@ -100,12 +100,12 @@ function curlStringProcessing(data){
 }
 router.post("/unitLogging", function (req, res, next){
   const data = {
-    type : req.body.type,
-    timestamp : YYYYMMDD(new Date().getTime(),"ORDER"),
-    curl: req.body.curl.split(/ |curl|\\|\n|'/ ).filter((elemet) => elemet !== ''),
-    resCode: req.body.resCode,
-    resBody: req.body.resBody.split(/\n/ ).filter((elemet) => elemet !== '').join("<br>"),
-    resHeaders: req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
+    'type' : req.body.type,
+    'timestamp' : YYYYMMDD(new Date().getTime(),"ORDER"),
+    'curl': req.body.curl.split(/ |curl|\\|\n|'/ ).filter((elemet) => elemet !== ''),
+    'resCode': req.body.resCode,
+    'resBody': req.body.resBody.split(/\n/ ).filter((elemet) => elemet !== '').join("<br>"),
+    'resHeaders': req.body.resHeaders.split(/  / ).filter((elemet) => elemet !== '')
   }
   data['httpMethod'] = data['curl'][1]
   data['reqUrl'] = data['curl'][2]

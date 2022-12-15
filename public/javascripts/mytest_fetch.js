@@ -315,6 +315,17 @@ async function buillogdtable(data, id){
     var id_name = id + '_name'
     for(var i=0; i< data.length;i++)
     {
+        if (data[i].resBody.includes('Bearer ')){
+            var body = data[i].resBody.split('<br>')
+            body[2] = '"access_token": "Bearer ***"'
+            body[4] = '"refresh_token": "Bearer ***"'
+            data[i].resBody = body.join('<br>')
+        }
+        else if(data[i].resBody.includes("code")){
+            var body = data[i].resBody.split('<br>')
+            body[2] = '"code": "xxxxxxxxxx"'
+            data[i].resBody = body.join('<br>')
+        }
         var table = document.getElementById(id)
         if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
             var row = `<tr id="log_tr">
@@ -324,7 +335,11 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${""}</td>
                             <td id=${id_name}>${""}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                    <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
         }
@@ -336,7 +351,11 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${""}</td>
                             <td id=${id_name}>${data[i].reqBody}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
         }
@@ -348,11 +367,30 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${data[i].reqHeaders}</td>
                             <td id=${id_name}>${""}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
-                }
-
+        }
+        else{
+            var row = `<tr id="log_tr">
+                        <td id=${id_name}>${data[i].type}</td>
+                        <td id=${id_name}>${data[i].timestamp.substr(0,10)}<br>${data[i].timestamp.substr(11)}</td>
+                        <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
+                        <td id=${id_name}>${data[i].reqUrl}</td>
+                        <td id=${id_name}>${data[i].reqHeaders}</td>
+                        <td id=${id_name}>${data[i].reqBody}</td>
+                        <td id=${id_name+'_res'}>Mouse over here!!
+                            <span class="spnTooltip2">
+                            <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                            </span>
+                        </td>
+                        </tr>
+                        `
+        }
         table.innerHTML +=row
     }
 }
