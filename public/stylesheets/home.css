@@ -1561,7 +1561,13 @@ section{
     flex-direction: column;
     align-items: center;
     width:100%;
-    margin-top:20px;
+    margin-top:14px;
+}
+.table_box::-webkit-scrollbar{
+    height: 5px;
+}
+.table_box::-webkit-scrollbar-thumb{
+    background-color: #007bff !important;
 }
 .data_table {
     flex-direction: column;
