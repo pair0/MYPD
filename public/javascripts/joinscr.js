@@ -339,7 +339,6 @@ function checkAll() {
             }
         }
     })
-    console.log("결과: ", result)
     return result;
 }
 
