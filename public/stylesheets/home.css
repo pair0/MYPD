@@ -432,7 +432,7 @@ div .use_box:hover{
 #mytable_name_res{
     padding-right: 13px;
     border-radius: 1rem;
-
+    position: relative;
 }
 .main_pic_bg{
     background-color: #007aff;
@@ -2105,6 +2105,24 @@ tr:hover .spnTooltip{
     position:absolute; 
     color:#111;
     border-color: #555;
+    border-radius: 6px;
+    border:1px solid #555; background:#fff;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+}
+tr > #mytable_name_res .spnTooltip2 {
+    display:none;
+    padding:14px 20px;
+    margin-top: -50px;
+    margin-left:-400px;
+    width:300px;
+    line-height:16px;
+}
+tr > #mytable_name_res:hover .spnTooltip2{
+    display:inline !important; 
+    position:absolute; 
+    z-index: 1000;
+    color:#000;
+    border-color: #373737;
     border-radius: 6px;
     border:1px solid #555; background:#fff;
     box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
