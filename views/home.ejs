@@ -133,26 +133,7 @@
         <script src="../javascripts/ScrollUp.js"></script>
         <script src="../javascripts/CheckNumber.js"></script>
     <!-- contact 끝 -->
-
-
-
     </main>
-<script>
-$.ajax({
-        url: "/user/checkInfo",
-        type: "POST",
-        async: false, 
-        data: {
-        },
-        success: function(data){
-            console.log(data);
-            if(!data){
-                var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
-                    window.open("https://localhost:3000/user/addinfo","EditInfo",options);
-            }
-        }
-    });
-</script>
 
 </body>
 </html>
