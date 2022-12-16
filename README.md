@@ -1,4 +1,6 @@
-<h1 align="center"> MYPD </h1>
+
+
+<p align="center">MYPD의 테스트베드가 궁금하시다면, [MYPD 홈페이지](https://mypd.kr)를 클릭하세요.</p>
 <h2 align="center"> MYPD 브로슈어 - 서비스 설명 </h2>
 <div style="  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
