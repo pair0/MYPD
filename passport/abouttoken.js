@@ -29,7 +29,14 @@ function generateuuidv4(num = 16) {
 function getTokenChk(token, value) {
     try {
         let secret;
-        let TOKEN = token.slice(7)
+        let TOKEN;
+
+        if (token.slice(0,7) == "Bearer "){
+            TOKEN = token.slice(7)
+        } else{
+            TOKEN = token
+        }
+        
         if (value == 'access') {
             secret = process.env.ACCESS_TOKEN_SECRET
         } else {

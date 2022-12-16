@@ -20,7 +20,7 @@
 <body class="body_bg">
     <div class="about_nav">
         <nav class="navigation">
-            <%- include ("./header") %>
+            <%- include ("./header2") %>
         </nav>
     </div>
 
@@ -58,8 +58,8 @@
                 <div class="dropdown">
                     <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata_list#!reg_data">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/editdata_list#!reg_svc">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
@@ -141,14 +141,17 @@
             <!-- SWAGger UI-->
             <div class="unitTest_box"> 
                 <div class="swag">
-                    <iframe id="swagger-iframe" src="http://localhost:3000/svc_test"  onload="calcHeight();" name="WrittenPublic"  frameborder="0"  style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">로드 중…</iframe>
+                    <iframe id="swagger-iframe" src="https://mypd.kr/svc_test"  onload="calcHeight();" name="WrittenPublic"  frameborder="0"  style="overflow-x:hidden; overflow:auto; width:100%; min-height:500px;">로드 중…</iframe>
                 </div>
             </div>
 
             <div style="height: 20px;"></div>
         </section>        
 
-
+        <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../javascripts/ClickToMove.js"></script>
+        <script src="../javascripts/ScrollUp.js"></script>
         <!-- 오른쪽 사이드바 -->
         <aside></aside>
         <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
@@ -165,17 +168,13 @@
     //<![CDATA[
     function calcHeight(){
      //find the height of the internal page
-    
-     var the_height=
-     document.getElementById('swagger-iframe').contentWindow.
-     document.body.scrollHeight;
-    
-     //change the height of the iframe
-     document.getElementById('swagger-iframe').height=
-     the_height;
-    
-    //  document.getElementById('swagger-iframe').scrolling = "no";
-    //  document.getElementById('swagger-iframe').style.overflow = "hidden";
+        var the_height=
+        document.getElementById('swagger-iframe').contentWindow.
+        document.body.scrollHeight;
+        
+        //change the height of the iframe
+        document.getElementById('swagger-iframe').height=
+        the_height;
     }
     //
     </script>

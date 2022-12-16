@@ -46,6 +46,9 @@ function checkAndAPICall(res, info, responseAlpa){
     }
     const key = Object.keys(info);
     var params = [info['org_code']];
+    if(info[key[1]].slice(0,7) != "Bearer "){
+        info[key[1]] = "Bearer "+info[key[1]]
+    }
     mdbConn.dbSelect(sql['checkOrg_code'], params)
     .then(() => {
         var params = [info[key[1]]];

@@ -357,7 +357,6 @@ a{
   min-height: 1000px;
   background: url(../images/login_bg_169.png) center no-repeat;
   background-size: cover;
-  overflow: hidden;
 }
 
 /*아이디/비밀번호 찾기 페이지 제목*/

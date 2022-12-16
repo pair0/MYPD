@@ -6,7 +6,6 @@ function key_gen(){
         data: {},
         dataType:"json",
         success: function (key) {
-            console.log(key);
             $('input[name=c_id]').attr('value',key.id);
             $('input[name=c_secret]').attr('value',key.secret);
         }

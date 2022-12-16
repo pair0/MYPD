@@ -6,13 +6,7 @@ const { generateAccessToken, generateRefreshToken, checkTokens } = require('../.
 const { isLogIn, isNotLogIn , validatorErrorChecker} = require('../../controller/login')
 const emailsend = require("../../lib/mail");
 const bcrypt = require('bcrypt');
-const { render } = require('ejs');
 require("dotenv").config();
-
-// 나중에 지울 친구!!
-router.get("/admin", isLogIn, checkTokens, (req, res) => {
-  res.render("admin");
-});
 
 /* Login */
 /* 로그인, 로그인 되지 않은 상태에서만 접근 가능하도록 하기 위햐 isNotLogin 함수 정의 후 사용 (auth 폴더 안 auth.js 파일 참고)  */
@@ -24,9 +18,12 @@ router.get("/login", isNotLogIn, (req, res, next) => {
 router.post("/login", async function (req, res) { //로그인 신청
   // 로그인 후 이전페이지로 돌아기 위한 코드
   if (req.session.return == undefined)
-    var returnUrl = '/main';
+    var returnUrl = '/';
   else
     var returnUrl = req.session.return;
+  if (returnUrl == "/mypage/editdata_list") 
+    returnUrl = "/mypage/editdata_list#!reg_svc"
+
   // 로그인 Start
   var sql = "SELECT * FROM Customers_Enterprise WHERE e_customer_id = ? ;"
   var params = [req.body.id.toString()];
@@ -57,7 +54,7 @@ router.post("/login", async function (req, res) { //로그인 신청
         var params = [info['refreshToken'], info['e_customer_id']];
         mdbConn.dbInsert(sql, params) // DB에 refresh Token Update
           .then((rows) => { 
-            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
             else {
               // Session 정보 생성
               req.session.joinUser = {
@@ -77,7 +74,7 @@ router.post("/login", async function (req, res) { //로그인 신청
             }
           })
           .catch((errMsg) => {
-            res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
           });
       }
     })
@@ -102,7 +99,7 @@ router.get('/logout', async function (req, res) {
             if (err) { return next(err); }
           });
           res.clearCookie('connect.sid');
-          res.redirect('/main');
+          res.redirect('/');
         }
       })
     }
@@ -145,8 +142,6 @@ router.post('/join', [
   body('pw').notEmpty().bail().trim().isLength({ min: 8, max: 16 }).isAlphanumeric('en-US', { ignore: '~!@#$%^&*()_+|<>?:{}]/;' }).isStrongPassword().withMessage('비밀번호를 확인해주세요.').bail(),
   body('pw_check').custom((value, { req, res, path }) => {
     if (value !== req.body.pw) {
-      console.log(value)
-      console.log(req.body.pw)
       res.send("<script>alert('비밀번호 확인이 맞지 않습니다. ');location.href='/user/join';</" + "script>");
       //res.redirect('/user/join')
     } else {
@@ -174,11 +169,11 @@ router.post('/join', [
     
     mdbConn.dbInsert(sql, params)
       .then((rows) => {
-        if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+        if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
         else res.send("<script>alert('회원가입이 완료되었습니다.!! ');location.href='/user/login';</" + "script>");
       })
       .catch((errMsg) => {
-        res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+        res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
       });
 
   })
@@ -187,7 +182,6 @@ router.post('/join', [
 
 router.post("/number_check", function (req, res, next) {
   const USE = req.body.use;
-  console.log(req.body.use);
   if (USE == "폐업자") {
     res.send("휴/폐업 사업자번호입니다. 해당 정보로 사업자 구매회원 가입은 불가합니다.");
   } else if (USE == "") {
@@ -286,7 +280,6 @@ router.post("/mail_check", function mail_check(req, res, next) { //인증번호 
 
 router.post("/check_all", function (req, res, next) { //회원가입 검증
   const { Number_check, checkNICKNAME, checkID, checkPW, comparePW, checkMAIL, checkBOX } = req.body;
-
   if (checkID != undefined) {
     if (Number_check == "false") {
       res.send("사업자번호를 다시 확인하여 주세요.")
@@ -477,26 +470,68 @@ router.post("/findPwPer", isNotLogIn, function (req, res, next) { //pw 초기화
 
         mdbConn.dbInsert(sql, params)
           .then((rows) => {
-            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
             else {
               res.send("<script>alert('비밀번호가 정상적으로 변경되었습니다.');location.href='/user/login';</" + "script>");
               res.clearCookie('rows');
             }
           })
           .catch((errMsg) => {
-            res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+            res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
           });
       })
     } else {
-      res.send("<script>alert('비정상적인 접근입니다.');location.href='/main';</" + "script>");
+      res.send("<script>alert('비정상적인 접근입니다.');location.href='/';</" + "script>");
     }
   } else {
-    res.send("<script>alert('세션이 만료되었습니다.');location.href='/main';</" + "script>");
+    res.send("<script>alert('세션이 만료되었습니다.');location.href='/';</" + "script>");
   }
 });
 
 router.get("/loginerror", isNotLogIn, (req, res, next) => {
   res.render("loginerror");
 });
+
+router.get("/addinfo", isLogIn, (req, res, next) => {
+  res.render("addinfo");
+});
+
+router.post('/addinfo', (req, res) => {
+  // 위에서 패스워드 검증이 끝났다면 DB에 회원 정보 등록
+  const info = {
+    "number": req.body.number,
+    "e_name": req.body.e_name,
+    "e_address": req.body.e_address,
+    "id_idx" : req.user.id_idx
+  };
+
+    var sql = 'UPDATE Customers_Enterprise SET enterprise_number = ?, e_name =? , e_address =?  WHERE id_idx = ?';
+    var params = [info['number'], info['e_name'], info['e_address'], info['id_idx']];
+
+    mdbConn.dbInsert(sql, params)
+      .then((rows) => {
+        if (!rows) res.send("<script>alert('잘못된 접근입니다.');window.reload();</" + "script>");
+        else res.send("<script>alert('기업 정보 추가가 완료되었습니다.!! ');window.close()</" + "script>");
+      })
+      .catch((errMsg) => {
+        res.send("<script>alert('잘못된 접근입니다.');window.reload();</" + "script>");
+      });
+});
+
+router.post('/checkInfo',(req, res) => {
+  if(req.user.enterprise_number == "NULL"){
+    res.send(false)
+  }
+  else next()
+})
+router.post("/check_num", function (req, res, next) { //회원가입 검증
+  const { Number_check} = req.body;
+    if (Number_check == "false") {
+      res.send("사업자번호를 다시 확인하여 주세요.")
+    } else {
+      res.send(true);
+    }
+});
+
 
 module.exports = router;

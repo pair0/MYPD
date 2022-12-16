@@ -20,12 +20,13 @@
 <body class="body_bg">
     <div class="about_nav">
         <nav class="navigation">
-            <%- include ("./header") %>
+            <%- include ("./header2") %>
         </nav>
     </div>
 
     <div class="header">
-        <h1>통합테스트 - 접근토큰 요청 </h1>
+        <h1>마이데이터 API 서버 테스트</h1>
+        <p>통합테스트 - 접근토큰 요청</p>
     </div>
 
     <main class="main_bg">
@@ -57,8 +58,8 @@
                 <div class="dropdown">
                     <button class="dropdown-btn"><i class="fa-sharp fa-solid fa-gear"></i>&nbsp;&nbsp;테스트 관리</button>
                     <div class="dropdown-submenu">
-                        <a href="../mypage/editdata_list">ㄴ테스트 데이터 관리</a>
-                        <a href="../mypage/reg_svc_list">ㄴ테스트 서비스 관리</a>
+                        <a href="../mypage/editdata_list#!reg_data">ㄴ테스트 데이터 관리</a>
+                        <a href="../mypage/editdata_list#!reg_svc">ㄴ테스트 서비스 관리</a>
                     </div>
                 </div>
 
@@ -181,7 +182,7 @@
                                                                                     <td class="parameters-col_description">
                                                                                         <div class="renderedMarkdown">
                                                                                             <p>인가코드 발급요청 시 요청했던 Callback URL</p>
-                                                                                        </div><input type="text" name="redirect_uri" placeholder="redirect_uri" value=""></td>
+                                                                                        </div><input type="text" name="redirect_uri" placeholder="redirect_uri" readonly value="https://mypd.kr/testbed/inte_api_final"></td>
                                                                                 </tr>
                                                                                 <tr data-param-name="refresh_token" data-param-in="query">
                                                                                     <td class="parameters-col_name">
@@ -216,7 +217,10 @@
                 </div>
             </form>
         </section>        
-
+        <div id="topButton" style="cursor: pointer"><img src="../images/scrollup.png" id="topButtonImg" width="40%"></div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../javascripts/ClickToMove.js"></script>
+        <script src="../javascripts/ScrollUp.js"></script>
 
         <!-- 오른쪽 사이드바 -->
         <aside></aside>
@@ -243,12 +247,17 @@
                     "id" : $('input[name=client_id]').val(),
                     "secret" : $('input[name=client_secret]').val(),
                     "redirect_uri" : $('input[name=redirect_uri]').val(),
-
                 },
                 success: function(res){
-                    fetch('http://localhost:3030/oauth/token', {
+                    if ($('input[name=refresh_token]').val() != ''){
+                        body_query =  `refresh_token=${$('input[name=refresh_token]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=refresh_token`
+                    }
+                    else{
+                        body_query = `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`
+                    }
+                    fetch('https://mypd.kr:3030/oauth/token', {
                     method: 'POST',
-                    body: `code=${$('input[name=code]').val()}&orgCode=${$('input[name=org_code]').val()}&client_secret=${$('input[name=client_secret]').val()}&client_id=${$('input[name=client_id]').val()}&grant_type=authorization_code`,
+                    body: body_query,
                     headers: {
                         "accept": "application/json",
                         'Content-Type': 'application/x-www-form-urlencoded',  // This is REALLY important
@@ -258,9 +267,8 @@
                     .then(res => res.json())
                     .then(res => {
                         result = {"token" : res.access_token, "tokenType" : res.token_type, "refreshToken" : res.refresh_token} 
-                        console.log('Credentials', result["token"])
 
-                        location.href = "/testbed/inte_api_final?token="+result["token"]+"tokenType="+result["tokenType"]+"refreshToken="+result["refreshToken"]
+                        location.href = "/testbed/inte_api_final?token="+result["token"]+"&&tokenType="+result["tokenType"]+"&&refreshToken="+result["refreshToken"]
                         // document.getElementById('token').innerText = token
                         // document.getElementById('refresh_token').innerText = refreshToken
                     })

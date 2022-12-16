@@ -1,7 +1,7 @@
 const {YYYYMMDD, checkAndAPICall, getListAPI, getAPI} = require('../../../controller/controller.js')
 
 /**
-   * @path {GET} http://localhost:3000/v1/pharmacy/lists
+   * @path {GET} https://mypd.kr/v1/pharmacy/lists
    * @description 의료기관약제내역목록 조회 API
    */
 exports.lists = (req, res) => {
@@ -13,7 +13,7 @@ exports.lists = (req, res) => {
     getListAPI(res,info,params)
 }
 /**
-   * @path {POST} http://localhost:3000/v1/pharmacy/histories
+   * @path {POST} https://mypd.kr/v1/pharmacy/histories
    * @description 의료기관약제내역 조회 API
    */
 exports.histories = (req, res) => {
@@ -26,7 +26,7 @@ exports.histories = (req, res) => {
     getAPI(res,info,params)
 }
 /**
-   * @path {GET} http://localhost:3000/v1/pharmacy/apis
+   * @path {GET} https://mypd.kr/v1/pharmacy/apis
    * @description API 목록 조회
     */
 exports.apis = (req, res) => {
@@ -57,7 +57,7 @@ exports.apis = (req, res) => {
     })
 }
 /**
-    * @path {GET} http://localhost:3000/v1/pharmacy/consents
+    * @path {GET} https://mypd.kr/v1/pharmacy/consents
     * @description API 목록 조회
     */
 exports.consents = (req, res) => {

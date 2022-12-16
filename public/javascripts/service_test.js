@@ -128,7 +128,7 @@ function swaggerlog(type) {
 
 // 서버 단위테스트 로깅 
 $("#biz_type").on("change", function() {
-    if(window.location.href == "http://localhost:3000/testbed/unit_svc")
+    if(window.location.href == "https://mypd.kr/testbed/unit_svc")
         return
     $.ajax({
         url: "/testbed/selectServer",
@@ -142,7 +142,7 @@ $("#biz_type").on("change", function() {
             $(document).ready(function(){
                 $('#swagger-iframe').remove();
                 if(data['url'] != ''){
-                    $('#api_swagger').append('<iframe id="swagger-iframe" src="http://localhost:3000/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
+                    $('#api_swagger').append('<iframe id="swagger-iframe" src="https://mypd.kr/api_test" style="border: 0px; background-color: #ffffff;"  width="840px" height="1000px">로드 중…</iframe>')
                     swaggerlog("서버 <br> 단위테스트")
                 }
             })
@@ -161,12 +161,11 @@ $(window).on("scroll", function() {
 
 
 document.getElementById("clickresult").onclick = function() {
-    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+    window.open("/testbed/popup_api_select?id="+$('#b_right').val(), "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }
 
 function setJSON(row) {
     var jsonObj = {};
-    console.log(row)
     // textarea value to JSON object
     try {
         jsonObj = JSON.parse(row);
@@ -182,7 +181,7 @@ function setJSON(row) {
     }
 };
 
-function check1(){
+function check1(arg0){
     fetch('inte_api_final_request').then(function(response){
         response.text().then(function(text){
             opener.document.getElementById('request').innerHTML=text;
@@ -192,14 +191,17 @@ function check1(){
                 url: "/testbed/inte_api_final_request",
                 type: "POST",
                 async: false,
-                data: {},
+                data: {
+                    "select" : $(arg0).val(),
+                    "orgcode": opener.$('#orgcode').val(),
+                    "Access_token": opener.$('#Access_token').val()
+                },
                 dataType:"json",
                 success: function (svc) {
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false",\n    "org_code": "${opener.$('#orgcode').val()}",\n    "search_timestamp": "0",\n    "access_token": "${opener.$('#Access_token').val()}"\n}` //${opener.$('#Access_token').val()}
+                    opener.$("#header_api").text(svc["api"]);
                     var jsonViewer = new JSONViewer();
-                    //opener.$("#code123").html(jsonViewer.getContainer());
-                    opener.$("#code123").html(row);
-                    var res = setJSON(row);
+                    opener.$("#code123").html(svc["row"]);
+                    var res = setJSON(svc["row"]);
                     if (res===false)
                     {
                         return false;
@@ -217,14 +219,24 @@ function clickresponse() {
         response.text().then(function(text){
             document.getElementById('response').innerHTML=text;
             document.getElementById("response").style.display = 'block';
+            api_req = JSON.parse($("#code123").val())
             $.ajax({
-                url: "/testbed/inte_api_final_request",
-                type: "POST",
+                url: "/testbed/api_response", //"/v1/diagnosis/lists",
+                type: "GET",
                 async: false,
-                data: {},
+                headers: {
+                    "authorization" : api_req.access_token
+                },
+                data: {
+                    "org_code" : api_req.org_code,
+                    "spec_id" : api_req.spec_id,
+                    "line_no" : api_req.line_no,
+                    "pres_certify_no" : api_req.pres_certify_no
+                },
                 dataType:"json",
                 success: function (svc) {
-                    var row = `{\n    "x-api-tran-id": "입력해주세요.",\n    "x-api-type": "false"\n}`
+                    $("#header_api_res").text($("#header_api").text())
+                    row = JSON.stringify(svc)
                     var jsonViewer = new JSONViewer();
                     $("#coderesponse").html(jsonViewer.getContainer());
                     var res = setJSON(row);
@@ -243,5 +255,5 @@ function clickresponse() {
 function clickresult2() {
     document.getElementById("result").style.display = 'none';
     document.getElementById("response").style.display = 'none';
-    window.open("/testbed/popup_api_select", "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
+    window.open("/testbed/popup_api_select?id="+$('#b_right').val(), "인증 팝업", "width = 460, height = 650, top = 100, left = 200, location = no");
 }

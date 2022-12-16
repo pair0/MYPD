@@ -24,22 +24,12 @@
                 연동된 서버스 목록
             </div>
         </div>
-        <div class="table_box_detail">
+        <div class="table_box_detail" style="margin-top: 30px;">
             <table class="data_table_detail">
-                <tr>
-                    <th style="text-align: center; width:5px;" >기업명</th>
-                    <th style="text-align: center; width:5px;" >서비스명</th>
-                    <th style="text-align: center; width:105px;" >Callback_URL</th>
-                    <th style="text-align: center; width:105px;" >Client_ID</th>
+                <tr style="text-align: center; width:5px;">
+                    <p style="font-size: 22px;">연동된 서비스가 존재하지 않습니다.</p>
                 </tr>
-                <% for(var i=0; i<row.length; i++){ %>
-                <tr>
-                    <td style="text-align: center; width:5px;" ><%=row[i].e_name%></td>
-                    <td style="text-align: center; width:5px;" ><%=row[i].service_name%></td>
-                    <td style="text-align: center; width:105px;" ><%=row[i].service_callback_url%></td>
-                    <td style="text-align: center; width:105px;" ><%=row[i].service_client_id%></td>
-                </tr>
-                <%}%>
+
             </table>
         </div>
     </body>

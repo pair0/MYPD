@@ -10,7 +10,41 @@ function activeLink()
 list.forEach((item) => item.addEventListener('click', activeLink));
 var data = [];
 
+if(location.hash.substring(2)=="reg_svc"){
+    fetchPagesvc('reg_svc');
+    list[0].click();
+}
+else if(location.hash.substring(2)=="reg_data")
+{
+    fetchPagedata('reg_data');
+    list[1].click();
+}
+else if(location.hash.substring(2)=="reg_svr")
+{
+    fetchPagesvr('reg_svr');
+    list[2].click();
+}
+else if(location.hash.substring(2)=="reg_isv")
+{
+    fetchPageisv('reg_isv');
+    list[3].click();
+}
+else if(location.hash.substring(2)=="reg_isc")
+{
+    fetchPageisc('reg_isc');
+    list[4].click();
+}
+else if(location.hash.substring(2)=="dashboard")
+{
+    fetchPageDashBoard('dashboard');
+    list[5].click();
+}
+
+
+
+
 //서비스 등록
+// 나중에 67번 라인 Callback URL 여러개 등록 가능하도록 변경
 function fetchPagesvc(name){
     fetch(name).then(function(response){
         response.text().then(function(text){
@@ -30,7 +64,7 @@ function fetchPagesvc(name){
                 var table = document.getElementById('mytable')
                 var row =  `<tr>
                 <td id="list_name">${data[i].service_name}</td>
-                <td>${data[i].service_callback_url}</td>
+                <td>${data[i].service_callback_url.split('"')[1]}</td>
                 <td>${data[i].service_client_id}</td>
                 <td>${data[i].service_text}</td>
                 <td class="svc_dlt_box"><a class="svc_dlt" onclick="del(1, ${data[i].service_id})">삭제</a></td>
@@ -281,6 +315,17 @@ async function buillogdtable(data, id){
     var id_name = id + '_name'
     for(var i=0; i< data.length;i++)
     {
+        if (data[i].resBody.includes('Bearer ')){
+            var body = data[i].resBody.split('<br>')
+            body[2] = '"access_token": "Bearer ***"'
+            body[4] = '"refresh_token": "Bearer ***"'
+            data[i].resBody = body.join('<br>')
+        }
+        else if(data[i].resBody.includes("code")){
+            var body = data[i].resBody.split('<br>')
+            body[2] = '"code": "xxxxxxxxxx"'
+            data[i].resBody = body.join('<br>')
+        }
         var table = document.getElementById(id)
         if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
             var row = `<tr id="log_tr">
@@ -290,7 +335,11 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${""}</td>
                             <td id=${id_name}>${""}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                    <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
         }
@@ -302,7 +351,11 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${""}</td>
                             <td id=${id_name}>${data[i].reqBody}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
         }
@@ -314,11 +367,30 @@ async function buillogdtable(data, id){
                             <td id=${id_name}>${data[i].reqUrl}</td>
                             <td id=${id_name}>${data[i].reqHeaders}</td>
                             <td id=${id_name}>${""}</td>
-                            <td id=${id_name+'_res'}>${data[i].resBody}</td>
+                            <td id=${id_name+'_res'}>Mouse over here!!
+                                <span class="spnTooltip2">
+                                <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                                </span>
+                            </td>
                         </tr>
                         `
-                }
-
+        }
+        else{
+            var row = `<tr id="log_tr">
+                        <td id=${id_name}>${data[i].type}</td>
+                        <td id=${id_name}>${data[i].timestamp.substr(0,10)}<br>${data[i].timestamp.substr(11)}</td>
+                        <td id=${id_name}>${data[i].httpMethod +'/'+ data[i].resCode}</td>
+                        <td id=${id_name}>${data[i].reqUrl}</td>
+                        <td id=${id_name}>${data[i].reqHeaders}</td>
+                        <td id=${id_name}>${data[i].reqBody}</td>
+                        <td id=${id_name+'_res'}>Mouse over here!!
+                            <span class="spnTooltip2">
+                            <p><pre style="text-align: left">${data[i].resBody}</pre></p>
+                            </span>
+                        </td>
+                        </tr>
+                        `
+        }
         table.innerHTML +=row
     }
 }
@@ -331,13 +403,35 @@ async function buildList(data, id){
             info =  data[i].server_name
         else if(id == 'service')
             info =  data[i].service_name
-        else if(id == 'data')
+        else if(id == 'data'){
             info = data[i].data_name
+            info_detail = {
+                "enterprise_code" : data[i].enterprise_code,
+                "business_right": data[i].business_right,
+                "data_api": data[i].data_api,
+                "data" : data[i].data_json
+            }
+        }
         var table = document.getElementById(id)
-        var row = `<tr>
+        if (id == 'data'){
+                var row = `<tr>
+                            <td id=${id_name} style="cursor:pointer">${info}
+                                    <span class="spnTooltip tooltip-right">
+                                    <p>기관 코드 : ${info_detail["enterprise_code"]}</p>
+                                    <p>업종 : ${info_detail['business_right']}</p>
+                                    <p>업종 : ${info_detail['business_right']}</p>
+                                    <p>API : ${info_detail['data_api']}</p>
+                                    <p>data : <pre style="text-align: left">${info_detail['data']}</pre></p>
+                                    </span>
+                            </td>
+                        </tr>`
+        }
+        else{
+            var row = `<tr>
                         <td id=${id_name}>${info}</td>
-                    </tr>
-                    `
+                    </tr>`
+        }
+
         table.innerHTML +=row
     }
 }
@@ -611,44 +705,40 @@ function select_server(){
             select_type : $("#select_type").val()
         },
         success: function (svc) {
-            if(svc){
-                fetch("reg_server_select").then(async function(response){
-                    await response.text().then(function(text){
-                        document.querySelector('content_select').innerHTML=text;
-                    })
-                }).then(res => {
-                    for(var i=0; i<svc.length; i++){
-                        var table = document.getElementById('select')
-                        var row = 
-                        `
-                        <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
-                            <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
-                                <div style="width: 40%; border: #2f17c8; margin: 10px;">
-                                    <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
-                                    <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
-                                </div>
+            fetch("reg_server_select").then(async function(response){
+                await response.text().then(function(text){
+                    document.querySelector('content_select').innerHTML=text;
+                })
+            }).then(res => {
+                for(var i=0; i<svc.length; i++){
+                    var table = document.getElementById('select')
+                    var row = 
+                    `
+                    <div id="select" style="display: block; width: 500px; margin: 10px auto; border: 2px solid rgba(51, 49, 49, 0.5);" >
+                        <div style="display: flex; height: 150px; margin: 5px; border: #2f17c8;">
+                            <div style="width: 40%; border: #2f17c8; margin: 10px;">
+                                <section id="select_1" style="height: 80%; border: 3px solid rgba(51, 49, 49, 0.5); background: url(/images/company_money.png) center no-repeat;"></section>
+                                <section id="select_2" style="height: 20%; padding-top: 4px; text-align: center; background-color: rgba(51, 49, 49, 0.5); font-weight: 700; font-size: 14px;">${svc[i].business_right} 업권</section>
+                            </div>
 
-                                <div style="width: 60%; border: #2f17c8; margin: 10px;">
-                                    <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
-                                    <p style="margin : 8px auto">${svc[i].e_name}</p>
-                                    <p6>${svc[i].e_address}</p6>
-                                    <div>
-                                        <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
-                                    </div>      
-                                </div>
+                            <div style="width: 60%; border: #2f17c8; margin: 10px;">
+                                <div style="background-color: rgba(51, 49, 49, 0.5); width: 22%; color: white; font-weight: 500; padding: 3px; font-size: 14px;">${svc[i].business_right}기관</div>
+                                <p style="margin : 8px auto">${svc[i].e_name}</p>
+                                <p6>${svc[i].e_address}</p6>
+                                <div>
+                                    <button id="select_button" onclick="fetchPage('isc_detail?id=${svc[i].server_manage_id}&c_id=${svc[i].id_idx}')" style="background-color: #568cd3; cursor: pointer; padding: 5px 10px; margin-top: 8px; color: white; font-weight: 500; font-size: 16px;">연동 요청</button>
+                                </div>      
                             </div>
                         </div>
-                        `
-                        //var button = document.getElementById('select_button');
-                        //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
-                        table.innerHTML +=row
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }else{
-                console.log(svc);
-            }
+                    </div>
+                    `
+                    //var button = document.getElementById('select_button');
+                    //button.onclick="fetchPage('isc_detail?id=${svc[0].server_manage_id}')";
+                    table.innerHTML +=row
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     });
 }

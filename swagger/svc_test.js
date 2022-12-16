@@ -11,7 +11,8 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000", // 요청 URL
+                // url: "http://localhost:3000", // 요청 URL
+                url: "https://mypd.kr", // 요청 URL
             },
         ],
         components: {

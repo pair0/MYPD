@@ -57,11 +57,11 @@ router.post('/edit', [
 
     mdbConn.dbInsert(sql, params)
     .then((rows) => {
-      if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
-      else res.send("<script>alert('회원 정보 수정이 완료되었습니다.!!');location.href='/main';</" + "script>");
+      if (!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
+      else res.send("<script>alert('회원 정보 수정이 완료되었습니다.!!');location.href='/';</" + "script>");
     })
     .catch((err) => {
-      res.send("<script>alert('잘못된 접근입니다.');location.href='/main';</" + "script>");
+      res.send("<script>alert('잘못된 접근입니다.');location.href='/';</" + "script>");
     });
   })
 });
@@ -88,13 +88,9 @@ router.get('/reg_svc', myLogIn, function(req, res, next) {
   res.render('reg_svc');
 });
 
-router.get('/reg_svr', myLogIn, function(req, res, next) {
-  res.render('reg_svr');
-});
+router.get('/reg_svr', myLogIn, mdbConn.DBCheck_server);
 
-router.get('/reg_data', myLogIn, function(req, res, next) {
-  res.render('reg_data');
-});
+router.get('/reg_data', myLogIn, mdbConn.DBCheck_data);
 
 // 데시보드
 router.get('/dashboard', myLogIn, function(req, res, next) {
@@ -123,26 +119,9 @@ router.get('/add_svc',myLogIn, function(req, res, next) {
   res.render('add_svc');
 });
 
-router.get('/add_data',myLogIn, function(req, res, next) {
-  res.render('add_data');
+router.get('/editdata_list', isLogIn, checkTokens, function(req, res, next){
+  res.render('editdata_list');
 });
-
-
-//마이데이터 서비스 테스트 관리
-router.get('/reg_svc_no', isLogIn, checkTokens, mdbConn.dbCheck);
-router.get('/reg_svc_list', isLogIn, checkTokens, mdbConn.dbCheck);
-
-//테스트 데이터 관리
-router.get('/editdata_list', isLogIn, checkTokens, mdbConn.dataCheck);
-router.get('/editdata_no', isLogIn, checkTokens, mdbConn.dataCheck);
-
-//서버 등록 관리
-router.get('/reg_svr_no', isLogIn, checkTokens, mdbConn.svrCheck);
-router.get('/reg_svr_list', isLogIn, checkTokens, mdbConn.svrCheck);
-
-//연동 테스트 관리
-router.get('/editinte', isLogIn, checkTokens, mdbConn.dbCheck_inter);
-router.get('/editinte_no', isLogIn, checkTokens, mdbConn.dbCheck_inter);
 
 
 //키 발급
@@ -200,18 +179,6 @@ router.get('/svc_list',(req,res) => {
   getList(req,res,'select * from service_test where id_idx=?',[req.user.id_idx]);
 });
 
-//서비스 리스트 지우기
-router.post('/svc_list_del', async function(req,res,next){
-  var id= req.user.id_idx;
-  var svc_id = req.body.service_id;
-  var sql = 'delete from service_test where service_id=? and id_idx=?';
-  var params = [id, svc_id];
-  await mdbConn.dbSelect(sql, params)
-  .then(() => {
-    res.redirect('/mypage/reg_svc');
-  })
-});
-
 //테스트데이터 등록하기
 router.post('/editdata',(req, res, next)=>
 {
@@ -228,12 +195,12 @@ router.post('/editdata',(req, res, next)=>
   var sql = "INSERT INTO data_test(data_name, enterprise_code, business_right,consents, asset_id,data_api,data_json,id_idx) VALUES(?,?,?,?,?,?,?,?)";
   var params = [info['data_name'], info['enterprise_code'], info['business_right'], info['consents'], info['asset_id'], info['data_api'],info['data_json'],info['id']];
 
-  mdbConn.dbInsert(sql, params)
+  mdbConn.dbInsert(sql, params) 
   .then((rows) => {
-    if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
-    else res.redirect('/mypage/editdata_list');
+    if(!rows) res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_data';</" + "script>");
+    else res.redirect('/mypage/editdata_list#!reg_data');
   }).catch((err) => {
-    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list';</" + "script>");
+    res.send("<script>alert('저장 실패!!');location.href='/mypage/editdata_list#!reg_data';</" + "script>");
   });
 });
 
@@ -242,23 +209,9 @@ router.get('/data_list',(req,res) => {
   getList(req,res,'select * from data_test where id_idx=?',[req.user.id_idx])
 });
 
-//테스트데이터 지우기
-router.post('/data_list_del',async function(req,res,next){
-  var id= req.user.id_idx;
-  console.log(req.body);
-  var data_id = req.body.data_id;
-  var sql = 'delete from data_test where data_id=? and id_idx=?';
-  var params = [id, data_id];
-  await mdbConn.dbSelect(sql, params)
-  .then(() => {
-    res.redirect('/mypage/editdata_list');
-  })
-});
-
 //서버 등록하기
 router.post('/reg_svr',(req, res, next)=>
 {
-  console.log(req.body);
   const info = {
     "id": req.user.id_idx,
     "ip": req.body.ip,
@@ -271,10 +224,10 @@ router.post('/reg_svr',(req, res, next)=>
 
   mdbConn.dbInsert(sql, params)
   .then((rows) => {
-    if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
-    else  res.redirect('/mypage/reg_svr_list');
+    if(!rows) res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
+    else  res.redirect('/mypage/editdata_list#!reg_svr');
   }).catch((err) => {
-    res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/reg_svr_list';</" + "script>");
+    res.send("<script>alert('잘못된 접근입니다.');location.href='/mypage/editdata_list#!reg_svr';</" + "script>");
   });
 });
 
@@ -325,7 +278,6 @@ router.get('/isv_list', myLogIn, async function(req,res,next){
 //연동 테스트 서버 등록 요청
 router.post("/addinte_server", isLogIn, checkTokens, async function(req, res, next){
   var data = req.body.NUMBER;
-  console.log(data);
   var sql = "SELECT * FROM server_management WHERE server_manage_id=?"; 
   mdbConn.dbSelect(sql, data)
   .then((rows) => {
@@ -376,58 +328,70 @@ router.get('/isv_detail', myLogIn, async function(req, res, next) {
 
 //연동 서버 테스트 연동 승인
 router.post('/approve', isLogIn, checkTokens, async function(req, res, next){
-  var sql = 'INSERT INTO service_approve (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
-  params = [req.user.id_idx, req.body.id, req.body.sid];
-  var raw = await mdbConn.dbInsert(sql, params);
-  if(raw){
-    sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
-    mdbConn.dbInsert(sql, params)
-    .then((rows) => {
-      if(!rows) res.send(false);
-      else {
-        sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
-        params = req.body.id;
-        mdbConn.dbInsert(sql, params)
-        .then(() => {
-          if(!rows) res.send(false);
-          else res.send(true);
-        }).catch((err) => {
-          res.send(false);
-        });
-      }
-    })
-    .catch(() => {
-      res.send(false);
-    }); 
-  } else res.send(false);
+  var sql = 'SELECT id_idx from service_request where service_id = ?'
+  params = req.body.sid;
+  var raws = await mdbConn.dbSelect(sql, params);
+  if(raws){
+    var sql = 'INSERT INTO service_approve (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
+    params = [raws.id_idx, req.body.id, req.body.sid];
+    var raw = await mdbConn.dbInsert(sql, params);
+    if(raw){
+      sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
+      mdbConn.dbInsert(sql, params)
+      .then((rows) => {
+        if(!rows) res.send(false);
+        else {
+          sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
+          params = req.body.id;
+          mdbConn.dbInsert(sql, params)
+          .then(() => {
+            if(!rows) res.send(false);
+            else res.send(true);
+          }).catch((err) => {
+            res.send(false);
+          });
+        }
+      })
+      .catch(() => {
+        res.send(false);
+      }); 
+    } else res.send(false);
+  } else {
+    req.send(false)
+  }
 });
 
 //연동 서버 테스트 연동 반려
 router.post('/reject', isLogIn, checkTokens, async function(req, res, next){
-  var sql = 'INSERT INTO service_reject (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
-  params = [req.user.id_idx, req.body.id, req.body.sid];
-  var raw = await mdbConn.dbInsert(sql, params);
-  if(raw){
-    sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
-    mdbConn.dbInsert(sql, params)
-    .then((rows) => {
-      if(!rows) res.send(false);
-      else {
-        sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
-        params = req.body.id;
-        mdbConn.dbInsert(sql, params)
-        .then(() => {
-          if(!rows) res.send(false);
-          else res.send(true);
-        }).catch((err) => {
-          res.send(false);
-        });
-      }
-    })
-    .catch(() => {
-      res.send(false);
-    }); 
-  } else res.send(false);
+  var sql = 'SELECT id_idx from service_request where service_id = ?'
+  params = req.body.sid;
+  var raws = await mdbConn.dbSelect(sql, params);
+  if(raws){
+    var sql = 'INSERT INTO service_reject (id_idx, server_manage_id, service_id) VALUES (?,?,?)';
+    params = [raws.id_idx, req.body.id, req.body.sid];
+    var raw = await mdbConn.dbInsert(sql, params);
+    if(raw){
+      sql = 'delete from service_request where id_idx=? AND server_manage_id = ? AND service_id = ?';
+      mdbConn.dbInsert(sql, params)
+      .then((rows) => {
+        if(!rows) res.send(false);
+        else {
+          sql = 'UPDATE inter_server SET request_count = request_count-1 WHERE server_manage_id = ?'
+          params = req.body.id;
+          mdbConn.dbInsert(sql, params)
+          .then(() => {
+            if(!rows) res.send(false);
+            else res.send(true);
+          }).catch((err) => {
+            res.send(false);
+          });
+        }
+      })
+      .catch(() => {
+        res.send(false);
+      }); 
+    } else res.send(false);
+  }
 });
 
 ////연동된 서비스 목록 보기
@@ -439,7 +403,9 @@ router.get('/inter_service_index', function(req, res, next){
     if(row != false){
       res.locals.row = row;
       res.render('inter_service_index')
-    } else res.render('error')
+    } else {
+      res.render('inter_service_index_no')
+    }
   }).catch((err) => {
     res.render('error')
   })
@@ -448,11 +414,6 @@ router.get('/inter_service_index', function(req, res, next){
 //연동 서비스 테스트 추가
 router.get('/addinte_service_1', myLogIn, async function(req, res, next){
   res.render('addinte_service_1')
-});
-
-//연동 서비스 테스트 추가
-router.post('/addinte_service_2', myLogIn, async function(req, res, next){
-  res.render('addinte_service_2')
 });
 
 //연동 서비스 리스트 가져오기
@@ -502,7 +463,7 @@ router.get('/isc_detail', myLogIn, function(req, res, next) {
     res.locals.raw = row;
     res.render('isc_detail');
   }).catch((err) => {
-    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
   });
 });
 
@@ -520,10 +481,10 @@ router.get('/isc_approve', myLogIn, function(req, res, next){
       res.locals.row = raw;
       res.render('isc_approve');
     }).catch((err) => {
-      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
     });
   }).catch((err) => {
-    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
   });
 });
 
@@ -540,24 +501,24 @@ router.post('/isc_approve', isLogIn, checkTokens, async function(req, res, next)
     var params = [req.user.id_idx, req.body.serverI, req.body.serviceI, req.body.serviceT];
     mdbConn.dbInsert(sql, params)
     .then((row) => {
-      if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
       else {
         sql = 'UPDATE inter_server SET request_count=request_count+1 WHERE server_manage_id = ?'
         params = req.body.serverI;
         mdbConn.dbInsert(sql, params)
         .then(() => {
-          if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
-          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!isc")</script>`);
+          if (!row) res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
+          else res.send(`<script>alert('연동 요청이 완료되었습니다.');location.replace("/mypage/editdata_list#!reg_isc")</script>`);
         }).catch((err) => {
-          res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+          res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
         });
       }
     }).catch((err) => {
-      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/main")</script>`);
+      res.send(`<script>alert('잘못된 접근입니다.');location.replace("/")</script>`);
     });
   }
   else{
-    res.send(`<script>alert('이미 연동 신청한 서버입니다.');location.replace("/main")</script>`);
+    res.send(`<script>alert('이미 연동 신청한 서버입니다.');location.replace("/")</script>`);
   }
   
 });

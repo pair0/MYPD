@@ -10,7 +10,6 @@ module.exports = () => {
             clientSecret: process.env.GOOGLE_SECRET,
             callbackURL: '/auth/google/callback', // 구글 로그인 Redirect URI 경로
     }, async (accessToken, refreshToken, profile, done) => {
-        // console.log('google profile : ', profile);
         try{
             let info = {
             "enterprise_number" : "NULL",
@@ -20,7 +19,6 @@ module.exports = () => {
             "snsID" : "google",
             accessToken : accessToken
             }
-            console.log(info)
             var sql = `SELECT enterprise_number, nickname, e_customer_id, e_customer_email, snsID FROM Customers_Enterprise WHERE e_customer_id = ? AND snsID = ? ;`
             var params = [
             info["e_customer_id"],

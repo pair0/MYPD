@@ -12,31 +12,24 @@
 body{
     height:100%;
     background-color: #007aff;
-}   
+}
+html {
+    scroll-behavior:smooth;
+}
 
 
 .city {
     position: absolute;
     width: 100%;
-    height: 1369px;
+    /* height: 1228px; */
+    height: 80rem;
     top: -2px;
     background: url(../images/city.png) center no-repeat;
     background-size: cover;
     background-color: #007aff;
-}
+    z-index: 0;
 
-/* .main_pic_bg > .city_edit{
-    position: absolute;
-    width: 100%;
-    min-height: 100%;
-    top: -2px;
-    background: url(../images/city.png) center no-repeat;
-    background-size: cover;
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-    overflow: hidden;
-} */
+}
 
 .main_pic_bg > .city_edit{
     position: absolute;
@@ -254,6 +247,28 @@ div .login_box:hover{
 }
 
 div .use_box{
+    background-color: #0059ff;
+    border: 1px solid  #0059ff;
+    width:170px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    font-weight: 600;
+    font-size:15px;
+    display:flex;
+    border-radius: 5px;
+}
+
+
+div .use_box:hover{
+    background-color: #0246c6;
+    border: 1px solid  #0059ff;
+
+}
+
+
+div .use_box{
     background-color: #0059ff00;
     border: 1px solid  #0059ff;
     width:120px;
@@ -385,6 +400,7 @@ div .use_box:hover{
     padding: 0px !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    overflow-x: hidden !important;
 
 }
 #dashtitle {
@@ -403,6 +419,7 @@ div .use_box:hover{
 #service_name, #server_name, #data_name {
     text-align: center;
     border-radius: 0.5rem;
+    box-shadow: 5px 2px 20px 2px rgb(5 72 88 / 7%);;
 }
 .dashtable > tr > td{
     border-collapse: separate;
@@ -415,7 +432,7 @@ div .use_box:hover{
 #mytable_name_res{
     padding-right: 13px;
     border-radius: 1rem;
-
+    position: relative;
 }
 .main_pic_bg{
     background-color: #007aff;
@@ -440,11 +457,11 @@ div .use_box:hover{
 .about_page{
     display:flex;
     background-color: #007aff;
-    height:1200px;
+    /* height:1200px; */
+    height:80rem;
     flex-direction: column;
     align-items: center;
-    margin-top:773px;
-    
+    margin-top:1000px;
 }
 
 
@@ -452,6 +469,7 @@ div .use_box:hover{
     width:70%;
     display:flex;
     justify-content: space-between;
+    z-index: 1;
 }
 
 .about_first{
@@ -1069,7 +1087,6 @@ div .use_box:hover{
     color:white;
     border-radius: 5px;
 }
-
 
 #logout_btn{
     margin-right: 10px !important;
@@ -2061,4 +2078,56 @@ span.center{
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 5rem;
+}
+
+/* .tooltip-right::after {
+    content: "";
+    position: absolute;
+    top: 11%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+} */
+
+tr .spnTooltip {
+    z-index:10;
+    display:none;
+    padding:14px 20px;
+    margin-top:-13px; 
+    margin-left:28px;
+    width:300px;
+    line-height:16px;
+}
+tr:hover .spnTooltip{
+    display:inline; 
+    position:absolute; 
+    color:#111;
+    border-color: #555;
+    border-radius: 6px;
+    border:1px solid #555; background:#fff;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+}
+tr > #mytable_name_res .spnTooltip2 {
+    display:none;
+    padding:14px 20px;
+    margin-top: -50px;
+    margin-left:-400px;
+    width:300px;
+    line-height:16px;
+}
+tr > #mytable_name_res:hover .spnTooltip2{
+    display:inline !important; 
+    position:absolute; 
+    z-index: 1000;
+    color:#000;
+    border-color: #373737;
+    border-radius: 6px;
+    border:1px solid #555; background:#fff;
+    box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);
+}
+.spnTooltip > p{
+    font-size : 3px !important;
+    text-align: left;
 }

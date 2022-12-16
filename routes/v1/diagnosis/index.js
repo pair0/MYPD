@@ -63,7 +63,7 @@ const diagnosis = require('./diagnosis')
  *                          "{진료내역 목록(진료식별자세트{--spec_id, --line_no} --is_consent)}"
  */
 
-router.get('/lists',diagnosis.lists)
+router.get('/lists', diagnosis.lists)
 
 /**
  * @swagger
