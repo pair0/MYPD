@@ -434,6 +434,7 @@ div .use_box:hover{
     padding-right: 13px;
     border-radius: 1rem;
     position: relative;
+    z-index: 0;
 }
 .main_pic_bg{
     background-color: #007aff;
@@ -1575,7 +1576,7 @@ section{
     word-wrap: break-word;
     background-clip: border-box;
     border-radius: 0.25rem;
-    width:85%;
+    width:90%;
     align-items: center;
     border-collapse: separate;
     border-spacing: 0px 15px;
@@ -1624,6 +1625,10 @@ section{
     padding:20px 0 20px 13px;
     text-align: left;
     margin: 10px 0 10px 0;  
+}
+#mytable td{
+    text-align: center;
+
 }
 
 #mytable tr{
@@ -2114,6 +2119,7 @@ tr:hover .spnTooltip{
     border-radius: 6px;
     border:1px solid #555; background:#fff;
     box-shadow: 5px 2px 20px 2px rgba(5, 72, 88, 0.07);    
+    z-index: 1;
 }
 tr > #mytable_name_res .spnTooltip2 {
     display:none;
