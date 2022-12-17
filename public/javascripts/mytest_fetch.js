@@ -309,11 +309,66 @@ function fetchPageisc(name){
         console.log("table insert error");
     });
 }
+async function reLoadLogTable(btn){
+    $("#mytable").empty();
+    $("#pagination").empty();
+    $.ajax({
+        url: "/mypage/dashboardlog",
+        type: "GET",
+        async: true,
+        data: {},
+        dataType:"json",
+        success: function (svc) {
+            buillogdtable(svc, 'mytable' , btn)
+        }
+    })
+}
+function pagination(data, btn_num){
+    var loc = document.getElementById('pagination')
+    let table_full = parseInt(data.length / 10)
+    let table_mod = data.length%10
+    var btn 
+    for (var i=0; i<table_full; i++) {
+        if( i+1 == btn_num){
+            btn = `
+                <li class="page-item"><button class="btn btn-primary" onclick="reLoadLogTable(${i+1});">${i+1}</button></li>     
+                `
+        }
+        else{
+            btn = `
+            <li class="page-item"><button class="page-link" onclick="reLoadLogTable(${i+1});">${i+1}</button></li>     
+            `
+        }
+        loc.innerHTML +=btn
+    }
+    if(table_mod != 0){
+        btn = `
+            <li class="page-item"><button class="page-link" onclick="reLoadLogTable(${i+1});">${table_full+1}</button></li>       
+        `
+        loc.innerHTML +=btn
+    }
+}
 
-async function buillogdtable(data, id){
-    $('td').remove('.dataTables-empty')
+async function buillogdtable(data, id , btn =1){
     var id_name = id + '_name'
-    for(var i=0; i< data.length;i++)
+    // var data_len = data.length
+    // if (data_len>= 10){
+    //     data_start = 10 * (btn-1)
+    //     data_len = 10 * btn
+    // }
+    // if (data_len > data.length)
+    //     data_len = data.length
+    // var table = document.getElementById(id)
+    // for(var i=data_start; i < data_len; i++)
+    var data_len = data.length-1
+    if (data_len>= 10){
+        data_start = data_len - (btn-1) *10
+        data_len = data_len - (btn*10 -1)
+    }
+    if (data_len < 0)
+        data_len = 0
+    var table = document.getElementById(id)
+    for(var i=data_start; i >= data_len; i--)
     {
         if (data[i].resBody.includes('Bearer ')){
             var body = data[i].resBody.split('<br>')
@@ -326,7 +381,6 @@ async function buillogdtable(data, id){
             body[2] = '"code": "xxxxxxxxxx"'
             data[i].resBody = body.join('<br>')
         }
-        var table = document.getElementById(id)
         if((data[i].reqBody == null || data[i].reqBody == "{}") && (data[i].reqHeaders == null || data[i].reqHeaders == "{}")){
             var row = `<tr id="log_tr">
                             <td id=${id_name}>${data[i].type}</td>
@@ -390,9 +444,11 @@ async function buillogdtable(data, id){
                         </td>
                         </tr>
                         `
-        }
+                }
+
         table.innerHTML +=row
     }
+    pagination(data, btn)
 }
 
 async function buildList(data, id){
@@ -416,7 +472,7 @@ async function buildList(data, id){
         if (id == 'data'){
                 var row = `<tr>
                             <td id=${id_name} style="cursor:pointer">${info}
-                                    <span class="spnTooltip tooltip-right">
+                                    <span class="spnTooltip">
                                     <p>기관 코드 : ${info_detail["enterprise_code"]}</p>
                                     <p>업종 : ${info_detail['business_right']}</p>
                                     <p>업종 : ${info_detail['business_right']}</p>
