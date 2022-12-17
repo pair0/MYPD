@@ -351,15 +351,24 @@ function pagination(data, btn_num){
 
 async function buillogdtable(data, id , btn =1){
     var id_name = id + '_name'
-    var data_len = data.length
+    // var data_len = data.length
+    // if (data_len>= 10){
+    //     data_start = 10 * (btn-1)
+    //     data_len = 10 * btn
+    // }
+    // if (data_len > data.length)
+    //     data_len = data.length
+    // var table = document.getElementById(id)
+    // for(var i=data_start; i < data_len; i++)
+    var data_len = data.length-1
     if (data_len>= 10){
-        data_start = 10 * (btn-1)
-        data_len = 10 * btn
+        data_start = data_len - (btn-1) *10
+        data_len = data_len - (btn*10 -1)
     }
-    if (data_len > data.length)
-        data_len = data.length
+    if (data_len < 0)
+        data_len = 0
     var table = document.getElementById(id)
-    for(var i=data_start; i < data_len; i++)
+    for(var i=data_start; i >= data_len; i--)
     {
         if (data[i].resBody.includes('Bearer ')){
             var body = data[i].resBody.split('<br>')
