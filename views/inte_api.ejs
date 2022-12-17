@@ -256,8 +256,10 @@
                             'X-FSI-UTCT-TYPE' : 'TGC00002'
                         },
                     }).then((response) =>{
-                            var options = 'top=10, left=10, width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
-                            var child = window.open(response.url,"엿",options);
+                        var popupX = (window.screen.width / 2) - (500 / 2);
+                        var popupY= (window.screen.height /2) - (700 / 2);
+                        var options = 'top='+ popupY +', left='+ popupX +',screenX='+ popupX + ', screenY= '+ popupY+', width=500, height=700, status=no, menubar=no, toolbar=no, resizable=no';
+                        var child = window.open(response.url,"엿",options);
                     }) 
                 }
             })
