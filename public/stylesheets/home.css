@@ -1575,7 +1575,7 @@ section{
     word-wrap: break-word;
     background-clip: border-box;
     border-radius: 0.25rem;
-    width:85%;
+    width:90%;
     align-items: center;
     border-collapse: separate;
     border-spacing: 0px 15px;
@@ -1624,6 +1624,10 @@ section{
     padding:20px 0 20px 13px;
     text-align: left;
     margin: 10px 0 10px 0;  
+}
+#mytable td{
+    text-align: center;
+
 }
 
 #mytable tr{
