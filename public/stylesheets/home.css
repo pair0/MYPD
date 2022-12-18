@@ -861,6 +861,19 @@ div .use_box:hover{
     margin-bottom: -30px;
     justify-content: center; 
     border: 1px solid #05B3FE;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.figure2 {
+    display: flex; 
+    width: 18%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: -30px;
+    justify-content: center; 
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 23px -4px #2873ff7f;
 }
 .about_section1{
     width:100%;
