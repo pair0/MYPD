@@ -8,6 +8,7 @@ const aboutapi = require("./aboutapi");
 const auth = require("./auth");
 const mypage = require("./mypage");
 const v1 = require("./v1");
+const supermedic = require("./supermedic");
 
 router.use("/user", user);
 router.use("/testbed", testbed);
@@ -15,6 +16,7 @@ router.use("/about", about);
 router.use("/aboutapi", aboutapi);
 router.use("/auth", auth);
 router.use("/mypage", mypage);
+router.use("/supermedic", supermedic);
 router.use("/v1", v1);
 
 router.get("/", function(req, res, next){
