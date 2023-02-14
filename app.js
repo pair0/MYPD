@@ -14,15 +14,6 @@ const { swaggerUi_svc, specs_svc } = require("./swagger/svc_test")
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    const to = `https://${req.hostname}${req.url}`;
-    res.redirect(to);
-  }
-});
-
 app.use(session({
   resave: false,
   saveUninitialized : false,
